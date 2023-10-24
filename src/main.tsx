@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
+
+import { RouterProvider } from 'react-router-dom';
+import router from './Router.tsx';
 
 import { RecoilRoot } from 'recoil';
-
 import { QueryClient, QueryClientProvider } from 'react-query';
 import EmotionProvider from './assets/styles/EmotionProvider.tsx';
 
@@ -14,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <EmotionProvider>
-          <App />
+          <RouterProvider router={router} />
         </EmotionProvider>
       </QueryClientProvider>
     </RecoilRoot>
