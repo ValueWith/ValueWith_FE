@@ -7,6 +7,7 @@ const layoutComponent = {
 
 const color = {
   primary: '#3182f6',
+  secondary: '#d0e9ff',
 };
 
 const theme: Theme = {
