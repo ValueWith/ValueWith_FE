@@ -6,7 +6,7 @@ import router from './Router.tsx';
 
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import EmotionProvider from './assets/styles/EmotionProvider.tsx';
+import EmotionProvider from '@/assets/styles/EmotionProvider.tsx';
 
 const queryClient = new QueryClient();
 
