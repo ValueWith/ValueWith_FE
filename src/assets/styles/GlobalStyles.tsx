@@ -1,4 +1,5 @@
 import { Global, css } from '@emotion/react';
+import theme from './theme';
 
 const styles = css`
   *,
@@ -22,12 +23,8 @@ const styles = css`
   }
 
   body {
-    font-size: 16px;
     height: 100%;
     height: 100dvh;
-  }
-
-  body {
     font-family: 'Pretendard', 'Noto Sans KR', NanumBarunGothic, 'Malgun Gothic',
       '맑은 고딕', 돋움, Dotum, Helvetica, Arial, sans-serif;
     color: #222;
@@ -49,6 +46,10 @@ const styles = css`
     scrollbar-3dlight-color: none;
     scrollbar-shadow-color: #b4b8c2;
     scrollbar-darkshadow-color: none;
+  }
+
+  #root {
+    height: 100%;
   }
 
   ul,
