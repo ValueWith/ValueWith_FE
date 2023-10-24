@@ -14,3 +14,23 @@ export const Banner = styled.div`
   border-radius: 4px;
   background-color: #3e837e;
 `;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 60px;
+`;
+
+export const Title = styled.p`
+  font-size: 24px;
+`;
+
+export const Link = styled.a`
+  font-size: 14px;
+  color: #595f63;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
