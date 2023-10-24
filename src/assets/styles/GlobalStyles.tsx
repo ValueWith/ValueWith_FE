@@ -22,8 +22,6 @@ const styles = css`
   }
 
   body {
-    max-width: 1080px;
-    margin: 0 auto;
     height: 100%;
     height: 100dvh;
     font-family: 'Pretendard', 'Noto Sans KR', NanumBarunGothic, 'Malgun Gothic',
