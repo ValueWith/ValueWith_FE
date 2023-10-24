@@ -6,6 +6,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <div>404 Not Found</div>,
     children: [
       {
         path: '/group',
