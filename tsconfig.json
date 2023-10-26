@@ -12,7 +12,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["react/next", "react-dom/next"],
 
     /* Linting */
     "strict": true,
@@ -24,8 +23,11 @@
     "paths": {
       "@/*": ["src/*"],
       "@pages/*": ["src/pages/*"],
-      "@components/*": ["src/components/*"]
-    }
+      "@components/*": ["src/components/*"],
+      "@assets/*": ["src/assets/*"]
+    },
+
+    "types": ["vite-plugin-svgr/client"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
