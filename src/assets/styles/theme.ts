@@ -8,6 +8,8 @@ const layoutComponent = {
 const color = {
   primary: '#3182f6',
   secondary: '#d0e9ff',
+  lightgray: '#eaeaea',
+  fontgray: '#595F63',
 };
 
 const theme: Theme = {
