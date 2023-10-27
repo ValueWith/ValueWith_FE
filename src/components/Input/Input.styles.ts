@@ -25,6 +25,7 @@ export const commonInputStyle = css`
 `;
 
 export const InputContainer = styled.div`
+  width: 100%;
   margin-bottom: 24px;
 `;
 
