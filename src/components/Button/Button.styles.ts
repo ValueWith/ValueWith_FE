@@ -21,7 +21,7 @@ const handleButtonType = (props: ButtonCSSProps) => {
     case 'disabled':
       return css`
         background-color: ${theme.color.gray100};
-        border: 1px solid ${theme.color.gray500};
+        color: ${theme.color.gray500};
         pointer-events: none;
         cursor: default;
       `;
