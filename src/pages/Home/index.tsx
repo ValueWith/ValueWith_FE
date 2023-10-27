@@ -1,6 +1,7 @@
+import TripList from '@/components/TripList';
 import * as S from './Home.styles';
 
-function GroupMain() {
+function Home() {
   return (
     <S.HomeMainContainer>
       <S.Banner />
@@ -8,8 +9,9 @@ function GroupMain() {
         <S.Title>카테고리 이름</S.Title>
         <S.Link>더 많은 일정 확인하기 &gt;</S.Link>
       </S.TitleContainer>
+      <TripList />
     </S.HomeMainContainer>
   );
 }
 
-export default GroupMain;
+export default Home;
