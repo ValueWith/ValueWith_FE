@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // constants
@@ -13,7 +14,6 @@ import Button from '../Button';
 import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
-import { useEffect, useState } from 'react';
 
 function Header() {
   const location = useLocation();
