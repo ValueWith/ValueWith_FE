@@ -46,6 +46,7 @@ const styles = css`
     scrollbar-3dlight-color: none;
     scrollbar-shadow-color: #b4b8c2;
     scrollbar-darkshadow-color: none;
+    box-sizing: border-box;
   }
 
   #root {
