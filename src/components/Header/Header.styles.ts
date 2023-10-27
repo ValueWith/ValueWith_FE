@@ -4,7 +4,7 @@ import theme from '@assets/styles/theme';
 export const HeaderContainer = styled.header`
   width: 100%;
   height: ${theme.layoutComponent.header_height}px;
-  border-bottom: 1px solid ${theme.color.lightgray};
+  border-bottom: 1px solid ${theme.color.gray200};
 `;
 
 export const HeaderInner = styled.div`
@@ -44,7 +44,26 @@ export const HeaderMenuItem = styled.li`
 
   &.active {
     color: ${theme.color.primary};
+    font-weight: bold;
   }
 `;
 
-export const HeaderFunction = styled.div``;
+export const UserActionsWrapper = styled.div`
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+`;
+
+export const UserActions = styled.ul`
+  display: inline-flex;
+  align-items: center;
+  color: ${theme.color.gray700};
+`;
+
+export const UserActionItem = styled.li`
+  margin-left: 12px;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+`;
