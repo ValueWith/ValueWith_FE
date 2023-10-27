@@ -10,12 +10,14 @@ interface ButtonProps extends ButtonCSSProps {
   type?: 'button' | 'submit' | 'reset'; // 버튼 타입, default: submit
   children: React.ReactNode;
   style?: React.CSSProperties;
+  className?: string;
   onClickHandler?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 function Button({
   children,
   style,
+  className,
   type = 'submit',
   size = 'md',
   styleType = 'solid',
@@ -28,6 +30,7 @@ function Button({
       size={size}
       styleType={styleType}
       fullWidth={fullWidth}
+      className={className}
       style={{
         ...style,
       }}
