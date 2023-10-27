@@ -12,7 +12,7 @@ export const FooterInner = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: calc(1080px + 32px);
+  max-width: calc(1180px + 32px);
   padding: 0 16px;
   height: 100%;
   margin: 0 auto;
