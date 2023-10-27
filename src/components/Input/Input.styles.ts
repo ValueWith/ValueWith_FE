@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import theme from '@assets/styles/theme';
+import { InputCSSProps } from '.';
 
 export const commonInputStyle = css`
   width: 100%;
@@ -34,9 +35,18 @@ export const InputLabel = styled.label`
   margin-bottom: 4px;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<InputCSSProps>`
   ${commonInputStyle}
   padding:0 16px;
+
+  ${(props) =>
+    props.readOnly &&
+    `
+        color: ${theme.color.gray500};
+        &:focus-within {
+            border: 1px solid ${theme.color.gray200};
+        }
+  `}
 `;
 
 export const Textarea = styled.textarea`

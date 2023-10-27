@@ -1,13 +1,16 @@
 import { forwardRef } from 'react';
 import * as S from './Input.styles';
 
-interface InputProps {
+export interface InputCSSProps {
+  readOnly?: boolean;
+}
+interface InputProps extends InputCSSProps {
   name: string;
   inputType: 'textarea' | 'input';
   type?: string; // text:default, password - input 타입에서 필수로 받아야 하는 값
   label?: string; // input에 라벨 표시해야 하는 경우 전달
   placeholder?: string; // input에 placeholder 표시해야 하는 경우 전달
-  readOnly?: boolean;
+
   errors?: any; // errors,onChange는 useForm 에서 관리,  직접 Props로 넘겨주지 않음
   onChange?: (
     e:
@@ -38,7 +41,6 @@ function Input(
     onChange: onChange,
     placeholder: placeholder,
     autoComplete: 'off',
-    readOnly: readOnly,
   };
 
   return (
@@ -49,6 +51,7 @@ function Input(
           <S.Textarea
             className={errorKEY && 'error'}
             spellCheck="false"
+            readOnly={readOnly}
             ref={ref as React.Ref<HTMLTextAreaElement>}
             {...inputCommonProps}
           />
@@ -57,6 +60,7 @@ function Input(
             type={type}
             className={errorKEY && 'error'}
             spellCheck="false"
+            readOnly={readOnly}
             ref={ref as React.Ref<HTMLInputElement>}
             {...inputCommonProps}
           />
