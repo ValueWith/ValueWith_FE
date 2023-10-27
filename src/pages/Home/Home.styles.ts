@@ -10,7 +10,6 @@ export const HomeMainContainer = styled.div`
 export const Banner = styled.div`
   width: 100%;
   height: 313px;
-  margin-top: 50px;
   border-radius: 4px;
   background-color: #3e837e;
 `;
@@ -19,7 +18,7 @@ export const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 60px;
+  margin: 60px 0 20px 0;
 `;
 
 export const Title = styled.p`
