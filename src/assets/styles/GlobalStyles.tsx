@@ -39,13 +39,6 @@ const styles = css`
     letter-spacing: -0.384px;
     text-rendering: auto;
 
-    scrollbar-face-color: #b4b8c2;
-    scrollbar-track-color: #fff;
-    scrollbar-arrow-color: transparent;
-    scrollbar-highlight-color: #b4b8c2;
-    scrollbar-3dlight-color: none;
-    scrollbar-shadow-color: #b4b8c2;
-    scrollbar-darkshadow-color: none;
     box-sizing: border-box;
   }
 
@@ -111,31 +104,6 @@ const styles = css`
 
   button:focus {
     outline: 0;
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    transition: 0.2s;
-    background-color: #efefef;
-  }
-
-  ::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #b4b8c2;
-    /*  border-radius: 60px; */
-    border-radius: 100px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #999;
-  }
-
-  ::-webkit-scrollbar-button {
-    display: none;
   }
 
   *,
