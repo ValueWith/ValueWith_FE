@@ -10,6 +10,8 @@ import theme from '@/assets/styles/theme';
 import Input from '@/components/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
 import Dropdown from '@/components/Dropdown';
+import FileUploader from '@/components/FileUploader';
+import { useEmailVerification } from '@/hooks/useEmailValidation';
 
 interface SignupFormProps {
   nickname: string;
@@ -33,32 +35,19 @@ function Signup() {
     mode: 'onBlur',
   });
 
+  const [file, setFile] = useState<File | null>(null);
+  const [isImgUploading, setImgUploading] = useState(false);
+
   const password = watch('password');
   const [gender, setGender] = useState<string>('');
   const [ageGroup, setAgeGroup] = useState<string>('');
-  const [isEmailChecked, setIsEmailChecked] = useState<boolean>(false);
-  const [isEmailCodeValid, setIsEmailCodeValid] = useState<boolean>(false);
 
-  // 이메일 인증번호 전송
-  const handleSendEmailCode = () => {
-    if (!watch('email') || errors.email) return;
-
-    // 인증번호 전송 성공 시, 인증번호 입력 창 노출
-    const isCodeSent = sendEmailCode(watch('email'));
-    if (isCodeSent) setIsEmailChecked(true);
-  };
-
-  // 이메일 인증번호 유효성 검사
-  const handleCheckEmailValidate = () => {
-    const code = watch('emailCode');
-    const isCodeValid = checkEmailCode(code);
-
-    // 코드가 유효한 경우, 인증번호 입력 창 숨기고 인증 완료 메시지 노출
-    if (isCodeValid) {
-      setIsEmailChecked(false);
-      setIsEmailCodeValid(true);
-    }
-  };
+  const {
+    handleSendEmailCode,
+    handleCheckEmailValidate,
+    isEmailChecked,
+    isEmailCodeValid,
+  } = useEmailVerification(watch('email'), watch('emailCode'), errors);
 
   //  폼 제출
   const onSubmit: SubmitHandler<SignupFormProps> = async (data) => {
