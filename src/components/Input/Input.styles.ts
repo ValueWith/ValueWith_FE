@@ -13,7 +13,7 @@ export const commonInputStyle = css`
   border: 1px solid ${theme.color.gray200};
 
   &::placeholder {
-    color: rgba(128, 128, 128, 0.9);
+    color: ${theme.color.gray700};
   }
 
   &:focus-within {
