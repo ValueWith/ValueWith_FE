@@ -12,6 +12,7 @@ export const Banner = styled.div`
   height: 313px;
   border-radius: 4px;
   background-color: #3e837e;
+  background-image: url(../../public/images/banner.png);
 `;
 
 export const TitleContainer = styled.div`
