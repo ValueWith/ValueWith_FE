@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import * as S from './FileUploader.styles';
-
+import * as S from '../Uploader.styles';
 import ErrorMessage from '../../Message/ErrorMessage';
 import { SkeletonImage } from '../../SkeletonImage';
 import { RiDragDropLine } from 'react-icons/ri';

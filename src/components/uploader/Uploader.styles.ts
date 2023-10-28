@@ -44,6 +44,7 @@ export const FileUploaderLabel = styled.label`
   .profile & {
     position: absolute;
     right: 0;
+    bottom: 0;
     width: 25px;
     height: 25px;
     padding: 0;
@@ -58,6 +59,7 @@ export const FileDeleteButton = styled.button`
 `;
 
 export const FileDropZone = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
