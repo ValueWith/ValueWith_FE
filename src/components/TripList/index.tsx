@@ -19,6 +19,7 @@ function TripList({ pageName }: { pageName: string }) {
   const { data: groupData, isLoading, isError } = useGroupDataFetching();
 
   if (isLoading) {
+    // TODO: Loader 또는 Skeleton 고려할 것
     return <div>Loading...</div>;
   }
 
@@ -29,7 +30,7 @@ function TripList({ pageName }: { pageName: string }) {
   // Home 페이지에서는 status가 'close'인 그룹을 제외하고 최대 8개까지 렌더링
   // eslint-disable-next-line prefer-const
   let filteredGroups: GroupProps[] = groupData
-    .filter((group) => group.status !== 'close')
+    .filter((group: GroupProps) => group.status !== 'close')
     .slice(0, 8);
 
   // Group 페이지에서는 모든 그룹 데이터 렌더링
