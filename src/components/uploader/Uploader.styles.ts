@@ -64,6 +64,7 @@ export const FileDropZone = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-width: 160px;
   max-width: 700px;
   height: 160px;
   margin-bottom: 4px;
