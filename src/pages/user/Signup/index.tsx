@@ -1,17 +1,16 @@
-import { SubmitHandler, set, useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 
-import { sendEmailCode, checkEmailCode } from '@/helpers/emailValidation';
-
-import Button from '@/components/Button';
+import { useEmailVerification } from '@/hooks/useEmailValidation';
 
 import * as S from '../User.styles';
+import Button from '@/components/Button';
+import FileUploader from '@/components/uploader/FileUploader';
 import theme from '@/assets/styles/theme';
 import Input from '@/components/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
 import Dropdown from '@/components/Dropdown';
-import FileUploader from '@/components/FileUploader';
-import { useEmailVerification } from '@/hooks/useEmailValidation';
+import ProfileUploader from '@/components/uploader/ProfileUploader';
 
 interface SignupFormProps {
   nickname: string;
@@ -49,6 +48,11 @@ function Signup() {
     isEmailCodeValid,
   } = useEmailVerification(watch('email'), watch('emailCode'), errors);
 
+  // 디버깅용 코드
+  // useEffect(() => {
+  //   console.log(file);
+  // }, [file]);
+
   //  폼 제출
   const onSubmit: SubmitHandler<SignupFormProps> = async (data) => {
     console.log(data);
@@ -68,6 +72,16 @@ function Signup() {
 
       <form className="mt-[42px]" onSubmit={handleSubmit(onSubmit)}>
         {/* 프로필 이미지 */}
+        <FileUploader
+          onFileSelected={setFile}
+          className={isImgUploading ? 'loading' : ''}
+        />
+
+        <ProfileUploader
+          onFileSelected={setFile}
+          className={isImgUploading ? 'loading' : ''}
+        />
+
         {/* 닉네임 */}
         <Input
           label="닉네임 *"
