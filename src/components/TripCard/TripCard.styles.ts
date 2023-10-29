@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import theme from '@assets/styles/theme';
 
 export const TripCardContainer = styled.div`
   /* width: 285px; grid 때문에 삭제 */
@@ -27,8 +28,8 @@ export const Closed = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: ${(props) => props.theme.color.primary};
-    color: white;
+    background-color: ${theme.color.primary};
+    color: ${theme.color.white};
     font-size: 15px;
     font-weight: bold;
     padding: 12px 14px;
@@ -57,9 +58,9 @@ export const Icon = styled.div`
   padding: 4px 14px;
   margin-right: 5px;
   font-size: 13px;
-  color: ${(props) => props.theme.color.primary};
-  background-color: white;
-  border: 1px solid ${(props) => props.theme.color.primary};
+  color: ${theme.color.primary};
+  background-color: ${theme.color.white};
+  border: 1px solid ${theme.color.primary};
   border-radius: 24px;
   > svg {
     font-size: 18px;

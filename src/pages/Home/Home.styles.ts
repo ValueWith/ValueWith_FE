@@ -1,3 +1,4 @@
+import theme from '@/assets/styles/theme';
 import styled from '@emotion/styled';
 
 export const HomeMainContainer = styled.div`
@@ -28,7 +29,7 @@ export const Title = styled.p`
 
 export const Link = styled.a`
   font-size: 14px;
-  color: #595f63;
+  color: ${theme.color.fontgray};
   cursor: pointer;
   &:hover {
     text-decoration: underline;
