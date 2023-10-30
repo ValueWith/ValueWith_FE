@@ -2,7 +2,7 @@ import * as S from './TripCard.styles';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { MdCalendarMonth } from 'react-icons/md';
 import { GroupProps } from '../TripList';
-import { calculateDday } from '@/utils/dateUrils';
+import { calculateDday } from '@/utils/dateUtil.ts';
 
 interface TripCardProps {
   group: GroupProps;
