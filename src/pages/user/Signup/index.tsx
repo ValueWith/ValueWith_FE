@@ -72,11 +72,6 @@ function Signup() {
 
       <form className="mt-[42px]" onSubmit={handleSubmit(onSubmit)}>
         {/* 프로필 이미지 */}
-        <FileUploader
-          onFileSelected={setFile}
-          className={isImgUploading ? 'loading' : ''}
-        />
-
         <ProfileUploader
           onFileSelected={setFile}
           className={isImgUploading ? 'loading' : ''}

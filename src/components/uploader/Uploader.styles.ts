@@ -13,6 +13,12 @@ export const FileUploaderContainer = styled.div`
       color: ${theme.color.gray200};
     }
   }
+
+  &.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const FileUploadInput = styled.input`
@@ -43,8 +49,8 @@ export const FileUploaderLabel = styled.label`
   // uploadType
   .profile & {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 11px;
+    bottom: 9px;
     width: 25px;
     height: 25px;
     padding: 0;
@@ -56,6 +62,18 @@ export const FileUploaderLabel = styled.label`
 
 export const FileDeleteButton = styled.button`
   font-size: 14px;
+
+  // uploadType
+  .profile & {
+    width: fit-content;
+    margin-top: 14px;
+    border-radius: 4px;
+    border: 1px solid ${theme.color.gray200};
+    font-size: 14px;
+    background-color: #fff;
+    padding: 5px 10px;
+    color: ${theme.color.fontgray};
+  }
 `;
 
 export const FileDropZone = styled.div`
