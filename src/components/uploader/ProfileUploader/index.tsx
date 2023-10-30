@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import * as S from '../Uploader.styles';
 import ErrorMessage from '@/components/Message/ErrorMessage';
 import { SkeletonImage } from '@/components/SkeletonImage';
 import { RiAddFill } from 'react-icons/ri';
+import useFileUpload from '@/hooks/useFileUploader';
 
 export interface ProfileUploaderCSSProps {
   className?: string;
@@ -19,83 +20,18 @@ function ProfileUploader({
   storedImgUrl,
   className,
 }: ProfileUploaderProps) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [thumbnailUrl, setThumbnailUrl] = useState<string | undefined>();
-  const [error, setError] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [showImage, setShowImage] = useState(true);
-
-  const handleImageLoad = () => {
-    setIsLoading(false);
-  };
-
-  const handleFileUpload = (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.DragEvent<HTMLDivElement>,
-    setUrl: React.Dispatch<React.SetStateAction<string | undefined>>
-  ) => {
-    event.preventDefault();
-
-    setShowImage(true);
-
-    // 드래그 이벤트
-    if ('dataTransfer' in event) {
-      const file = event.dataTransfer?.files[0];
-      if (!file || !file.type.match(/image.*/)) {
-        setError(true);
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          setUrl(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-      onFileSelected(file);
-    }
-
-    // Input 이벤트
-    else {
-      const file = event.target.files?.[0];
-      if (!file || !file.type.match(/image.*/)) {
-        setError(true);
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          setUrl(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-      onFileSelected(file);
-    }
-  };
-
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsHovered(true);
-  };
-
-  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsHovered(false);
-  };
-
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsHovered(false);
-    handleFileUpload(event, setThumbnailUrl);
-  };
-
-  const handleDeleteImage = () => {
-    setThumbnailUrl(undefined);
-    setShowImage(false);
-  };
+  const {
+    isLoading,
+    thumbnailUrl,
+    error,
+    isHovered,
+    handleImageLoad,
+    handleFileUpload,
+    handleDeleteImage,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+  } = useFileUpload(onFileSelected);
 
   return (
     <S.FileUploaderContainer className={`profile ${className}`}>
@@ -111,7 +47,7 @@ function ProfileUploader({
               {isLoading && <SkeletonImage />}
               <img
                 src={thumbnailUrl || storedImgUrl}
-                alt="스터디 그룹 커버 이미지"
+                alt="프로필 커버 이미지"
                 onLoad={handleImageLoad}
                 style={{ display: isLoading ? 'none' : 'block' }}
               />
@@ -129,7 +65,7 @@ function ProfileUploader({
           id="fileUploader"
           type="file"
           accept="image/*"
-          onChange={(event) => handleFileUpload(event, setThumbnailUrl)}
+          onChange={(event) => handleFileUpload(event)}
         />
 
         {(thumbnailUrl || storedImgUrl) && (
