@@ -10,8 +10,8 @@ interface InputProps extends InputCSSProps {
   type?: string; // text:default, password - input 타입에서 필수로 받아야 하는 값
   label?: string; // input에 라벨 표시해야 하는 경우 전달
   placeholder?: string; // input에 placeholder 표시해야 하는 경우 전달
-
   errors?: any; // errors,onChange는 useForm 에서 관리,  직접 Props로 넘겨주지 않음
+  style?: React.CSSProperties;
   onChange?: (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -28,6 +28,7 @@ function Input(
     placeholder,
     readOnly,
     onChange,
+    style,
     errors,
   }: InputProps,
   ref: React.Ref<HTMLInputElement | HTMLTextAreaElement>
@@ -46,10 +47,12 @@ function Input(
   return (
     <S.InputContainer>
       {label && <S.InputLabel htmlFor={name}>{label}</S.InputLabel>}
-      <div>
+
+      <div className="relative">
         {inputType === 'textarea' ? (
           <S.Textarea
             className={errorKEY && 'error'}
+            style={style}
             spellCheck="false"
             readOnly={readOnly}
             ref={ref as React.Ref<HTMLTextAreaElement>}
@@ -58,6 +61,7 @@ function Input(
         ) : (
           <S.Input
             type={type}
+            style={style}
             className={errorKEY && 'error'}
             spellCheck="false"
             readOnly={readOnly}
