@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import GroupMain from './pages/group/GroupMain';
 import Signup from './pages/user/Signup';
+import Login from './pages/user/Login';
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,7 @@ const router = createBrowserRouter([
       {
         // 로그인 페이지
         path: '/login',
-        element: <div>로그인 페이지</div>,
+        element: <Login />,
       },
       {
         // 회원가입 페이지
