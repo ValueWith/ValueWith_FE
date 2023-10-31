@@ -1,0 +1,79 @@
+{
+  "mockData": [
+    {
+      "id": 1,
+      "name": "한옥에서 한복입고 사진찍는 거 어때?",
+      "content": "한옥에서 한복입고 사진찍을 사람 구해요 한옥에서 한복입고 사진찍을 사람 구해요 한옥에서 한복입고 사진찍을 사람 구해요 한옥에서 한복입고 사진찍을 사람 구해요 한옥에서 한복입고 사진찍을 사람 구해요",
+      "max_user_number": 3,
+      "cur_user_number": 1,
+      "trip_area": "서울",
+      "trip_date": "2023.10.23",
+      "due_date": "2023.10.30",
+      "thumbnail_url": "https://images.unsplash.com/photo-1601721826401-c5e789be0be6?auto=format&fit=crop&q=80&w=2370&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "status": "open",
+      "is_deleted": false,
+      "created_date": "2023.10.19",
+      "updated_date": "2023.10.20"
+    },
+    {
+      "id": 2,
+      "name": "한옥에서 한복입고 사진찍는 거 어때?",
+      "content": "한옥에서 한복입고 사진찍을 사람 구해요",
+      "max_user_number": 4,
+      "cur_user_number": 1,
+      "trip_area": "대전",
+      "trip_date": "2023.11.23",
+      "due_date": "2023.11.19",
+      "thumbnail_url": "https://images.unsplash.com/photo-1663038509267-ae2457f3df97?auto=format&fit=crop&q=80&w=2831&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "status": "open",
+      "is_deleted": false,
+      "created_date": "2023.10.19",
+      "updated_date": "2023.10.19"
+    },
+    {
+      "id": 3,
+      "name": "한옥에서 한복입고 사진찍는 거 어때?",
+      "content": "한옥에서 한복입고 사진찍을 사람 구해요",
+      "max_user_number": 5,
+      "cur_user_number": 1,
+      "trip_area": "대구",
+      "trip_date": "2023.10.23",
+      "due_date": "2023.10.19",
+      "thumbnail_url": "https://lh5.googleusercontent.com/p/AF1QipPA6rvTRp7SaRIXkpPrCTBJy29LnY1HinwlgP5S=w1080-h624-n-k-no",
+      "status": "open",
+      "is_deleted": false,
+      "created_date": "2023.10.19",
+      "updated_date": "2023.10.19"
+    },
+    {
+      "id": 4,
+      "name": "한옥에서 한복입고 사진찍는 거 어때?",
+      "content": "한옥에서 한복입고 사진찍을 사람 구해요",
+      "max_user_number": 3,
+      "cur_user_number": 1,
+      "trip_area": "부산",
+      "trip_date": "2023.10.23",
+      "due_date": "2023.10.19",
+      "thumbnail_url": "https://images.unsplash.com/photo-1638591751482-1a7d27fcea15?auto=format&fit=crop&q=80&w=2671&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "status": "open",
+      "is_deleted": false,
+      "created_date": "2023.10.19",
+      "updated_date": "2023.10.19"
+    },
+    {
+      "id": 5,
+      "name": "한옥에서 한복입고 사진찍는 거 어때?",
+      "content": "한옥에서 한복입고 사진찍을 사람 구해요",
+      "max_user_number": 3,
+      "cur_user_number": 1,
+      "trip_area": "경기",
+      "trip_date": "2023.10.23",
+      "due_date": "2023.10.19",
+      "thumbnail_url": "https://lh4.googleusercontent.com/proxy/USiauRgtqMQhZfzWhh-iRgAVQMxVrwzMvkpm5pdcMuWqTP8bWQaxjdQAF-RjfNtRB0PkqWkDl_00ac95Q2T22L3wrtnQm20WoHvBDwD7uW8FJHQFw8pxQbQ4hfz5gzE8zlCZB6T5C5teFze58QkW5lCrdX1n02I=w1080-h624-n-k-no",
+      "status": "close",
+      "is_deleted": false,
+      "created_date": "2023.10.19",
+      "updated_date": "2023.10.19"
+    }
+  ]
+}
