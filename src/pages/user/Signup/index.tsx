@@ -5,7 +5,6 @@ import { useEmailVerification } from '@/hooks/useEmailValidation';
 
 import * as S from '../User.styles';
 import Button from '@/components/Button';
-import FileUploader from '@/components/uploader/FileUploader';
 import theme from '@/assets/styles/theme';
 import Input from '@/components/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
@@ -41,6 +40,10 @@ function Signup() {
   const [gender, setGender] = useState<string>('');
   const [ageGroup, setAgeGroup] = useState<string>('');
 
+  // gender, ageGreoup 빈 값 체크
+  const [isGenderError, setIsGenderError] = useState<boolean>(false);
+  const [isAgeGroupError, setIsAgeGroupError] = useState<boolean>(false);
+
   const {
     handleSendEmailCode,
     handleCheckEmailValidate,
@@ -53,9 +56,19 @@ function Signup() {
   //   console.log(file);
   // }, [file]);
 
+  // 드롭다운 폼 유효성 검사
+  const handleFormKeyPress = (event: any) => {
+    if (event.key === 'Enter') {
+      if (gender === '') setIsGenderError(true);
+      if (ageGroup === '') return setIsAgeGroupError(true);
+    }
+  };
+
   //  폼 제출
   const onSubmit: SubmitHandler<SignupFormProps> = async (data) => {
     console.log(data);
+
+    gender === '' ? setIsGenderError(true) : setIsGenderError(false);
   };
 
   return (
@@ -70,7 +83,11 @@ function Signup() {
         회원가입
       </S.UserHeader>
 
-      <form className="mt-[42px]" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="mt-[42px]"
+        onSubmit={handleSubmit(onSubmit)}
+        onKeyDown={handleFormKeyPress}
+      >
         {/* 프로필 이미지 */}
         <ProfileUploader
           onFileSelected={setFile}
@@ -198,6 +215,7 @@ function Signup() {
             placeholder={'성별을 선택해주세요'}
             selectedItem={gender}
             onSelectItem={(item) => setGender(item)}
+            error={isGenderError}
           />
         </div>
 
@@ -210,6 +228,7 @@ function Signup() {
             placeholder={'연령대를 선택해주세요'}
             selectedItem={ageGroup}
             onSelectItem={(item) => setAgeGroup(item)}
+            error={isAgeGroupError}
           />
         </div>
 
