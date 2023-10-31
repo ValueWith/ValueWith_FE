@@ -3,6 +3,7 @@ import App from './App';
 import GroupMain from './pages/group/GroupMain';
 import Signup from './pages/user/Signup';
 import Login from './pages/user/Login';
+import Home from './pages/Home';
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <div>404 Not Found</div>,
     children: [
+      { index: true, path: '/', element: <Home /> },
       {
         // 로그인 페이지
         path: '/login',
