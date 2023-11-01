@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 
 import * as S from './Dropdown.styles';
+import ErrorMessage from '../Message/ErrorMessage';
 
 export interface DropdownCSSProps {
   width?: string;
@@ -12,6 +13,7 @@ export interface DropdownCSSProps {
 interface DropdownProps extends DropdownCSSProps {
   listData: string[];
   placeholder: string;
+  error?: boolean | null;
   selectedItem: string;
   onSelectItem: (item: string) => void;
 }
@@ -20,6 +22,7 @@ function Dropdown({
   width,
   height,
   listData,
+  error,
   placeholder,
   selectedItem,
   onSelectItem,
@@ -35,7 +38,11 @@ function Dropdown({
   }, []);
 
   return (
-    <S.DropdownContainer width={width} listWidth={listWidth}>
+    <S.DropdownContainer
+      width={width}
+      listWidth={listWidth}
+      className={error && selectedItem == '' ? 'error' : ''}
+    >
       <S.SelectedItem height={height}>
         <S.SelectedItemLabel onClick={() => setIsShow(!isShow)}>
           <span className={selectedItem ? '' : `text-[#828282]`}>

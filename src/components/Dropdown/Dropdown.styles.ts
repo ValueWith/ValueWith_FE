@@ -10,6 +10,10 @@ export const DropdownContainer = styled.div<DropdownCSSProps>`
   border: 1px solid #e6e6e6;
   border-radius: 4px;
   font-size: 14px;
+
+  &.error {
+    border: 1px solid ${theme.color.red300};
+  }
 `;
 
 export const SelectedItem = styled.div<DropdownCSSProps>`
