@@ -37,7 +37,6 @@ export const Radio = styled.input`
   border: 1px solid ${theme.color.gray100};
   background-color: white;
   margin-right: 10px;
-  cursor: pointer;
   position: relative;
 
   &:checked {
