@@ -1,5 +1,5 @@
 // RadioGroup.tsx
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 import * as S from './Radio.styles';
 
 interface RadioOption {
