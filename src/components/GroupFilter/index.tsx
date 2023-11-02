@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from 'react-router-dom';
 
 import RadioGroup from '../RadioGroup';
@@ -54,10 +55,6 @@ function GroupFilter({
     { label: '충남', value: 'chungcheongnam' },
     { label: '충북', value: 'chungcheongbuk' },
   ];
-
-  console.log(
-    `모집상태: ${recruitmentStatus}, 정렬: ${sorting}, 지역: ${area}`
-  );
 
   const handleRecruitmentStatusChange = (value: string) => {
     setRecruitmentStatus(value);
