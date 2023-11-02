@@ -7,7 +7,7 @@ export const GroupFilterContainer = styled.div`
   left: 0;
   width: 372px;
   padding: 20px;
-  box-shadow: 0px 0px 6px #00000029;
+  box-shadow: 0 0 6px #00000029;
   background-color: ${theme.color.white};
   border-radius: 4px;
   text-align: left;
