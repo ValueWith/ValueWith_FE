@@ -108,10 +108,24 @@ function GroupRegistInfo({
       {/* 모집 인원 */}
       <Input
         inputType="input"
+        type="number"
         label="모집 인원 *"
         style={{ width: '65px' }}
+        oninput="this.value = this.value.replace(/[^0-9]/g, '');"
         {...register('groupMemberCount', {
           required: '모집 인원을 입력해주세요.',
+          min: {
+            value: 1,
+            message: '모집 인원은 최소 1명 이상입니다.',
+          },
+          max: {
+            value: 30,
+            message: '모집 인원은 최대 30명까지 가능합니다.',
+          },
+          pattern: {
+            value: /^[0-9]*$/,
+            message: '숫자만 입력해주세요.',
+          },
         })}
         errors={errors}
       >
