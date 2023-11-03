@@ -14,6 +14,7 @@ interface InputProps extends InputCSSProps {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
+  oninput?: string;
   onChange?: (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -31,6 +32,7 @@ function Input(
     readOnly,
     className,
     children,
+    oninput,
     onChange,
     style,
     errors,
@@ -69,6 +71,7 @@ function Input(
             style={style}
             spellCheck="false"
             readOnly={readOnly}
+            onInput={oninput ? () => oninput : undefined}
             ref={ref as React.Ref<HTMLInputElement>}
             {...inputCommonProps}
           />
