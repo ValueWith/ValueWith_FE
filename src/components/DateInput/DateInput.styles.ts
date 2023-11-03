@@ -12,6 +12,7 @@ export const DateInput = styled.div`
   font-size: 14px;
   border-radius: 4px;
   border: 1px solid ${theme.color.gray200};
+  background-color: #f8f8f8;
 
   .react-datepicker-wrapper,
   .react-datepicker__input-container {
