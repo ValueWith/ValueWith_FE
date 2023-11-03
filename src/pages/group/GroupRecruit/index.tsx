@@ -11,7 +11,6 @@ import { useRecoilState } from 'recoil';
 function GroupRecruit() {
   const [currentStep, setCurrentStep] = useState(1); // Step1 : 기본 정보, Step2 : 일정 선택
   const [groupRegist, setGroupRegist] = useRecoilState(groupRegistState);
-  const [isAreaError, setIsAreaError] = useState<boolean>(false);
   const [isFormError, setIsFormError] = useState({
     groupArea: false,
   });
@@ -38,6 +37,8 @@ function GroupRecruit() {
 
   // 드롭다운 폼 유효성 검사
   const handleFormKeyPress = (event: any) => {
+    event.stopPropagation();
+
     if (event.key === 'Enter') {
       if (groupRegist.groupArea === '')
         return setIsFormError({ ...isFormError, groupArea: true });
@@ -46,7 +47,7 @@ function GroupRecruit() {
 
   const onSubmit = (data: any) => {
     console.log('폼 제출', data);
-    console.log('드롭다운', groupRegist);
+    console.log('그룹 데이터 상태', groupRegist);
 
     // 모집 마감 날짜가 있다면, 모집 마감 날짜가 여행 날짜보다 빠른지 검사
     if (data.recruitmentEndDate) {

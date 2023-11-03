@@ -16,6 +16,7 @@ import * as S from '@components/group/recruit/GroupRegist.styles';
 import Dropdown from '@/components/Dropdown';
 import { useRecoilState } from 'recoil';
 import { groupRegistState } from '@/state/GroupResistState';
+import FileUploader from '@/components/uploader/FileUploader';
 
 const DATE_ATTRIBUTES = [
   {
@@ -70,6 +71,13 @@ function GroupRegistInfo({
 
   return (
     <S.GroupRegistContainer>
+      {/* 썸네일 업로더 */}
+      <FileUploader
+        onFileSelected={(file) => {
+          setGroupRegistData({ ...groupRegistData, groupThumbnail: file });
+        }}
+      />
+
       {/* 여행 날짜 / 마감 날짜 선택 */}
       {DATE_ATTRIBUTES.map((item, index) => (
         <DateInput
