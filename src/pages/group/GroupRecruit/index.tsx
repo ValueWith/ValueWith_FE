@@ -47,6 +47,17 @@ function GroupRecruit() {
   const onSubmit = (data: any) => {
     console.log('폼 제출', data);
     console.log('드롭다운', groupRegist);
+
+    // 모집 마감 날짜가 있다면, 모집 마감 날짜가 여행 날짜보다 빠른지 검사
+    if (data.recruitmentEndDate) {
+      if (data.recruitmentEndDate > data.departureDate) {
+        setError('recruitmentEndDate', {
+          type: 'manual',
+          message: '모집 마감 날짜는 여행 날짜 이전이어야 합니다.',
+        });
+        return;
+      }
+    }
   };
 
   return (
