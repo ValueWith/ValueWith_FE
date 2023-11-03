@@ -82,6 +82,7 @@ function GroupRegistInfo({
         ></DateInput>
       ))}
 
+      {/* 지역 선택 */}
       <div className="mb-[24px]">
         <p className="mb-[4px]">지역 선택 *</p>
         <Dropdown
@@ -95,6 +96,19 @@ function GroupRegistInfo({
           error={isFormError.groupArea}
         />
       </div>
+
+      {/* 모집 인원 */}
+      <Input
+        inputType="input"
+        label="모집 인원 *"
+        style={{ width: '65px' }}
+        {...register('groupMemberCount', {
+          required: '모집 인원을 입력해주세요.',
+        })}
+        errors={errors}
+      >
+        <span className="ml-2 text-[13px]">명</span>
+      </Input>
 
       {/* 그룹 이름 */}
       <Input
