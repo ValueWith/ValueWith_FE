@@ -13,6 +13,7 @@ import DatePicker from 'react-datepicker';
 import DateInput from '@/components/DateInput';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
+import Dropdown from '@/components/Dropdown';
 
 const DATE_ATTRIBUTES = [
   {
@@ -28,6 +29,29 @@ const DATE_ATTRIBUTES = [
   },
 ];
 
+const AREA_OPTION = [
+  { label: '전체', value: 'all' },
+  { label: '강원', value: 'gangwon' },
+  { label: '경기', value: 'gyeonggi' },
+  { label: '경남', value: 'gyeongnam' },
+  { label: '경북', value: 'gyeongbuk' },
+  { label: '대구', value: 'daegu' },
+  { label: '대전', value: 'daejeon' },
+  { label: '부산', value: 'busan' },
+  { label: '서울', value: 'seoul' },
+  { label: '세종', value: 'sejong' },
+  { label: '울산', value: 'ulsan' },
+  { label: '인천', value: 'incheon' },
+  { label: '전남', value: 'jeonnam' },
+  { label: '전북', value: 'jeonbuk' },
+  { label: '제주', value: 'jeju' },
+  { label: '충남', value: 'chungnam' },
+  { label: '충북', value: 'chungbuk' },
+];
+
+//areaOption에서 label만 뽑아서 배열로 만들기
+const AREA_OPTION_LABEL = AREA_OPTION.map((item) => item.label);
+
 function GroupRegistInfo({
   register,
   control,
@@ -37,6 +61,9 @@ function GroupRegistInfo({
   control: Control<FieldValues>;
   errors: FieldErrors;
 }) {
+  const [area, setArea] = useState<string>('');
+  const [isAreaError, setIsAreaError] = useState<boolean>(false);
+
   return (
     <S.GroupRegistContainer>
       {/* 여행 날짜 / 마감 날짜 선택 */}
@@ -51,6 +78,18 @@ function GroupRegistInfo({
         ></DateInput>
       ))}
 
+      <div className="mb-[24px]">
+        <p className="mb-[4px]">지역 선택 *</p>
+        <Dropdown
+          height="42px"
+          listData={AREA_OPTION_LABEL}
+          placeholder={'지역을 선택해주세요'}
+          selectedItem={area}
+          onSelectItem={(item) => setArea(item)}
+          error={isAreaError}
+        />
+      </div>
+
       {/* 그룹 이름 */}
       <Input
         inputType="input"
@@ -58,6 +97,14 @@ function GroupRegistInfo({
         {...register('groupTitle', {
           required: '그룹 이름을 입력해주세요.',
         })}
+        errors={errors}
+      />
+
+      {/* 그룹 설명 */}
+      <Input
+        inputType="textarea"
+        label="그룹 설명"
+        {...register('groupDescription')}
         errors={errors}
       />
 
