@@ -33,6 +33,7 @@ export const DateInput = styled.div`
     padding: 0 16px;
     background-color: transparent;
     caret-color: transparent;
+    border-radius: 4px;
     cursor: pointer;
 
     &.error {
