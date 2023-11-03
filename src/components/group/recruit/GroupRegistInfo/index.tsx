@@ -14,6 +14,20 @@ import DateInput from '@/components/DateInput';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
 
+const DATE_ATTRIBUTES = [
+  {
+    name: 'departureDate',
+    label: '여행 날짜 선택 *',
+    rules: {
+      required: '여행날짜를 입력해주세요.',
+    },
+  },
+  {
+    name: 'recruitmentEndDate',
+    label: '모집 마감 날짜',
+  },
+];
+
 function GroupRegistInfo({
   register,
   control,
@@ -25,43 +39,17 @@ function GroupRegistInfo({
 }) {
   return (
     <S.GroupRegistContainer>
-      {/* 여행 날짜 선택 */}
-      <div>
-        <Controller
+      {/* 여행 날짜 / 마감 날짜 선택 */}
+      {DATE_ATTRIBUTES.map((item, index) => (
+        <DateInput
+          key={index}
           control={control}
-          name="departureDate"
-          rules={{ required: '여행날짜를 입력해주세요.' }}
-          render={({ field }) => (
-            <>
-              <DatePicker
-                name="departureDate"
-                dateFormat="yyyy.MM.dd"
-                shouldCloseOnSelect
-                minDate={new Date()}
-                selected={field.value}
-                onChange={field.onChange}
-              />
-              <RiCalendar2Fill fill="#4e4e4e" className="calendarIcon" />
-            </>
-          )}
-        />
-        {errors.departureDate && (
-          <p className="text-red-600 text-sm cursor-default">
-            {errors.departureDate.message as string}
-          </p>
-        )}
-      </div>
-
-      {/* 모집 마감일 */}
-      <DateInput
-        control={control}
-        name={'recruitmentEndDate'}
-        label="모집 마감일"
-        rules={{
-          required: '모집 마감일을 입력해주세요.',
-        }}
-        errors={errors}
-      ></DateInput>
+          name={item.name}
+          label={item.label}
+          rules={item.rules}
+          errors={errors}
+        ></DateInput>
+      ))}
 
       {/* 그룹 이름 */}
       <Input
