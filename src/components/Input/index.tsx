@@ -12,6 +12,7 @@ interface InputProps extends InputCSSProps {
   placeholder?: string; // input에 placeholder 표시해야 하는 경우 전달
   errors?: any; // errors,onChange는 useForm 에서 관리,  직접 Props로 넘겨주지 않음
   className?: string;
+  style?: React.CSSProperties;
   onChange?: (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -29,6 +30,7 @@ function Input(
     readOnly,
     className,
     onChange,
+    style,
     errors,
   }: InputProps,
   ref: React.Ref<HTMLInputElement | HTMLTextAreaElement>
@@ -47,10 +49,12 @@ function Input(
   return (
     <S.InputContainer>
       {label && <S.InputLabel htmlFor={name}>{label}</S.InputLabel>}
-      <div>
+
+      <div className="relative">
         {inputType === 'textarea' ? (
           <S.Textarea
             className={errorKEY ? `error ${className}` : className}
+            style={style}
             spellCheck="false"
             readOnly={readOnly}
             ref={ref as React.Ref<HTMLTextAreaElement>}
@@ -60,6 +64,7 @@ function Input(
           <S.Input
             type={type}
             className={errorKEY ? `error ${className}` : className}
+            style={style}
             spellCheck="false"
             readOnly={readOnly}
             ref={ref as React.Ref<HTMLInputElement>}

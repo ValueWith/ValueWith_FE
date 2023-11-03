@@ -28,6 +28,10 @@ export const commonInputStyle = css`
 export const InputContainer = styled.div`
   width: 100%;
   margin-bottom: 24px;
+
+  .login & {
+    margin-bottom: 12px;
+  }
 `;
 
 export const InputLabel = styled.label`
