@@ -10,6 +10,8 @@ import { PiPencilSimpleLineDuotone } from 'react-icons/pi';
 import { VscListFilter } from 'react-icons/vsc';
 import * as S from './GroupMain.styles';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { GroupListParams } from '@/apis/group';
+import useGroupDataFetching from '@/hooks/useGroup';
 
 function GroupMain() {
   const [isClickFilter, setIsClickFilter] = useState(false);
@@ -30,17 +32,35 @@ function GroupMain() {
   const [area, setArea] = useState(queryParams.get('area') || 'all');
   const [title, setTitle] = useState(queryParams.get('title') || '');
 
-  // useEffect를 통해 필터 및 정렬 옵션이 변경될 때마다
-  // useGroups 훅을 호출하여 데이터를 업데이트 해야 함
-
   useEffect(() => {
+    console.log('API 호출할거야!');
     navigate(
       `?status=${recruitmentStatus}&area=${area}&sorting=${sorting}&title=${title}`
     );
-  }, [recruitmentStatus, sorting, area, title]);
+  }, [recruitmentStatus, sorting, area, title, navigate]);
+
+  const params: GroupListParams = {
+    status: recruitmentStatus,
+    area: area,
+    sorting: sorting,
+    title: title,
+  };
+
+  const { data: groupData, isLoading, isError } = useGroupDataFetching(params);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading data</div>;
+  }
+
+  // useEffect를 통해 필터 및 정렬 옵션이 변경될 때마다
+  // useGroups 훅을 호출하여 데이터를 업데이트 해야 함
 
   console.log(
-    `recruitmentStatus=${recruitmentStatus}, sotring=${sorting}, area=${area}`
+    `status=${recruitmentStatus}, area=${area}, sotring=${sorting}, title=${title}`
   );
 
   const handleFilter = () => {
@@ -109,7 +129,7 @@ function GroupMain() {
         </Button>
       </S.SearchOptionContainer>
       {/* TripList */}
-      <TripList pageName={'Group'} />
+      {groupData ? <TripList groupData={groupData} /> : <div>No data..</div>}
     </S.GroupMainContainer>
   );
 }

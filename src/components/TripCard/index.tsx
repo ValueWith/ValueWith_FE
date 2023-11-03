@@ -1,39 +1,58 @@
 import * as S from './TripCard.styles';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { MdCalendarMonth } from 'react-icons/md';
-import { GroupProps } from '../TripList';
 import { calculateDday } from '@/utils/dateUtil.ts';
+import { TripGroup } from '@/apis/group';
+import { conversionArea } from '@/utils/conversionArea';
 
 interface TripCardProps {
-  group: GroupProps;
+  group: TripGroup;
 }
+
+// "tripGroupId": 3,
+// "name": "한복입고 서울여행",
+// "content": "Group Content 3",
+// "maxUserNumber": 10,
+// "currentUserNumber": 1,
+// "tripArea": "seoul",
+// "tripDate": "2023-12-03",
+// "dueDate": "2023-11-04",
+// "createdAt": "2023-11-03",
+// "status": "마감",
+// "thumbnailUrl": "https://d1udi89ozp4mef.cloudfront.net/location%2Fb6280182-8d6d-4057-a5ae-850cf738b48f-seoul1.jpeg",
+// "profileUrl": "https://d1udi89ozp4mef.cloudfront.net/location%2F6480bf6a-57df-4395-9970-5979d327b5f2-dev_loopy.png",
+// "nickName": "nickname1",
+// "age": "25",
+// "gender": "남"
 
 function TripCard({ group }: TripCardProps) {
   const {
     name,
     content,
-    max_user_number,
-    cur_user_number,
-    trip_area,
-    trip_date,
-    due_date,
-    thumbnail_url,
+    maxUserNumber,
+    currentUserNumber,
+    tripArea,
+    tripDate,
+    dueDate,
+    thumbnailUrl,
     status,
   } = group;
-  const d_day = calculateDday(due_date);
-  const isClosed = status !== 'open';
+  const d_day = calculateDday(dueDate);
+  const isClosed = status !== '모집중';
+  const koreanArea = conversionArea(tripArea);
+
   return (
     <S.TripCardContainer>
       {isClosed && <S.Closed />}
-      <S.CardTumbnail src={thumbnail_url} alt='지도 썸네일' />
+      <S.CardTumbnail src={thumbnailUrl} alt='지도 썸네일' />
       <S.IconContainer>
         <S.Icon>
           <FaMapMarkerAlt />
-          <span>{trip_area}</span>
+          <span>{koreanArea}</span>
         </S.Icon>
         <S.Icon>
           <MdCalendarMonth />
-          <span>{trip_date}</span>
+          <span>{tripDate}</span>
         </S.Icon>
       </S.IconContainer>
       <S.ContentContainer>
@@ -41,13 +60,13 @@ function TripCard({ group }: TripCardProps) {
         <S.Detail>
           <S.DetailTitle>모집현황</S.DetailTitle>
           <S.DetailContent>
-            {cur_user_number}명 / {max_user_number}명
+            {currentUserNumber}명 / {maxUserNumber}명
           </S.DetailContent>
         </S.Detail>
         <S.Detail>
           <S.DetailTitle>모집마감</S.DetailTitle>
           <S.DetailContent>
-            {due_date} ({d_day})
+            {dueDate} ({d_day})
           </S.DetailContent>
         </S.Detail>
         <S.Content>{content}</S.Content>
