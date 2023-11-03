@@ -1,5 +1,4 @@
-import React from "react";
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 import RadioGroup from '../RadioGroup';
 
@@ -24,8 +23,6 @@ function GroupFilter({
   area,
   setArea,
 }: GroupFilterProps) {
-  const navigate = useNavigate();
-
   const recruitemStatusOptions = [
     { label: '전체보기', value: 'all' },
     { label: '모집중', value: 'recruiting' },
@@ -58,21 +55,14 @@ function GroupFilter({
 
   const handleRecruitmentStatusChange = (value: string) => {
     setRecruitmentStatus(value);
-    navigate(`?recruitmentStatus=${value}&area=${area}&sorting=${sorting}`);
   };
 
   const handleAreaChange = (value: string) => {
     setArea(value);
-    navigate(
-      `?recruitmentStatus=${recruitmentStatus}&area=${value}&sorting=${sorting}`
-    );
   };
 
   const handleSortingChange = (value: string) => {
     setSorting(value);
-    navigate(
-      `?recruitmentStatus=${recruitmentStatus}&area=${area}&sorting=${value}`
-    );
   };
 
   return (
