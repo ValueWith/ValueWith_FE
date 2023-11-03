@@ -43,13 +43,16 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className="header__menu-list">
+          <ul className='header__menu-list'>
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
                   key={index}
                   className={page.path === currentCategory ? 'active' : ''}
-                  onClick={() => navigate(page.path)}
+                  onClick={() => {
+                    navigate(page.path);
+                    window.location.reload();
+                  }}
                 >
                   {page.name}
                 </S.HeaderMenuItem>
@@ -75,7 +78,7 @@ function Header() {
           )}
 
           {/* 로그인 / 로그아웃 */}
-          <Button type="button" styleType="basic" onClickHandler={handleLogin}>
+          <Button type='button' styleType='basic' onClickHandler={handleLogin}>
             로그인
           </Button>
         </S.UserActionsWrapper>
