@@ -12,13 +12,4 @@ export const GroupRegistFormWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-
-  .calendarIcon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 14px;
-    width: 24px;
-    height: 24px;
-  }
 `;
