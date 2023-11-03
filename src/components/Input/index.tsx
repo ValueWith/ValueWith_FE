@@ -13,6 +13,7 @@ interface InputProps extends InputCSSProps {
   errors?: any; // errors,onChange는 useForm 에서 관리,  직접 Props로 넘겨주지 않음
   className?: string;
   style?: React.CSSProperties;
+  children?: React.ReactNode;
   onChange?: (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -29,6 +30,7 @@ function Input(
     placeholder,
     readOnly,
     className,
+    children,
     onChange,
     style,
     errors,
@@ -71,6 +73,7 @@ function Input(
             {...inputCommonProps}
           />
         )}
+        {children}
       </div>
       {errorKEY && <S.InputErrorMessage>{errorKEY}</S.InputErrorMessage>}
     </S.InputContainer>
