@@ -14,6 +14,8 @@ import DateInput from '@/components/DateInput';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
 import Dropdown from '@/components/Dropdown';
+import { useRecoilState } from 'recoil';
+import { groupRegistState } from '@/state/GroupResistState';
 
 const DATE_ATTRIBUTES = [
   {
@@ -56,13 +58,15 @@ function GroupRegistInfo({
   register,
   control,
   errors,
+  isFormError,
 }: {
   register: UseFormRegister<FieldValues>;
   control: Control<FieldValues>;
   errors: FieldErrors;
+  isFormError: any;
 }) {
-  const [area, setArea] = useState<string>('');
-  const [isAreaError, setIsAreaError] = useState<boolean>(false);
+  const [groupRegistData, setGroupRegistData] =
+    useRecoilState(groupRegistState);
 
   return (
     <S.GroupRegistContainer>
@@ -84,9 +88,11 @@ function GroupRegistInfo({
           height="42px"
           listData={AREA_OPTION_LABEL}
           placeholder={'지역을 선택해주세요'}
-          selectedItem={area}
-          onSelectItem={(item) => setArea(item)}
-          error={isAreaError}
+          selectedItem={groupRegistData.groupArea}
+          onSelectItem={(item) =>
+            setGroupRegistData({ ...groupRegistData, groupArea: item })
+          }
+          error={isFormError.groupArea}
         />
       </div>
 

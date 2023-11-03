@@ -2,13 +2,19 @@ import Input from '@/components/Input';
 import GroupNavSidebar from '@/components/group/recruit/GroupNavSidebar';
 import GroupRegistInfo from '@/components/group/recruit/GroupRegistInfo';
 import GroupRegistSchedule from '@/components/group/recruit/GroupRegistSchedule';
+import { groupRegistState } from '@/state/GroupResistState';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Map } from 'react-kakao-maps-sdk';
+import { useRecoilState } from 'recoil';
 
 function GroupRecruit() {
   const [currentStep, setCurrentStep] = useState(1); // Step1 : 기본 정보, Step2 : 일정 선택
-  const [data, setData] = useState();
+  const [groupRegist, setGroupRegist] = useRecoilState(groupRegistState);
+  const [isAreaError, setIsAreaError] = useState<boolean>(false);
+  const [isFormError, setIsFormError] = useState({
+    groupArea: false,
+  });
 
   const {
     register,
@@ -30,12 +36,17 @@ function GroupRecruit() {
     setCurrentStep(step);
   };
 
-  const handleFormData = (data: any) => {
-    setData(data);
+  // 드롭다운 폼 유효성 검사
+  const handleFormKeyPress = (event: any) => {
+    if (event.key === 'Enter') {
+      if (groupRegist.groupArea === '')
+        return setIsFormError({ ...isFormError, groupArea: true });
+    }
   };
 
   const onSubmit = (data: any) => {
     console.log('폼 제출', data);
+    console.log('드롭다운', groupRegist);
   };
 
   return (
@@ -45,12 +56,13 @@ function GroupRecruit() {
           selectedStep={currentStep}
           onSelectedStep={handleFormStep}
         />
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} onKeyDown={handleFormKeyPress}>
           {currentStep === 1 ? (
             <GroupRegistInfo
               register={register}
               control={control}
               errors={errors}
+              isFormError={isFormError}
             />
           ) : (
             <GroupRegistSchedule />
