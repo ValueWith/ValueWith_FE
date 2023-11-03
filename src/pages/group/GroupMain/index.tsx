@@ -60,7 +60,7 @@ function GroupMain() {
   return (
     <S.GroupMainContainer>
       {/* SearchForm  */}
-      <GroupSearch />
+      <GroupSearch title={title} setTitle={setTitle} />
       {/* Filter */}
       <S.SearchOptionContainer>
         <div className='flex items-center gap-8'>
