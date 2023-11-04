@@ -1,4 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
+
+import { GroupListParams } from '@/apis/group';
+import useGroupDataFetching from '@/hooks/useGroup';
 
 import GroupSearch from '@/components/GroupSearch';
 import TripList from '@/components/TripList';
@@ -9,9 +14,10 @@ import { VscFilter } from 'react-icons/vsc';
 import { PiPencilSimpleLineDuotone } from 'react-icons/pi';
 import { VscListFilter } from 'react-icons/vsc';
 import * as S from './GroupMain.styles';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { GroupListParams } from '@/apis/group';
-import useGroupDataFetching from '@/hooks/useGroup';
+
+interface PageChangeCallback {
+  selected: number;
+}
 
 function GroupMain() {
   const [isClickFilter, setIsClickFilter] = useState(false);
@@ -23,6 +29,9 @@ function GroupMain() {
   const queryParams = new URLSearchParams(location.search);
 
   // 새로고침 시 state 상태 유지할 수 있는 로직
+  const [currentPage, setCurrentPage] = useState(
+    Number(queryParams.get('page')) || 1
+  );
   const [recruitmentStatus, setRecruitmentStatus] = useState(
     queryParams.get('recruitemStatus') || 'all'
   );
@@ -32,35 +41,32 @@ function GroupMain() {
   const [area, setArea] = useState(queryParams.get('area') || 'all');
   const [title, setTitle] = useState(queryParams.get('title') || '');
 
-  useEffect(() => {
-    console.log('API 호출할거야!');
-    navigate(
-      `?status=${recruitmentStatus}&area=${area}&sorting=${sorting}&title=${title}`
-    );
-  }, [recruitmentStatus, sorting, area, title, navigate]);
-
   const params: GroupListParams = {
+    page: currentPage,
     status: recruitmentStatus,
     area: area,
     sorting: sorting,
     title: title,
   };
 
+  useEffect(() => {
+    navigate(
+      `?page=${currentPage}&status=${recruitmentStatus}&area=${area}&sorting=${sorting}&title=${title}`
+    );
+  }, [currentPage, recruitmentStatus, sorting, area, title, navigate]);
+
   const { data: groupData, isLoading, isError } = useGroupDataFetching(params);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    console.log('데이터 불러오는 중 !!');
   }
 
   if (isError) {
     return <div>Error loading data</div>;
   }
 
-  // useEffect를 통해 필터 및 정렬 옵션이 변경될 때마다
-  // useGroups 훅을 호출하여 데이터를 업데이트 해야 함
-
   console.log(
-    `status=${recruitmentStatus}, area=${area}, sotring=${sorting}, title=${title}`
+    `page=${currentPage}, status=${recruitmentStatus}, area=${area}, sotring=${sorting}, title=${title}`
   );
 
   const handleFilter = () => {
@@ -75,6 +81,11 @@ function GroupMain() {
 
   const handleNewPost = () => {
     console.log('모집글 작성하기 페이지 이동');
+  };
+
+  const handlePageClick = (data: PageChangeCallback) => {
+    const selectedPage = data.selected;
+    setCurrentPage(selectedPage + 1);
   };
 
   return (
@@ -128,8 +139,31 @@ function GroupMain() {
           모집글 작성하기
         </Button>
       </S.SearchOptionContainer>
-      {/* TripList */}
-      {groupData ? <TripList groupData={groupData} /> : <div>No data..</div>}
+      {/* Data Loading... */}
+      {isLoading && <div>Loading...</div>}
+      {/* Pagination & TripList */}
+      {groupData && (
+        <>
+          <TripList groupData={groupData} />
+          <S.PaginationContainer>
+            <ReactPaginate
+              previousLabel={'<'}
+              previousClassName={'previous'}
+              nextLabel={'>'}
+              nextClassName={'next'}
+              breakLabel={'...'}
+              pageCount={groupData?.totalPages}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={handlePageClick}
+              containerClassName={'pagination'}
+              activeClassName={'active'}
+              renderOnZeroPageCount={null}
+              initialPage={currentPage - 1}
+            />
+          </S.PaginationContainer>
+        </>
+      )}
     </S.GroupMainContainer>
   );
 }

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export interface GroupListParams {
+  page: number;
   status: string;
   area: string;
   sorting: string;
@@ -47,7 +48,6 @@ export const fetchGroupList = async (
         params: params,
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error('Error Fetching data: ', error);
