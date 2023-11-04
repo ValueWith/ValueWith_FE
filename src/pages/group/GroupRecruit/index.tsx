@@ -1,4 +1,3 @@
-import Input from '@/components/Input';
 import GroupNavSidebar from '@/components/group/recruit/GroupNavSidebar';
 import GroupRegistInfo from '@/components/group/recruit/GroupRegistInfo';
 import GroupRegistSchedule from '@/components/group/recruit/GroupRegistSchedule';
@@ -20,6 +19,7 @@ function GroupRecruit() {
     handleSubmit,
     control,
     watch,
+    trigger,
     setError,
     formState: { errors, isValid },
   } = useForm({
@@ -35,13 +35,16 @@ function GroupRecruit() {
     setCurrentStep(step);
   };
 
-  // 드롭다운 폼 유효성 검사
-  const handleFormKeyPress = (event: any) => {
-    event.stopPropagation();
-
+  // 폼 유효성 검사
+  const handleFormValidate = (event: any) => {
     if (event.key === 'Enter') {
-      if (groupRegist.groupArea === '')
+      event.preventDefault();
+      event.stopPropagation();
+      trigger();
+
+      if (groupRegist.groupArea === '') {
         return setIsFormError({ ...isFormError, groupArea: true });
+      }
     }
   };
 
@@ -63,24 +66,30 @@ function GroupRecruit() {
 
   return (
     <main className="h-full flex">
-      <section className="inline-flex">
+      <div className="inline-flex">
         <GroupNavSidebar
           selectedStep={currentStep}
           onSelectedStep={handleFormStep}
         />
-        <form onSubmit={handleSubmit(onSubmit)} onKeyDown={handleFormKeyPress}>
+        <section>
           {currentStep === 1 ? (
-            <GroupRegistInfo
-              register={register}
-              control={control}
-              errors={errors}
-              isFormError={isFormError}
-            />
+            <form
+              id="groupRegistForm"
+              onSubmit={handleSubmit(onSubmit)}
+              onKeyDown={handleFormValidate}
+            >
+              <GroupRegistInfo
+                register={register}
+                control={control}
+                errors={errors}
+                isFormError={isFormError}
+              />
+            </form>
           ) : (
             <GroupRegistSchedule />
           )}
-        </form>
-      </section>
+        </section>
+      </div>
       <div className="flex w-full">
         <Map
           center={{ lat: 33.5563, lng: 126.79581 }} // 지도의 중심 좌표
