@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 import { GroupListParams } from '@/apis/group';
@@ -20,29 +20,25 @@ interface PageChangeCallback {
 }
 
 function GroupMain() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [isClickFilter, setIsClickFilter] = useState(false);
   const [isClickSort, setIsClickSort] = useState(false);
 
-  const navigate = useNavigate();
-
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  // 새로고침 시 state 상태 유지할 수 있는 로직
   const [currentPage, setCurrentPage] = useState(
-    Number(queryParams.get('page')) || 1
+    Number(searchParams.get('page')) || 1
   );
   const [recruitmentStatus, setRecruitmentStatus] = useState(
-    queryParams.get('recruitemStatus') || 'all'
+    searchParams.get('recruitemStatus') || 'all'
   );
   const [sorting, setSorting] = useState(
-    queryParams.get('sorting') || 'latest'
+    searchParams.get('sorting') || 'latest'
   );
-  const [area, setArea] = useState(queryParams.get('area') || 'all');
-  const [title, setTitle] = useState(queryParams.get('title') || '');
+  const [area, setArea] = useState(searchParams.get('area') || 'all');
+  const [title, setTitle] = useState(searchParams.get('title') || '');
 
   const params: GroupListParams = {
-    page: currentPage,
+    page: String(currentPage),
     status: recruitmentStatus,
     area: area,
     sorting: sorting,
@@ -50,22 +46,13 @@ function GroupMain() {
   };
 
   useEffect(() => {
-    navigate(
-      `?page=${currentPage}&status=${recruitmentStatus}&area=${area}&sorting=${sorting}&title=${title}`
-    );
-
-    console.log(
-      `page=${currentPage}, status=${recruitmentStatus}, area=${area}, sotring=${sorting}, title=${title}`
-    );
-  }, [currentPage, recruitmentStatus, sorting, area, title, navigate]);
+    setSearchParams({ ...params });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, recruitmentStatus, area, sorting, title]);
 
   const { data, isLoading, isError } = useGroupDataFetching(params);
 
   const groupData = data?.tripGroups;
-
-  if (isLoading) {
-    console.log('데이터 불러오는 중 !!');
-  }
 
   if (isError) {
     return <div>Error loading data</div>;

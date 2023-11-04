@@ -10,7 +10,7 @@ function Home() {
   const navigate = useNavigate();
 
   const params: GroupListParams = {
-    page: 1,
+    page: '1',
     status: 'open',
     area: 'all',
     sorting: 'latest',

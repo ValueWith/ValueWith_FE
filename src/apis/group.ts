@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export interface GroupListParams {
-  page: number;
+  page: string;
   status: string;
   area: string;
   sorting: string;
