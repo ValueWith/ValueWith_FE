@@ -46,7 +46,8 @@ export const PaginationContainer = styled.div`
       }
     }
     li {
-      background-color: ${theme.color.secondary};
+      background-color: ${theme.color.white};
+      border: 1px solid ${theme.color.gray100};
       border-radius: 4px;
       > a {
         width: 36px;
