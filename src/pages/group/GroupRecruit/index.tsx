@@ -13,7 +13,6 @@ import { useRecoilState } from 'recoil';
 function GroupRecruit() {
   const [currentStep, setCurrentStep] = useState(1); // Step1 : 기본 정보, Step2 : 일정 선택
   const [groupRegist, _setGroupRegist] = useRecoilState(groupRegistState);
-  const [isValidate, setIsValidate] = useState(false); // 폼 유효성 검사
 
   const {
     register,
@@ -35,14 +34,16 @@ function GroupRecruit() {
     setCurrentStep(step);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: any, event?: any) => {
     // 폼 유효성 검사
-    handleFormValidate(data);
+    handleFormValidate(data, event);
 
-    console.log('폼 제출', data);
-    console.log('그룹 데이터 상태', groupRegist);
-
-    setIsValidate(true);
+    try {
+      console.log('폼 제출', data);
+      console.log('그룹 데이터 상태', groupRegist);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -63,7 +64,6 @@ function GroupRecruit() {
                 register={register}
                 control={control}
                 errors={errors}
-                isValidate={isValidate}
                 isFormError={isFormError}
               />
             </form>
