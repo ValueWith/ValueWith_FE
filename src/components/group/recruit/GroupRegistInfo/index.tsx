@@ -1,4 +1,6 @@
-import { useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { groupRegistState } from '@/state/GroupResistState';
+
 import {
   Control,
   Controller,
@@ -7,16 +9,12 @@ import {
   UseFormRegister,
 } from 'react-hook-form';
 
-import { RiCalendar2Fill } from 'react-icons/ri';
 import Input from '@/components/Input';
-import DatePicker from 'react-datepicker';
 import DateInput from '@/components/DateInput';
+import Dropdown from '@/components/Dropdown';
+import FileUploader from '@/components/uploader/FileUploader';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
-import Dropdown from '@/components/Dropdown';
-import { useRecoilState } from 'recoil';
-import { groupRegistState } from '@/state/GroupResistState';
-import FileUploader from '@/components/uploader/FileUploader';
 
 const DATE_ATTRIBUTES = [
   {
@@ -60,21 +58,22 @@ function GroupRegistInfo({
   control,
   errors,
   isFormError,
+  isValidate,
 }: {
   register: UseFormRegister<FieldValues>;
   control: Control<FieldValues>;
   errors: FieldErrors;
   isFormError: any;
+  isValidate: any;
 }) {
-  const [groupRegistData, setGroupRegistData] =
-    useRecoilState(groupRegistState);
+  const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
 
   return (
     <S.GroupRegistContainer>
       {/* 썸네일 업로더 */}
       <FileUploader
         onFileSelected={(file) => {
-          setGroupRegistData({ ...groupRegistData, groupThumbnail: file });
+          setGroupFormData({ ...groupFormData, groupThumbnail: file });
         }}
       />
 
@@ -97,9 +96,9 @@ function GroupRegistInfo({
           height="42px"
           listData={AREA_OPTION_LABEL}
           placeholder={'지역을 선택해주세요'}
-          selectedItem={groupRegistData.groupArea}
+          selectedItem={groupFormData.groupArea}
           onSelectItem={(item) =>
-            setGroupRegistData({ ...groupRegistData, groupArea: item })
+            setGroupFormData({ ...groupFormData, groupArea: item })
           }
           error={isFormError.groupArea}
         />
@@ -150,7 +149,18 @@ function GroupRegistInfo({
         errors={errors}
       />
 
-      <button>폼 제출 테스트 버튼</button>
+      <button
+        type="submit"
+        form="groupRegistForm"
+        className={isValidate ? 'bg-red-500' : 'bg-gray-500'}
+        onClick={() => {
+          groupFormData.groupArea === ''
+            ? (isFormError.groupArea = true)
+            : (isFormError.groupArea = false);
+        }}
+      >
+        폼 제출 테스트 버튼
+      </button>
     </S.GroupRegistContainer>
   );
 }
