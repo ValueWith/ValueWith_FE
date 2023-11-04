@@ -7,6 +7,7 @@ export const GroupRegistContainer = styled.div`
   min-width: 450px;
   height: 100%;
   padding: 28px 28px 0;
+  border-right: 1px solid #e3e3e3;
 `;
 
 export const GroupRegistFormWrapper = styled.div`

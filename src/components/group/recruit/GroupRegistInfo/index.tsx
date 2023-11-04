@@ -166,9 +166,7 @@ function GroupRegistInfo() {
         />
 
         <div className="flex mt-auto py-10">
-          <Button size="sm" className={'ml-auto'}>
-            제출
-          </Button>
+          <Button fullWidth>그룹 모집하기</Button>
         </div>
       </form>
     </S.GroupRegistContainer>
