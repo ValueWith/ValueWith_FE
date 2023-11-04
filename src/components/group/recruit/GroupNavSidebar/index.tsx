@@ -20,8 +20,6 @@ function GroupNavSidebar({
   selectedStep,
   onSelectedStep,
 }: GroupNavSidebarProps) {
-  console.log(selectedStep);
-
   return (
     <S.RecruitSidebarContainer>
       {RECRUIT_STEP.map((step) => (

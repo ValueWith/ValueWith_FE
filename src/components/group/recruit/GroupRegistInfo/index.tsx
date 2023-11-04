@@ -15,6 +15,7 @@ import Dropdown from '@/components/Dropdown';
 import FileUploader from '@/components/uploader/FileUploader';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
+import { useEffect } from 'react';
 
 const DATE_ATTRIBUTES = [
   {
@@ -58,13 +59,11 @@ function GroupRegistInfo({
   control,
   errors,
   isFormError,
-  isValidate,
 }: {
   register: UseFormRegister<FieldValues>;
   control: Control<FieldValues>;
   errors: FieldErrors;
   isFormError: any;
-  isValidate: any;
 }) {
   const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
 
@@ -150,9 +149,8 @@ function GroupRegistInfo({
       />
 
       <button
-        type="submit"
+        type="button"
         form="groupRegistForm"
-        className={isValidate ? 'bg-red-500' : 'bg-gray-500'}
         onClick={() => {
           groupFormData.groupArea === ''
             ? (isFormError.groupArea = true)
