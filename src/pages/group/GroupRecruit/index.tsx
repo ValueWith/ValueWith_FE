@@ -1,67 +1,48 @@
+import { useEffect, useState } from 'react';
+
 import GroupNavSidebar from '@/components/group/recruit/GroupNavSidebar';
 import GroupRegistInfo from '@/components/group/recruit/GroupRegistInfo';
 import GroupRegistSchedule from '@/components/group/recruit/GroupRegistSchedule';
+import useRegistFormValidation from '@/hooks/useRegistFormValidation';
 import { groupRegistState } from '@/state/GroupResistState';
-import { useEffect, useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { Map } from 'react-kakao-maps-sdk';
 import { useRecoilState } from 'recoil';
 
 function GroupRecruit() {
   const [currentStep, setCurrentStep] = useState(1); // Step1 : 기본 정보, Step2 : 일정 선택
-  const [groupRegist, setGroupRegist] = useRecoilState(groupRegistState);
-  const [isFormError, setIsFormError] = useState({
-    groupArea: false,
-  });
+  const [groupRegist, _setGroupRegist] = useRecoilState(groupRegistState);
+  const [isValidate, setIsValidate] = useState(false); // 폼 유효성 검사
 
   const {
     register,
     handleSubmit,
     control,
-    watch,
     trigger,
     setError,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: 'onBlur',
   });
 
-  // 디버깅용 코드
-  useEffect(() => {
-    console.log(currentStep);
-  }, [currentStep]);
+  const { isFormError, handleFormValidate } = useRegistFormValidation({
+    trigger,
+    setError,
+  });
 
   const handleFormStep = (step: number) => {
     setCurrentStep(step);
   };
 
-  // 폼 유효성 검사
-  const handleFormValidate = (event: any) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      event.stopPropagation();
-      trigger();
-
-      if (groupRegist.groupArea === '') {
-        return setIsFormError({ ...isFormError, groupArea: true });
-      }
-    }
-  };
-
   const onSubmit = (data: any) => {
+    // 폼 유효성 검사
+    handleFormValidate(data);
+
     console.log('폼 제출', data);
     console.log('그룹 데이터 상태', groupRegist);
 
-    // 모집 마감 날짜가 있다면, 모집 마감 날짜가 여행 날짜보다 빠른지 검사
-    if (data.recruitmentEndDate) {
-      if (data.recruitmentEndDate > data.departureDate) {
-        setError('recruitmentEndDate', {
-          type: 'manual',
-          message: '모집 마감 날짜는 여행 날짜 이전이어야 합니다.',
-        });
-        return;
-      }
-    }
+    setIsValidate(true);
   };
 
   return (
@@ -82,6 +63,7 @@ function GroupRecruit() {
                 register={register}
                 control={control}
                 errors={errors}
+                isValidate={isValidate}
                 isFormError={isFormError}
               />
             </form>
