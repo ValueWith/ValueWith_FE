@@ -17,11 +17,9 @@ function Home() {
     title: '',
   };
 
-  const { data: groupData, isLoading, isError } = useGroupDataFetching(params);
+  const { data, isLoading, isError } = useGroupDataFetching(params);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const groupData = data?.tripGroups.slice(0, 8);
 
   if (isError) {
     return <div>Error loading data</div>;
@@ -36,6 +34,7 @@ function Home() {
           더 많은 일정 확인하기 &gt;
         </S.Link>
       </S.TitleContainer>
+      {isLoading && <div>Loading...</div>}
       {groupData ? <TripList groupData={groupData} /> : <div>No data...</div>}
     </S.HomeMainContainer>
   );

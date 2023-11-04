@@ -53,9 +53,15 @@ function GroupMain() {
     navigate(
       `?page=${currentPage}&status=${recruitmentStatus}&area=${area}&sorting=${sorting}&title=${title}`
     );
+
+    console.log(
+      `page=${currentPage}, status=${recruitmentStatus}, area=${area}, sotring=${sorting}, title=${title}`
+    );
   }, [currentPage, recruitmentStatus, sorting, area, title, navigate]);
 
-  const { data: groupData, isLoading, isError } = useGroupDataFetching(params);
+  const { data, isLoading, isError } = useGroupDataFetching(params);
+
+  const groupData = data?.tripGroups;
 
   if (isLoading) {
     console.log('데이터 불러오는 중 !!');
@@ -64,10 +70,6 @@ function GroupMain() {
   if (isError) {
     return <div>Error loading data</div>;
   }
-
-  console.log(
-    `page=${currentPage}, status=${recruitmentStatus}, area=${area}, sotring=${sorting}, title=${title}`
-  );
 
   const handleFilter = () => {
     setIsClickFilter(!isClickFilter);
@@ -152,7 +154,7 @@ function GroupMain() {
               nextLabel={'>'}
               nextClassName={'next'}
               breakLabel={'...'}
-              pageCount={groupData?.totalPages}
+              pageCount={data?.totalPages}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
               onPageChange={handlePageClick}

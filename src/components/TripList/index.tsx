@@ -1,18 +1,16 @@
-import { GroupListItem, TripGroup } from '@/apis/group';
+import { TripGroup } from '@/apis/group';
 import TripCard from '../TripCard';
 import * as S from './TripList.styles';
 
 interface TripListProps {
-  groupData: GroupListItem;
+  groupData: TripGroup[];
 }
 
 function TripList({ groupData }: TripListProps) {
-  // TODO: 페이지네이션 기능 추가
-
   return (
     <S.TripListContainer>
       {groupData &&
-        groupData.tripGroups.map((group: TripGroup) => (
+        groupData.map((group: TripGroup) => (
           <TripCard key={group.tripGroupId} group={group} />
         ))}
     </S.TripListContainer>
