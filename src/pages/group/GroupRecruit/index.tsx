@@ -3,8 +3,7 @@ import { useState } from 'react';
 import GroupNavSidebar from '@/components/group/recruit/GroupNavSidebar';
 import GroupRegistInfo from '@/components/group/recruit/GroupRegistInfo';
 import GroupRegistSchedule from '@/components/group/recruit/GroupRegistSchedule';
-
-import { Map } from 'react-kakao-maps-sdk';
+import KakaoMap from '@/components/group/recruit/KakaoMap';
 
 function GroupRecruit() {
   const [currentStep, setCurrentStep] = useState(1); // Step1 : 기본 정보, Step2 : 일정 선택
@@ -25,11 +24,7 @@ function GroupRecruit() {
         </section>
       </div>
       <div className="flex w-full">
-        <Map
-          center={{ lat: 33.5563, lng: 126.79581 }} // 지도의 중심 좌표
-          style={{ width: '100%', height: '100%' }} // 지도 크기
-          level={3} // 지도 확대 레벨
-        ></Map>
+        <KakaoMap />
       </div>
     </main>
   );
