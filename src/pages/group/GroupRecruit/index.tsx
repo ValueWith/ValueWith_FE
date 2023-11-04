@@ -1,49 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import GroupNavSidebar from '@/components/group/recruit/GroupNavSidebar';
 import GroupRegistInfo from '@/components/group/recruit/GroupRegistInfo';
 import GroupRegistSchedule from '@/components/group/recruit/GroupRegistSchedule';
-import useRegistFormValidation from '@/hooks/useRegistFormValidation';
-import { groupRegistState } from '@/state/GroupResistState';
 
-import { useForm } from 'react-hook-form';
 import { Map } from 'react-kakao-maps-sdk';
-import { useRecoilState } from 'recoil';
 
 function GroupRecruit() {
   const [currentStep, setCurrentStep] = useState(1); // Step1 : 기본 정보, Step2 : 일정 선택
-  const [groupRegist, _setGroupRegist] = useRecoilState(groupRegistState);
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    trigger,
-    setError,
-    formState: { errors },
-  } = useForm({
-    mode: 'onBlur',
-  });
-
-  const { isFormError, handleFormValidate } = useRegistFormValidation({
-    trigger,
-    setError,
-  });
 
   const handleFormStep = (step: number) => {
     setCurrentStep(step);
-  };
-
-  const onSubmit = (data: any, event?: any) => {
-    // 폼 유효성 검사
-    handleFormValidate(data, event);
-
-    try {
-      console.log('폼 제출', data);
-      console.log('그룹 데이터 상태', groupRegist);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -53,23 +20,8 @@ function GroupRecruit() {
           selectedStep={currentStep}
           onSelectedStep={handleFormStep}
         />
-        <section>
-          {currentStep === 1 ? (
-            <form
-              id="groupRegistForm"
-              onSubmit={handleSubmit(onSubmit)}
-              onKeyDown={handleFormValidate}
-            >
-              <GroupRegistInfo
-                register={register}
-                control={control}
-                errors={errors}
-                isFormError={isFormError}
-              />
-            </form>
-          ) : (
-            <GroupRegistSchedule />
-          )}
+        <section className="h-full">
+          {currentStep === 1 ? <GroupRegistSchedule /> : <GroupRegistInfo />}
         </section>
       </div>
       <div className="flex w-full">

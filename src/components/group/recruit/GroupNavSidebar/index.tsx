@@ -3,11 +3,11 @@ import * as S from './GroupNavSidebar.styles';
 const RECRUIT_STEP = [
   {
     id: 1,
-    title: '기본정보 입력',
+    title: '여행일정 등록',
   },
   {
     id: 2,
-    title: '여행일정 등록',
+    title: '기본정보 입력',
   },
 ];
 

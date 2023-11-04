@@ -5,6 +5,7 @@ export const GroupRegistContainer = styled.div`
   position: relative;
   width: 450px;
   min-width: 450px;
+  height: 100%;
   padding: 28px 28px 0;
 `;
 
