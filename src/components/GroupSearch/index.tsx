@@ -4,20 +4,17 @@ import Input from '../Input';
 
 import { BsSearch } from 'react-icons/bs';
 import * as S from './GroupSearch.styles';
+import { useRecoilState } from 'recoil';
+import { paramsState } from '@/recoil/paramsState';
 
-interface GroupSearchProps {
-  title: string;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-}
-
-function GroupSearch({ title, setTitle }: GroupSearchProps) {
+function GroupSearch() {
+  const [params, setParams] = useRecoilState(paramsState);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSearch = () => {
     if (inputRef.current !== null && inputRef.current !== undefined) {
       const searchTerm = inputRef.current.value;
-      setTitle(searchTerm);
-      console.log('검색어:', searchTerm);
+      setParams({ ...params, title: searchTerm });
     }
   };
 
@@ -33,7 +30,7 @@ function GroupSearch({ title, setTitle }: GroupSearchProps) {
           inputType={'input'}
           name='searchGroup'
           placeholder='검색어를 입력하세요'
-          defaultValue={title}
+          defaultValue={params.title}
           ref={inputRef}
         />
         <S.SearchButton type='button' onClick={handleSearch}>

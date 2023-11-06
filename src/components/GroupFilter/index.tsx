@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   areaOptions,
   sortingOptions,
@@ -9,36 +7,26 @@ import {
 import RadioGroup from '../RadioGroup';
 
 import * as S from './GroupFilter.styles';
+import { useRecoilState } from 'recoil';
+import { paramsState } from '@/recoil/paramsState';
 
 interface GroupFilterProps {
   option: string;
-  recruitmentStatus: string;
-  setRecruitmentStatus: React.Dispatch<React.SetStateAction<string>>;
-  sorting: string;
-  setSorting: React.Dispatch<React.SetStateAction<string>>;
-  area: string;
-  setArea: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function GroupFilter({
-  option,
-  recruitmentStatus,
-  setRecruitmentStatus,
-  sorting,
-  setSorting,
-  area,
-  setArea,
-}: GroupFilterProps) {
-  const handleRecruitmentStatusChange = (value: string) => {
-    setRecruitmentStatus(value);
+function GroupFilter({ option }: GroupFilterProps) {
+  const [params, setParams] = useRecoilState(paramsState);
+
+  const handleStatusChange = (value: string) => {
+    setParams({ ...params, status: value });
   };
 
   const handleAreaChange = (value: string) => {
-    setArea(value);
+    setParams({ ...params, area: value });
   };
 
   const handleSortingChange = (value: string) => {
-    setSorting(value);
+    setParams({ ...params, sort: value });
   };
 
   return (
@@ -48,14 +36,14 @@ function GroupFilter({
           <S.FilterTitle>모집현황</S.FilterTitle>
           <RadioGroup
             options={statusOptions}
-            selectedValue={recruitmentStatus}
+            selectedValue={params.status}
             styleType='radio'
-            onChange={handleRecruitmentStatusChange}
+            onChange={handleStatusChange}
           />
           <S.FilterTitle>지역</S.FilterTitle>
           <RadioGroup
             options={areaOptions}
-            selectedValue={area}
+            selectedValue={params.area}
             styleType='card'
             onChange={handleAreaChange}
           />
@@ -66,7 +54,7 @@ function GroupFilter({
           <S.FilterTitle>정렬</S.FilterTitle>
           <RadioGroup
             options={sortingOptions}
-            selectedValue={sorting}
+            selectedValue={params.sort}
             styleType='radio'
             onChange={handleSortingChange}
           />

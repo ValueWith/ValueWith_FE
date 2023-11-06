@@ -4,7 +4,7 @@ export interface GroupListParams {
   page: string;
   status: string;
   area: string;
-  sorting: string;
+  sort: string;
   title: string;
 }
 
