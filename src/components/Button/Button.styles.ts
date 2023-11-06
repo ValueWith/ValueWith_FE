@@ -33,6 +33,8 @@ const handleButtonType = (props: ButtonCSSProps) => {
       `;
     case 'text':
       return css`
+        height: auto;
+        padding: 0;
         color: ${theme.color.primary};
       `;
     case 'basic':
