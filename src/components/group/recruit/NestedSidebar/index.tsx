@@ -8,9 +8,12 @@ interface NestedSidebarStatusProps {
 interface NestedSidebarProps {
   option: NestedSidebarStatusProps;
   searchTerm?: string;
+  data: any;
 }
 
-function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
+function NestedSidebar({ option, searchTerm, data }: NestedSidebarProps) {
+  console.log(data, 'data');
+
   return (
     <S.NestedSidebarContainer>
       {option.status && (
@@ -22,6 +25,10 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
           </S.NestedSidebarHeading>
         </>
       )}
+
+      {data.map((item, index) => {
+        return <div>야호</div>;
+      })}
     </S.NestedSidebarContainer>
   );
 }

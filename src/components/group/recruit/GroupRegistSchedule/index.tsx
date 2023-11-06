@@ -7,14 +7,16 @@ import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
 
 import { useGetRecommendedData } from '@/hooks/useRegist';
+import useMapSearch from '@/hooks/useMapSearch';
 
 function GroupRegistSchedule() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-
   const [isNestedSidebar, setIsNestedSidebar] = useState({
     status: false,
     type: 'search', // 'suggest' | 'search'
   });
+
+  const { searchResult } = useMapSearch({ searchTerm });
 
   const {
     isTourLoading,
@@ -24,20 +26,9 @@ function GroupRegistSchedule() {
     recommendedData,
   } = useGetRecommendedData(searchTerm);
 
-  useEffect(() => {
-    console.log(recommendedData, 'recommendedData');
-  }, [recommendedData]);
-
   const getSearchData = async () => {
     try {
-      if (isNestedSidebar.type === 'search') {
-        // 현재 status의 type이 'suggest'라면 카카오맵 로컬 API로 검색
-        console.log('카카오맵 로컬 API로 검색');
-      } else {
-        // 현재 status의 type이 'search'라면 TourAPI로 검색
-        console.log('TourAPI로 검색');
-        console.log(searchTerm, 'searchTerm');
-
+      if (isNestedSidebar.type === 'suggest') {
         TourRefetch();
       }
     } catch (error) {
@@ -84,12 +75,15 @@ function GroupRegistSchedule() {
           장소 추천 받기
         </Button>
       </div>
-      {recommendedData.map((item, index) => {
-        return <div>야호</div>;
-      })}
 
       {isNestedSidebar.status === true && (
-        <NestedSidebar option={isNestedSidebar} searchTerm={searchTerm} />
+        <NestedSidebar
+          option={isNestedSidebar}
+          searchTerm={searchTerm}
+          data={
+            isNestedSidebar.type === 'search' ? searchResult : recommendedData
+          }
+        />
       )}
     </S.GroupRegistContainer>
   );
