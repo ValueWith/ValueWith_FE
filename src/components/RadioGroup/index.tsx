@@ -1,4 +1,3 @@
-// RadioGroup.tsx
 import { ChangeEvent } from 'react';
 import * as S from './Radio.styles';
 
@@ -28,28 +27,14 @@ function RadioGroup({
     <div className='flex flex-wrap gap-5 items-center'>
       {options.map((option) => (
         <S.Label key={option.value}>
-          {styleType === 'radio' && (
-            <>
-              <S.Radio
-                type='radio'
-                value={option.value}
-                checked={selectedValue === option.value}
-                onChange={handleRadioChange}
-              />
-              <S.RadioText>{option.label}</S.RadioText>
-            </>
-          )}
-          {styleType === 'card' && (
-            <>
-              <S.RadioCard
-                type='radio'
-                value={option.value}
-                checked={selectedValue === option.value}
-                onChange={handleRadioChange}
-              />
-              <S.RadioCardText>{option.label}</S.RadioCardText>
-            </>
-          )}
+          <S.Radio
+            type='radio'
+            value={option.value}
+            checked={selectedValue === option.value}
+            onChange={handleRadioChange}
+            styleType={styleType}
+          />
+          <S.RadioText styleType={styleType}>{option.label}</S.RadioText>
         </S.Label>
       ))}
     </div>
