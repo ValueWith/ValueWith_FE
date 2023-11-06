@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import theme from '@assets/styles/theme';
 
 export const SearchBarContainer = styled.div`
-  .rigistSearch {
+  .registSearch {
     &:focus-within {
       border: 1px solid ${theme.color.gray200};
     }

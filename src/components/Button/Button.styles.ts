@@ -4,6 +4,35 @@ import { css } from '@emotion/react';
 import theme from '@/assets/styles/theme';
 import { ButtonCSSProps } from '.';
 
+const handleButtonSize = (props: ButtonCSSProps) => {
+  switch (props.size) {
+    case 'sm':
+      return css`
+        min-width: 82px;
+        height: 36px;
+        font-size: 14px;
+        font-size: 1.4rem;
+      `;
+    case 'md':
+      return css`
+        min-width: 96px;
+        height: 42px;
+        font-size: 16px;
+        font-size: 1.6rem;
+      `;
+    case 'lg':
+      return css`
+        min-width: 278px;
+        height: 56px;
+        font-size: 18px;
+        font-size: 1.8rem;
+        font-weight: 600;
+      `;
+    default:
+      return '';
+  }
+};
+
 const handleButtonType = (props: ButtonCSSProps) => {
   switch (props.styleType) {
     case 'solid':
@@ -46,35 +75,6 @@ const handleButtonType = (props: ButtonCSSProps) => {
   }
 };
 
-const handleButtonSize = (props: ButtonCSSProps) => {
-  switch (props.size) {
-    case 'sm':
-      return css`
-        min-width: 82px;
-        height: 36px;
-        font-size: 14px;
-        font-size: 1.4rem;
-      `;
-    case 'md':
-      return css`
-        min-width: 96px;
-        height: 42px;
-        font-size: 16px;
-        font-size: 1.6rem;
-      `;
-    case 'lg':
-      return css`
-        min-width: 278px;
-        height: 56px;
-        font-size: 18px;
-        font-size: 1.8rem;
-        font-weight: 600;
-      `;
-    default:
-      return '';
-  }
-};
-
 export const Button = styled.button<ButtonCSSProps>`
   display: flex;
   align-items: center;
@@ -87,6 +87,6 @@ export const Button = styled.button<ButtonCSSProps>`
   white-space: nowrap;
   appearance: none;
 
-  ${(props) => handleButtonType(props)}
   ${(props) => handleButtonSize(props)}
+  ${(props) => handleButtonType(props)}
 `;

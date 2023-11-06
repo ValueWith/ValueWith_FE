@@ -38,6 +38,10 @@ export const InputContainer = styled.div`
   .login & {
     margin-bottom: 12px;
   }
+
+  .registGroup & {
+    margin-bottom: 10px;
+  }
 `;
 
 export const InputLabel = styled.label`

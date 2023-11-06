@@ -4,11 +4,12 @@ import { RiSearchLine } from 'react-icons/ri';
 import * as S from './SearchBar.styles';
 import Input from '../Input';
 
-function SearchBar({
-  onSearchTermChange,
-}: {
+interface SearchBarProps {
+  style?: React.CSSProperties;
   onSearchTermChange: (term: string) => void;
-}) {
+}
+
+function SearchBar({ style, onSearchTermChange }: SearchBarProps) {
   const [searchValue, setSearchValue] = useState<string>('');
 
   const handleSearchValue = (
@@ -37,9 +38,14 @@ function SearchBar({
       <Input
         inputType="input"
         name="registSearch"
-        className="rigistSearch"
+        className="registSearch"
         placeholder="검색어를 입력해주세요"
-        style={{ height: '53px', paddingRight: '60px', fontSize: '17px' }}
+        style={{
+          height: '53px',
+          paddingRight: '60px',
+          fontSize: '17px',
+          ...style,
+        }}
         value={searchValue}
         onChange={handleSearchValue}
         onKeyDown={handleSearch}
