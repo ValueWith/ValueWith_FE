@@ -25,12 +25,12 @@ function KakaoMap() {
         },
         {
           enableHighAccuracy: true,
-          maximumAge: 0, // 캐시된 위치 정보를 사용하지 않음
+          maximumAge: 0,
           timeout: Infinity, // 위치 정보를 가져오는데 걸리는 시간 제한 없음
         }
       );
     }
-  }, [mapOptions, setMapOptions]);
+  }, []);
 
   return (
     <Map
