@@ -4,6 +4,7 @@ import { MdCalendarMonth } from 'react-icons/md';
 import { calculateDday } from '@/utils/dateUtil.ts';
 import { TripGroup } from '@/apis/group';
 import { conversionArea } from '@/utils/conversionArea';
+import GroupUserInfo from '../GroupUserInfo';
 
 interface TripCardProps {
   group: TripGroup;
@@ -36,6 +37,10 @@ function TripCard({ group }: TripCardProps) {
     dueDate,
     thumbnailUrl,
     status,
+    profileUrl,
+    nickName,
+    age,
+    gender,
   } = group;
   const d_day = calculateDday(dueDate);
   const isClosed = status !== '모집중';
@@ -70,10 +75,12 @@ function TripCard({ group }: TripCardProps) {
           </S.DetailContent>
         </S.Detail>
         <S.Content>{content}</S.Content>
-        <S.ProfileContainer>
-          <S.ProfileImage src='/public/images/cat.jpg' alt='프로필 이미지' />
-          <span>유진 &bull; 20대 &bull; 여성</span>
-        </S.ProfileContainer>
+        <GroupUserInfo
+          profileUrl={profileUrl}
+          nickName={nickName}
+          age={age}
+          gender={gender}
+        />
       </S.ContentContainer>
     </S.TripCardContainer>
   );

@@ -22,7 +22,7 @@ export interface TripGroup {
   thumbnailUrl: string;
   profileUrl: string;
   nickName: string;
-  age: string;
+  age: number;
   gender: string;
 }
 
@@ -32,10 +32,6 @@ export interface GroupListItem {
   totalElements: number;
   last: boolean;
   tripGroups: TripGroup[];
-}
-
-export interface GroupListResponse {
-  mockData: GroupListItem[];
 }
 
 export const fetchGroupList = async (
