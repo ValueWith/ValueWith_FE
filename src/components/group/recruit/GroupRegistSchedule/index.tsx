@@ -10,13 +10,12 @@ import { useGetRecommendedData } from '@/hooks/useRegist';
 import useMapSearch from '@/hooks/useMapSearch';
 
 function GroupRegistSchedule() {
+  const [tripData, setTripData] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isNestedSidebar, setIsNestedSidebar] = useState({
     status: false,
     type: 'search', // 'suggest' | 'search'
   });
-
-  const { searchResult } = useMapSearch({ searchTerm });
 
   const {
     isTourLoading,
@@ -80,9 +79,7 @@ function GroupRegistSchedule() {
         <NestedSidebar
           option={isNestedSidebar}
           searchTerm={searchTerm}
-          data={
-            isNestedSidebar.type === 'search' ? searchResult : recommendedData
-          }
+          data={recommendedData}
         />
       )}
     </S.GroupRegistContainer>
