@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { RiSearchLine } from 'react-icons/ri';
+import * as S from './SearchBar.styles';
 import Input from '../Input';
 
 function SearchBar({
@@ -32,24 +33,22 @@ function SearchBar({
   };
 
   return (
-    <div>
+    <S.SearchBarContainer>
       <Input
         inputType="input"
         name="registSearch"
+        className="rigistSearch"
         placeholder="검색어를 입력해주세요"
-        style={{ paddingRight: '60px' }}
+        style={{ height: '53px', paddingRight: '60px', fontSize: '17px' }}
         value={searchValue}
         onChange={handleSearchValue}
         onKeyDown={handleSearch}
       >
-        <span
-          className="absolute right-[16px] cursor-pointer"
-          onClick={handleSearch}
-        >
+        <button type="button" className="searchIcon" onClick={handleSearch}>
           <RiSearchLine style={{ width: '40px', height: '40px' }} />
-        </span>
+        </button>
       </Input>
-    </div>
+    </S.SearchBarContainer>
   );
 }
 
