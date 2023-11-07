@@ -7,14 +7,24 @@ import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 
 interface GroupItemCardProps {
-  key: number;
+  key: number | string;
   item: any;
+  type?: 'registed' | 'search';
 }
 
-function GroupItemCard({ key, item }: GroupItemCardProps) {
+function GroupItemCard({ key, item, type = 'search' }: GroupItemCardProps) {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
 
-  const handleSelectCard = (event: any, item: any) => {
+  const handleSelectCard = () => {
+    if (type === 'search') {
+      console.log('검색된 카드');
+      // 클릭시 해당 카드의 좌표로 카카오맵 이동
+    } else {
+      console.log('선택된 카드');
+    }
+  };
+
+  const handleRegistrationCard = (event: any, item: any) => {
     event.stopPropagation();
 
     const selectedData = {
@@ -26,7 +36,7 @@ function GroupItemCard({ key, item }: GroupItemCardProps) {
       y: item.y,
     };
 
-    console.log(selectedData, 'selectedData');
+    // console.log(selectedData, 'selectedData');
 
     // 선택한 장소가 이미 선택된 장소에 있는지 확인
     setSelectedPlace((prevSelectedPlace) => {
@@ -45,36 +55,39 @@ function GroupItemCard({ key, item }: GroupItemCardProps) {
     });
   };
 
-  console.log(item);
-
   return (
-    <S.GroupItemCard
-      key={key}
-      onClick={() => {
-        console.log('위경도');
-      }}
-    >
+    <S.GroupItemCard key={key} onClick={handleSelectCard}>
       {/* 카드 정보 */}
       <S.GroupItemCardInfo>
-        <S.GroupItemCardHeading>{item.place_name}</S.GroupItemCardHeading>
+        <S.GroupItemCardHeading>
+          {item.place_name || item.name}
+        </S.GroupItemCardHeading>
         <S.SearchResultDetailInfo>
           <S.GroupItemCardCategory>
-            {item.category_group_name ? item.category_group_name : '기타'}
+            {item.category_group_name
+              ? item.category_group_name
+              : item.category
+              ? item.category
+              : '기타'}
           </S.GroupItemCardCategory>
           &nbsp;&#183;&nbsp;
-          <S.GroupItemCardAddress>{item.address_name}</S.GroupItemCardAddress>
+          <S.GroupItemCardAddress>
+            {item.address_name || item.address}
+          </S.GroupItemCardAddress>
         </S.SearchResultDetailInfo>
       </S.GroupItemCardInfo>
 
       {/* 추가 버튼 */}
-      <Button
-        type="button"
-        styleType="text"
-        style={{ minWidth: 'auto' }}
-        onClickHandler={() => handleSelectCard(event, item)}
-      >
-        추가
-      </Button>
+      {type === 'search' ? (
+        <Button
+          type="button"
+          styleType="text"
+          style={{ minWidth: 'auto' }}
+          onClickHandler={() => handleRegistrationCard(event, item)}
+        >
+          추가
+        </Button>
+      ) : null}
     </S.GroupItemCard>
   );
 }
