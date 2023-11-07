@@ -114,7 +114,9 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
         {item.place_name || item.name}
       </S.GroupItemCardHeading>
       <S.SearchResultDetailInfo>
-        <S.GroupItemCardCategory>{categoryText} · </S.GroupItemCardCategory>
+        <S.GroupItemCardCategory>
+          {categoryText}&nbsp;·&nbsp;
+        </S.GroupItemCardCategory>
         <S.GroupItemCardAddress>
           {item.address_name || item.address}
         </S.GroupItemCardAddress>
