@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import NestedSidebar from '../NestedSidebar';
 
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+
 import * as S from '@components/group/recruit/GroupRegist.styles';
 import * as CS from '@components/group/recruit/GroupRegist.styles';
 
@@ -28,6 +30,10 @@ function GroupRegistSchedule() {
     TourRefetch,
     recommendedData,
   } = useGetRecommendedData(searchTerm);
+
+  const onDragEnd = (result: any) => {
+    console.log('드래그 종료');
+  };
 
   const getSearchData = async () => {
     try {
@@ -80,16 +86,31 @@ function GroupRegistSchedule() {
           </Button>
         </div>
 
-        <CS.GroupItemCardContainer>
-          {selectedPlace.selectedPlace.map((item: any, index: any) => (
-            <GroupItemCard
-              key={index}
-              item={item}
-              index={index}
-              type={'registed'}
-            />
-          ))}
-        </CS.GroupItemCardContainer>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="one">
+            {(provided) => (
+              <CS.GroupItemCardContainer
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {selectedPlace.selectedPlace.map((item: any, index: any) => (
+                  <Draggable draggableId={item.id} index={index} key={item.id}>
+                    {(provided) => (
+                      <GroupItemCard
+                        item={item}
+                        index={index}
+                        type={'registed'}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+              </CS.GroupItemCardContainer>
+            )}
+          </Droppable>
+        </DragDropContext>
       </S.GroupRegistContainer>
 
       {isNestedSidebar.status === true && (

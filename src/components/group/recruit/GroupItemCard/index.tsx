@@ -5,6 +5,7 @@ import { RiFlag2Line, RiFlag2Fill } from 'react-icons/ri';
 import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
+import { forwardRef } from 'react';
 
 interface GroupItemCardProps {
   item: any;
@@ -166,4 +167,4 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
   );
 }
 
-export default GroupItemCard;
+export default forwardRef(GroupItemCard);
