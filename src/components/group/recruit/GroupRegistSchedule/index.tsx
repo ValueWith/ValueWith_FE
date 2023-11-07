@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import NestedSidebar from '../NestedSidebar';
 
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
+
 import * as S from '@components/group/recruit/GroupRegist.styles';
 import * as CS from '@components/group/recruit/GroupRegist.styles';
 
@@ -28,6 +30,16 @@ function GroupRegistSchedule() {
     TourRefetch,
     recommendedData,
   } = useGetRecommendedData(searchTerm);
+
+  const onDragEnd = (result: any) => {
+    // 리스트 밖으로 드래그한 경우
+    if (!result.destination) return;
+
+    const reorderedData = Array.from(selectedPlace.selectedPlace);
+    const [movedItem] = reorderedData.splice(result.source.index, 1);
+    reorderedData.splice(result.destination.index, 0, movedItem);
+    setSelectedPlace({ selectedPlace: reorderedData });
+  };
 
   const getSearchData = async () => {
     try {
@@ -80,16 +92,27 @@ function GroupRegistSchedule() {
           </Button>
         </div>
 
-        <CS.GroupItemCardContainer>
-          {selectedPlace.selectedPlace.map((item: any, index: any) => (
-            <GroupItemCard
-              key={index}
-              item={item}
-              index={index}
-              type={'registed'}
-            />
-          ))}
-        </CS.GroupItemCardContainer>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="one">
+            {(provided) => (
+              <CS.GroupItemCardContainer
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                <>
+                  {selectedPlace.selectedPlace.map((item: any, index: any) => (
+                    <GroupItemCard
+                      item={item}
+                      index={index}
+                      type={'registed'}
+                    />
+                  ))}
+                </>
+                {provided.placeholder}
+              </CS.GroupItemCardContainer>
+            )}
+          </Droppable>
+        </DragDropContext>
       </S.GroupRegistContainer>
 
       {isNestedSidebar.status === true && (
