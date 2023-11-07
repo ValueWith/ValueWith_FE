@@ -11,7 +11,10 @@ interface ButtonProps extends ButtonCSSProps {
   children: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
-  onClickHandler?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickHandler?: (
+    e?: React.MouseEvent<HTMLButtonElement>,
+    ...args: any[]
+  ) => void;
 }
 
 function Button({
