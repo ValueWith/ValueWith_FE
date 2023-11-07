@@ -5,7 +5,7 @@ import { RiFlag2Line, RiFlag2Fill } from 'react-icons/ri';
 import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 
 import { Draggable } from '@hello-pangea/dnd';
 
@@ -19,8 +19,30 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
   const isSearchType = type === 'search';
   const key = isSearchType ? `search-${index}` : `registed-${index}`;
   const categoryText = item.category_group_name || item.category || '기타';
+
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [mapOption, setMapOption] = useRecoilState(mapOptionState);
+  const [backgroundType, setBackgroundType] = useState<string>('');
+
+  function getOrderClassName(categoryText: string) {
+    if (categoryText.includes('숙박')) {
+      return 'hotel';
+    } else if (
+      categoryText.includes('음식점') ||
+      categoryText.includes('카페') ||
+      categoryText.includes('식당')
+    ) {
+      return 'food';
+    } else if (
+      categoryText.includes('관광') ||
+      categoryText.includes('문화') ||
+      categoryText.includes('역사')
+    ) {
+      return 'attraction';
+    } else {
+      return '';
+    }
+  }
 
   const handleMapCenter = () => {
     setMapOption({
@@ -128,7 +150,11 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
               {...provided.dragHandleProps}
             >
               {type === 'registed' && (
-                <S.GroupItemCardOrder>{index + 1}</S.GroupItemCardOrder>
+                <S.GroupItemCardOrder
+                  className={getOrderClassName(categoryText)}
+                >
+                  {index + 1}
+                </S.GroupItemCardOrder>
               )}
 
               {cardInfo}

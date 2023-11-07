@@ -27,7 +27,6 @@ export const GroupItemCard = styled.div`
   }
 `;
 
-// TODO : 카테고리에 따라 색상 변경
 export const GroupItemCardOrder = styled.span`
   display: inline-flex;
   justify-content: center;
@@ -40,6 +39,18 @@ export const GroupItemCardOrder = styled.span`
   background-color: #f87973;
   color: #fff;
   font-size: 12px;
+
+  &.food {
+    background-color: #ffc645;
+  }
+
+  &.attraction {
+    background-color: #4196f9;
+  }
+
+  &.hotel {
+    background-color: #34a01a;
+  }
 `;
 
 export const GroupItemCardInfo = styled.div`
