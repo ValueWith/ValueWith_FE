@@ -1,12 +1,26 @@
 import theme from '@/assets/styles/theme';
 import { mapOptionState, selectedPlaceState } from '@/state/GroupRegistState';
 import { useEffect, useState } from 'react';
-import { CustomOverlayMap, Map, Polyline } from 'react-kakao-maps-sdk';
+import {
+  CustomOverlayMap,
+  Map,
+  MapMarker,
+  Polyline,
+} from 'react-kakao-maps-sdk';
 import { useRecoilState } from 'recoil';
 
 function KakaoMap() {
   const [selectedPlaceData] = useRecoilState(selectedPlaceState);
   const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
+
+  // 맵 마커는 selectedPlaceData.selectedPlace에 없을 때만 렌더링
+  const shouldRenderMapMarker = selectedPlaceData.selectedPlace.every(
+    (item) => {
+      return (
+        item.x !== mapOptions.center.lng && item.y !== mapOptions.center.lat
+      );
+    }
+  );
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -76,6 +90,8 @@ function KakaoMap() {
           strokeWeight={5}
         />
       )}
+
+      {shouldRenderMapMarker && <MapMarker position={mapOptions.center} />}
     </Map>
   );
 }
