@@ -11,13 +11,13 @@ import EmotionProvider from '@/assets/styles/EmotionProvider.tsx';
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  // <React.StrictMode>
-  <RecoilRoot>
-    <QueryClientProvider client={queryClient}>
-      <EmotionProvider>
-        <RouterProvider router={router} />
-      </EmotionProvider>
-    </QueryClientProvider>
-  </RecoilRoot>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <EmotionProvider>
+          <RouterProvider router={router} />
+        </EmotionProvider>
+      </QueryClientProvider>
+    </RecoilRoot>
+  </React.StrictMode>
 );
