@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import theme from '@assets/styles/theme';
 
 export const GroupItemCard = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
@@ -19,6 +20,10 @@ export const GroupItemCard = styled.div`
 
   &:hover {
     background-color: #f7fbff;
+  }
+
+  &.registed {
+    margin-bottom: 12px;
   }
 `;
 
@@ -66,4 +71,40 @@ export const GroupItemCardAddress = styled.span`
   color: ${theme.color.gray400};
   word-break: break-all;
   word-wrap: break-word;
+`;
+
+// 출발지 지정 버튼
+export const SetDepartureButton = styled.button`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+
+  &:hover {
+    &::after {
+      content: '출발지로 지정하기';
+      position: absolute;
+      top: calc(100% + 5px);
+      right: 30%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+      height: 30px;
+      padding: 0 10px;
+      border-radius: 4px;
+      background-color: #000;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+    }
+  }
 `;
