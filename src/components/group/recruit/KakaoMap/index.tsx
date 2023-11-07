@@ -1,6 +1,12 @@
+import theme from '@/assets/styles/theme';
 import { selectedPlaceState } from '@/state/GroupRegistState';
 import { useEffect, useState } from 'react';
-import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
+import {
+  CustomOverlayMap,
+  Map,
+  MapMarker,
+  Polyline,
+} from 'react-kakao-maps-sdk';
 import { useRecoilState } from 'recoil';
 
 function KakaoMap() {
@@ -40,19 +46,33 @@ function KakaoMap() {
       style={{ width: '100%', height: '100%' }} // 지도 크기
       {...mapOptions}
     >
-      {selectedPlaceData.selectedPlace.map((item) => (
-        <MapMarker
-          key={item.id}
+      {selectedPlaceData.selectedPlace.map((item, index) => (
+        <CustomOverlayMap
+          key={`marker-${index}`}
           position={{ lat: item.y, lng: item.x }}
-          image={{
-            src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
-            size: {
-              width: 24,
-              height: 35,
-            },
-          }}
-          title={item.name}
-        />
+        >
+          <div
+            style={{
+              width: '30px',
+              height: '30px',
+              background: '#ff0000',
+              borderRadius: '50%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <span
+              className="title"
+              style={{
+                fontSize: '12px',
+                color: '#FFFFFF',
+              }}
+            >
+              {index + 1}
+            </span>
+          </div>
+        </CustomOverlayMap>
       ))}
 
       {selectedPlaceData.selectedPlace.length >= 2 && (
@@ -61,7 +81,7 @@ function KakaoMap() {
             lat: item.y,
             lng: item.x,
           }))}
-          strokeColor="#FF0000"
+          strokeColor={theme.color.red100}
           strokeOpacity={1}
           strokeWeight={5}
         />
