@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import theme from '@assets/styles/theme';
 
-export const GroupItemCardList = styled.ul``;
-
-export const GroupItemCard = styled.li`
+export const GroupItemCard = styled.div`
   display: flex;
   align-items: center;
   width: 100%;

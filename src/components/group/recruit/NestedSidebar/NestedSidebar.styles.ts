@@ -22,9 +22,3 @@ export const NestedSidebarContainer = styled.div`
 export const NestedSidebarHeading = styled.h2`
   font-size: 28px;
 `;
-
-export const GroupItemCardContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  margin-top: 28px;
-`;

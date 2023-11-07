@@ -1,5 +1,6 @@
 import useMapSearch from '@/hooks/useMapSearch';
 import * as S from './NestedSidebar.styles';
+import * as CS from '@components/group/recruit/GroupRegist.styles';
 import SearchResultCard from '../GroupItemCard';
 import { useEffect, useState, useRef } from 'react';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
@@ -58,16 +59,16 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
           : `'${searchTerm}' 검색 결과`}
       </S.NestedSidebarHeading>
 
-      <S.GroupItemCardContainer>
-        <ul>
+      <CS.GroupItemCardContainer>
+        <div>
           {searchResult.map((item: any, index: number) => (
             <SearchResultCard key={index} item={item} />
           ))}
-        </ul>
+        </div>
         {searchResult && searchResult.length > 0 && (
           <span ref={target} style={{ width: '100%', height: 30 }} />
         )}
-      </S.GroupItemCardContainer>
+      </CS.GroupItemCardContainer>
     </S.NestedSidebarContainer>
   );
 }
