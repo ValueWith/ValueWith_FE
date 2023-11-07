@@ -7,7 +7,6 @@ import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
 
 import { useGetRecommendedData } from '@/hooks/useRegist';
-import useMapSearch from '@/hooks/useMapSearch';
 
 function GroupRegistSchedule() {
   const [tripData, setTripData] = useState<any>([]);
