@@ -1,12 +1,7 @@
 import theme from '@/assets/styles/theme';
 import { selectedPlaceState } from '@/state/GroupRegistState';
 import { useEffect, useState } from 'react';
-import {
-  CustomOverlayMap,
-  Map,
-  MapMarker,
-  Polyline,
-} from 'react-kakao-maps-sdk';
+import { CustomOverlayMap, Map, Polyline } from 'react-kakao-maps-sdk';
 import { useRecoilState } from 'recoil';
 
 function KakaoMap() {
