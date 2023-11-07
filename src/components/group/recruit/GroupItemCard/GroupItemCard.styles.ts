@@ -1,15 +1,9 @@
 import styled from '@emotion/styled';
 import theme from '@assets/styles/theme';
 
-export const SearchResultCardContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  margin-top: 28px;
-`;
+export const GroupItemCardList = styled.ul``;
 
-export const SearchResultCardList = styled.ul``;
-
-export const SearchResultCard = styled.li`
+export const GroupItemCard = styled.li`
   display: flex;
   align-items: center;
   width: 100%;
@@ -30,13 +24,13 @@ export const SearchResultCard = styled.li`
   }
 `;
 
-export const SearchResultCardInfo = styled.div`
+export const GroupItemCardInfo = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
 `;
 
-export const SearchResultCardHeading = styled.h3`
+export const GroupItemCardHeading = styled.h3`
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 4px;
@@ -49,12 +43,12 @@ export const SearchResultDetailInfo = styled.div`
   color: ${theme.color.gray400};
 `;
 
-export const SearchResultCardCategory = styled.span`
+export const GroupItemCardCategory = styled.span`
   font-size: 13px;
   color: ${theme.color.gray400};
 `;
 
-export const SearchResultCardAddress = styled.span`
+export const GroupItemCardAddress = styled.span`
   font-size: 13px;
   color: ${theme.color.gray400};
   word-break: break-all;
