@@ -1,5 +1,7 @@
 import useMapSearch from '@/hooks/useMapSearch';
 import * as S from './NestedSidebar.styles';
+import SearchResultCard from '../SearchResultCard';
+import { useEffect, useState } from 'react';
 
 interface NestedSidebarStatusProps {
   status: boolean;
@@ -9,29 +11,29 @@ interface NestedSidebarStatusProps {
 interface NestedSidebarProps {
   option: NestedSidebarStatusProps;
   searchTerm: string;
-  data: any;
+  data?: any;
 }
 
-function NestedSidebar({ option, searchTerm, data }: NestedSidebarProps) {
-  console.log(data, 'data');
+function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
+  const [page, setPage] = useState<number>(1);
+  const { searchResult } = useMapSearch({ searchTerm, page });
 
-  const { searchResult } = useMapSearch({ searchTerm });
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm]);
+
+  const handlePage = () => {
+    setPage((page) => page + 1);
+  };
 
   return (
     <S.NestedSidebarContainer>
-      {option.status && (
-        <>
-          <S.NestedSidebarHeading>
-            {option.type === 'suggest'
-              ? '이런 곳은 어때요?'
-              : `"${searchTerm}" 검색 결과`}
-          </S.NestedSidebarHeading>
-
-          {searchResult.map((item: any, index: number) => {
-            return <div key={index}>{item.place_name}</div>;
-          })}
-        </>
-      )}
+      <S.NestedSidebarHeading>
+        {option.type === 'suggest'
+          ? '이런 곳은 어때요?'
+          : `'${searchTerm}' 검색 결과`}
+      </S.NestedSidebarHeading>
+      <SearchResultCard data={searchResult} handlePage={handlePage} />
     </S.NestedSidebarContainer>
   );
 }
