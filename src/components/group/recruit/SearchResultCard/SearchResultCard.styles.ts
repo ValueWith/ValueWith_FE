@@ -19,7 +19,7 @@ export const SearchResultCard = styled.li`
   border-radius: 4px;
   margin-bottom: 6px;
   background-color: #fff;
-  cursor: default;
+  cursor: pointer;
 
   &:last-of-type {
     margin-bottom: 0;
