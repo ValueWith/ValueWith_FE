@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@hello-pangea/dnd": "^16.3.0",
     "axios": "^1.5.1",
     "date-fns": "^2.30.0",
     "json-server": "^0.17.4",
