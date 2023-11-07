@@ -16,6 +16,9 @@ interface GroupItemCardProps {
 }
 
 function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
+  const isSearchType = type === 'search';
+  const key = isSearchType ? `search-${index}` : `registed-${index}`;
+  const categoryText = item.category_group_name || item.category || '기타';
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [mapOption, setMapOption] = useRecoilState(mapOptionState);
 
@@ -93,116 +96,70 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
     });
   };
 
+  const cardInfo = (
+    <S.GroupItemCardInfo>
+      <S.GroupItemCardHeading>
+        {item.place_name || item.name}
+      </S.GroupItemCardHeading>
+      <S.SearchResultDetailInfo>
+        <S.GroupItemCardCategory>{categoryText} · </S.GroupItemCardCategory>
+        <S.GroupItemCardAddress>
+          {item.address_name || item.address}
+        </S.GroupItemCardAddress>
+      </S.SearchResultDetailInfo>
+    </S.GroupItemCardInfo>
+  );
+
   return (
     <>
-      {type === 'search' ? (
+      {isSearchType ? (
         <S.GroupItemCard
-          key={`search-${index}`}
-          className={'search'}
+          key={key}
+          className="search"
           onClick={handleSelectCard}
         >
-          {/* 카드 정보 */}
-          <S.GroupItemCardInfo>
-            <S.GroupItemCardHeading>
-              {item.place_name || item.name}
-            </S.GroupItemCardHeading>
-            <S.SearchResultDetailInfo>
-              <S.GroupItemCardCategory>
-                {item.category_group_name
-                  ? item.category_group_name
-                  : item.category
-                  ? item.category
-                  : '기타'}
-              </S.GroupItemCardCategory>
-              &nbsp;&#183;&nbsp;
-              <S.GroupItemCardAddress>
-                {item.address_name || item.address}
-              </S.GroupItemCardAddress>
-            </S.SearchResultDetailInfo>
-          </S.GroupItemCardInfo>
-
-          {/* 추가 혹은 제거 버튼 */}
-          {type === 'search' ? (
-            <Button
-              type="button"
-              styleType="text"
-              style={{ minWidth: 'auto' }}
-              onClickHandler={() => handleRegistrationCard(event, item)}
-            >
-              추가
-            </Button>
-          ) : (
-            <Button
-              type="button"
-              styleType="text"
-              style={{
-                minWidth: 'auto',
-                fontSize: '13px',
-                color: '#FF0000',
-              }}
-              onClickHandler={() => handleCancelRegistration(event, item)}
-            >
-              일정 제거
-            </Button>
-          )}
+          {cardInfo}
+          <Button
+            type="button"
+            styleType="text"
+            style={{ minWidth: 'auto' }}
+            onClickHandler={() => handleRegistrationCard(event, item)}
+          >
+            추가
+          </Button>
         </S.GroupItemCard>
       ) : (
         <Draggable draggableId={`${index}-${item.id}`} index={index}>
           {(provided) => (
             <S.GroupItemCard
-              key={`registed-${index}`}
-              className={'registed'}
+              key={key}
+              className="registed"
               onClick={handleSelectCard}
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
-              {/* 카드 순서 */}
               {type === 'registed' && (
                 <S.GroupItemCardOrder>{index + 1}</S.GroupItemCardOrder>
               )}
 
-              {/* 카드 정보 */}
-              <S.GroupItemCardInfo>
-                <S.GroupItemCardHeading>
-                  {item.place_name || item.name}
-                </S.GroupItemCardHeading>
-                <S.SearchResultDetailInfo>
-                  <S.GroupItemCardCategory>
-                    {item.category_group_name
-                      ? item.category_group_name
-                      : item.category
-                      ? item.category
-                      : '기타'}
-                  </S.GroupItemCardCategory>
-                  &nbsp;&#183;&nbsp;
-                  <S.GroupItemCardAddress>
-                    {item.address_name || item.address}
-                  </S.GroupItemCardAddress>
-                </S.SearchResultDetailInfo>
-              </S.GroupItemCardInfo>
+              {cardInfo}
 
               <Button
                 type="button"
                 styleType="text"
-                style={{
-                  minWidth: 'auto',
-                  fontSize: '13px',
-                  color: '#FF0000',
-                }}
+                style={{ minWidth: 'auto', fontSize: '13px', color: '#FF0000' }}
                 onClickHandler={() => handleCancelRegistration(event, item)}
               >
                 일정 제거
               </Button>
-
-              {/* 출발지 지정 버튼 */}
               {type === 'registed' && (
                 <>
                   {index === 0 ? (
                     <S.SetDepartureButton
                       type="button"
                       style={{
-                        backgroundColor: `${theme.color.primary}`,
+                        backgroundColor: theme.color.primary,
                       }}
                       onClick={handleDeparture}
                     >
