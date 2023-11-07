@@ -5,7 +5,6 @@ import { RiFlag2Line, RiFlag2Fill } from 'react-icons/ri';
 import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
-import { forwardRef, useState } from 'react';
 
 import { Draggable } from '@hello-pangea/dnd';
 
@@ -22,7 +21,6 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
 
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [mapOption, setMapOption] = useRecoilState(mapOptionState);
-  const [backgroundType, setBackgroundType] = useState<string>('');
 
   function getOrderClassName(categoryText: string) {
     if (categoryText.includes('숙박')) {
