@@ -3,12 +3,15 @@ import { useEffect, useState } from 'react';
 import NestedSidebar from '../NestedSidebar';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
+import * as CS from '@components/group/recruit/GroupRegist.styles';
+
 import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
 
 import { useGetRecommendedData } from '@/hooks/useRegist';
 import { useRecoilState } from 'recoil';
 import { selectedPlaceState } from '@/state/GroupRegistState';
+import GroupItemCard from '../GroupItemCard';
 
 function GroupRegistSchedule() {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
@@ -75,6 +78,16 @@ function GroupRegistSchedule() {
           장소 추천 받기
         </Button>
       </div>
+
+      <CS.GroupItemCardContainer>
+        {selectedPlace.selectedPlace.map((item: any, index: any) => (
+          <GroupItemCard
+            key={`marker-${index}`}
+            item={item}
+            type={'registed'}
+          />
+        ))}
+      </CS.GroupItemCardContainer>
 
       {isNestedSidebar.status === true && (
         <NestedSidebar
