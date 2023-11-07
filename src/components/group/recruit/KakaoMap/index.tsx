@@ -1,17 +1,12 @@
 import theme from '@/assets/styles/theme';
-import { selectedPlaceState } from '@/state/GroupRegistState';
+import { mapOptionState, selectedPlaceState } from '@/state/GroupRegistState';
 import { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, Polyline } from 'react-kakao-maps-sdk';
 import { useRecoilState } from 'recoil';
 
 function KakaoMap() {
   const [selectedPlaceData] = useRecoilState(selectedPlaceState);
-
-  const [mapOptions, setMapOptions] = useState({
-    center: { lat: 33.450701, lng: 126.570667 },
-    level: 3,
-    isPanto: true,
-  });
+  const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
 
   useEffect(() => {
     if (navigator.geolocation) {

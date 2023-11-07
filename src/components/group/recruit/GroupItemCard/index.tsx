@@ -1,6 +1,4 @@
-import { useEffect, useRef } from 'react';
-
-import { selectedPlaceState } from '@/state/GroupRegistState';
+import { mapOptionState, selectedPlaceState } from '@/state/GroupRegistState';
 import { useRecoilState } from 'recoil';
 
 import Button from '@/components/Button';
@@ -14,11 +12,15 @@ interface GroupItemCardProps {
 
 function GroupItemCard({ key, item, type = 'search' }: GroupItemCardProps) {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
+  const [mapOption, setMapOption] = useRecoilState(mapOptionState);
 
   const handleSelectCard = () => {
     if (type === 'search') {
-      console.log('검색된 카드');
-      // 클릭시 해당 카드의 좌표로 카카오맵 이동
+      // 카드 클릭 시, 해당 장소로 지도 이동
+      setMapOption({
+        ...mapOption,
+        center: { lat: item.y, lng: item.x },
+      });
     } else {
       console.log('선택된 카드');
     }
