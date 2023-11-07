@@ -81,7 +81,7 @@ function GroupRegistInfo() {
   };
 
   return (
-    <S.GroupRegistContainer>
+    <S.GroupRegistContainer className="px-[28px] pt-[28px]">
       <form
         className="flex flex-col h-full"
         onSubmit={handleSubmit(onSubmit)}

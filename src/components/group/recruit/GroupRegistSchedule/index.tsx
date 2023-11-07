@@ -66,17 +66,17 @@ function GroupRegistSchedule() {
   };
 
   return (
-    <div className="relative h-full">
+    <div className="relative h-full flex flex-col">
       <S.GroupRegistContainer>
         {/* 검색창 */}
-        <div className="registGroup" style={{ position: 'sticky', top: '0' }}>
+        <div className="registGroup">
           <SearchBar
             onSearchTermChange={(term) => handleSearchTerm(term, 'search')}
           />
         </div>
 
         {/* 장소 추천  */}
-        <div className="flex justify-end items-center font-medium text-[15px]">
+        <div className="flex justify-end items-center font-medium text-[15px] px-[24px]">
           어디로 가야할지 모르겠다면?
           <Button
             type="button"
@@ -102,6 +102,7 @@ function GroupRegistSchedule() {
                 <>
                   {selectedPlace.selectedPlace.map((item: any, index: any) => (
                     <GroupItemCard
+                      key={`${index}-${item.id}`}
                       item={item}
                       index={index}
                       type={'registed'}
@@ -114,6 +115,22 @@ function GroupRegistSchedule() {
           </Droppable>
         </DragDropContext>
       </S.GroupRegistContainer>
+
+      <div className="flex flex-col mt-auto py-10 px-[24px]">
+        <Button
+          type="button"
+          styleType="outline"
+          fullWidth
+          style={{
+            marginBottom: '8px',
+          }}
+        >
+          최적경로 추천받기
+        </Button>
+        <Button type="button" fullWidth>
+          다음
+        </Button>
+      </div>
 
       {isNestedSidebar.status === true && (
         <NestedSidebar
