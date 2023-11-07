@@ -83,8 +83,9 @@ function GroupRegistSchedule() {
         <CS.GroupItemCardContainer>
           {selectedPlace.selectedPlace.map((item: any, index: any) => (
             <GroupItemCard
-              key={`marker-${index}`}
+              key={index}
               item={item}
+              index={index}
               type={'registed'}
             />
           ))}
