@@ -28,14 +28,6 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
       center: { lat: item.y, lng: item.x },
     });
   };
-  const handleSelectCard = () => {
-    if (type === 'search') {
-      // 카드 클릭 시, 해당 장소로 지도 이동
-      handleMapCenter();
-    } else {
-      console.log('선택된 카드');
-    }
-  };
 
   const handleDeparture = (event: any) => {
     event.stopPropagation();
@@ -113,11 +105,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
   return (
     <>
       {isSearchType ? (
-        <S.GroupItemCard
-          key={key}
-          className="search"
-          onClick={handleSelectCard}
-        >
+        <S.GroupItemCard key={key} className="search" onClick={handleMapCenter}>
           {cardInfo}
           <Button
             type="button"
@@ -134,7 +122,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
             <S.GroupItemCard
               key={key}
               className="registed"
-              onClick={handleSelectCard}
+              onClick={handleMapCenter}
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
