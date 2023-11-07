@@ -21,16 +21,19 @@ function SearchResultCard({ data, handlePage }: SearchResultCardProps) {
   });
 
   useEffect(() => {
-    if (target.current) {
-      observe(target.current);
+    const targetRef = target.current;
+    if (!targetRef) return;
+
+    if (target) {
+      observe(targetRef);
 
       return () => {
-        unobserve(target.current);
+        unobserve(targetRef);
       };
     }
 
     if (data.length === 0) {
-      unobserve(target.current);
+      unobserve(targetRef);
     }
   }, [data, target]);
 
@@ -39,12 +42,14 @@ function SearchResultCard({ data, handlePage }: SearchResultCardProps) {
 
     const selectedData = {
       id: item.id,
-      placeName: item.place_name,
+      name: item.place_name,
       address: item.address_name,
       category: item.category_group_name,
-      lat: item.x,
-      lng: item.y,
+      x: item.x,
+      y: item.y,
     };
+
+    console.log(selectedData, 'selectedData');
 
     // 선택한 장소가 이미 선택된 장소에 있는지 확인
     setSelectedPlace((prevSelectedPlace) => {
@@ -103,7 +108,9 @@ function SearchResultCard({ data, handlePage }: SearchResultCardProps) {
           </S.SearchResultCard>
         ))}
       </ul>
-      <span ref={target} style={{ width: '100%', height: 30 }} />
+      {data && data.length > 0 && (
+        <span ref={target} style={{ width: '100%', height: 30 }} />
+      )}
     </S.SearchResultCardContainer>
   );
 }
