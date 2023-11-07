@@ -41,7 +41,7 @@ function SearchResultCard({ data, handlePage }: SearchResultCardProps) {
     event.stopPropagation();
 
     const selectedData = {
-      id: item.id,
+      placeCode: item.id,
       name: item.place_name,
       address: item.address_name,
       category: item.category_group_name,
@@ -54,11 +54,11 @@ function SearchResultCard({ data, handlePage }: SearchResultCardProps) {
     // 선택한 장소가 이미 선택된 장소에 있는지 확인
     setSelectedPlace((prevSelectedPlace) => {
       const uniqueSelectedIds = new Set(
-        prevSelectedPlace.selectedPlace.map((item) => item.id)
+        prevSelectedPlace.selectedPlace.map((item) => item.placeCode)
       );
 
       // 이미 선택된 장소에 있다면 early return
-      if (uniqueSelectedIds.has(selectedData.id)) {
+      if (uniqueSelectedIds.has(selectedData.placeCode)) {
         return prevSelectedPlace;
       }
 

@@ -1,12 +1,12 @@
 import { atom } from 'recoil';
 
 export interface PlaceObjectModel {
-  id: string;
-  placeName: string;
+  placeCode: string;
+  name: string;
   address: string;
   category: string;
-  lat: number;
-  lng: number;
+  x: number;
+  y: number;
   place_url?: string;
 }
 export interface SelectedPlaceModel {
