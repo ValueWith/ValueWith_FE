@@ -43,7 +43,10 @@ export const SearchResultCardHeading = styled.h3`
 `;
 
 export const SearchResultDetailInfo = styled.div`
+  display: flex;
+  align-items: center;
   padding-right: 10px;
+  color: ${theme.color.gray400};
 `;
 
 export const SearchResultCardCategory = styled.span`

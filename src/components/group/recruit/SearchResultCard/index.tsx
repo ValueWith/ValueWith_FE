@@ -54,6 +54,7 @@ function SearchResultCard({ data, handlePage }: SearchResultCardProps) {
                 <S.SearchResultCardCategory>
                   {item.category_group_name}
                 </S.SearchResultCardCategory>
+                &nbsp;&#183;&nbsp;
                 <S.SearchResultCardAddress>
                   {item.address_name}
                 </S.SearchResultCardAddress>
