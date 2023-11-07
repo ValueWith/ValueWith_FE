@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import NestedSidebar from '../NestedSidebar';
 
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
 import * as CS from '@components/group/recruit/GroupRegist.styles';
@@ -32,7 +32,13 @@ function GroupRegistSchedule() {
   } = useGetRecommendedData(searchTerm);
 
   const onDragEnd = (result: any) => {
-    console.log('드래그 종료');
+    // 리스트 밖으로 드래그한 경우
+    if (!result.destination) return;
+
+    const reorderedData = Array.from(selectedPlace.selectedPlace);
+    const [movedItem] = reorderedData.splice(result.source.index, 1);
+    reorderedData.splice(result.destination.index, 0, movedItem);
+    setSelectedPlace({ selectedPlace: reorderedData });
   };
 
   const getSearchData = async () => {
@@ -93,20 +99,16 @@ function GroupRegistSchedule() {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {selectedPlace.selectedPlace.map((item: any, index: any) => (
-                  <Draggable draggableId={item.id} index={index} key={item.id}>
-                    {(provided) => (
-                      <GroupItemCard
-                        item={item}
-                        index={index}
-                        type={'registed'}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      />
-                    )}
-                  </Draggable>
-                ))}
+                <>
+                  {selectedPlace.selectedPlace.map((item: any, index: any) => (
+                    <GroupItemCard
+                      item={item}
+                      index={index}
+                      type={'registed'}
+                    />
+                  ))}
+                </>
+                {provided.placeholder}
               </CS.GroupItemCardContainer>
             )}
           </Droppable>

@@ -7,6 +7,8 @@ import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
 import { forwardRef } from 'react';
 
+import { Draggable } from '@hello-pangea/dnd';
+
 interface GroupItemCardProps {
   item: any;
   index: number;
@@ -92,79 +94,136 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
   };
 
   return (
-    <S.GroupItemCard
-      key={type === 'search' ? `search-${index}` : `registed-${index}`}
-      className={type === 'search' ? 'search' : 'registed'}
-      onClick={handleSelectCard}
-    >
-      {/* 카드 순서 */}
-      {type === 'registed' && (
-        <S.GroupItemCardOrder>{index + 1}</S.GroupItemCardOrder>
-      )}
-
-      {/* 카드 정보 */}
-      <S.GroupItemCardInfo>
-        <S.GroupItemCardHeading>
-          {item.place_name || item.name}
-        </S.GroupItemCardHeading>
-        <S.SearchResultDetailInfo>
-          <S.GroupItemCardCategory>
-            {item.category_group_name
-              ? item.category_group_name
-              : item.category
-              ? item.category
-              : '기타'}
-          </S.GroupItemCardCategory>
-          &nbsp;&#183;&nbsp;
-          <S.GroupItemCardAddress>
-            {item.address_name || item.address}
-          </S.GroupItemCardAddress>
-        </S.SearchResultDetailInfo>
-      </S.GroupItemCardInfo>
-
-      {/* 추가 혹은 제거 버튼 */}
+    <>
       {type === 'search' ? (
-        <Button
-          type="button"
-          styleType="text"
-          style={{ minWidth: 'auto' }}
-          onClickHandler={() => handleRegistrationCard(event, item)}
+        <S.GroupItemCard
+          key={`search-${index}`}
+          className={'search'}
+          onClick={handleSelectCard}
         >
-          추가
-        </Button>
-      ) : (
-        <Button
-          type="button"
-          styleType="text"
-          style={{ minWidth: 'auto', fontSize: '13px', color: '#FF0000' }}
-          onClickHandler={() => handleCancelRegistration(event, item)}
-        >
-          일정 제거
-        </Button>
-      )}
+          {/* 카드 정보 */}
+          <S.GroupItemCardInfo>
+            <S.GroupItemCardHeading>
+              {item.place_name || item.name}
+            </S.GroupItemCardHeading>
+            <S.SearchResultDetailInfo>
+              <S.GroupItemCardCategory>
+                {item.category_group_name
+                  ? item.category_group_name
+                  : item.category
+                  ? item.category
+                  : '기타'}
+              </S.GroupItemCardCategory>
+              &nbsp;&#183;&nbsp;
+              <S.GroupItemCardAddress>
+                {item.address_name || item.address}
+              </S.GroupItemCardAddress>
+            </S.SearchResultDetailInfo>
+          </S.GroupItemCardInfo>
 
-      {/* 출발지 지정 버튼 */}
-      {type === 'registed' && (
-        <>
-          {index === 0 ? (
-            <S.SetDepartureButton
+          {/* 추가 혹은 제거 버튼 */}
+          {type === 'search' ? (
+            <Button
               type="button"
-              style={{
-                backgroundColor: `${theme.color.primary}`,
-              }}
-              onClick={handleDeparture}
+              styleType="text"
+              style={{ minWidth: 'auto' }}
+              onClickHandler={() => handleRegistrationCard(event, item)}
             >
-              <RiFlag2Fill fill="#fff" size={14} />
-            </S.SetDepartureButton>
+              추가
+            </Button>
           ) : (
-            <S.SetDepartureButton type="button" onClick={handleDeparture}>
-              <RiFlag2Line fill="#c6c6c6" size={16} />
-            </S.SetDepartureButton>
+            <Button
+              type="button"
+              styleType="text"
+              style={{
+                minWidth: 'auto',
+                fontSize: '13px',
+                color: '#FF0000',
+              }}
+              onClickHandler={() => handleCancelRegistration(event, item)}
+            >
+              일정 제거
+            </Button>
           )}
-        </>
+        </S.GroupItemCard>
+      ) : (
+        <Draggable draggableId={`${index}-${item.id}`} index={index}>
+          {(provided) => (
+            <S.GroupItemCard
+              key={`registed-${index}`}
+              className={'registed'}
+              onClick={handleSelectCard}
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+            >
+              {/* 카드 순서 */}
+              {type === 'registed' && (
+                <S.GroupItemCardOrder>{index + 1}</S.GroupItemCardOrder>
+              )}
+
+              {/* 카드 정보 */}
+              <S.GroupItemCardInfo>
+                <S.GroupItemCardHeading>
+                  {item.place_name || item.name}
+                </S.GroupItemCardHeading>
+                <S.SearchResultDetailInfo>
+                  <S.GroupItemCardCategory>
+                    {item.category_group_name
+                      ? item.category_group_name
+                      : item.category
+                      ? item.category
+                      : '기타'}
+                  </S.GroupItemCardCategory>
+                  &nbsp;&#183;&nbsp;
+                  <S.GroupItemCardAddress>
+                    {item.address_name || item.address}
+                  </S.GroupItemCardAddress>
+                </S.SearchResultDetailInfo>
+              </S.GroupItemCardInfo>
+
+              <Button
+                type="button"
+                styleType="text"
+                style={{
+                  minWidth: 'auto',
+                  fontSize: '13px',
+                  color: '#FF0000',
+                }}
+                onClickHandler={() => handleCancelRegistration(event, item)}
+              >
+                일정 제거
+              </Button>
+
+              {/* 출발지 지정 버튼 */}
+              {type === 'registed' && (
+                <>
+                  {index === 0 ? (
+                    <S.SetDepartureButton
+                      type="button"
+                      style={{
+                        backgroundColor: `${theme.color.primary}`,
+                      }}
+                      onClick={handleDeparture}
+                    >
+                      <RiFlag2Fill fill="#fff" size={14} />
+                    </S.SetDepartureButton>
+                  ) : (
+                    <S.SetDepartureButton
+                      type="button"
+                      onClick={handleDeparture}
+                    >
+                      <RiFlag2Line fill="#c6c6c6" size={16} />
+                    </S.SetDepartureButton>
+                  )}
+                </>
+              )}
+            </S.GroupItemCard>
+          )}
+        </Draggable>
       )}
-    </S.GroupItemCard>
+    </>
   );
 }
 
-export default forwardRef(GroupItemCard);
+export default GroupItemCard;
