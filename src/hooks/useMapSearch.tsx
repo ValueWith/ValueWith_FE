@@ -19,11 +19,8 @@ function useMapSearch({ searchTerm, page = 1 }: MapSearchProps) {
         console.log('검색된 데이터', data);
         console.log(page, '페이지');
 
-        if (page === 1) {
-          setSearchResult(data);
-        } else {
-          setSearchResult([...searchResult, ...data]);
-        }
+        if (page === 1) setSearchResult(data);
+        else setSearchResult([...searchResult, ...data]);
 
         console.log(searchResult, '다합친 검색 데이터');
 
