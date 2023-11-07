@@ -54,40 +54,42 @@ function GroupRegistSchedule() {
   };
 
   return (
-    <S.GroupRegistContainer>
-      {/* 검색창 */}
-      <div className="registGroup">
-        <SearchBar
-          onSearchTermChange={(term) => handleSearchTerm(term, 'search')}
-        />
-      </div>
-
-      {/* 장소 추천  */}
-      <div className="flex justify-end items-center font-medium text-[15px]">
-        어디로 가야할지 모르겠다면?
-        <Button
-          type="button"
-          styleType="text"
-          className="ml-2"
-          style={{
-            minWidth: 'auto',
-            fontSize: '15px',
-          }}
-          onClickHandler={() => handleSearchTerm(searchTerm, 'suggest', true)}
-        >
-          장소 추천 받기
-        </Button>
-      </div>
-
-      <CS.GroupItemCardContainer>
-        {selectedPlace.selectedPlace.map((item: any, index: any) => (
-          <GroupItemCard
-            key={`marker-${index}`}
-            item={item}
-            type={'registed'}
+    <div className="relative h-full">
+      <S.GroupRegistContainer>
+        {/* 검색창 */}
+        <div className="registGroup" style={{ position: 'sticky', top: '0' }}>
+          <SearchBar
+            onSearchTermChange={(term) => handleSearchTerm(term, 'search')}
           />
-        ))}
-      </CS.GroupItemCardContainer>
+        </div>
+
+        {/* 장소 추천  */}
+        <div className="flex justify-end items-center font-medium text-[15px]">
+          어디로 가야할지 모르겠다면?
+          <Button
+            type="button"
+            styleType="text"
+            className="ml-2"
+            style={{
+              minWidth: 'auto',
+              fontSize: '15px',
+            }}
+            onClickHandler={() => handleSearchTerm(searchTerm, 'suggest', true)}
+          >
+            장소 추천 받기
+          </Button>
+        </div>
+
+        <CS.GroupItemCardContainer>
+          {selectedPlace.selectedPlace.map((item: any, index: any) => (
+            <GroupItemCard
+              key={`marker-${index}`}
+              item={item}
+              type={'registed'}
+            />
+          ))}
+        </CS.GroupItemCardContainer>
+      </S.GroupRegistContainer>
 
       {isNestedSidebar.status === true && (
         <NestedSidebar
@@ -96,7 +98,7 @@ function GroupRegistSchedule() {
           data={recommendedData}
         />
       )}
-    </S.GroupRegistContainer>
+    </div>
   );
 }
 

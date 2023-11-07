@@ -8,6 +8,7 @@ export const GroupRegistContainer = styled.div`
   height: 100%;
   padding: 28px 28px 0;
   border-right: 1px solid #e3e3e3;
+  overflow-y: auto;
 `;
 
 export const GroupRegistFormWrapper = styled.div`
@@ -18,6 +19,5 @@ export const GroupRegistFormWrapper = styled.div`
 
 export const GroupItemCardContainer = styled.div`
   width: 100%;
-  height: 100%;
   margin-top: 28px;
 `;
