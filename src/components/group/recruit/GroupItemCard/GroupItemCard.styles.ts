@@ -22,6 +22,21 @@ export const GroupItemCard = styled.div`
   }
 `;
 
+// TODO : 카테고리에 따라 색상 변경
+export const GroupItemCardOrder = styled.span`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 25px;
+  min-width: 25px;
+  height: 25px;
+  margin-right: 12px;
+  background-color: #f87973;
+  color: #fff;
+  font-size: 12px;
+`;
+
 export const GroupItemCardInfo = styled.div`
   display: flex;
   flex-direction: column;

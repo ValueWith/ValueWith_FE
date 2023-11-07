@@ -5,12 +5,12 @@ import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 
 interface GroupItemCardProps {
-  key: number | string;
   item: any;
+  index: number;
   type?: 'registed' | 'search';
 }
 
-function GroupItemCard({ key, item, type = 'search' }: GroupItemCardProps) {
+function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [mapOption, setMapOption] = useRecoilState(mapOptionState);
 
@@ -24,6 +24,19 @@ function GroupItemCard({ key, item, type = 'search' }: GroupItemCardProps) {
     } else {
       console.log('선택된 카드');
     }
+  };
+
+  const handleCancelRegistration = (event: any, item: any) => {
+    event.stopPropagation();
+
+    // 해당 카드를 제외하고 선택된 장소 배열을 다시 생성
+    setSelectedPlace((prevSelectedPlace) => {
+      return {
+        selectedPlace: prevSelectedPlace.selectedPlace.filter(
+          (selectedItem) => selectedItem.placeCode !== item.placeCode
+        ),
+      };
+    });
   };
 
   const handleRegistrationCard = (event: any, item: any) => {
@@ -58,7 +71,15 @@ function GroupItemCard({ key, item, type = 'search' }: GroupItemCardProps) {
   };
 
   return (
-    <S.GroupItemCard key={key} onClick={handleSelectCard}>
+    <S.GroupItemCard
+      key={type === 'search' ? `search-${index}` : `registed-${index}`}
+      onClick={handleSelectCard}
+    >
+      {/* 카드 순서 */}
+      {type === 'registed' && (
+        <S.GroupItemCardOrder>{index + 1}</S.GroupItemCardOrder>
+      )}
+
       {/* 카드 정보 */}
       <S.GroupItemCardInfo>
         <S.GroupItemCardHeading>
@@ -79,7 +100,7 @@ function GroupItemCard({ key, item, type = 'search' }: GroupItemCardProps) {
         </S.SearchResultDetailInfo>
       </S.GroupItemCardInfo>
 
-      {/* 추가 버튼 */}
+      {/* 추가 혹은 제거 버튼 */}
       {type === 'search' ? (
         <Button
           type="button"
@@ -89,7 +110,16 @@ function GroupItemCard({ key, item, type = 'search' }: GroupItemCardProps) {
         >
           추가
         </Button>
-      ) : null}
+      ) : (
+        <Button
+          type="button"
+          styleType="text"
+          style={{ minWidth: 'auto', fontSize: '13px', color: '#FF0000' }}
+          onClickHandler={() => handleCancelRegistration(event, item)}
+        >
+          일정 제거
+        </Button>
+      )}
     </S.GroupItemCard>
   );
 }
