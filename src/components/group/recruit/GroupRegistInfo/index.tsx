@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
-import { groupRegistState } from '@/state/GroupResistState';
+import { groupRegistState, selectedPlaceState } from '@/state/GroupRegistState';
 
 import Input from '@/components/Input';
 import DateInput from '@/components/DateInput';
@@ -50,6 +50,7 @@ const AREA_OPTION_LABEL = AREA_OPTION.map((item) => item.label);
 
 function GroupRegistInfo() {
   const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
+  const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
 
   const {
     register,

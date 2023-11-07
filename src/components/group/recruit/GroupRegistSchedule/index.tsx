@@ -7,9 +7,11 @@ import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
 
 import { useGetRecommendedData } from '@/hooks/useRegist';
+import { useRecoilState } from 'recoil';
+import { selectedPlaceState } from '@/state/GroupRegistState';
 
 function GroupRegistSchedule() {
-  const [tripData, setTripData] = useState<any>([]);
+  const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isNestedSidebar, setIsNestedSidebar] = useState({
     status: false,
