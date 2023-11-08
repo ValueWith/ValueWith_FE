@@ -11,11 +11,11 @@ import { Draggable } from '@hello-pangea/dnd';
 interface GroupItemCardProps {
   item: any;
   index: number;
-  type?: 'registed' | 'search';
+  type?: 'registed' | 'search' | 'suggest';
 }
 
 function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
-  const isSearchType = type === 'search';
+  const isSearchType = type === 'search' || type === 'suggest';
   const key = isSearchType ? `search-${index}` : `registed-${index}`;
   const categoryText = item.category_group_name || item.category || '기타';
 
@@ -45,7 +45,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
   const handleMapCenter = () => {
     setMapOption({
       ...mapOption,
-      center: { lat: item.y, lng: item.x },
+      center: { lat: item.y || item.mapy, lng: item.x || item.mapx },
     });
   };
 
@@ -83,12 +83,12 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
     event.stopPropagation();
 
     const selectedData = {
-      placeCode: item.id,
-      name: item.place_name,
-      address: item.address_name,
+      placeCode: item.id || item.contentid,
+      name: item.place_name || item.title,
+      address: item.address_name || item.addr1,
       category: item.category_group_name,
-      x: item.x,
-      y: item.y,
+      x: item.x || item.mapx,
+      y: item.y || item.mapy,
     };
 
     // 선택한 장소가 이미 선택된 장소에 있는지 확인
@@ -111,14 +111,14 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
   const cardInfo = (
     <S.GroupItemCardInfo>
       <S.GroupItemCardHeading>
-        {item.place_name || item.name}
+        {item.place_name || item.name || item.title}
       </S.GroupItemCardHeading>
       <S.SearchResultDetailInfo>
         <S.GroupItemCardCategory>
           {categoryText}&nbsp;·&nbsp;
         </S.GroupItemCardCategory>
         <S.GroupItemCardAddress>
-          {item.address_name || item.address}
+          {item.address_name || item.address || item.addr1}
         </S.GroupItemCardAddress>
       </S.SearchResultDetailInfo>
     </S.GroupItemCardInfo>
