@@ -13,15 +13,14 @@ interface NestedSidebarStatusProps {
 interface NestedSidebarProps {
   option: NestedSidebarStatusProps;
   searchTerm: string;
-  data?: any;
 }
 
 function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
   const target = useRef(null);
 
   const [page, setPage] = useState<number>(1);
-  const { searchResult } = useMapSearch({ searchTerm, page });
 
+  const { searchResult } = useMapSearch({ searchTerm, page });
   const [observe, unobserve] = useIntersectionObserver(() => {
     handlePage();
   });
@@ -48,6 +47,9 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
   }, [searchResult, target]);
 
   useEffect(() => {
+    if (option.type === 'search' && searchTerm === '')
+      return console.log('검색어 없음');
+
     setPage(1);
   }, [searchTerm]);
 
@@ -59,14 +61,23 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
           : `'${searchTerm}' 검색 결과`}
       </S.NestedSidebarHeading>
 
+      {/* 카드 컨테이너 */}
       <CS.GroupItemCardContainer>
-        <div>
-          {searchResult.map((item: any, index: number) => (
-            <SearchResultCard index={index} item={item} />
-          ))}
-        </div>
-        {searchResult && searchResult.length > 0 && (
-          <span ref={target} style={{ width: '100%', height: 30 }} />
+        {option.type === 'search' && searchResult.length !== 0 ? (
+          <>
+            <div>
+              {searchResult.map((item: any, index: number) => (
+                <SearchResultCard key={index} index={index} item={item} />
+              ))}
+            </div>
+            {searchResult && searchResult.length > 0 && (
+              <span ref={target} style={{ width: '100%', height: 30 }} />
+            )}
+          </>
+        ) : option.type === 'search' && searchResult.length === 0 ? (
+          <p>검색 결과가 없습니다 </p>
+        ) : (
+          '추천 데이터'
         )}
       </CS.GroupItemCardContainer>
     </S.NestedSidebarContainer>
