@@ -1,4 +1,7 @@
+import { useNavigate } from 'react-router-dom';
+import Logo from '@assets/TweaverLogo.svg?react';
 import * as S from './GroupNavSidebar.styles';
+import theme from '@/assets/styles/theme';
 
 const RECRUIT_STEP = [
   {
@@ -20,8 +23,16 @@ function GroupNavSidebar({
   selectedStep,
   onSelectedStep,
 }: GroupNavSidebarProps) {
+  const navigate = useNavigate();
+
   return (
     <S.RecruitSidebarContainer>
+      <Logo
+        color={theme.color.primary}
+        className="px-4 mb-[45px] cursor-pointer"
+        onClick={() => navigate('/')}
+      ></Logo>
+
       {RECRUIT_STEP.map((step) => (
         <S.RecruitSidebarNavWrapper
           key={step.id}

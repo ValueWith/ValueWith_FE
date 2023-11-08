@@ -4,6 +4,7 @@ import theme from '@assets/styles/theme';
 export const RecruitSidebarContainer = styled.aside`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 14px;
   width: 110px;
   min-width: 110px;
