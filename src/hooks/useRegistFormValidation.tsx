@@ -28,12 +28,6 @@ function useRegistFormValidation({
       trigger();
     }
 
-    // 그룹 지역이 빈 값이라면, input 태그가 아닌 항목의 폼 에러 여부를 true로 변경
-    if (groupFormData.groupArea === '') {
-      console.log('그룹 지역 빈 값');
-      return setIsFormError({ ...isFormError, groupArea: true });
-    }
-
     // 모집 마감 날짜가 있다면, 모집 마감 날짜가 여행 날짜보다 빠른지 검사
     if (data.recruitmentEndDate) {
       if (data.recruitmentEndDate > data.departureDate) {

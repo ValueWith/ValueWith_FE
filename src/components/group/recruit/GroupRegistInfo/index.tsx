@@ -49,11 +49,14 @@ function GroupRegistInfo() {
   const onSubmit = (data: any, event?: any) => {
     handleFormValidate(data, event);
 
-    // TODO : 지역 필터링 함수
-
     try {
       console.log('폼 제출', data);
       console.log('그룹 데이터 상태', groupFormData);
+      console.log('선택한 장소', selectedPlace.selectedPlace);
+
+      // TODO : 지역 필터링 함수
+
+      // TODO : API 호출 함수
     } catch (error) {
       console.log(error);
     }
