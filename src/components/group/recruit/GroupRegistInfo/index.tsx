@@ -5,7 +5,6 @@ import { groupRegistState, selectedPlaceState } from '@/state/GroupRegistState';
 
 import Input from '@/components/Input';
 import DateInput from '@/components/DateInput';
-import Dropdown from '@/components/Dropdown';
 import FileUploader from '@/components/uploader/FileUploader';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
@@ -26,28 +25,6 @@ const DATE_ATTRIBUTES = [
   },
 ];
 
-const AREA_OPTION = [
-  { label: '강원', value: 'gangwon' },
-  { label: '경기', value: 'gyeonggi' },
-  { label: '경남', value: 'gyeongnam' },
-  { label: '경북', value: 'gyeongbuk' },
-  { label: '대구', value: 'daegu' },
-  { label: '대전', value: 'daejeon' },
-  { label: '부산', value: 'busan' },
-  { label: '서울', value: 'seoul' },
-  { label: '세종', value: 'sejong' },
-  { label: '울산', value: 'ulsan' },
-  { label: '인천', value: 'incheon' },
-  { label: '전남', value: 'jeonnam' },
-  { label: '전북', value: 'jeonbuk' },
-  { label: '제주', value: 'jeju' },
-  { label: '충남', value: 'chungnam' },
-  { label: '충북', value: 'chungbuk' },
-];
-
-//areaOption에서 label만 뽑아서 배열로 만들기
-const AREA_OPTION_LABEL = AREA_OPTION.map((item) => item.label);
-
 function GroupRegistInfo() {
   const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
@@ -63,7 +40,7 @@ function GroupRegistInfo() {
     mode: 'onBlur',
   });
 
-  const { isFormError, handleFormValidate } = useRegistFormValidation({
+  const { handleFormValidate } = useRegistFormValidation({
     trigger,
     setError,
   });
@@ -71,6 +48,8 @@ function GroupRegistInfo() {
   // TODO : 폼 데이터 타입 정의
   const onSubmit = (data: any, event?: any) => {
     handleFormValidate(data, event);
+
+    // TODO : 지역 필터링 함수
 
     try {
       console.log('폼 제출', data);
@@ -105,21 +84,6 @@ function GroupRegistInfo() {
             errors={errors}
           ></DateInput>
         ))}
-
-        {/* 지역 선택 */}
-        <div className="mb-[24px]">
-          <p className="mb-[4px]">지역 선택 *</p>
-          <Dropdown
-            height="42px"
-            listData={AREA_OPTION_LABEL}
-            placeholder={'지역을 선택해주세요'}
-            selectedItem={groupFormData.groupArea}
-            onSelectItem={(item) =>
-              setGroupFormData({ ...groupFormData, groupArea: item })
-            }
-            error={isFormError.groupArea}
-          />
-        </div>
 
         {/* 모집 인원 */}
         <Input
