@@ -7,7 +7,8 @@ import {
   CATEGORY_LABEL,
 } from '@/constants/area';
 import useMapSearch from '@/hooks/useMapSearch';
-import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import { useInView } from 'react-intersection-observer';
+
 import { useGetSuggestionData } from '@/hooks/useRegist';
 
 import SearchResultCard from '../GroupItemCard';
@@ -40,21 +41,25 @@ const findCodeByLabel = (type: 'area' | 'category', label: string) => {
 };
 
 function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
-  const target = useRef(null);
-  const target2 = useRef(null);
-
   const [page, setPage] = useState<number>(1);
   const [suggestionPage, setSuggestionPage] = useState<number>(1);
   const [selectedLabelIndex, setSelectedLabelIndex] = useState(0);
   const [suggestionArea, setSuggestionArea] = useState('서울');
   const [category, setCategory] = useState('전체');
-  const [observe, unobserve] = useIntersectionObserver(() => {
-    handlePage();
+
+  const [ref, inView] = useInView({
+    threshold: 0.5, // 가시성이 50% 이상일 때 트리거
+    onChange: (inView) => {
+      if (inView) {
+        handlePage();
+      }
+    },
   });
 
   const { searchResult } = useMapSearch({ searchTerm, page });
   const { isTourLoading, isTourError, isTourSuccess, suggestionData } =
     useGetSuggestionData({
+      type: option.type,
       page: suggestionPage,
       areaCode: findCodeByLabel('area', suggestionArea),
       categoryCode: findCodeByLabel('category', category),
@@ -73,49 +78,23 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
     setCategory(category);
   };
 
-  useEffect(() => {
-    const targetRef = target.current;
-    if (!targetRef) return;
-
-    if (target) {
-      observe(targetRef);
-
-      return () => {
-        unobserve(targetRef);
-      };
-    }
-
-    if (searchResult.length === 0) {
-      unobserve(targetRef);
-    }
-  }, [searchResult, target]);
-
-  useEffect(() => {
-    const targetRef = target2.current;
-    if (!targetRef) return;
-
-    if (target2) {
-      observe(targetRef);
-
-      return () => {
-        unobserve(targetRef);
-      };
-    }
-
-    if (suggestionData.length === 0) {
-      unobserve(targetRef);
-    }
-  }, [suggestionData, target]);
-
   // 추천 사이드바에서 지역이 바뀔 때, 카테고리가 바뀔 때마다 데이터 요청
   useEffect(() => {
     handleSuggestions(category, selectedLabelIndex);
   }, [category, suggestionArea]);
 
   useEffect(() => {
-    setPage(1);
+    if (option.type === 'search') {
+      setSuggestionPage(1);
+    } else {
+      setPage(1);
+    }
+  }, [option.type]);
+
+  useEffect(() => {
+    // 카테고리랑 지역이 바뀔 때마다 페이지를 1로 초기화
     setSuggestionPage(1);
-  }, [option.type, category, suggestionArea]);
+  }, [category, suggestionArea]);
 
   return (
     <S.NestedSidebarContainer>
@@ -159,11 +138,18 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
           <p>검색 결과가 없습니다</p>
         ) : (
           <div>
-            {option.type === 'search'
-              ? searchResult.map((item: any, index: number) => (
+            {option.type === 'search' ? (
+              <>
+                {searchResult.map((item: any, index: number) => (
                   <SearchResultCard key={index} index={index} item={item} />
-                ))
-              : suggestionData.map((item: any, index: number) => (
+                ))}
+                {searchResult && searchResult.length > 0 && (
+                  <span ref={ref} style={{ width: '100%', height: 30 }} />
+                )}
+              </>
+            ) : (
+              <>
+                {suggestionData.map((item: any, index: number) => (
                   <SearchResultCard
                     key={index}
                     type={'suggest'}
@@ -171,13 +157,10 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
                     item={item}
                   />
                 ))}
-            {((searchResult && searchResult.length > 0) ||
-              (suggestionData && suggestionData.length > 0)) && (
-              <span
-                ref={option.type === 'suggest' ? target2 : target}
-                className={option.type === 'suggest' ? 'target2' : ''}
-                style={{ width: '100%', height: 30 }}
-              />
+                {suggestionData && suggestionData.length > 0 && (
+                  <span ref={ref} style={{ width: '100%', height: 30 }} />
+                )}
+              </>
             )}
             {option.type === 'suggest' && isTourLoading && <Loader />}
           </div>
