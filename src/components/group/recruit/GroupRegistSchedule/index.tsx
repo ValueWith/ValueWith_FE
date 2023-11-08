@@ -10,7 +10,6 @@ import * as CS from '@components/group/recruit/GroupRegist.styles';
 import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
 
-import { useGetRecommendedData } from '@/hooks/useRegist';
 import { useRecoilState } from 'recoil';
 import { selectedPlaceState } from '@/state/GroupRegistState';
 import GroupItemCard from '../GroupItemCard';
@@ -23,14 +22,6 @@ function GroupRegistSchedule() {
     type: 'search', // 'suggest' | 'search'
   });
 
-  const {
-    isTourLoading,
-    isTourError,
-    isTourSuccess,
-    TourRefetch,
-    recommendedData,
-  } = useGetRecommendedData(searchTerm);
-
   const onDragEnd = (result: any) => {
     // 리스트 밖으로 드래그한 경우
     if (!result.destination) return;
@@ -41,16 +32,6 @@ function GroupRegistSchedule() {
     setSelectedPlace({ selectedPlace: reorderedData });
   };
 
-  const getSearchData = async () => {
-    try {
-      if (isNestedSidebar.type === 'suggest') {
-        TourRefetch();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleSearchTerm = async (term: string, type: 'suggest' | 'search') => {
     setIsNestedSidebar({
       type: type,
@@ -58,8 +39,6 @@ function GroupRegistSchedule() {
     });
 
     setSearchTerm(term);
-
-    await getSearchData();
   };
 
   return (
@@ -131,12 +110,9 @@ function GroupRegistSchedule() {
         </Button>
       </div>
 
+      {/* 추천 / 검색 사이드바 2depth */}
       {isNestedSidebar.status === true && (
-        <NestedSidebar
-          option={isNestedSidebar}
-          searchTerm={searchTerm}
-          data={recommendedData}
-        />
+        <NestedSidebar option={isNestedSidebar} searchTerm={searchTerm} />
       )}
     </div>
   );
