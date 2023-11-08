@@ -62,7 +62,7 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
       <CS.GroupItemCardContainer>
         <div>
           {searchResult.map((item: any, index: number) => (
-            <SearchResultCard key={index} item={item} />
+            <SearchResultCard index={index} item={item} />
           ))}
         </div>
         {searchResult && searchResult.length > 0 && (
