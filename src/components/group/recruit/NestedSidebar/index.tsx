@@ -7,6 +7,7 @@ import SearchResultCard from '../GroupItemCard';
 import { useEffect, useState, useRef } from 'react';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 import SuggestLabel from '../SuggestLabel';
+import Dropdown from '@/components/Dropdown';
 
 interface NestedSidebarStatusProps {
   status: boolean;
@@ -17,6 +18,27 @@ interface NestedSidebarProps {
   option: NestedSidebarStatusProps;
   searchTerm: string;
 }
+
+const AREA_OPTION = [
+  { label: '강원', value: 'gangwon' },
+  { label: '경기', value: 'gyeonggi' },
+  { label: '경남', value: 'gyeongnam' },
+  { label: '경북', value: 'gyeongbuk' },
+  { label: '대구', value: 'daegu' },
+  { label: '대전', value: 'daejeon' },
+  { label: '부산', value: 'busan' },
+  { label: '서울', value: 'seoul' },
+  { label: '세종', value: 'sejong' },
+  { label: '울산', value: 'ulsan' },
+  { label: '인천', value: 'incheon' },
+  { label: '전남', value: 'jeonnam' },
+  { label: '전북', value: 'jeonbuk' },
+  { label: '제주', value: 'jeju' },
+  { label: '충남', value: 'chungnam' },
+  { label: '충북', value: 'chungbuk' },
+];
+
+const AREA_OPTION_LABEL = AREA_OPTION.map((item) => item.label);
 
 const LABELS = [
   '전체',
@@ -34,6 +56,9 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
 
   const [page, setPage] = useState<number>(1);
   const [selectedLabelIndex, setSelectedLabelIndex] = useState(0);
+  const [suggestionArea, setSuggestionArea] = useState<string>(
+    AREA_OPTION_LABEL[7]
+  );
 
   const { searchResult } = useMapSearch({ searchTerm, page });
   const [observe, unobserve] = useIntersectionObserver(() => {
@@ -75,9 +100,21 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
   return (
     <S.NestedSidebarContainer>
       <S.NestedSidebarHeading>
-        {option.type === 'suggest'
-          ? '이런 곳은 어때요?'
-          : `'${searchTerm}' 검색 결과`}
+        {option.type === 'suggest' ? (
+          <>
+            {/* 지역 드롭다운 */}
+            <Dropdown
+              height="42px"
+              styleType="text"
+              listData={AREA_OPTION_LABEL}
+              selectedItem={suggestionArea}
+              onSelectItem={(item) => setSuggestionArea(item)}
+            />
+            에서 이런 곳은 어때요?
+          </>
+        ) : (
+          `'${searchTerm}' 검색 결과`
+        )}
       </S.NestedSidebarHeading>
 
       {/* 추천 검색 선택 */}
