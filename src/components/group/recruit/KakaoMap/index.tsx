@@ -13,6 +13,8 @@ function KakaoMap() {
   const [selectedPlaceData] = useRecoilState(selectedPlaceState);
   const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
 
+  console.log(selectedPlaceData.selectedPlace, '맵 마커 데이터');
+
   // 맵 마커는 selectedPlaceData.selectedPlace에 없을 때만 렌더링
   const shouldRenderMapMarker = selectedPlaceData.selectedPlace.every(
     (item) => {
@@ -21,6 +23,27 @@ function KakaoMap() {
       );
     }
   );
+
+  const getMarkerBackground = (category: string) => {
+    if (category.includes('숙박')) {
+      return '#34a01a';
+    } else if (
+      category.includes('음식점') ||
+      category.includes('카페') ||
+      category.includes('식당')
+    ) {
+      return '#ffc645';
+    } else if (
+      category.includes('관광') ||
+      category.includes('문화') ||
+      category.includes('역사') ||
+      category.includes('행사')
+    ) {
+      return '#4196f9';
+    } else {
+      return '#f87973';
+    }
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -59,7 +82,7 @@ function KakaoMap() {
             style={{
               width: '30px',
               height: '30px',
-              background: '#ff0000',
+              background: getMarkerBackground(item.category),
               borderRadius: '50%',
               display: 'flex',
               justifyContent: 'center',

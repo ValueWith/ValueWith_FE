@@ -57,7 +57,6 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
     setMapOption({
       ...mapOption,
       center: { lat: item.y || item.mapy, lng: item.x || item.mapx },
-      category: categoryText,
     });
   };
 
@@ -98,7 +97,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
       placeCode: item.id || item.contentid,
       name: item.place_name || item.title,
       address: item.address_name || item.addr1,
-      category: item.category_group_name,
+      category: categoryText,
       x: item.x || item.mapx,
       y: item.y || item.mapy,
     };
