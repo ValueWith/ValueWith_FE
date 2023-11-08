@@ -85,7 +85,7 @@ function KakaoMap() {
             lat: item.y,
             lng: item.x,
           }))}
-          strokeColor={theme.color.red100}
+          strokeColor={theme.color.primary}
           strokeOpacity={1}
           strokeWeight={5}
         />
