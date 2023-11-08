@@ -1,25 +1,40 @@
 import { useQuery } from 'react-query';
-import { getRecommendedData } from '@/apis/regist';
+import { SuggestionsModel, getSuggestionData } from '@/apis/regist';
 import { useEffect, useState } from 'react';
 
-// TourAPI로 검색
-export const useGetRecommendedData = (params: string) => {
-  const [recommendedData, setRecommendedData] = useState([]);
+// TODO : params 타입 정의
+export const useGetSuggestionData = (params: SuggestionsModel) => {
+  const [suggestionData, setSuggestionData] = useState<any>([]);
+  const [prevCategory, setPrevCategory] = useState<number | null>(null);
+  const [prevArea, setPrevArea] = useState<number | null>(null);
 
   const {
     isLoading: isTourLoading,
     isError: isTourError,
     isSuccess: isTourSuccess,
     data: TourState,
-    refetch: TourRefetch,
-  } = useQuery(['tourData', params], () => getRecommendedData(params), {
+  } = useQuery(['tourData', params], () => getSuggestionData(params), {
     refetchOnWindowFocus: false,
-    enabled: false,
+    cacheTime: Infinity,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
     if (isTourSuccess) {
-      setRecommendedData(TourState?.data?.response?.body?.items.item || []);
+      const data = TourState?.data?.response?.body?.items.item || [];
+      console.log(data);
+
+      if (prevCategory !== params.categoryCode) {
+        setSuggestionData(data);
+      } else {
+        if (prevArea !== params.areaCode) {
+          setSuggestionData(data);
+        } else {
+          setSuggestionData([...suggestionData, ...data]);
+        }
+      }
+      setPrevCategory(params.categoryCode);
+      setPrevArea(params.areaCode);
     }
   }, [isTourSuccess, TourState]);
 
@@ -27,8 +42,6 @@ export const useGetRecommendedData = (params: string) => {
     isTourLoading,
     isTourError,
     isTourSuccess,
-    TourState,
-    TourRefetch,
-    recommendedData,
+    suggestionData,
   };
 };
