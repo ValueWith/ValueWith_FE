@@ -47,6 +47,14 @@ const handleButtonType = (props: ButtonCSSProps) => {
         color: ${theme.color.primary};
         border: 1px solid ${theme.color.primary};
       `;
+    case 'outline-disabled':
+      return css`
+        background-color: ${theme.color.white};
+        color: ${theme.color.gray500};
+        border: 1px solid ${theme.color.gray100};
+        pointer-events: none;
+        cursor: default;
+      `;
     case 'disabled':
       return css`
         background-color: ${theme.color.gray100};
