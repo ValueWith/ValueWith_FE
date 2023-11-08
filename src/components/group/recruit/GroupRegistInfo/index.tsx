@@ -35,7 +35,7 @@ function GroupRegistInfo() {
     control,
     trigger,
     setError,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onBlur',
   });
@@ -134,7 +134,9 @@ function GroupRegistInfo() {
         />
 
         <div className="flex mt-auto py-10">
-          <Button fullWidth>그룹 모집하기</Button>
+          <Button styleType={isValid ? 'solid' : 'disabled'} fullWidth>
+            그룹 모집하기
+          </Button>
         </div>
       </form>
     </S.GroupRegistContainer>
