@@ -5,6 +5,7 @@ import Login from './pages/user/Login';
 import Home from './pages/Home';
 import GroupMain from './pages/group/GroupMain';
 import GroupRecruit from './pages/group/GroupRecruit';
+import MyLounge from './pages/MyLounge';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
         // 회원가입 페이지
         path: '/signup',
         element: <Signup />,
+      },
+      {
+        path: '/mylounge',
+        element: <MyLounge />,
       },
     ],
   },
