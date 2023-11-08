@@ -20,6 +20,7 @@ import Loader from '@/components/Loader';
 import * as S from './NestedSidebar.styles';
 import * as GS from '@components/group/recruit/GroupRegist.styles';
 import * as SC from '@components/group/recruit/SuggestLabel/SuggestLabel.styles';
+import NoResult from '../NoResult';
 
 interface NestedSidebarStatusProps {
   status: boolean;
@@ -120,9 +121,17 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
       {/* 카드 컨테이너 */}
       <GS.GroupItemCardContainer>
         {option.type === 'search' && searchResult.length === 0 ? (
-          <p>검색 결과가 없습니다</p>
+          <NoResult>
+            검색 결과가 없어요
+            <br />
+            다른 키워드로 검색해보세요
+          </NoResult>
         ) : option.type === 'suggest' && suggestionData.length === 0 ? (
-          <p>검색 결과가 없습니다</p>
+          <NoResult>
+            검색 결과가 없어요
+            <br />
+            다른 키워드로 검색해보세요
+          </NoResult>
         ) : (
           <div>
             {option.type === 'search' ? (

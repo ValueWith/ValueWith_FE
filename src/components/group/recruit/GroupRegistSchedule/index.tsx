@@ -13,6 +13,7 @@ import Button from '@/components/Button';
 import { useRecoilState } from 'recoil';
 import { selectedPlaceState } from '@/state/GroupRegistState';
 import GroupItemCard from '../GroupItemCard';
+import NoResult from '../NoResult';
 
 function GroupRegistSchedule() {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
@@ -70,28 +71,38 @@ function GroupRegistSchedule() {
           </Button>
         </div>
 
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="one">
-            {(provided) => (
-              <CS.GroupItemCardContainer
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                <>
-                  {selectedPlace.selectedPlace.map((item: any, index: any) => (
-                    <GroupItemCard
-                      key={`${index}-${item.id}`}
-                      item={item}
-                      index={index}
-                      type={'registed'}
-                    />
-                  ))}
-                </>
-                {provided.placeholder}
-              </CS.GroupItemCardContainer>
-            )}
-          </Droppable>
-        </DragDropContext>
+        {selectedPlace.selectedPlace.length > 0 ? (
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="one">
+              {(provided) => (
+                <CS.GroupItemCardContainer
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  <>
+                    {selectedPlace.selectedPlace.map(
+                      (item: any, index: any) => (
+                        <GroupItemCard
+                          key={`${index}-${item.id}`}
+                          item={item}
+                          index={index}
+                          type={'registed'}
+                        />
+                      )
+                    )}
+                  </>
+                  {provided.placeholder}
+                </CS.GroupItemCardContainer>
+              )}
+            </Droppable>
+          </DragDropContext>
+        ) : (
+          <NoResult>
+            등록한 일정이 없어요
+            <br />
+            Tweaver에 일정을 등록하고 함께할 사람을 찾아보세요!
+          </NoResult>
+        )}
       </S.GroupRegistContainer>
 
       <div className="flex flex-col mt-auto py-10 px-[24px]">
