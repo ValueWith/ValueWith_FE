@@ -1,12 +1,15 @@
-import { mapOptionState, selectedPlaceState } from '@/state/GroupRegistState';
+import { Draggable } from '@hello-pangea/dnd';
+
 import { useRecoilState } from 'recoil';
+import { mapOptionState, selectedPlaceState } from '@/state/GroupRegistState';
+
+import { findLabelByCode } from '@/utils/findCodeByLabel';
+import { CATEGORY_OPTION } from '@/constants/area';
 
 import { RiFlag2Line, RiFlag2Fill } from 'react-icons/ri';
 import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
-
-import { Draggable } from '@hello-pangea/dnd';
 
 interface GroupItemCardProps {
   item: any;
@@ -17,7 +20,14 @@ interface GroupItemCardProps {
 function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
   const isSearchType = type === 'search' || type === 'suggest';
   const key = isSearchType ? `search-${index}` : `registed-${index}`;
-  const categoryText = item.category_group_name || item.category || '기타';
+  const suggestCategory = findLabelByCode(
+    'category',
+    Number(item.contenttypeid),
+    CATEGORY_OPTION
+  );
+
+  const categoryText =
+    item.category_group_name || item.category || suggestCategory || '기타';
 
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [mapOption, setMapOption] = useRecoilState(mapOptionState);
@@ -34,7 +44,8 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
     } else if (
       categoryText.includes('관광') ||
       categoryText.includes('문화') ||
-      categoryText.includes('역사')
+      categoryText.includes('역사') ||
+      categoryText.includes('행사')
     ) {
       return 'attraction';
     } else {
