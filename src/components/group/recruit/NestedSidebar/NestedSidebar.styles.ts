@@ -22,4 +22,5 @@ export const NestedSidebarContainer = styled.div`
 export const NestedSidebarHeading = styled.h2`
   font-size: 28px;
   padding: 0 28px;
+  font-weight: 500;
 `;
