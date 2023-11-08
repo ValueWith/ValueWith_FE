@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import {
   AREA_OPTION,
@@ -6,19 +7,19 @@ import {
   CATEGORY_OPTION,
   CATEGORY_LABEL,
 } from '@/constants/area';
-import useMapSearch from '@/hooks/useMapSearch';
-import { useInView } from 'react-intersection-observer';
 
+import useMapSearch from '@/hooks/useMapSearch';
 import { useGetSuggestionData } from '@/hooks/useRegist';
+import { findCodeByLabel } from '@/utils/findCodeByLabel';
 
 import SearchResultCard from '../GroupItemCard';
 import SuggestLabel from '../SuggestLabel';
 import Dropdown from '@/components/Dropdown';
+import Loader from '@/components/Loader';
 
 import * as S from './NestedSidebar.styles';
 import * as GS from '@components/group/recruit/GroupRegist.styles';
 import * as SC from '@components/group/recruit/SuggestLabel/SuggestLabel.styles';
-import Loader from '@/components/Loader';
 
 interface NestedSidebarStatusProps {
   status: boolean;
@@ -29,16 +30,6 @@ interface NestedSidebarProps {
   option: NestedSidebarStatusProps;
   searchTerm: string;
 }
-
-const findCodeByLabel = (type: 'area' | 'category', label: string) => {
-  if (type === 'area') {
-    const area = AREA_OPTION.find((item) => item.label === label);
-    return area ? area.code : null;
-  } else {
-    const category = CATEGORY_OPTION.find((item) => item.label === label);
-    return category ? category.code : null;
-  }
-};
 
 function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
   const [page, setPage] = useState<number>(1);
@@ -61,8 +52,8 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
     useGetSuggestionData({
       type: option.type,
       page: suggestionPage,
-      areaCode: findCodeByLabel('area', suggestionArea),
-      categoryCode: findCodeByLabel('category', category),
+      areaCode: findCodeByLabel('area', suggestionArea, AREA_OPTION),
+      categoryCode: findCodeByLabel('category', category, CATEGORY_OPTION),
     });
 
   const handlePage = () => {
@@ -73,6 +64,7 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
     }
   };
 
+  // 카테고리 선택 시, 라벨 인덱스 변경 및 카테고리 변경
   const handleSuggestions = async (category: string, index: number) => {
     setSelectedLabelIndex(index);
     setCategory(category);
@@ -80,6 +72,7 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
 
   // 추천 사이드바에서 지역이 바뀔 때, 카테고리가 바뀔 때마다 데이터 요청
   useEffect(() => {
+    setSuggestionPage(1);
     handleSuggestions(category, selectedLabelIndex);
   }, [category, suggestionArea]);
 
@@ -90,11 +83,6 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
       setPage(1);
     }
   }, [option.type]);
-
-  useEffect(() => {
-    // 카테고리랑 지역이 바뀔 때마다 페이지를 1로 초기화
-    setSuggestionPage(1);
-  }, [category, suggestionArea]);
 
   return (
     <S.NestedSidebarContainer>
