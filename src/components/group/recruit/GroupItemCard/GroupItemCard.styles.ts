@@ -67,20 +67,21 @@ export const GroupItemCardHeading = styled.h3`
 
 export const SearchResultDetailInfo = styled.div`
   display: flex;
-  align-items: center;
+  align-items: top;
   padding-right: 10px;
   color: ${theme.color.gray400};
 `;
 
 export const GroupItemCardCategory = styled.span`
   font-size: 13px;
+  white-space: nowrap;
   color: ${theme.color.gray400};
 `;
 
 export const GroupItemCardAddress = styled.span`
   font-size: 13px;
   color: ${theme.color.gray400};
-  word-break: break-all;
+  word-break: keep-all;
   word-wrap: break-word;
 `;
 
