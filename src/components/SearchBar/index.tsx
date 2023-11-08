@@ -26,6 +26,8 @@ function SearchBar({ style, onSearchTermChange }: SearchBarProps) {
       | React.KeyboardEvent<HTMLInputElement>
       | React.MouseEvent<HTMLSpanElement>
   ) => {
+    if (!searchValue) return;
+
     if ('key' in event && event.key === 'Enter') {
       onSearchTermChange(searchValue);
     } else if ('type' in event && event.type === 'click') {
