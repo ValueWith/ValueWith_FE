@@ -19,3 +19,40 @@ export const AREA_OPTION = [
 ];
 
 export const AREA_OPTION_LABEL = AREA_OPTION.map((item) => item.label);
+
+export const CATEGORY_OPTION = [
+  {
+    label: '전체',
+    code: null,
+  },
+  {
+    label: '관광지',
+    code: 12,
+  },
+  {
+    label: '음식점',
+    code: 39,
+  },
+  {
+    label: '문화시설',
+    code: 14,
+  },
+  {
+    label: '축제공연행사',
+    code: 15,
+  },
+  {
+    label: '레포츠',
+    code: 28,
+  },
+  {
+    label: '숙박',
+    code: 32,
+  },
+  {
+    label: '쇼핑',
+    code: 38,
+  },
+];
+
+export const CATEGORY_LABEL = CATEGORY_OPTION.map((item) => item.label);
