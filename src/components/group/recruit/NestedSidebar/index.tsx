@@ -1,13 +1,23 @@
+import { useEffect, useState, useRef } from 'react';
+
+import {
+  AREA_OPTION,
+  AREA_OPTION_LABEL,
+  CATEGORY_OPTION,
+  CATEGORY_LABEL,
+} from '@/constants/area';
 import useMapSearch from '@/hooks/useMapSearch';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
+import { useGetSuggestionData } from '@/hooks/useRegist';
+
+import SearchResultCard from '../GroupItemCard';
+import SuggestLabel from '../SuggestLabel';
+import Dropdown from '@/components/Dropdown';
+
 import * as S from './NestedSidebar.styles';
 import * as GS from '@components/group/recruit/GroupRegist.styles';
 import * as SC from '@components/group/recruit/SuggestLabel/SuggestLabel.styles';
-
-import SearchResultCard from '../GroupItemCard';
-import { useEffect, useState, useRef } from 'react';
-import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import SuggestLabel from '../SuggestLabel';
-import Dropdown from '@/components/Dropdown';
+import Loader from '@/components/Loader';
 
 interface NestedSidebarStatusProps {
   status: boolean;
@@ -19,58 +29,48 @@ interface NestedSidebarProps {
   searchTerm: string;
 }
 
-const AREA_OPTION = [
-  { label: '강원', value: 'gangwon' },
-  { label: '경기', value: 'gyeonggi' },
-  { label: '경남', value: 'gyeongnam' },
-  { label: '경북', value: 'gyeongbuk' },
-  { label: '대구', value: 'daegu' },
-  { label: '대전', value: 'daejeon' },
-  { label: '부산', value: 'busan' },
-  { label: '서울', value: 'seoul' },
-  { label: '세종', value: 'sejong' },
-  { label: '울산', value: 'ulsan' },
-  { label: '인천', value: 'incheon' },
-  { label: '전남', value: 'jeonnam' },
-  { label: '전북', value: 'jeonbuk' },
-  { label: '제주', value: 'jeju' },
-  { label: '충남', value: 'chungnam' },
-  { label: '충북', value: 'chungbuk' },
-];
-
-const AREA_OPTION_LABEL = AREA_OPTION.map((item) => item.label);
-
-const LABELS = [
-  '전체',
-  '관광지',
-  '음식점',
-  '문화시설',
-  '축제공연행사',
-  '레포츠',
-  '숙박',
-  '쇼핑',
-];
+const findCodeByLabel = (type: 'area' | 'category', label: string) => {
+  if (type === 'area') {
+    const area = AREA_OPTION.find((item) => item.label === label);
+    return area ? area.code : null;
+  } else {
+    const category = CATEGORY_OPTION.find((item) => item.label === label);
+    return category ? category.code : null;
+  }
+};
 
 function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
   const target = useRef(null);
+  const target2 = useRef(null);
 
   const [page, setPage] = useState<number>(1);
+  const [suggestionPage, setSuggestionPage] = useState<number>(1);
   const [selectedLabelIndex, setSelectedLabelIndex] = useState(0);
-  const [suggestionArea, setSuggestionArea] = useState<string>(
-    AREA_OPTION_LABEL[7]
-  );
-
-  const { searchResult } = useMapSearch({ searchTerm, page });
+  const [suggestionArea, setSuggestionArea] = useState('서울');
+  const [category, setCategory] = useState('전체');
   const [observe, unobserve] = useIntersectionObserver(() => {
     handlePage();
   });
 
+  const { searchResult } = useMapSearch({ searchTerm, page });
+  const { isTourLoading, isTourError, isTourSuccess, suggestionData } =
+    useGetSuggestionData({
+      page: suggestionPage,
+      areaCode: findCodeByLabel('area', suggestionArea),
+      categoryCode: findCodeByLabel('category', category),
+    });
+
   const handlePage = () => {
-    setPage((page) => page + 1);
+    if (option.type === 'search') {
+      setPage((page) => page + 1);
+    } else {
+      setSuggestionPage((page) => page + 1);
+    }
   };
 
-  const handleSuggestions = (label: string, index: number) => {
+  const handleSuggestions = async (category: string, index: number) => {
     setSelectedLabelIndex(index);
+    setCategory(category);
   };
 
   useEffect(() => {
@@ -91,11 +91,31 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
   }, [searchResult, target]);
 
   useEffect(() => {
-    if (option.type === 'search' && searchTerm === '')
-      return console.log('검색어 없음');
+    const targetRef = target2.current;
+    if (!targetRef) return;
 
+    if (target2) {
+      observe(targetRef);
+
+      return () => {
+        unobserve(targetRef);
+      };
+    }
+
+    if (suggestionData.length === 0) {
+      unobserve(targetRef);
+    }
+  }, [suggestionData, target]);
+
+  // 추천 사이드바에서 지역이 바뀔 때, 카테고리가 바뀔 때마다 데이터 요청
+  useEffect(() => {
+    handleSuggestions(category, selectedLabelIndex);
+  }, [category, suggestionArea]);
+
+  useEffect(() => {
     setPage(1);
-  }, [searchTerm]);
+    setSuggestionPage(1);
+  }, [option.type, category, suggestionArea]);
 
   return (
     <S.NestedSidebarContainer>
@@ -120,12 +140,12 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
       {/* 추천 검색 선택 */}
       {option.type === 'suggest' && (
         <SC.SuggestionContainer>
-          {LABELS.map((label, index) => (
+          {CATEGORY_OPTION.map((category, index) => (
             <SuggestLabel
               key={index}
               className={selectedLabelIndex === index ? 'selected' : ''}
-              label={label}
-              onClickHandler={() => handleSuggestions(label, index)}
+              label={category.label}
+              onClickHandler={() => handleSuggestions(category.label, index)}
             />
           ))}
         </SC.SuggestionContainer>
@@ -146,9 +166,30 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
           </>
         ) : option.type === 'search' && searchResult.length === 0 ? (
           <p>검색 결과가 없습니다 </p>
-        ) : (
-          '추천 데이터 '
-        )}
+        ) : option.type === 'suggest' && suggestionData.length !== 0 ? (
+          <>
+            <div>
+              {suggestionData.map((item: any, index: number) => (
+                <SearchResultCard
+                  key={index}
+                  type={'suggest'}
+                  index={index}
+                  item={item}
+                />
+              ))}
+            </div>
+            {suggestionData && suggestionData.length > 0 && (
+              <span
+                ref={target2}
+                className={'target2'}
+                style={{ width: '100%', height: 30 }}
+              />
+            )}
+            {isTourLoading && <Loader />}
+          </>
+        ) : option.type === 'suggest' && searchResult.length === 0 ? (
+          <p> 검색 결과가 없습니다 </p>
+        ) : null}
       </GS.GroupItemCardContainer>
     </S.NestedSidebarContainer>
   );
