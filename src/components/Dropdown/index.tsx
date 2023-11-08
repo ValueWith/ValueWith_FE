@@ -8,11 +8,12 @@ export interface DropdownCSSProps {
   width?: string;
   height?: string;
   listWidth?: number;
+  styleType?: 'text';
 }
 
 interface DropdownProps extends DropdownCSSProps {
   listData: string[];
-  placeholder: string;
+  placeholder?: string;
   error?: boolean | null;
   selectedItem: string;
   onSelectItem: (item: string) => void;
@@ -21,6 +22,7 @@ interface DropdownProps extends DropdownCSSProps {
 function Dropdown({
   width,
   height,
+  styleType,
   listData,
   error,
   placeholder,
@@ -41,7 +43,9 @@ function Dropdown({
     <S.DropdownContainer
       width={width}
       listWidth={listWidth}
-      className={error && selectedItem == '' ? 'error' : ''}
+      className={`${error && selectedItem === '' ? 'error ' : ''}${
+        styleType === 'text' ? 'text' : ''
+      }`}
     >
       <S.SelectedItem height={height}>
         <S.SelectedItemLabel onClick={() => setIsShow(!isShow)}>
