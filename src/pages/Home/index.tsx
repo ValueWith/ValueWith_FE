@@ -12,7 +12,12 @@ function Home() {
       <S.Banner />
       <S.TitleContainer>
         <S.Title>카테고리 이름</S.Title>
-        <S.Link onClick={() => navigate('/group')}>
+        <S.Link
+          onClick={() => {
+            navigate('/group');
+            window.location.reload();
+          }}
+        >
           더 많은 일정 확인하기 &gt;
         </S.Link>
       </S.TitleContainer>
