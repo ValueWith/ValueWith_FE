@@ -108,7 +108,11 @@ function GroupRegistSchedule() {
       <div className="flex flex-col mt-auto py-10 px-[24px]">
         <Button
           type="button"
-          styleType="outline"
+          styleType={
+            selectedPlace.selectedPlace.length !== 0
+              ? 'outline'
+              : 'outline-disabled'
+          }
           fullWidth
           style={{
             marginBottom: '8px',
@@ -116,7 +120,13 @@ function GroupRegistSchedule() {
         >
           최적경로 추천받기
         </Button>
-        <Button type="button" fullWidth>
+        <Button
+          styleType={
+            selectedPlace.selectedPlace.length !== 0 ? 'solid' : 'disabled'
+          }
+          type="button"
+          fullWidth
+        >
           다음
         </Button>
       </div>
