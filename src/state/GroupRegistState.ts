@@ -7,6 +7,7 @@ export interface MapOptionModel {
   };
   level: number;
   isPanto: boolean;
+  category: string;
 }
 export interface PlaceObjectModel {
   placeCode: string;
@@ -35,6 +36,7 @@ export const mapOptionState = atom<MapOptionModel>({
     },
     level: 3,
     isPanto: true,
+    category: '',
   },
 });
 

@@ -57,6 +57,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
     setMapOption({
       ...mapOption,
       center: { lat: item.y || item.mapy, lng: item.x || item.mapx },
+      category: categoryText,
     });
   };
 
