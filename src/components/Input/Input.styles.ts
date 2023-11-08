@@ -13,7 +13,7 @@ export const commonInputStyle = css`
   border: 1px solid ${theme.color.gray200};
 
   &::placeholder {
-    color: rgba(128, 128, 128, 0.9);
+    color: ${theme.color.gray700};
   }
 
   &:focus-within {
@@ -28,6 +28,10 @@ export const commonInputStyle = css`
 export const InputContainer = styled.div`
   width: 100%;
   margin-bottom: 24px;
+
+  .login & {
+    margin-bottom: 12px;
+  }
 `;
 
 export const InputLabel = styled.label`

@@ -9,6 +9,7 @@ const color = {
   white: '#ffffff',
   primary: '#3182f6',
   secondary: '#d0e9ff',
+  gray000: '#f5f5f5',
   gray100: '#e8e8e8',
   gray200: '#eaeaea',
   gray300: '#bdbdbd',

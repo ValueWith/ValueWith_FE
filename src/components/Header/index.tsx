@@ -27,7 +27,7 @@ function Header() {
   }, [location]);
 
   const handleLogin = () => {
-    console.log('로그인');
+    navigate('/login');
   };
 
   return (
