@@ -153,43 +153,35 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
 
       {/* 카드 컨테이너 */}
       <GS.GroupItemCardContainer>
-        {option.type === 'search' && searchResult.length !== 0 ? (
-          <>
-            <div>
-              {searchResult.map((item: any, index: number) => (
-                <SearchResultCard key={index} index={index} item={item} />
-              ))}
-            </div>
-            {searchResult && searchResult.length > 0 && (
-              <span ref={target} style={{ width: '100%', height: 30 }} />
-            )}
-          </>
-        ) : option.type === 'search' && searchResult.length === 0 ? (
-          <p>검색 결과가 없습니다 </p>
-        ) : option.type === 'suggest' && suggestionData.length !== 0 ? (
-          <>
-            <div>
-              {suggestionData.map((item: any, index: number) => (
-                <SearchResultCard
-                  key={index}
-                  type={'suggest'}
-                  index={index}
-                  item={item}
-                />
-              ))}
-            </div>
-            {suggestionData && suggestionData.length > 0 && (
+        {option.type === 'search' && searchResult.length === 0 ? (
+          <p>검색 결과가 없습니다</p>
+        ) : option.type === 'suggest' && suggestionData.length === 0 ? (
+          <p>검색 결과가 없습니다</p>
+        ) : (
+          <div>
+            {option.type === 'search'
+              ? searchResult.map((item: any, index: number) => (
+                  <SearchResultCard key={index} index={index} item={item} />
+                ))
+              : suggestionData.map((item: any, index: number) => (
+                  <SearchResultCard
+                    key={index}
+                    type={'suggest'}
+                    index={index}
+                    item={item}
+                  />
+                ))}
+            {((searchResult && searchResult.length > 0) ||
+              (suggestionData && suggestionData.length > 0)) && (
               <span
-                ref={target2}
-                className={'target2'}
+                ref={option.type === 'suggest' ? target2 : target}
+                className={option.type === 'suggest' ? 'target2' : ''}
                 style={{ width: '100%', height: 30 }}
               />
             )}
-            {isTourLoading && <Loader />}
-          </>
-        ) : option.type === 'suggest' && searchResult.length === 0 ? (
-          <p> 검색 결과가 없습니다 </p>
-        ) : null}
+            {option.type === 'suggest' && isTourLoading && <Loader />}
+          </div>
+        )}
       </GS.GroupItemCardContainer>
     </S.NestedSidebarContainer>
   );
