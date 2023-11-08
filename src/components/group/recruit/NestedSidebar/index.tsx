@@ -50,7 +50,6 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
   const { searchResult } = useMapSearch({ searchTerm, page });
   const { isTourLoading, isTourError, isTourSuccess, suggestionData } =
     useGetSuggestionData({
-      type: option.type,
       page: suggestionPage,
       areaCode: findCodeByLabel('area', suggestionArea, AREA_OPTION),
       categoryCode: findCodeByLabel('category', category, CATEGORY_OPTION),
