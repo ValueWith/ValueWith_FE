@@ -7,7 +7,7 @@ export const NestedSidebarContainer = styled.div`
   left: 100%;
   width: 450px;
   height: 100%;
-  padding-top: 28px;
+  padding: 28px 0;
   background-color: #fcfcfc;
   border-right: 1px solid #e3e3e3;
   z-index: 2;
