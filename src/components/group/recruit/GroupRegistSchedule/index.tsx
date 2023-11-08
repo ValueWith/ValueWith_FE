@@ -51,15 +51,12 @@ function GroupRegistSchedule() {
     }
   };
 
-  const handleSearchTerm = async (
-    term: string,
-    type: 'suggest' | 'search',
-    toggled?: boolean
-  ) => {
+  const handleSearchTerm = async (term: string, type: 'suggest' | 'search') => {
     setIsNestedSidebar({
       type: type,
-      status: toggled ? !isNestedSidebar.status : true,
+      status: true,
     });
+
     setSearchTerm(term);
 
     await getSearchData();
@@ -71,7 +68,9 @@ function GroupRegistSchedule() {
         {/* 검색창 */}
         <div className="registGroup">
           <SearchBar
-            onSearchTermChange={(term) => handleSearchTerm(term, 'search')}
+            onSearchTermChange={(searchTerm) =>
+              handleSearchTerm(searchTerm, 'search')
+            }
           />
         </div>
 
@@ -86,7 +85,7 @@ function GroupRegistSchedule() {
               minWidth: 'auto',
               fontSize: '15px',
             }}
-            onClickHandler={() => handleSearchTerm(searchTerm, 'suggest', true)}
+            onClickHandler={() => handleSearchTerm(searchTerm, 'suggest')}
           >
             장소 추천 받기
           </Button>
