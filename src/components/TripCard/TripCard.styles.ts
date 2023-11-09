@@ -10,7 +10,7 @@ export const TripCardContainer = styled.div`
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.01);
   }
 `;
 
@@ -28,7 +28,7 @@ export const Closed = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: ${theme.color.primary};
+    background-color: ${theme.color.gray600};
     color: ${theme.color.white};
     font-size: 15px;
     font-weight: bold;
@@ -55,7 +55,7 @@ export const Icon = styled.div`
   display: flex;
   gap: 4px;
   align-items: center;
-  padding: 4px 14px;
+  padding: 4px 12px;
   margin-right: 5px;
   font-size: 13px;
   color: ${theme.color.primary};
