@@ -6,6 +6,7 @@ import { paramsState } from '@/recoil/paramsState';
 import TripList from '../TripList';
 
 import * as S from './GroupTripList.styles';
+import Loader from '../Loader';
 
 interface PageChangeCallback {
   selected: number;
@@ -25,8 +26,8 @@ function GroupTripList() {
 
   return (
     <>
-      {isLoading && <div>Loading...</div>}
       {isError && <div>Error...</div>}
+      {isLoading && <Loader />}
       {groupData && (
         <>
           <TripList groupData={groupData} />
