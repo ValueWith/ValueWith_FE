@@ -10,6 +10,7 @@ import { useRecoilState } from 'recoil';
 import { paramsState } from '@/recoil/paramsState';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { GroupListParams } from '@/apis/group';
+import SearchBar from '@/components/SearchBar';
 
 function GroupMain() {
   const navigate = useNavigate();
@@ -58,10 +59,17 @@ function GroupMain() {
     setIsClickFilter(false);
   };
 
+  const handleSearchTerm = (searchTerm: string) => {
+    setParams({ ...params, title: searchTerm });
+  };
+
   return (
     <S.GroupMainContainer>
       {/* SearchForm  */}
-      <GroupSearch />
+      <SearchBar
+        onSearchTermChange={(searchTerm) => handleSearchTerm(searchTerm)}
+      />
+
       {/* Filter */}
       <S.SearchOptionContainer>
         <div className="flex items-center gap-8">
