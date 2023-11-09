@@ -1,7 +1,10 @@
 import { useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
-import { groupRegistState, selectedPlaceState } from '@/state/GroupRegistState';
+import {
+  groupRegistState,
+  selectedPlaceState,
+} from '@/recoil/GroupRegistState';
 
 import Input from '@/components/Input';
 import DateInput from '@/components/DateInput';

@@ -11,7 +11,7 @@ import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
 
 import { useRecoilState } from 'recoil';
-import { selectedPlaceState } from '@/state/GroupRegistState';
+import { selectedPlaceState } from '@/recoil/GroupRegistState';
 import GroupItemCard from '../GroupItemCard';
 import NoResult from '../NoResult';
 

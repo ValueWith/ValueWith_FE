@@ -1,7 +1,7 @@
 import { Draggable } from '@hello-pangea/dnd';
 
 import { useRecoilState } from 'recoil';
-import { mapOptionState, selectedPlaceState } from '@/state/GroupRegistState';
+import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
 
 import { findLabelByCode } from '@/utils/findCodeByLabel';
 import { CATEGORY_OPTION } from '@/constants/area';
