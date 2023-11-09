@@ -20,6 +20,7 @@ const styles = css`
     min-height: 100%;
     font-size: 10px;
     font-size: 62.5%;
+    line-height: normal;
   }
 
   body {
@@ -38,7 +39,6 @@ const styles = css`
     font-size: 16px;
     letter-spacing: -0.384px;
     text-rendering: auto;
-
     box-sizing: border-box;
   }
 
@@ -47,7 +47,8 @@ const styles = css`
   }
 
   ul,
-  ol {
+  ol,
+  li {
     list-style: none;
   }
 
