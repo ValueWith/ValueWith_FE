@@ -62,6 +62,13 @@ export const SelectedItemLabel = styled.div`
       height: 23px;
     }
   }
+
+  .disabled & {
+    color: ${theme.color.gray600};
+    background-color: #f8f8f8;
+    pointer-events: none;
+    cursor: default;
+  }
 `;
 
 export const DropdownList = styled.ul`
