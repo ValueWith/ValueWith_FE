@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import theme from '@assets/styles/theme';
 
 export const HeaderContainer = styled.header`
+  position: relative;
   width: 100%;
   height: ${theme.layoutComponent.header_height}px;
   border-bottom: 1px solid ${theme.color.gray200};
@@ -66,5 +67,38 @@ export const UserActionItem = styled.li`
 
   &:first-of-type {
     margin-left: 0;
+  }
+`;
+
+//  서브 메뉴
+export const SubMenuContainer = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 46px;
+  border-bottom: 1px solid ${theme.color.gray200};
+`;
+
+export const SubMenuList = styled.ul`
+  display: flex;
+  align-items: center;
+`;
+
+export const SubMenuItem = styled.li`
+  margin-left: 12px;
+  font-size: 13px;
+  padding: 3px 10px 0;
+  border-bottom: 3px solid transparent;
+  color: ${theme.color.gray700};
+  cursor: pointer;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+
+  &.active {
+    color: ${theme.color.primary};
+    border-bottom: 3px solid ${theme.color.primary};
   }
 `;

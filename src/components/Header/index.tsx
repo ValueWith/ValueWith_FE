@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // constants
-import { PAGE_LINK } from '@/constants/pagelink';
+import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 
 // components
 import { RiMessage2Line } from 'react-icons/ri';
@@ -106,6 +106,27 @@ function Header() {
           </Button>
         </S.UserActionsWrapper>
       </S.HeaderInner>
+
+      {/* 서브 메뉴 */}
+      <S.SubMenuContainer>
+        <S.HeaderInner>
+          <S.SubMenuList>
+            {MYLOUNGE_SUBMENU_LINK.map((page, index) => {
+              return (
+                <S.SubMenuItem
+                  key={index}
+                  className={page.path === currentCategory ? 'active' : ''}
+                  onClick={() => {
+                    navigate(page.path);
+                  }}
+                >
+                  {page.name}
+                </S.SubMenuItem>
+              );
+            })}
+          </S.SubMenuList>
+        </S.HeaderInner>
+      </S.SubMenuContainer>
     </S.HeaderContainer>
   );
 }
