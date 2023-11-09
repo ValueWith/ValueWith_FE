@@ -131,10 +131,14 @@ function Header() {
           <S.HeaderInner>
             <S.SubMenuList>
               {MYLOUNGE_SUBMENU_LINK.map((page, index) => {
+                const isActive =
+                  currentCategory.startsWith(page.path) ||
+                  (currentCategory === '/mylounge' && index === 0);
+
                 return (
                   <S.SubMenuItem
                     key={index}
-                    className={page.path === currentCategory ? 'active' : ''}
+                    className={isActive ? 'active' : ''}
                     onClick={() => {
                       navigate(page.path);
                     }}
