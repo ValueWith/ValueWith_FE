@@ -2,9 +2,9 @@ import { useRecoilState } from 'recoil';
 import { paramsState } from '@/recoil/paramsState';
 
 import {
-  areaOptions,
-  sortingOptions,
-  statusOptions,
+  AREA_OPTIONS,
+  SORT_OPTIONS,
+  STATUS_OPTIONS,
 } from '@/constants/filterOption';
 
 import RadioGroup from '@components/RadioGroup';
@@ -36,14 +36,14 @@ function GroupFilter({ option }: GroupFilterProps) {
         <>
           <S.FilterTitle>모집현황</S.FilterTitle>
           <RadioGroup
-            options={statusOptions}
+            options={STATUS_OPTIONS}
             selectedValue={params.status}
             styleType='radio'
             onChange={handleStatusChange}
           />
           <S.FilterTitle>지역</S.FilterTitle>
           <RadioGroup
-            options={areaOptions}
+            options={AREA_OPTIONS}
             selectedValue={params.area}
             styleType='card'
             onChange={handleAreaChange}
@@ -54,7 +54,7 @@ function GroupFilter({ option }: GroupFilterProps) {
         <>
           <S.FilterTitle>정렬</S.FilterTitle>
           <RadioGroup
-            options={sortingOptions}
+            options={SORT_OPTIONS}
             selectedValue={params.sort}
             styleType='radio'
             onChange={handleSortingChange}
