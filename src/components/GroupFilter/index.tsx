@@ -30,21 +30,21 @@ function GroupFilter({ option }: GroupFilterProps) {
   };
 
   return (
-    <S.GroupFilterContainer>
+    <S.GroupFilterContainer className={option === 'filter' ? 'filter' : 'sort'}>
       {option === 'filter' && (
         <>
           <S.FilterTitle>모집현황</S.FilterTitle>
           <RadioGroup
             options={statusOptions}
             selectedValue={params.status}
-            styleType='radio'
+            styleType="radio"
             onChange={handleStatusChange}
           />
           <S.FilterTitle>지역</S.FilterTitle>
           <RadioGroup
             options={areaOptions}
             selectedValue={params.area}
-            styleType='card'
+            styleType="card"
             onChange={handleAreaChange}
           />
         </>
@@ -55,7 +55,7 @@ function GroupFilter({ option }: GroupFilterProps) {
           <RadioGroup
             options={sortingOptions}
             selectedValue={params.sort}
-            styleType='radio'
+            styleType="radio"
             onChange={handleSortingChange}
           />
         </>

@@ -13,6 +13,13 @@ export const GroupFilterContainer = styled.div`
   text-align: left;
   z-index: 4;
   cursor: default;
+
+  &.filter {
+    min-height: 440px;
+  }
+  &.sort {
+    min-height: 92px;
+  }
 `;
 
 export const FilterTitle = styled.p`
