@@ -43,7 +43,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className='header__menu-list'>
+          <ul className="header__menu-list">
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -51,7 +51,10 @@ function Header() {
                   className={page.path === currentCategory ? 'active' : ''}
                   onClick={() => {
                     navigate(page.path);
-                    window.location.reload();
+
+                    if (page.name === '로그인') {
+                      handleLogin();
+                    }
                   }}
                 >
                   {page.name}
@@ -74,11 +77,27 @@ function Header() {
               <S.UserActionItem>
                 <AiOutlineBell size={24} />
               </S.UserActionItem>
+
+              <span className="ml-4">|</span>
+
+              <Button
+                type="button"
+                styleType="text"
+                className="ml-4"
+                style={{
+                  minWidth: 'auto',
+                  color: `${theme.color.fontgray}`,
+                  fontSize: '15px',
+                }}
+                onClickHandler={() => console.log('로그아웃')}
+              >
+                로그아웃
+              </Button>
             </S.UserActions>
           )}
 
-          {/* 로그인 / 로그아웃 */}
-          <Button type='button' styleType='basic' onClickHandler={handleLogin}>
+          {/* 로그인  */}
+          <Button type="button" styleType="basic" onClickHandler={handleLogin}>
             로그인
           </Button>
         </S.UserActionsWrapper>

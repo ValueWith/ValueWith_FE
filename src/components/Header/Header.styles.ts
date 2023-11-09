@@ -62,6 +62,7 @@ export const UserActions = styled.ul`
 
 export const UserActionItem = styled.li`
   margin-left: 12px;
+  cursor: pointer;
 
   &:first-of-type {
     margin-left: 0;
