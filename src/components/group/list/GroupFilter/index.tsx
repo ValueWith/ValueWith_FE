@@ -1,14 +1,15 @@
+import { useRecoilState } from 'recoil';
+import { paramsState } from '@/recoil/paramsState';
+
 import {
   areaOptions,
   sortingOptions,
   statusOptions,
 } from '@/constants/filterOption';
 
-import RadioGroup from '../RadioGroup';
+import RadioGroup from '@components/RadioGroup';
 
 import * as S from './GroupFilter.styles';
-import { useRecoilState } from 'recoil';
-import { paramsState } from '@/recoil/paramsState';
 
 interface GroupFilterProps {
   option: string;
@@ -37,14 +38,14 @@ function GroupFilter({ option }: GroupFilterProps) {
           <RadioGroup
             options={statusOptions}
             selectedValue={params.status}
-            styleType="radio"
+            styleType='radio'
             onChange={handleStatusChange}
           />
           <S.FilterTitle>지역</S.FilterTitle>
           <RadioGroup
             options={areaOptions}
             selectedValue={params.area}
-            styleType="card"
+            styleType='card'
             onChange={handleAreaChange}
           />
         </>
@@ -55,7 +56,7 @@ function GroupFilter({ option }: GroupFilterProps) {
           <RadioGroup
             options={sortingOptions}
             selectedValue={params.sort}
-            styleType="radio"
+            styleType='radio'
             onChange={handleSortingChange}
           />
         </>

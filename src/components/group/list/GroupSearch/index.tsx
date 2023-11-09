@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import Input from '../Input';
+import Input from '@components/Input';
 
 import { BsSearch } from 'react-icons/bs';
 import * as S from './GroupSearch.styles';
