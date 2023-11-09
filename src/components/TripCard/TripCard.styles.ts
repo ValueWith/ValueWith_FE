@@ -91,6 +91,7 @@ export const Detail = styled.div`
 
 export const DetailTitle = styled.span`
   color: #1c1c1c;
+  font-weight: 500;
 `;
 
 export const DetailContent = styled.span`
