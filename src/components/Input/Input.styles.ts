@@ -23,6 +23,12 @@ export const commonInputStyle = css`
   &.error {
     border: 1px solid ${theme.color.red300};
   }
+
+  ::-webkit-inner-spin-button {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
 `;
 
 export const InputContainer = styled.div`
@@ -31,6 +37,10 @@ export const InputContainer = styled.div`
 
   .login & {
     margin-bottom: 12px;
+  }
+
+  .registGroup & {
+    margin-bottom: 10px;
   }
 `;
 

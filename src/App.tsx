@@ -1,16 +1,24 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import MainTemplate from '@components/template/MainTemplate.tsx';
 import Header from '@components/Header/index.tsx';
 import Footer from '@components/Footer/index.tsx';
 
 function App() {
+  const { pathname } = useLocation();
+
   return (
     <>
-      <Header />
-      <MainTemplate>
+      {pathname === '/group/recruit' ? (
         <Outlet />
-      </MainTemplate>
-      <Footer />
+      ) : (
+        <>
+          <Header />
+          <MainTemplate>
+            <Outlet />
+          </MainTemplate>
+          <Footer />
+        </>
+      )}
     </>
   );
 }

@@ -2,7 +2,14 @@ import * as S from './Button.styles';
 
 export interface ButtonCSSProps {
   size?: 'sm' | 'md' | 'lg'; // 버튼 사이즈, default: md
-  styleType?: 'basic' | 'solid' | 'outline' | 'disabled' | 'warning' | 'text'; // 버튼 디자인 타입, default: solid
+  styleType?:
+    | 'basic'
+    | 'solid'
+    | 'outline'
+    | 'outline-disabled'
+    | 'disabled'
+    | 'warning'
+    | 'text'; // 버튼 디자인 타입, default: solid
   fullWidth?: boolean; // 버튼 가로 너비 100%, default: false
 }
 
@@ -11,7 +18,10 @@ interface ButtonProps extends ButtonCSSProps {
   children: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
-  onClickHandler?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickHandler?: (
+    e?: React.MouseEvent<HTMLButtonElement>,
+    ...args: any[]
+  ) => void;
 }
 
 function Button({

@@ -8,11 +8,15 @@ interface InputProps extends InputCSSProps {
   name: string;
   inputType: 'textarea' | 'input';
   type?: string; // text:default, password - input 타입에서 필수로 받아야 하는 값
+  value?: string; // input에 value 표시해야 하는 경우 전달
   label?: string; // input에 라벨 표시해야 하는 경우 전달
   placeholder?: string; // input에 placeholder 표시해야 하는 경우 전달
-  defaultValue?: '' | string;
+  className?: string;
   style?: React.CSSProperties;
-
+  children?: React.ReactNode;
+  oninput?: string;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  defaultValue?: '' | string;
   errors?: any; // errors,onChange는 useForm 에서 관리,  직접 Props로 넘겨주지 않음
   onChange?: (
     e:
@@ -24,14 +28,19 @@ interface InputProps extends InputCSSProps {
 function Input(
   {
     type = 'text',
+    value,
     inputType,
     name,
     label,
     placeholder,
     defaultValue,
     readOnly,
-    style,
+    className,
+    children,
+    oninput,
+    onKeyDown,
     onChange,
+    style,
     errors,
   }: InputProps,
   ref: React.Ref<HTMLInputElement | HTMLTextAreaElement>
@@ -56,7 +65,7 @@ function Input(
         {inputType === 'textarea' ? (
           <S.Textarea
             className={errorKEY && 'error'}
-            spellCheck='false'
+            spellCheck="false"
             style={style}
             readOnly={readOnly}
             ref={ref as React.Ref<HTMLTextAreaElement>}
@@ -65,14 +74,18 @@ function Input(
         ) : (
           <S.Input
             type={type}
+            value={value}
+            className={errorKEY ? `error ${className}` : className}
             style={style}
-            className={errorKEY && 'error'}
-            spellCheck='false'
+            spellCheck="false"
             readOnly={readOnly}
+            onKeyDown={onKeyDown}
+            onInput={oninput ? () => oninput : undefined}
             ref={ref as React.Ref<HTMLInputElement>}
             {...inputCommonProps}
           />
         )}
+        {children}
       </div>
       {errorKEY && <S.InputErrorMessage>{errorKEY}</S.InputErrorMessage>}
     </S.InputContainer>

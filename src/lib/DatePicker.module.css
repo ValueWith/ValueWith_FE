@@ -1,0 +1,66 @@
+.customHeaderContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3182f6;
+  height: 100%;
+  margin-top: 8px;
+  padding: 0 12px 0 24px;
+}
+
+.customHeaderContainer .month {
+  font-size: 16px;
+  font-weight: 500;
+}
+.customHeaderContainer .year {
+  background-color: #3182f6;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  padding-right: 5px;
+  cursor: pointer;
+}
+.customHeaderContainer .monthButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 5px;
+  border-radius: 50%;
+}
+.customHeaderContainer .monthButton + .monthButton {
+  margin-left: 10px;
+}
+.customHeaderContainer .monthButton:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.customHeaderContainer .monthButton:disabled {
+  cursor: default;
+}
+.customHeaderContainer .monthButton:disabled svg {
+  fill: #fff;
+}
+.calenderWrapper {
+  background-color: #3182f6;
+  color: #fff;
+}
+.selectedDay,
+.unselectedDay {
+  padding: 3px 1px 0 0;
+  width: 36px;
+  height: 36px;
+}
+.selectedDay {
+  background-color: #3182f6;
+  border-radius: 50%;
+}
+.selectedDay:hover {
+  border-radius: 50%;
+  background-color: #3182f6;
+}
+.unselectedDay:hover {
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.08);
+}

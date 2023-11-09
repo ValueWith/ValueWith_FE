@@ -4,46 +4,6 @@ import { css } from '@emotion/react';
 import theme from '@/assets/styles/theme';
 import { ButtonCSSProps } from '.';
 
-const handleButtonType = (props: ButtonCSSProps) => {
-  switch (props.styleType) {
-    case 'solid':
-      return css`
-        background-color: ${theme.color.primary};
-        color: ${theme.color.white};
-        border: 1px solid ${theme.color.primary};
-      `;
-    case 'outline':
-      return css`
-        background-color: ${theme.color.white};
-        color: ${theme.color.primary};
-        border: 1px solid ${theme.color.primary};
-      `;
-    case 'disabled':
-      return css`
-        background-color: ${theme.color.gray100};
-        color: ${theme.color.gray500};
-        pointer-events: none;
-        cursor: default;
-      `;
-    case 'warning':
-      return css`
-        background-color: ${theme.color.red200};
-        color: ${theme.color.white};
-        border: 1px solid ${theme.color.red200};
-      `;
-    case 'text':
-      return css`
-        color: ${theme.color.primary};
-      `;
-    case 'basic':
-      return css`
-        background-color: ${theme.color.white};
-        border: 1px solid ${theme.color.gray100};
-        color: ${theme.color.fontgray};
-      `;
-  }
-};
-
 const handleButtonSize = (props: ButtonCSSProps) => {
   switch (props.size) {
     case 'sm':
@@ -73,6 +33,56 @@ const handleButtonSize = (props: ButtonCSSProps) => {
   }
 };
 
+const handleButtonType = (props: ButtonCSSProps) => {
+  switch (props.styleType) {
+    case 'solid':
+      return css`
+        background-color: ${theme.color.primary};
+        color: ${theme.color.white};
+        border: 1px solid ${theme.color.primary};
+      `;
+    case 'outline':
+      return css`
+        background-color: ${theme.color.white};
+        color: ${theme.color.primary};
+        border: 1px solid ${theme.color.primary};
+      `;
+    case 'outline-disabled':
+      return css`
+        background-color: ${theme.color.white};
+        color: ${theme.color.gray500};
+        border: 1px solid ${theme.color.gray100};
+        pointer-events: none;
+        cursor: default;
+      `;
+    case 'disabled':
+      return css`
+        background-color: ${theme.color.gray100};
+        color: ${theme.color.gray500};
+        pointer-events: none;
+        cursor: default;
+      `;
+    case 'warning':
+      return css`
+        background-color: ${theme.color.red200};
+        color: ${theme.color.white};
+        border: 1px solid ${theme.color.red200};
+      `;
+    case 'text':
+      return css`
+        height: auto;
+        padding: 0;
+        color: ${theme.color.primary};
+      `;
+    case 'basic':
+      return css`
+        background-color: ${theme.color.white};
+        border: 1px solid ${theme.color.gray100};
+        color: ${theme.color.fontgray};
+      `;
+  }
+};
+
 export const Button = styled.button<ButtonCSSProps>`
   display: flex;
   align-items: center;
@@ -85,6 +95,6 @@ export const Button = styled.button<ButtonCSSProps>`
   white-space: nowrap;
   appearance: none;
 
-  ${(props) => handleButtonType(props)}
   ${(props) => handleButtonSize(props)}
+  ${(props) => handleButtonType(props)}
 `;

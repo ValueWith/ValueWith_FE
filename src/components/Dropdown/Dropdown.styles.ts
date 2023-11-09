@@ -14,12 +14,18 @@ export const DropdownContainer = styled.div<DropdownCSSProps>`
   &.error {
     border: 1px solid ${theme.color.red300};
   }
+
+  &.text {
+    width: fit-content;
+    border: none;
+  }
 `;
 
 export const SelectedItem = styled.div<DropdownCSSProps>`
   width: 100%;
   height: ${(props) => props.height || '30px'};
 `;
+
 export const SelectedItemLabel = styled.div`
   display: flex;
   align-items: center;
@@ -41,6 +47,20 @@ export const SelectedItemLabel = styled.div`
     min-width: 15px;
     margin-right: 8px;
     margin-left: 2px;
+  }
+
+  .text & {
+    background-color: transparent;
+
+    span {
+      padding: 0;
+      font-size: 28px;
+    }
+
+    .dropdownIcon {
+      min-width: 23px;
+      height: 23px;
+    }
   }
 `;
 
