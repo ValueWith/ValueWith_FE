@@ -40,7 +40,7 @@ function TripCard({ group }: TripCardProps) {
   const koreanArea = conversionArea(tripArea);
 
   return (
-    <div className='mb-8'>
+    <>
       <S.TripCardContainer>
         {isClosed && <S.Closed />}
         <S.CardTumbnail src={thumbnailUrl} alt='지도 썸네일' />
@@ -109,7 +109,7 @@ function TripCard({ group }: TripCardProps) {
           </S.MemberListContainer>
         </S.ApplyListContainer>
       )}
-    </div>
+    </>
   );
 }
 
