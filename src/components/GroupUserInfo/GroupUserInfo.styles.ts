@@ -3,9 +3,6 @@ import styled from '@emotion/styled';
 export const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
-  position: absolute;
-  bottom: 8px;
-  left: 13px;
   > span {
     font-size: 14px;
     letter-spacing: -0.7px;
