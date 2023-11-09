@@ -71,7 +71,7 @@ function GroupMain() {
       />
 
       {/* Filter */}
-      <S.SearchOptionContainer>
+      <S.SearchOptionContainer className="mt-[20px]">
         <div className="flex items-center gap-8">
           <S.FilterButton>
             <div
