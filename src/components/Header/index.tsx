@@ -55,6 +55,10 @@ function Header() {
                     if (page.name === '로그인') {
                       handleLogin();
                     }
+
+                    if (page.path === '/group') {
+                      window.location.reload();
+                    }
                   }}
                 >
                   {page.name}
