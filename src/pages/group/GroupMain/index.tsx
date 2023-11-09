@@ -8,10 +8,11 @@ import { RiFilterLine, RiFilter3Fill, RiEditFill } from 'react-icons/ri';
 import * as S from './GroupMain.styles';
 import { useRecoilState } from 'recoil';
 import { paramsState } from '@/recoil/paramsState';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { GroupListParams } from '@/apis/group';
 
 function GroupMain() {
+  const navigate = useNavigate();
   const [params, setParams] = useRecoilState(paramsState);
   const [searchParams, setSearchParams] = useSearchParams(params);
 
@@ -57,10 +58,6 @@ function GroupMain() {
     setIsClickFilter(false);
   };
 
-  const handleNewPost = () => {
-    console.log('모집글 작성하기 페이지 이동');
-  };
-
   return (
     <S.GroupMainContainer>
       {/* SearchForm  */}
@@ -91,7 +88,9 @@ function GroupMain() {
           styleType="solid"
           style={{ fontWeight: '500' }}
           className="gap-2"
-          onClickHandler={handleNewPost}
+          onClickHandler={() => {
+            navigate('/group/recruit');
+          }}
         >
           <RiEditFill />
           모집글 작성하기
