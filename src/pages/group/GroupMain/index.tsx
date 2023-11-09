@@ -4,9 +4,7 @@ import Button from '@/components/Button';
 import GroupFilter from '@/components/GroupFilter';
 import GroupTripList from '@/components/GroupTripList';
 
-import { VscFilter } from 'react-icons/vsc';
-import { PiPencilSimpleLineDuotone } from 'react-icons/pi';
-import { VscListFilter } from 'react-icons/vsc';
+import { RiFilterLine, RiFilter3Fill, RiEditFill } from 'react-icons/ri';
 import * as S from './GroupMain.styles';
 import { useRecoilState } from 'recoil';
 import { paramsState } from '@/recoil/paramsState';
@@ -69,31 +67,33 @@ function GroupMain() {
       <GroupSearch />
       {/* Filter */}
       <S.SearchOptionContainer>
-        <div className='flex items-center gap-8'>
+        <div className="flex items-center gap-8">
           <S.FilterButton>
             <div
               onClick={handleFilterModal}
-              className='flex items-center gap-2'
+              className="flex items-center gap-1"
             >
-              필터 <VscFilter />
+              필터 <RiFilterLine />
             </div>
             {isClickFilter && <GroupFilter option={'filter'} />}
           </S.FilterButton>
           <S.FilterButton>
-            <div onClick={handleSortModal} className='flex items-center gap-2'>
-              정렬 <VscListFilter />
+            <div onClick={handleSortModal} className="flex items-center gap-1">
+              정렬 <RiFilter3Fill />
             </div>
             {isClickSort && <GroupFilter option={'sort'} />}
           </S.FilterButton>
         </div>
         {/* New Post */}
         <Button
-          type='button'
-          styleType='solid'
-          className='flex gap-2'
+          size="sm"
+          type="button"
+          styleType="solid"
+          style={{ fontWeight: '500' }}
+          className="gap-2"
           onClickHandler={handleNewPost}
         >
-          <PiPencilSimpleLineDuotone />
+          <RiEditFill />
           모집글 작성하기
         </Button>
       </S.SearchOptionContainer>
