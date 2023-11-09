@@ -126,7 +126,7 @@ function Header() {
       </S.HeaderInner>
 
       {/* 서브 메뉴 */}
-      {currentCategory === '/mylounge' && (
+      {currentCategory.startsWith('/mylounge') && (
         <S.SubMenuContainer style={{ opacity: isSubMenuVisible ? 1 : 0 }}>
           <S.HeaderInner>
             <S.SubMenuList>
