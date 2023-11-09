@@ -1,4 +1,4 @@
-import { groupRegistState } from '@/state/GroupRegistState';
+import { groupRegistState } from '@/recoil/GroupRegistState';
 import { useState } from 'react';
 import { FieldValues, UseFormSetError, UseFormTrigger } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
