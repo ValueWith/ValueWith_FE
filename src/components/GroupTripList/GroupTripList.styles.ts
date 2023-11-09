@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 export const PaginationContainer = styled.div`
   max-width: 100%;
   margin: 50px auto 0 auto;
+
   .pagination {
     display: flex;
     gap: 8px;
@@ -15,12 +16,14 @@ export const PaginationContainer = styled.div`
       border: 0;
       font-weight: 700;
     }
+
     .active {
       background-color: ${theme.color.primary};
       > a {
         color: ${theme.color.white};
       }
     }
+
     li {
       background-color: ${theme.color.white};
       border: 1px solid ${theme.color.gray100};
@@ -32,6 +35,14 @@ export const PaginationContainer = styled.div`
         justify-content: center;
         align-items: center;
         color: #333749;
+      }
+
+      &.disabled {
+        a {
+          color: ${theme.color.gray300};
+          pointer-events: none;
+          cursor: default;
+        }
       }
     }
   }
