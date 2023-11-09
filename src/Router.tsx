@@ -5,7 +5,8 @@ import Login from './pages/user/Login';
 import Home from './pages/Home';
 import GroupMain from './pages/group/GroupMain';
 import GroupRecruit from './pages/group/GroupRecruit';
-import MyLounge from './pages/MyLounge';
+import GroupManagement from './pages/mylounge/GroupManagement';
+import EditProfile from './pages/mylounge/EditProfile';
 
 const router = createBrowserRouter([
   {
@@ -14,16 +15,6 @@ const router = createBrowserRouter([
     errorElement: <div>404 Not Found</div>,
     children: [
       { index: true, path: '/', element: <Home /> },
-      {
-        path: 'group',
-        children: [
-          { index: true, element: <GroupMain /> },
-          {
-            path: 'recruit',
-            element: <GroupRecruit />,
-          },
-        ],
-      },
       {
         // 로그인 페이지
         path: '/login',
@@ -35,8 +26,28 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: '/mylounge',
-        element: <MyLounge />,
+        path: 'group',
+        children: [
+          { index: true, element: <GroupMain /> },
+          {
+            path: 'recruit',
+            element: <GroupRecruit />,
+          },
+        ],
+      },
+      {
+        path: 'mylounge',
+        children: [
+          { index: true, element: <GroupManagement /> },
+          {
+            path: 'management',
+            element: <GroupManagement />,
+          },
+          {
+            path: 'profile',
+            element: <EditProfile />,
+          },
+        ],
       },
     ],
   },
