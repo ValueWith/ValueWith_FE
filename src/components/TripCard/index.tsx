@@ -33,7 +33,7 @@ function TripCard({ group }: TripCardProps) {
 
   const [isOpenApplyList, setIsOpenApplyList] = useState(false);
 
-  const test_code = true;
+  const test_code = false;
 
   const d_day = calculateDday(dueDate);
   const isClosed = status !== '모집중';
