@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
-import GroupSearch from '@/components/GroupSearch';
-import Button from '@/components/Button';
-import GroupFilter from '@/components/GroupFilter';
-import GroupTripList from '@/components/GroupTripList';
-
-import { RiFilterLine, RiFilter3Fill, RiEditFill } from 'react-icons/ri';
-import * as S from './GroupMain.styles';
 import { useRecoilState } from 'recoil';
 import { paramsState } from '@/recoil/paramsState';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { GroupListParams } from '@/apis/group';
+
+import Button from '@/components/Button';
+import GroupFilter from '@/components/group/list/GroupFilter';
+import GroupTripList from '@/components/group/list/GroupTripList';
 import SearchBar from '@/components/SearchBar';
+
+import { GroupListParams } from '@/apis/group';
+
+import { RiFilterLine, RiFilter3Fill, RiEditFill } from 'react-icons/ri';
+import * as S from './GroupMain.styles';
 
 function GroupMain() {
   const navigate = useNavigate();
@@ -71,19 +72,19 @@ function GroupMain() {
       />
 
       {/* Filter */}
-      <S.SearchOptionContainer className="mt-[20px]">
-        <div className="flex items-center gap-8">
+      <S.SearchOptionContainer className='mt-[20px]'>
+        <div className='flex items-center gap-8'>
           <S.FilterButton>
             <div
               onClick={handleFilterModal}
-              className="flex items-center gap-1"
+              className='flex items-center gap-1'
             >
               필터 <RiFilterLine />
             </div>
             {isClickFilter && <GroupFilter option={'filter'} />}
           </S.FilterButton>
           <S.FilterButton>
-            <div onClick={handleSortModal} className="flex items-center gap-1">
+            <div onClick={handleSortModal} className='flex items-center gap-1'>
               정렬 <RiFilter3Fill />
             </div>
             {isClickSort && <GroupFilter option={'sort'} />}
@@ -91,11 +92,11 @@ function GroupMain() {
         </div>
         {/* New Post */}
         <Button
-          size="sm"
-          type="button"
-          styleType="solid"
+          size='sm'
+          type='button'
+          styleType='solid'
           style={{ fontWeight: '500' }}
-          className="gap-2"
+          className='gap-2'
           onClickHandler={() => {
             navigate('/group/recruit');
           }}
