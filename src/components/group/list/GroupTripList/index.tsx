@@ -3,9 +3,10 @@ import ReactPaginate from 'react-paginate';
 
 import useGroupDataFetching from '@/hooks/useGroup';
 import { paramsState } from '@/recoil/paramsState';
-import TripList from '../TripList';
+import TripList from '@components/TripList';
 
 import * as S from './GroupTripList.styles';
+import Loader from '@components/Loader';
 
 interface PageChangeCallback {
   selected: number;
@@ -25,8 +26,8 @@ function GroupTripList() {
 
   return (
     <>
-      {isLoading && <div>Loading...</div>}
       {isError && <div>Error...</div>}
+      {isLoading && <Loader />}
       {groupData && (
         <>
           <TripList groupData={groupData} />

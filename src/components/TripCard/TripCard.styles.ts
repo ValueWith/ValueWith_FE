@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import theme from '@assets/styles/theme';
 
 export const TripCardContainer = styled.div`
-  /* width: 285px; grid 때문에 삭제 */
   height: 380px;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
@@ -10,7 +9,7 @@ export const TripCardContainer = styled.div`
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.01);
   }
 `;
 
@@ -28,7 +27,7 @@ export const Closed = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: ${theme.color.primary};
+    background-color: ${theme.color.gray600};
     color: ${theme.color.white};
     font-size: 15px;
     font-weight: bold;
@@ -55,7 +54,7 @@ export const Icon = styled.div`
   display: flex;
   gap: 4px;
   align-items: center;
-  padding: 4px 14px;
+  padding: 4px 12px;
   margin-right: 5px;
   font-size: 13px;
   color: ${theme.color.primary};
@@ -91,6 +90,7 @@ export const Detail = styled.div`
 
 export const DetailTitle = styled.span`
   color: #1c1c1c;
+  font-weight: 500;
 `;
 
 export const DetailContent = styled.span`
@@ -99,6 +99,8 @@ export const DetailContent = styled.span`
 
 export const Content = styled.p`
   width: calc(100% - 24px);
+  height: 30px;
+  margin-bottom: 12px;
   font-size: 13px;
   color: #707070;
   letter-spacing: -0.65px;
@@ -108,4 +110,32 @@ export const Content = styled.p`
   display: -webkit-box;
   -webkit-line-clamp: 2; // 원하는 라인수
   -webkit-box-orient: vertical;
+`;
+
+// 지원자 목록 div
+export const ApplyListContainer = styled.div`
+  width: 100%;
+  padding: 17px 24px;
+  margin-top: 2rem;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+`;
+
+export const ApplyListTitle = styled.p`
+  font-size: 16px;
+  font-weight: 500;
+  color: #222222;
+  letter-spacing: 0.32px;
+`;
+
+export const MemberListContainer = styled.div`
+  max-width: 1020px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  margin: 10px auto 0 auto;
+  > div {
+    background-color: #f7f7f7;
+    border-radius: 4px;
+  }
 `;

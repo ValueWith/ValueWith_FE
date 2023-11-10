@@ -15,9 +15,9 @@ function GroupUserInfo({
 }: GroupUserInfoProps) {
   return (
     <S.ProfileContainer>
-      <S.ProfileImage src={profileUrl} alt='프로필 이미지' />
+      <S.ProfileImage src={profileUrl} alt="프로필 이미지" />
       <span>
-        {nickName} &bull; {age} &bull; {gender}성
+        {nickName}&nbsp;&#183;&nbsp;{age}&nbsp;&#183;&nbsp;{gender}성
       </span>
     </S.ProfileContainer>
   );
