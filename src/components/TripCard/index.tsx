@@ -10,11 +10,15 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import { MdCalendarMonth } from 'react-icons/md';
 import * as S from './TripCard.styles';
 
-interface TripCardProps {
+interface TripCardCSSProps {
+  cardType?: string; // 'management' | 'registration' | 'waiting';
+}
+
+interface TripCardProps extends TripCardCSSProps {
   group: TripGroup;
 }
 
-function TripCard({ group }: TripCardProps) {
+function TripCard({ group, cardType }: TripCardProps) {
   const {
     name,
     content,
@@ -33,8 +37,6 @@ function TripCard({ group }: TripCardProps) {
 
   const [isOpenApplyList, setIsOpenApplyList] = useState(false);
 
-  const test_code = false;
-
   const d_day = calculateDday(dueDate);
   const isClosed = status !== '모집중';
   const koreanArea = conversionArea(tripArea);
@@ -43,7 +45,7 @@ function TripCard({ group }: TripCardProps) {
     <>
       <S.TripCardContainer>
         {isClosed && <S.Closed />}
-        <S.CardTumbnail src={thumbnailUrl} alt='지도 썸네일' />
+        <S.CardTumbnail src={thumbnailUrl} alt="지도 썸네일" />
         <S.IconContainer>
           <S.Icon>
             <FaMapMarkerAlt />
@@ -69,7 +71,9 @@ function TripCard({ group }: TripCardProps) {
             </S.DetailContent>
           </S.Detail>
           <S.Content>{content}</S.Content>
-          {test_code ? (
+
+          {/* 마이라운지에서 '내 그룹' 에서는 UserInfo 대신 관리 버튼 노출   */}
+          {cardType === 'management' ? (
             <GroupMemberManagement
               isOpenApplyList={isOpenApplyList}
               setIsOpenApplyList={setIsOpenApplyList}
@@ -90,7 +94,7 @@ function TripCard({ group }: TripCardProps) {
         <S.ApplyListContainer>
           <S.ApplyListTitle>지원자 목록</S.ApplyListTitle>
           <S.MemberListContainer>
-            <div className='px-4 py-2'>
+            <div className="px-4 py-2">
               <GroupUserInfo
                 profileUrl={profileUrl}
                 nickName={nickName}
@@ -98,7 +102,7 @@ function TripCard({ group }: TripCardProps) {
                 gender={gender}
               />
             </div>
-            <div className='px-4 py-2'>
+            <div className="px-4 py-2">
               <GroupUserInfo
                 profileUrl={profileUrl}
                 nickName={nickName}
