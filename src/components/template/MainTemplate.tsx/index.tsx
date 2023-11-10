@@ -12,13 +12,7 @@ function MainTemplate({ children }: MainTemplateProps) {
   const [pageStyle, setPageStyle] = useState('');
 
   useEffect(() => {
-    setPageStyle(
-      pathname === '/login' ||
-        pathname === '/signup' ||
-        pathname === '/mylounge/profile'
-        ? 'user'
-        : ''
-    );
+    setPageStyle(pathname === '/login' || pathname === '/signup' ? 'user' : '');
   }, [pathname]);
 
   return (
