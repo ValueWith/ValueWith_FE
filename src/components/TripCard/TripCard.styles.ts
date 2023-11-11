@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import theme from '@assets/styles/theme';
 
 export const TripCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   height: 380px;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
@@ -67,7 +69,10 @@ export const Icon = styled.div`
 `;
 
 export const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  height: 100%;
   padding: 14px 12px;
 `;
 

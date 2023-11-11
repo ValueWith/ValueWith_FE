@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 export const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
+  margin-top: auto;
   > span {
     font-size: 14px;
     letter-spacing: -0.7px;

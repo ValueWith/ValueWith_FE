@@ -43,7 +43,7 @@ function TripCard({ group }: TripCardProps) {
     <>
       <S.TripCardContainer>
         {isClosed && <S.Closed />}
-        <S.CardTumbnail src={thumbnailUrl} alt='지도 썸네일' />
+        <S.CardTumbnail src={thumbnailUrl} alt="지도 썸네일" />
         <S.IconContainer>
           <S.Icon>
             <FaMapMarkerAlt />
@@ -69,6 +69,7 @@ function TripCard({ group }: TripCardProps) {
             </S.DetailContent>
           </S.Detail>
           <S.Content>{content}</S.Content>
+
           {test_code ? (
             <GroupMemberManagement
               isOpenApplyList={isOpenApplyList}
@@ -90,7 +91,7 @@ function TripCard({ group }: TripCardProps) {
         <S.ApplyListContainer>
           <S.ApplyListTitle>지원자 목록</S.ApplyListTitle>
           <S.MemberListContainer>
-            <div className='px-4 py-2'>
+            <div className="px-4 py-2">
               <GroupUserInfo
                 profileUrl={profileUrl}
                 nickName={nickName}
@@ -98,7 +99,7 @@ function TripCard({ group }: TripCardProps) {
                 gender={gender}
               />
             </div>
-            <div className='px-4 py-2'>
+            <div className="px-4 py-2">
               <GroupUserInfo
                 profileUrl={profileUrl}
                 nickName={nickName}
