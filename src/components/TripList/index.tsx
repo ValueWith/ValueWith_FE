@@ -1,5 +1,8 @@
+import { Link } from 'react-router-dom';
+
 import { TripGroup } from '@/apis/group';
 import TripCard from '../TripCard';
+
 import * as S from './TripList.styles';
 
 interface TripListProps {
@@ -11,7 +14,9 @@ function TripList({ groupData }: TripListProps) {
     <S.TripListContainer>
       {groupData &&
         groupData.map((group: TripGroup) => (
-          <TripCard key={group.tripGroupId} group={group} />
+          <Link to={`${group.tripGroupId}`} key={group.tripGroupId}>
+            <TripCard key={group.tripGroupId} group={group} />
+          </Link>
         ))}
     </S.TripListContainer>
   );
