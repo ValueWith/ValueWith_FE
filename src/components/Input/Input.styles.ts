@@ -61,6 +61,13 @@ export const Input = styled.input<InputCSSProps>`
             border: 1px solid ${theme.color.gray200};
         }
   `}
+
+  &.disabled {
+    color: ${theme.color.gray600};
+    background-color: #f8f8f8;
+    pointer-events: none;
+    cursor: default;
+  }
 `;
 
 export const Textarea = styled.textarea`

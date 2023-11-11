@@ -83,9 +83,13 @@ export const SubMenuContainer = styled.div`
 export const SubMenuList = styled.ul`
   display: flex;
   align-items: center;
+  height: 100%;
 `;
 
 export const SubMenuItem = styled.li`
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
   margin-left: 12px;
   font-size: 13px;
   padding: 3px 10px 0;

@@ -22,6 +22,22 @@ function Header() {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>('');
 
+  const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
+
+  useEffect(() => {
+    if (location.pathname.startsWith('/mylounge')) {
+      setIsSubMenuVisible(true);
+    } else {
+      setIsSubMenuVisible(true);
+
+      const delayTimeout = setTimeout(() => {
+        setIsSubMenuVisible(false);
+      }, 300);
+
+      return () => clearTimeout(delayTimeout);
+    }
+  }, [location]);
+
   useEffect(() => {
     setCurrentCategory(location.pathname);
   }, [location]);
@@ -48,7 +64,9 @@ function Header() {
               return (
                 <S.HeaderMenuItem
                   key={index}
-                  className={page.path === currentCategory ? 'active' : ''}
+                  className={
+                    location.pathname.startsWith(page.path) ? 'active' : ''
+                  }
                   onClick={() => {
                     navigate(page.path);
 
@@ -108,25 +126,31 @@ function Header() {
       </S.HeaderInner>
 
       {/* 서브 메뉴 */}
-      <S.SubMenuContainer>
-        <S.HeaderInner>
-          <S.SubMenuList>
-            {MYLOUNGE_SUBMENU_LINK.map((page, index) => {
-              return (
-                <S.SubMenuItem
-                  key={index}
-                  className={page.path === currentCategory ? 'active' : ''}
-                  onClick={() => {
-                    navigate(page.path);
-                  }}
-                >
-                  {page.name}
-                </S.SubMenuItem>
-              );
-            })}
-          </S.SubMenuList>
-        </S.HeaderInner>
-      </S.SubMenuContainer>
+      {currentCategory.startsWith('/mylounge') && (
+        <S.SubMenuContainer style={{ opacity: isSubMenuVisible ? 1 : 0 }}>
+          <S.HeaderInner>
+            <S.SubMenuList>
+              {MYLOUNGE_SUBMENU_LINK.map((page, index) => {
+                const isActive =
+                  currentCategory.startsWith(page.path) ||
+                  (currentCategory === '/mylounge' && index === 0);
+
+                return (
+                  <S.SubMenuItem
+                    key={index}
+                    className={isActive ? 'active' : ''}
+                    onClick={() => {
+                      navigate(page.path);
+                    }}
+                  >
+                    {page.name}
+                  </S.SubMenuItem>
+                );
+              })}
+            </S.SubMenuList>
+          </S.HeaderInner>
+        </S.SubMenuContainer>
+      )}
     </S.HeaderContainer>
   );
 }

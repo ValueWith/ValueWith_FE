@@ -15,6 +15,7 @@ interface DropdownProps extends DropdownCSSProps {
   listData: string[];
   placeholder?: string;
   error?: boolean | null;
+  className?: string;
   selectedItem: string;
   onSelectItem: (item: string) => void;
 }
@@ -24,6 +25,7 @@ function Dropdown({
   height,
   styleType,
   listData,
+  className,
   error,
   placeholder,
   selectedItem,
@@ -45,7 +47,7 @@ function Dropdown({
       listWidth={listWidth}
       className={`${error && selectedItem === '' ? 'error ' : ''}${
         styleType === 'text' ? 'text' : ''
-      }`}
+      }${className}`}
     >
       <S.SelectedItem height={height}>
         <S.SelectedItemLabel onClick={() => setIsShow(!isShow)}>
