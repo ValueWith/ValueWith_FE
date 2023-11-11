@@ -38,6 +38,7 @@
     "@types/react-datepicker": "^4.19.1",
     "@types/react-dom": "^18.2.14",
     "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.8",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "@vitejs/plugin-react-swc": "^3.0.0",
