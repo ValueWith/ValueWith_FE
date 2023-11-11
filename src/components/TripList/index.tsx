@@ -9,12 +9,22 @@ interface TripListProps {
   groupData: TripGroup[];
 }
 
+function groupPageLink(groupId: number) {
+  const currentPath = window.location.pathname;
+
+  if (currentPath === '/group') {
+    return `${groupId}`;
+  }
+
+  return `group/${groupId}`;
+}
+
 function TripList({ groupData }: TripListProps) {
   return (
     <S.TripListContainer>
       {groupData &&
         groupData.map((group: TripGroup) => (
-          <Link to={`${group.tripGroupId}`} key={group.tripGroupId}>
+          <Link to={groupPageLink(group.tripGroupId)} key={group.tripGroupId}>
             <TripCard key={group.tripGroupId} group={group} />
           </Link>
         ))}
