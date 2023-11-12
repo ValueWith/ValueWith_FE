@@ -6,7 +6,7 @@ import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
 import { findLabelByCode } from '@/utils/findCodeByLabel';
 import { CATEGORY_OPTION } from '@/constants/area';
 
-import { RiFlag2Line, RiFlag2Fill } from 'react-icons/ri';
+import { RiFlag2Line, RiFlag2Fill, RiDraggable } from 'react-icons/ri';
 import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
@@ -158,8 +158,14 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
               onClick={handleMapCenter}
               ref={provided.innerRef}
               {...provided.draggableProps}
-              {...provided.dragHandleProps}
+              // {...provided.dragHandleProps}
             >
+              <span className="handle" {...provided.dragHandleProps}>
+                <RiDraggable
+                  style={{ cursor: 'grab', minWidth: '18px', height: '18px' }}
+                />
+              </span>
+
               {type === 'registed' && (
                 <S.GroupItemCardOrder
                   className={getOrderClassName(categoryText)}
