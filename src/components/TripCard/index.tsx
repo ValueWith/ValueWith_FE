@@ -104,22 +104,19 @@ function TripCard({ group, cardType }: TripCardProps) {
         <S.ApplyListContainer>
           <S.ApplyListTitle>지원자 목록</S.ApplyListTitle>
           <S.MemberListContainer>
-            <div className="px-4 py-2">
-              <GroupUserInfo
-                profileUrl={profileUrl}
-                nickName={nickName}
-                age={age}
-                gender={gender}
-              />
-            </div>
-            <div className="px-4 py-2">
-              <GroupUserInfo
-                profileUrl={profileUrl}
-                nickName={nickName}
-                age={age}
-                gender={gender}
-              />
-            </div>
+            <GroupUserInfo
+              profileUrl={profileUrl}
+              nickName={nickName}
+              age={age}
+              gender={gender}
+            />
+
+            <GroupUserInfo
+              profileUrl={profileUrl}
+              nickName={nickName}
+              age={age}
+              gender={gender}
+            />
           </S.MemberListContainer>
         </S.ApplyListContainer>
       )}

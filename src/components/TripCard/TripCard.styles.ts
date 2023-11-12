@@ -134,13 +134,14 @@ export const ApplyListTitle = styled.p`
   font-weight: 500;
   color: #222222;
   letter-spacing: 0.32px;
+  cursor: pointer;
 `;
 
 export const MemberListContainer = styled.div`
-  max-width: 1020px;
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  max-width: 1020px;
   margin: 10px auto 0 auto;
   > div {
     background-color: #f7f7f7;
