@@ -2,16 +2,19 @@ import styled from '@emotion/styled';
 import theme from '@assets/styles/theme';
 
 export const TripCardContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 380px;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
-  position: relative;
-  cursor: pointer;
   transition: all 0.3s;
-  &:hover {
-    transform: scale(1.01);
+  cursor: pointer;
+
+  &:not(.mylounge) {
+    &:hover {
+      transform: scale(1.01);
+    }
   }
 `;
 
@@ -121,7 +124,7 @@ export const Content = styled.p`
 export const ApplyListContainer = styled.div`
   width: 100%;
   padding: 17px 24px;
-  margin-top: 2rem;
+  margin-bottom: 2rem;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
 `;
