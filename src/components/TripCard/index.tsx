@@ -10,15 +10,11 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import { MdCalendarMonth } from 'react-icons/md';
 import * as S from './TripCard.styles';
 
-interface TripCardCSSProps {
-  cardType?: string; // 'management' | 'registration' | 'waiting';
-}
-
-interface TripCardProps extends TripCardCSSProps {
+interface TripCardProps {
   group: TripGroup;
 }
 
-function TripCard({ group, cardType }: TripCardProps) {
+function TripCard({ group }: TripCardProps) {
   const {
     name,
     content,
@@ -36,6 +32,8 @@ function TripCard({ group, cardType }: TripCardProps) {
   } = group;
 
   const [isOpenApplyList, setIsOpenApplyList] = useState(false);
+
+  const test_code = false;
 
   const d_day = calculateDday(dueDate);
   const isClosed = status !== '모집중';
@@ -72,8 +70,7 @@ function TripCard({ group, cardType }: TripCardProps) {
           </S.Detail>
           <S.Content>{content}</S.Content>
 
-          {/* 마이라운지에서 '내 그룹' 에서는 UserInfo 대신 관리 버튼 노출   */}
-          {cardType === 'management' ? (
+          {test_code ? (
             <GroupMemberManagement
               isOpenApplyList={isOpenApplyList}
               setIsOpenApplyList={setIsOpenApplyList}
