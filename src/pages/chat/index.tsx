@@ -1,7 +1,11 @@
-import ChatRoomList from '@/components/chat/ChatRoomList';
-import * as S from './Chat.styles';
 import { useEffect, useState } from 'react';
+
 import { RoomInfo, requestSocketSession } from '@/apis/chat';
+
+import ChatRoomList from '@/components/chat/ChatRoomList';
+import RoomMessageList from '@/components/chat/RoomMessageList';
+
+import * as S from './Chat.styles';
 
 function Chat() {
   const [rooms, setRooms] = useState<RoomInfo[]>([]);
@@ -16,6 +20,7 @@ function Chat() {
   return (
     <S.ChatContainer>
       <ChatRoomList rooms={rooms} />
+      <RoomMessageList />
     </S.ChatContainer>
   );
 }
