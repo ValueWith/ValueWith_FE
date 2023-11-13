@@ -4,14 +4,20 @@ import {
   addOnMessageListener,
   removeOnMessageListener,
 } from '@/apis/chat';
-import * as S from './ChatRoomCard.styles';
+
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { chatRoomIdState } from '@/recoil/chatRoomIdState';
+
+import * as S from './ChatRoomCard.styles';
 
 interface ChatRoomCardProps {
   room: RoomInfo;
 }
 
 function ChatRoomCard({ room }: ChatRoomCardProps) {
+  const [roomId, setRoomId] = useRecoilState(chatRoomIdState);
+
   const [lastMessage, setLastMessage] = useState<Message>(room.lastMessage);
   const [currentMemberCount, setCurrentMemberCount] = useState<number>(
     room.currentMemberCount
@@ -29,16 +35,30 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
     return () => removeOnMessageListener(room.roomId, messageHandler);
   }, [room.roomId]);
 
+  const handleClickRoom = () => {
+    setRoomId(room.roomId);
+  };
+
+  const cardStyleType = () => {
+    if (room.roomId === roomId) {
+      return '#fafafa';
+    } else return '';
+  };
+
   return (
-    <S.ChatRoomCardContainer>
+    <S.ChatRoomCardContainer
+      onClick={handleClickRoom}
+      style={{ backgroundColor: cardStyleType() }}
+    >
       <div>
-        {currentMemberCount}/{room.maxMemberCount}
-        {room.title}
-      </div>
-      <div>
-        {lastMessage.isWelcome
-          ? `${lastMessage.nickName}님이 ${room.title} 그룹에 참여하셨습니다.`
-          : lastMessage.messageContent}
+        <S.ChatRoomTitle>
+          ({currentMemberCount}/{room.maxMemberCount}) {room.title}
+        </S.ChatRoomTitle>
+        <S.ChatRoomLastMessage>
+          {lastMessage.isWelcome
+            ? `'${lastMessage.nickName}' 님이 '${room.title}' 그룹에 참여하셨습니다.`
+            : lastMessage.messageContent}
+        </S.ChatRoomLastMessage>
       </div>
     </S.ChatRoomCardContainer>
   );
