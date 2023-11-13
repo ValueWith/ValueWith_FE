@@ -1,7 +1,7 @@
-import React from 'react';
-import * as S from './ChatRoomList.styles';
 import { RoomInfo } from '@/apis/chat';
 import ChatRoomCard from '../ChatRoomCard';
+
+import * as S from './ChatRoomList.styles';
 
 interface ChatRoomListProps {
   rooms: RoomInfo[];
