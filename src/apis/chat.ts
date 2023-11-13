@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export interface Message {
   userId: string;
   nickName: string;
@@ -14,6 +16,14 @@ export interface RoomInfo {
   maxMemberCount: number;
   title: string;
   lastMessage: Message;
+}
+
+export interface MessageListItem {
+  currentPage: number;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  messages: Message[];
 }
 
 export type MessageListener = (newMessage: Message) => void;
@@ -57,15 +67,15 @@ export function requestSocketSession(onSuccess: (rooms: RoomInfo[]) => void) {
     },
     {
       roomId: 2,
-      currentMemberCount: 3,
+      currentMemberCount: 2,
       maxMemberCount: 5,
-      title: '한옥에서 한복입고 사진찍는거 어때?',
+      title: '보드게임카페 가쥬아',
       lastMessage: {
         userId: 'test',
         nickName: '지유진',
         profileUrl: 'https://picsum.photos/200',
         messageId: 'messageId1',
-        messageContent: '유진이의 MBTI는 ISTJ 입니다.',
+        messageContent: '제 MBTI는 ISTJ 입니다.',
         createdAt: '2023-11-12T15:03:17.402Z',
         isWelcome: false,
       },
@@ -74,13 +84,28 @@ export function requestSocketSession(onSuccess: (rooms: RoomInfo[]) => void) {
       roomId: 3,
       currentMemberCount: 3,
       maxMemberCount: 5,
-      title: '한옥에서 한복입고 사진찍는거 어때?',
+      title: '물놀이 어때요?',
       lastMessage: {
         userId: 'test',
         nickName: '수균',
         profileUrl: 'https://picsum.photos/200',
         messageId: 'messageId1',
         messageContent: '안녕하세요 이수근입니다.',
+        createdAt: '2023-11-12T15:03:17.402Z',
+        isWelcome: false,
+      },
+    },
+    {
+      roomId: 4,
+      currentMemberCount: 4,
+      maxMemberCount: 5,
+      title: '부산 회먹으러 갈사람?',
+      lastMessage: {
+        userId: 'test',
+        nickName: '수균',
+        profileUrl: 'https://picsum.photos/200',
+        messageId: 'messageId1',
+        messageContent: '저는 부산 처음가봐요.',
         createdAt: '2023-11-12T15:03:17.402Z',
         isWelcome: false,
       },
@@ -172,52 +197,20 @@ export function removeOnMessageListener(
   }
 }
 
-export function getMessages(
+export async function getMessages(
   roomId: number,
   untilDatetime: string,
   page: number
-): Promise<Message[]> {
-  return new Promise((resolve) => {
-    resolve([
-      {
-        userId: 'test',
-        nickName: '메세지',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId1',
-        messageContent: '저는 메세지입니다.',
-        createdAt: '2023-11-12T15:03:17.402Z',
-        isWelcome: true,
-      },
-      {
-        userId: 'test',
-        nickName: '냐',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId2',
-        messageContent:
-          '여러줄 테스트 여러줄 테스트 여러줄 테스트 여러줄 테스트 여러줄 테스트\n 여러줄 테스트 여러줄 테스트 여러줄 테스트 여러줄 테스트 여러줄 테스트 여러줄 테스트 여러줄 테스트',
-        createdAt: '2023-11-12T15:03:18.402Z',
-        isWelcome: false,
-      },
-      {
-        userId: 'my',
-        nickName: '진지',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId3',
-        messageContent: 'message message message....😤',
-        createdAt: '2023-11-12T15:03:19.402Z',
-        isWelcome: false,
-      },
-      {
-        userId: 'test',
-        nickName: '팡이',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId4',
-        messageContent: '여행 좋아요 너무 좋아요 우하하항',
-        createdAt: '2023-11-12T15:03:20.402Z',
-        isWelcome: false,
-      },
-    ]);
-  });
+): Promise<MessageListItem> {
+  try {
+    const response = await axios.get<MessageListItem>(
+      `http://localhost:5000/messages?roomId=${roomId}&untilDatetime=${untilDatetime}&page=${page}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error Fetching data: ', error);
+    throw error;
+  }
 }
 
 export function postMessage(
