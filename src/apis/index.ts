@@ -4,7 +4,7 @@ const baseURL = 'http://localhost:5173';
 
 const instance = axios.create({
   baseURL,
-  headers: { 'Content-Type': 'application/json' },
+  headers: { 'Content-Type': 'application/json; charset=utf-8' },
   withCredentials: true,
 });
 

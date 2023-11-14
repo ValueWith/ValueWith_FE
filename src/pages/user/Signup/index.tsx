@@ -1,6 +1,9 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 
+import { registerRequest } from '@/apis/user';
+
+import { extractNumber } from '@/utils/extractNumber';
 import { useEmailVerification } from '@/hooks/useEmailValidation';
 
 import * as S from '../User.styles';
@@ -34,7 +37,7 @@ function Signup() {
     mode: 'onBlur',
   });
 
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | undefined>(undefined);
   const [isImgUploading, setImgUploading] = useState(false);
 
   const password = watch('password');
@@ -67,9 +70,18 @@ function Signup() {
 
   //  폼 제출
   const onSubmit: SubmitHandler<SignupFormProps> = async (data) => {
-    console.log(data);
-
     gender === '' ? setIsGenderError(true) : setIsGenderError(false);
+    ageGroup === '' ? setIsAgeGroupError(true) : setIsAgeGroupError(false);
+
+    const params = {
+      nickname: data.nickname,
+      email: data.email,
+      password: data.password,
+      gender: gender === '여성' ? 'female' : 'male',
+      age: extractNumber(ageGroup),
+    };
+
+    await registerRequest(params, file);
   };
 
   return (
