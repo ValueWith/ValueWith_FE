@@ -5,6 +5,8 @@ import { signupRequest } from '@/apis/user';
 import { SignUpProps } from '@/apis/user.model';
 import { handleFetchAction } from '@/utils/fetchAction';
 
+import imageCompression from 'browser-image-compression';
+
 export interface ModalProps {
   title: string;
   message: string;
@@ -31,8 +33,15 @@ function useAuth() {
     try {
       const formData = new FormData();
 
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+      };
+
+      const compressedFile = await imageCompression(file, options);
+
       if (file) {
-        formData.append('file', file);
+        formData.append('file', compressedFile);
       } else {
         formData.append('file', '');
       }
