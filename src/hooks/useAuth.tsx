@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { signupRequest } from '@/apis/user';
-import { SignUpProps } from '@/apis/user.model';
+import { loginRequest, signupRequest } from '@/apis/user';
+import { LoginProps, SignUpProps } from '@/apis/user.model';
 import { handleFetchAction } from '@/utils/fetchAction';
 
 import imageCompression from 'browser-image-compression';
@@ -16,6 +16,7 @@ export interface ModalProps {
 function useAuth() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const [modalProps, setModalProps] = useState<ModalProps>({
     title: '',
@@ -84,9 +85,30 @@ function useAuth() {
     }
   };
 
+  // 로그인
+  const handleLogin = async (data: LoginProps) => {
+    setIsLoading(true);
+    setIsError(false);
+
+    try {
+      const response = await loginRequest(data);
+      localStorage.setItem('accessToken', response.data);
+
+      navigate('/');
+    } catch (error) {
+      // TODO : 회원가입이 안 된 경우, 비밀번호가 틀린 경우 등 에러 처리
+      setIsLoading(false);
+      setIsError(true);
+
+      return console.error('Error Fetching data: ', error);
+    }
+  };
+
   return {
     handleSignup,
+    handleLogin,
     isLoading,
+    isError,
     showModal,
     modalProps,
   };
