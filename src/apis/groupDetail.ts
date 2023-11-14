@@ -19,7 +19,7 @@ export interface Place {
 }
 
 export interface TripGroupDetail {
-  age: string;
+  age: number;
   content?: string;
   createdAt: string;
   currentUserNumber: number;
