@@ -1,4 +1,5 @@
 import axios from 'axios';
+import instance from '.';
 
 export interface GroupListParams {
   page: string;
@@ -38,12 +39,9 @@ export const fetchGroupList = async (
   params: GroupListParams
 ): Promise<GroupListItem> => {
   try {
-    const response = await axios.get<GroupListItem>(
-      'http://localhost:5000/mockData',
-      {
-        params: params,
-      }
-    );
+    const response = await instance.get<GroupListItem>('/api/groups/list', {
+      params: params,
+    });
     return response.data;
   } catch (error) {
     console.error('Error Fetching data: ', error);

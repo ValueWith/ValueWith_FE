@@ -1,4 +1,4 @@
-import axios from 'axios';
+import instance from '.';
 
 export interface GroupMember {
   groupMemberAge: string;
@@ -41,14 +41,12 @@ export interface GroupDetailListItem {
   groupMembers: GroupMember[];
   places: Place[];
 }
-
 export const fetchGroupDetail = async (
   groupId: number
 ): Promise<GroupDetailListItem> => {
   try {
-    const response = await axios.get<GroupDetailListItem>(
-      'http://localhost:5000/groupDetail',
-      { params: { groupId } }
+    const response = await instance.get<GroupDetailListItem>(
+      `/api/groups/list/${groupId}`
     );
     return response.data;
   } catch (error) {
