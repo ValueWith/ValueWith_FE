@@ -5,3 +5,8 @@ export interface SignUpProps {
   gender: string;
   age: number;
 }
+
+export interface LoginProps {
+  email: string;
+  password: string;
+}

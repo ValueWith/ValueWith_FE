@@ -1,5 +1,5 @@
 import instance from '.';
-import { SignUpProps } from './user.model';
+import { LoginProps, SignUpProps } from './user.model';
 
 // 이메일 인증 코드 요청
 export const verifyEmail = async (email: string): Promise<void> => {
@@ -45,3 +45,8 @@ export const signupRequest = async (data: SignUpProps, formData?: any) => {
     return console.error('Error Fetching data: ', error);
   }
 };
+
+// 로그인
+export function loginRequest(data: LoginProps) {
+  return instance.post('/api/auth/signin', data);
+}
