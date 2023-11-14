@@ -15,6 +15,7 @@ import Dropdown from '@/components/Dropdown';
 import ProfileUploader from '@/components/uploader/ProfileUploader';
 import AlertModal from '@/components/modal/Alert';
 import Loader from '@/components/Loader';
+import { SignUpProps } from '@/apis/user.model';
 
 interface SignupFormProps {
   nickname: string;
@@ -57,7 +58,7 @@ function Signup() {
     isEmailCodeValid,
   } = useEmailVerification(watch('email'), watch('emailCode'), errors, trigger);
 
-  const { registerRequest, isLoading, showModal, modalProps } = useAuth();
+  const { handleSignup, isLoading, showModal, modalProps } = useAuth();
 
   // 디버깅용 코드
   // useEffect(() => {
@@ -74,18 +75,21 @@ function Signup() {
 
   //  폼 제출
   const onSubmit: SubmitHandler<SignupFormProps> = async (data) => {
-    gender === '' ? setIsGenderError(true) : setIsGenderError(false);
-    ageGroup === '' ? setIsAgeGroupError(true) : setIsAgeGroupError(false);
+    if (gender === '') return setIsGenderError(true);
+    if (ageGroup === '') return setIsAgeGroupError(true);
 
-    const params = {
+    const age = extractNumber(ageGroup);
+    if (age === null) return;
+
+    const params: SignUpProps = {
       nickname: data.nickname,
       email: data.email,
       password: data.password,
       gender: gender === '여성' ? 'female' : 'male',
-      age: extractNumber(ageGroup),
+      age,
     };
 
-    await registerRequest(params, file);
+    await handleSignup(params, file);
   };
 
   return (
