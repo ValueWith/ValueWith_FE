@@ -7,6 +7,8 @@ import GroupMain from './pages/group/GroupMain';
 import GroupRecruit from './pages/group/GroupRecruit';
 import GroupManagement from './pages/mylounge/GroupManagement';
 import EditProfile from './pages/mylounge/EditProfile';
+import GroupDetail from './pages/group/GroupDetail';
+import Chat from './pages/chat';
 
 const router = createBrowserRouter([
   {
