@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import GroupUserInfo from '../GroupUserInfo';
 import GroupMemberManagement from '../GroupMemberManagement';
+import TripCardUserInfo from '../TripCardUserInfo';
 
 import { TripGroup } from '@/apis/group';
 import { calculateDday } from '@/utils/dateUtil.ts';
@@ -55,7 +56,7 @@ function TripCard({ group, cardType }: TripCardProps) {
         }}
       >
         {isClosed && <S.Closed />}
-        <S.CardTumbnail src={thumbnailUrl} alt="지도 썸네일" />
+        <S.CardTumbnail src={thumbnailUrl} alt='지도 썸네일' />
         <S.IconContainer>
           <S.Icon>
             <FaMapMarkerAlt />
@@ -111,7 +112,7 @@ function TripCard({ group, cardType }: TripCardProps) {
               gender={gender}
             />
 
-            <GroupUserInfo
+            <TripCardUserInfo
               profileUrl={profileUrl}
               nickName={nickName}
               age={age}

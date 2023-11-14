@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { calculateDday, formatDotDate } from '@/utils/dateUtil';
 import { GroupMember } from '@/apis/groupDetail';
-import GroupUserInfo from '@/components/GroupUserInfo';
+import TripCardUserInfo from '@components/TripCardUserInfo';
 
 import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai';
 import * as S from './GroupMemberStatus.styles';
@@ -54,13 +54,13 @@ function GroupMemberStatus({
             <S.ModalTitle>함께하는 멤버</S.ModalTitle>
             {groupMembers &&
               groupMembers.map((member) => (
-                <GroupUserInfo
+                <TripCardUserInfo
                   key={member.groupMemberNickname}
                   profileUrl={member.groupMemberProfileUrl}
                   nickName={member.groupMemberNickname}
                   age={Number(member.groupMemberAge)}
                   gender={member.groupMemberGender}
-                  style={{ marginBottom: '5px' }}
+                  style={{ marginBottom: '5px', fontSize: '15px' }}
                 />
               ))}
           </S.GroupMemberStatusModal>
@@ -73,7 +73,7 @@ function GroupMemberStatus({
         </S.Content>
       </S.ContentDiv>
       <div className='mt-[20px]'>
-        <GroupUserInfo
+        <TripCardUserInfo
           profileUrl={profileUrl}
           nickName={nickName}
           age={Number(age)}
