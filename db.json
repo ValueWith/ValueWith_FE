@@ -210,5 +210,90 @@
         "gender": "여"
       }
     ]
+  },
+  "groupDetail": {
+    "tripGroupDetail": {
+      "tripGroupId": 8,
+      "name": "Group Name 1",
+      "content": "Group Content 1",
+      "maxUserNumber": 10,
+      "currentUserNumber": 3,
+      "tripArea": "seoul",
+      "tripDate": "2023-12-01",
+      "dueDate": "2023-11-02",
+      "createdAt": "2023-11-01",
+      "status": "모집중",
+      "thumbnailUrl": "https://d1udi89ozp4mef.cloudfront.net/location%2Fb6280182-8d6d-4057-a5ae-850cf738b48f-seoul1.jpeg",
+      "profileUrl": "https://d1udi89ozp4mef.cloudfront.net/member%2F386a6fc9-a188-46bf-a03a-4e840c543715-loopya.jpeg",
+      "nickName": "loopya",
+      "age": "20",
+      "gender": "남"
+    },
+    "groupMembers": [
+      {
+        "groupMemberNickname": "nickname1",
+        "groupMemberAge": "22",
+        "groupMemberGender": "남",
+        "groupMemberProfileUrl": "https://d1udi89ozp4mef.cloudfront.net/location%2F6480bf6a-57df-4395-9970-5979d327b5f2-dev_loopy.png"
+      },
+      {
+        "groupMemberNickname": "nickname2",
+        "groupMemberAge": "22",
+        "groupMemberGender": "남",
+        "groupMemberProfileUrl": "https://d1udi89ozp4mef.cloudfront.net/location%2F6480bf6a-57df-4395-9970-5979d327b5f2-dev_loopy.png"
+      }
+    ],
+    "places": [
+      {
+        "category": "문화시설",
+        "name": "삼성동 코엑스",
+        "x": 127.0583,
+        "y": 37.5124,
+        "address": "서울특별시 강남구 테헤란로 507",
+        "placeCode": "17573702",
+        "orders": 1,
+        "distance": 13
+      },
+      {
+        "category": "기타",
+        "name": "광화문 광장",
+        "x": 126.9768,
+        "y": 37.5704,
+        "address": "서울특별시 종로구 청계천로 35",
+        "placeCode": "8193961",
+        "orders": 2,
+        "distance": 777.7
+      },
+      {
+        "category": "문화시설",
+        "name": "국립중앙박물관",
+        "x": 126.9804,
+        "y": 37.5238,
+        "address": "서울특별시 용산구 서빙고로 137",
+        "placeCode": "8830150",
+        "orders": 3,
+        "distance": 6.7
+      },
+      {
+        "category": "기타",
+        "name": "명동 쇼핑 거리",
+        "x": 126.9846,
+        "y": 37.5635,
+        "address": "서울특별시 중구 명동8나길 27",
+        "placeCode": "18525454",
+        "orders": 4,
+        "distance": 3.1
+      },
+      {
+        "category": "관광명소",
+        "name": "인사동 거리",
+        "x": 126.9861,
+        "y": 37.5718,
+        "address": "서울특별시 종로구 인사동5길 29",
+        "placeCode": "7984319",
+        "orders": 5,
+        "distance": 0
+      }
+    ]
   }
 }

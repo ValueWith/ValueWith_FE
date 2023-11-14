@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import * as S from './GroupUserInfo.styles';
 
 interface GroupUserInfoProps {
@@ -5,6 +6,7 @@ interface GroupUserInfoProps {
   nickName: string;
   age: number;
   gender: string;
+  style?: CSSProperties;
 }
 
 function GroupUserInfo({
@@ -12,6 +14,7 @@ function GroupUserInfo({
   nickName,
   age,
   gender,
+  style,
 }: GroupUserInfoProps) {
   return (
     <S.ProfileContainer>
