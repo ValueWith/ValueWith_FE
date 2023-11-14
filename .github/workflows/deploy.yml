@@ -21,8 +21,8 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.OFFICIAL_ACCOUNT_TOKEN }}
         with:
           source-directory: 'output'
-          destination-github-username: TeamValueWith
-          destination-repository-name: project_valueWith
+          destination-github-username: 'TeamValueWith'
+          destination-repository-name: 'project_valueWith'
           user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
