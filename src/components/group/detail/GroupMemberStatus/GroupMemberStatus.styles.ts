@@ -41,7 +41,7 @@ export const GroupMemberStatusModal = styled.div`
 `;
 
 export const ModalTitle = styled.p`
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: -0.8px;
   color: #1c1c1c;

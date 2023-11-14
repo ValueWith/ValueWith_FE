@@ -60,7 +60,7 @@ function GroupMemberStatus({
                   nickName={member.groupMemberNickname}
                   age={Number(member.groupMemberAge)}
                   gender={member.groupMemberGender}
-                  style={{ marginBottom: '5px' }}
+                  style={{ marginBottom: '5px', fontSize: '15px' }}
                 />
               ))}
           </S.GroupMemberStatusModal>
