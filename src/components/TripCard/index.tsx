@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GroupUserInfo from '../GroupUserInfo';
 import GroupMemberManagement from '../GroupMemberManagement';
 
@@ -8,13 +8,15 @@ import { conversionArea } from '@/utils/conversionArea';
 
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { MdCalendarMonth } from 'react-icons/md';
+
 import * as S from './TripCard.styles';
 
 interface TripCardProps {
   group: TripGroup;
+  cardType?: string; // 'management' | 'registration' | 'waiting';
 }
 
-function TripCard({ group }: TripCardProps) {
+function TripCard({ group, cardType }: TripCardProps) {
   const {
     name,
     content,
@@ -31,17 +33,27 @@ function TripCard({ group }: TripCardProps) {
     gender,
   } = group;
 
-  const [isOpenApplyList, setIsOpenApplyList] = useState(false);
-
-  const test_code = false;
+  const [isOpenApplyList, setIsOpenApplyList] = useState({
+    isOpen: false,
+    type: '',
+  });
 
   const d_day = calculateDday(dueDate);
   const isClosed = status !== '모집중';
   const koreanArea = conversionArea(tripArea);
 
+  useEffect(() => {
+    if (!isOpenApplyList.isOpen) return;
+  }, [isOpenApplyList]);
+
   return (
     <>
-      <S.TripCardContainer>
+      <S.TripCardContainer
+        className={cardType && 'mylounge'}
+        onClick={() => {
+          console.log('클릭');
+        }}
+      >
         {isClosed && <S.Closed />}
         <S.CardTumbnail src={thumbnailUrl} alt="지도 썸네일" />
         <S.IconContainer>
@@ -70,7 +82,8 @@ function TripCard({ group }: TripCardProps) {
           </S.Detail>
           <S.Content>{content}</S.Content>
 
-          {test_code ? (
+          {/* 마이라운지에서 '내 그룹' 에서는 UserInfo 대신 관리 버튼 노출   */}
+          {cardType === 'management' ? (
             <GroupMemberManagement
               isOpenApplyList={isOpenApplyList}
               setIsOpenApplyList={setIsOpenApplyList}
@@ -87,26 +100,23 @@ function TripCard({ group }: TripCardProps) {
       </S.TripCardContainer>
 
       {/* 지원자 목록 보기 버튼 클릭 시 */}
-      {isOpenApplyList && (
+      {isOpenApplyList.isOpen && (
         <S.ApplyListContainer>
           <S.ApplyListTitle>지원자 목록</S.ApplyListTitle>
           <S.MemberListContainer>
-            <div className="px-4 py-2">
-              <GroupUserInfo
-                profileUrl={profileUrl}
-                nickName={nickName}
-                age={age}
-                gender={gender}
-              />
-            </div>
-            <div className="px-4 py-2">
-              <GroupUserInfo
-                profileUrl={profileUrl}
-                nickName={nickName}
-                age={age}
-                gender={gender}
-              />
-            </div>
+            <GroupUserInfo
+              profileUrl={profileUrl}
+              nickName={nickName}
+              age={age}
+              gender={gender}
+            />
+
+            <GroupUserInfo
+              profileUrl={profileUrl}
+              nickName={nickName}
+              age={age}
+              gender={gender}
+            />
           </S.MemberListContainer>
         </S.ApplyListContainer>
       )}

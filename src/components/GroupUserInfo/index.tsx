@@ -17,11 +17,15 @@ function GroupUserInfo({
   style,
 }: GroupUserInfoProps) {
   return (
-    <S.ProfileContainer style={{ ...style }}>
-      <S.ProfileImage src={profileUrl} alt='프로필 이미지' />
-      <span style={{ ...style }}>
-        {nickName}&nbsp;&#183;&nbsp;{age}&nbsp;&#183;&nbsp;{gender}성
-      </span>
+    <S.ProfileContainer>
+      <S.ProfileImageContainer>
+        <S.ProfileImage src={profileUrl} alt="프로필 이미지" />
+        <S.ProfileName>{nickName}</S.ProfileName>
+      </S.ProfileImageContainer>
+      <S.ProfileInfo>
+        <S.ProfileInfoLabel>{age}</S.ProfileInfoLabel>&nbsp;&#183;&nbsp;
+        <S.ProfileInfoLabel>{gender}성</S.ProfileInfoLabel>
+      </S.ProfileInfo>
     </S.ProfileContainer>
   );
 }
