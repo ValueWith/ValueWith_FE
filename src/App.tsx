@@ -2,6 +2,8 @@ import { Outlet, useLocation } from 'react-router-dom';
 import MainTemplate from '@components/template/MainTemplate.tsx';
 import Header from '@components/Header/index.tsx';
 import Footer from '@components/Footer/index.tsx';
+import { Suspense } from 'react';
+import Loader from './components/Loader';
 
 function App() {
   const { pathname } = useLocation();
@@ -9,12 +11,16 @@ function App() {
   return (
     <>
       {pathname === '/group/recruit' ? (
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
       ) : (
         <>
           <Header />
           <MainTemplate>
-            <Outlet />
+            <Suspense fallback={<Loader />}>
+              <Outlet />
+            </Suspense>
           </MainTemplate>
           <Footer />
         </>
