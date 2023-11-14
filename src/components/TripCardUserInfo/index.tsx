@@ -1,4 +1,6 @@
 import { CSSProperties } from 'react';
+import { conversionGender } from '@/utils/conversionGender';
+
 import * as S from './TripCardUserInfo.styles';
 
 interface TripCardUserInfoProps {
@@ -16,11 +18,13 @@ function TripCardUserInfo({
   gender,
   style,
 }: TripCardUserInfoProps) {
+  const koreanGender = conversionGender(gender);
+
   return (
     <S.ProfileContainer style={{ ...style }}>
       <S.ProfileImage src={profileUrl} alt='프로필 이미지' />
       <span style={{ ...style }}>
-        {nickName}&nbsp;&#183;&nbsp;{age}&nbsp;&#183;&nbsp;{gender}성
+        {nickName}&nbsp;&#183;&nbsp;{age}대&nbsp;&#183;&nbsp;{koreanGender}
       </span>
     </S.ProfileContainer>
   );
