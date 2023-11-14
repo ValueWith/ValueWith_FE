@@ -1,9 +1,11 @@
-import instance from '@/apis';
-import { AlertModalProps } from '@/components/modal/Alert';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface ModalProps {
+import { signupRequest } from '@/apis/user';
+import { SignUpProps } from '@/apis/user.model';
+import { handleFetchAction } from '@/utils/fetchAction';
+
+export interface ModalProps {
   title: string;
   message: string;
   onConfirm: () => void;
@@ -24,48 +26,57 @@ function useAuth() {
   const [showModal, setIsShowModal] = useState(false);
 
   // 회원가입
-  const registerRequest = async (data: any, file?: any) => {
+  const handleSignup = async (data: SignUpProps, file?: any) => {
     setIsLoading(true);
     try {
       const formData = new FormData();
-      formData.append('file', file);
 
-      const response = await instance.post('/api/auth/signup', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        params: { ...data },
-      });
+      if (file) {
+        formData.append('file', file);
+      } else {
+        formData.append('file', '');
+      }
 
-      setIsLoading(false);
-      setIsShowModal(true);
+      const response = await signupRequest(data, formData);
 
-      setModalProps({
+      const successProps = {
         title: '회원가입 성공',
         message: '회원가입이 완료되었습니다.',
         onConfirm: () => {
           navigate('/login');
         },
-      });
+      };
+
+      handleFetchAction(
+        setIsLoading,
+        setIsShowModal,
+        setModalProps,
+        successProps
+      );
 
       return response;
     } catch (error) {
-      setIsLoading(false);
-      setIsShowModal(true);
-      setModalProps({
+      const errorProps = {
         title: '회원가입 실패',
         message: '회원가입에 실패하였습니다.',
         onConfirm: () => {
           navigate('/signup');
         },
-      });
+      };
+
+      handleFetchAction(
+        setIsLoading,
+        setIsShowModal,
+        setModalProps,
+        errorProps
+      );
 
       return console.error('Error Fetching data: ', error);
     }
   };
 
   return {
-    registerRequest,
+    handleSignup,
     isLoading,
     showModal,
     modalProps,
