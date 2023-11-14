@@ -236,7 +236,7 @@ function Signup() {
         {/* 회원가입 버튼  */}
         <Button
           type="submit"
-          styleType={isValid ? 'solid' : 'disabled'}
+          styleType={isValid && isEmailCodeValid ? 'solid' : 'disabled'}
           size="lg"
           fullWidth
         >
