@@ -7,7 +7,6 @@ import GroupMain from './pages/group/GroupMain';
 import GroupRecruit from './pages/group/GroupRecruit';
 import GroupManagement from './pages/mylounge/GroupManagement';
 import EditProfile from './pages/mylounge/EditProfile';
-import Chat from './pages/chat';
 
 const router = createBrowserRouter([
   {
@@ -29,11 +28,12 @@ const router = createBrowserRouter([
       {
         path: 'group',
         children: [
-          { index: true, element: <GroupMain /> },
+          { path: ':groupId', element: <GroupDetail /> },
           {
             path: 'recruit',
             element: <GroupRecruit />,
           },
+          { index: true, element: <GroupMain /> },
         ],
       },
       {

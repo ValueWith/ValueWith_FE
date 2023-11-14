@@ -45,9 +45,9 @@ function Dropdown({
     <S.DropdownContainer
       width={width}
       listWidth={listWidth}
-      className={`${error && selectedItem === '' ? 'error ' : ''}${
+      className={`${className} ${error && selectedItem === '' ? 'error' : ''} ${
         styleType === 'text' ? 'text' : ''
-      }${className}`}
+      }`}
     >
       <S.SelectedItem height={height}>
         <S.SelectedItemLabel onClick={() => setIsShow(!isShow)}>

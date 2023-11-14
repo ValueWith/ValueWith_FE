@@ -24,6 +24,11 @@ export const GroupItemCard = styled.div`
 
   &.registed {
     margin-bottom: 12px;
+    padding: 22px 23px 22px 10px;
+  }
+
+  .handle {
+    margin-right: 5px;
   }
 `;
 
