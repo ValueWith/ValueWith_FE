@@ -24,7 +24,7 @@ export interface TripGroupDetail {
   createdAt: string;
   currentUserNumber: number;
   dueDate: string;
-  genter: string;
+  gender: string;
   maxUserNumber: number;
   name: string;
   nickName: string;
