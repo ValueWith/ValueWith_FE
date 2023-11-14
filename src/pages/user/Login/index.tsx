@@ -83,7 +83,7 @@ function Login() {
         없는 이메일이거나, 비밀번호가 일치하지 않습니다.
       </ErrorMessage> */}
 
-      <div className="flex">
+      <div className="flex mt-3">
         <Button
           type="button"
           size="sm"
