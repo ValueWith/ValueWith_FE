@@ -27,6 +27,7 @@ function Signup() {
     register,
     handleSubmit,
     watch,
+    trigger,
     setError,
     formState: { errors, isValid },
   } = useForm<SignupFormProps>({
@@ -49,7 +50,7 @@ function Signup() {
     handleCheckEmailValidate,
     isEmailChecked,
     isEmailCodeValid,
-  } = useEmailVerification(watch('email'), watch('emailCode'), errors);
+  } = useEmailVerification(watch('email'), watch('emailCode'), errors, trigger);
 
   // 디버깅용 코드
   // useEffect(() => {
