@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { chatRoomIdState } from '@/recoil/chatRoomIdState';
 
@@ -43,6 +43,7 @@ function combineMessages(messages: Message[]): Message[] {
 function RoomMessageList() {
   const roomId = useRecoilValue(chatRoomIdState);
   const [liveMessageList, setLiveMessageList] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState<string>('');
 
   useEffect(() => {
     setLiveMessageList([]);
@@ -69,6 +70,26 @@ function RoomMessageList() {
     // 현재는 새로운 채팅이 발생하면 아래로 강제 스크롤 됨
   }, [data, liveMessageList]);
 
+  const handleSubmitMessage = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (inputValue.trim() !== '') {
+      // TODO: message POST
+      console.log('input message', inputValue);
+      window.__LIVE_TEST__.publishEvent(roomId, {
+        userId: `userId${roomId}`, // currentUserId
+        nickName: 'name',
+        profileUrl: 'https://picsum.photos/200',
+        messageId: `messageId${Math.random()}`,
+        messageContent: inputValue,
+        createdAt: new Date().toISOString(),
+        isWelcome: false,
+      });
+
+      setInputValue('');
+    }
+  };
+
   if (roomId === 0) {
     return <S.RoomMessageListContainer />;
   }
@@ -88,17 +109,28 @@ function RoomMessageList() {
         )}
       </S.ChatListContainer>
       <div className='relative'>
-        <Input
-          inputType='textarea'
-          name='inputMessage'
-          style={{ borderRadius: 0, border: 0, borderTop: '1px solid #e0e0e0' }}
-        />
-        <Button
-          styleType='solid'
-          style={{ position: 'absolute', right: '19px', bottom: 0 }}
-        >
-          전송
-        </Button>
+        <form onSubmit={handleSubmitMessage}>
+          <Input
+            inputType='input'
+            name='inputMessage'
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            style={{
+              borderRadius: 0,
+              border: 0,
+              borderTop: '1px solid #e0e0e0',
+              height: '130px',
+              fontSize: '15px',
+            }}
+          />
+          <Button
+            type='submit'
+            styleType='solid'
+            style={{ position: 'absolute', right: '19px', bottom: 0 }}
+          >
+            전송
+          </Button>
+        </form>
       </div>
     </S.RoomMessageListContainer>
   );

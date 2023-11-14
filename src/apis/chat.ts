@@ -120,53 +120,7 @@ export function requestSocketSession(onSuccess: (rooms: RoomInfo[]) => void) {
 
 function getRooms(): Promise<RoomInfo[]> {
   return new Promise((resolve) => {
-    resolve([
-      {
-        roomId: 1,
-        currentMemberCount: 1,
-        maxMemberCount: 5,
-        title: '한옥에서 한복입고 사진찍는거 어때?',
-        lastMessage: {
-          userId: 'test',
-          nickName: '유진',
-          profileUrl: 'https://picsum.photos/200',
-          messageId: 'messageId1',
-          messageContent: '',
-          createdAt: '2023-11-12T15:03:17.402Z',
-          isWelcome: true,
-        },
-      },
-      {
-        roomId: 2,
-        currentMemberCount: 3,
-        maxMemberCount: 5,
-        title: '한옥에서 한복입고 사진찍는거 어때?',
-        lastMessage: {
-          userId: 'test',
-          nickName: '지유진',
-          profileUrl: 'https://picsum.photos/200',
-          messageId: 'messageId1',
-          messageContent: '유진이의 MBTI는 ISTJ 입니다.',
-          createdAt: '2023-11-12T15:03:17.402Z',
-          isWelcome: false,
-        },
-      },
-      {
-        roomId: 3,
-        currentMemberCount: 3,
-        maxMemberCount: 5,
-        title: '한옥에서 한복입고 사진찍는거 어때?',
-        lastMessage: {
-          userId: 'test',
-          nickName: '수균',
-          profileUrl: 'https://picsum.photos/200',
-          messageId: 'messageId1',
-          messageContent: '안녕하세요 이수근입니다.',
-          createdAt: '2023-11-12T15:03:17.402Z',
-          isWelcome: false,
-        },
-      },
-    ]);
+    // resolve(true);
   });
 }
 
