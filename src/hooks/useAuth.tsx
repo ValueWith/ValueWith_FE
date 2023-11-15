@@ -6,6 +6,8 @@ import { LoginProps, SignUpProps } from '@/apis/user.model';
 import { handleFetchAction } from '@/utils/fetchAction';
 
 import imageCompression from 'browser-image-compression';
+import { useSetRecoilState } from 'recoil';
+import { tokenState } from '@/recoil/userState';
 
 export interface ModalProps {
   title: string;
@@ -15,9 +17,11 @@ export interface ModalProps {
 
 function useAuth() {
   const navigate = useNavigate();
+
+  const setToken = useSetRecoilState<string | null>(tokenState);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-
   const [modalProps, setModalProps] = useState<ModalProps>({
     title: '',
     message: '',
@@ -92,7 +96,7 @@ function useAuth() {
 
     try {
       const response = await loginRequest(data);
-      localStorage.setItem('accessToken', response.data);
+      setToken(response.data);
 
       navigate('/');
     } catch (error) {
