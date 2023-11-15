@@ -16,13 +16,13 @@ export interface PlaceObjectModel {
   x: number;
   y: number;
   place_url?: string;
+  orders?: number;
 }
 export interface SelectedPlaceModel {
   selectedPlace: PlaceObjectModel[];
 }
 
 export interface GroupRegistModel {
-  groupArea: string;
   groupThumbnail: File | null;
 }
 
@@ -41,7 +41,6 @@ export const mapOptionState = atom<MapOptionModel>({
 export const groupRegistState = atom<GroupRegistModel>({
   key: 'groupRegistState',
   default: {
-    groupArea: '',
     groupThumbnail: null,
   },
 });
