@@ -1,3 +1,5 @@
+import imageCompression from 'browser-image-compression';
+
 import { useQuery } from 'react-query';
 import {
   SuggestionsModel,
@@ -7,6 +9,7 @@ import {
 import { useEffect, useState } from 'react';
 import { AREA_OPTION } from '@/constants/area';
 import { findValueByProperty } from '@/utils/findCodeByLabel';
+import instance from '@/apis';
 
 // TODO : params 타입 정의
 export const useGetSuggestionData = (params: SuggestionsModel) => {
@@ -91,15 +94,32 @@ export const useRegistGroup = () => {
   };
 
   const handleFormSubmit = async (data: any, file: any) => {
-    console.log(data, '데이터용');
+    console.log(data, '전송되는 데이터');
 
     try {
       const formData = new FormData();
 
-      //   const response = await groupRegisterRequest(data);
-      //   console.log(response);
-    } catch (event) {
-      console.log(event);
+      const requestBlob = new Blob([JSON.stringify(data)], {
+        type: 'application/json',
+      });
+
+      formData.append('tripGroupRequestDto', requestBlob);
+
+      if (file) {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+        };
+
+        const compressedFile = await imageCompression(file, options);
+        formData.append('file', compressedFile);
+      } else {
+        formData.append('file', '');
+      }
+
+      const response = await groupRegisterRequest(formData);
+    } catch (error) {
+      console.log('error', error);
     }
   };
   return { handleFilterArea, handleSetOrder, handleFormSubmit };
