@@ -12,11 +12,19 @@ export interface LoaderCSSProps {
 interface LoaderProps extends LoaderCSSProps {
   width?: number;
   height?: number;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-function Loader({ width = 40, height = 40, bgColor }: LoaderProps) {
+function Loader({
+  width = 40,
+  height = 40,
+  bgColor,
+  style,
+  className,
+}: LoaderProps) {
   return (
-    <S.LoaderContainer bgColor={bgColor}>
+    <S.LoaderContainer bgColor={bgColor} style={style} className={className}>
       <Oval
         width={width}
         height={height}

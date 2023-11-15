@@ -1,11 +1,21 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 
 const baseURL = 'http://localhost:5173';
 
 const instance = axios.create({
   baseURL,
-  headers: { 'Content-Type': 'application/json' },
+  headers: { 'Content-Type': 'application/json; charset=utf-8' },
   withCredentials: true,
+});
+
+instance.interceptors.request.use((config) => {
+  if (!config.headers) return config;
+  const accessToken = localStorage.getItem('accessToken');
+
+  if (accessToken) {
+    config.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  }
+  return config;
 });
 
 instance.interceptors.response.use(
