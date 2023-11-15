@@ -21,12 +21,10 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const {
-      response: { status },
-    } = error;
+    const { response } = error;
 
-    if (status) {
-      switch (status) {
+    if (response && response.status) {
+      switch (response.status) {
         case 400:
         case 404:
           return Promise.reject('API 요청에 실패했습니다.');
