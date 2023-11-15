@@ -6,4 +6,5 @@ export const TripListContainer = styled.div`
   gap: 12px;
   grid-template-columns: repeat(auto-fill, minmax(282px, 1fr));
   justify-content: center;
+  padding-bottom: 50px;
 `;
