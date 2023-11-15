@@ -29,6 +29,8 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.17.0",
     "recoil": "^0.7.7",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "recoil-persist": "^5.1.0"
   },
   "devDependencies": {
@@ -37,6 +39,8 @@
     "@types/react": "^18.0.28",
     "@types/react-datepicker": "^4.19.1",
     "@types/react-dom": "^18.2.14",
+    "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.8",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "@vitejs/plugin-react-swc": "^3.0.0",

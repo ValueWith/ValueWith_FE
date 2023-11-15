@@ -10,6 +10,7 @@ const GroupRecruit = lazy(() => import('./pages/group/GroupRecruit'));
 const GroupManagement = lazy(() => import('./pages/mylounge/GroupManagement'));
 const EditProfile = lazy(() => import('./pages/mylounge/EditProfile'));
 const GroupDetail = lazy(() => import('./pages/group/GroupDetail'));
+const Chat = lazy(() => import('./pages/chat'));
 
 export {
   Signup,
@@ -20,6 +21,7 @@ export {
   GroupManagement,
   EditProfile,
   GroupDetail,
+  Chat,
 };
 
 const router = createBrowserRouter([
@@ -63,6 +65,10 @@ const router = createBrowserRouter([
             element: <EditProfile />,
           },
         ],
+      },
+      {
+        path: 'chat',
+        element: <Chat />,
       },
     ],
   },
