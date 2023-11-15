@@ -6,6 +6,9 @@ import {
   selectedPlaceState,
 } from '@/recoil/GroupRegistState';
 
+import { useRegistGroup } from '@/hooks/useRegist';
+import { formatDueDate, formatTripDate } from '@/utils/dateUtil';
+
 import Input from '@/components/Input';
 import DateInput from '@/components/DateInput';
 import FileUploader from '@/components/uploader/FileUploader';
@@ -48,8 +51,11 @@ function GroupRegistInfo() {
     setError,
   });
 
+  const { handleFormSubmit, handleSetOrder, handleFilterArea } =
+    useRegistGroup();
+
   // TODO : 폼 데이터 타입 정의
-  const onSubmit = (data: any, event?: any) => {
+  const onSubmit = async (data: any, event?: any) => {
     handleFormValidate(data, event);
 
     try {
@@ -57,9 +63,29 @@ function GroupRegistInfo() {
       console.log('그룹 데이터 상태', groupFormData);
       console.log('선택한 장소', selectedPlace.selectedPlace);
 
-      // TODO : 지역 필터링 함수
+      // 각 카드에 orders 속성 추가
+      const setOrderPlace = handleSetOrder(selectedPlace.selectedPlace);
 
-      // TODO : API 호출 함수
+      // 여행 날짜 데이터 포맷 변경
+      const departureDate = formatTripDate(data.departureDate);
+
+      // 마감 날짜가 있다면, 마감 날짜 데이터 포맷 변경
+      const recruitmentEndDate = formatDueDate(data.recruitmentEndDate);
+
+      // 지역 필터링
+      const areaValue = handleFilterArea(selectedPlace.selectedPlace);
+
+      const formPreprocessData = {
+        name: data.groupTitle,
+        content: data.groupDescription,
+        maxMemberNumber: data.groupMemberCount,
+        tripArea: areaValue,
+        tripDate: departureDate,
+        dueDate: recruitmentEndDate,
+        places: [...setOrderPlace],
+      };
+
+      await handleFormSubmit(formPreprocessData, groupFormData.groupThumbnail);
     } catch (error) {
       console.log(error);
     }
