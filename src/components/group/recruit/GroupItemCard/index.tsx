@@ -10,6 +10,7 @@ import { RiFlag2Line, RiFlag2Fill, RiDraggable } from 'react-icons/ri';
 import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
+import { modalState } from '@/recoil/modalState';
 
 interface GroupItemCardProps {
   item: any;
@@ -31,6 +32,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
 
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [mapOption, setMapOption] = useRecoilState(mapOptionState);
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
   function getOrderClassName(categoryText: string) {
     if (categoryText.includes('숙박')) {
@@ -92,6 +94,21 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
 
   const handleRegistrationCard = (event: any, item: any) => {
     event.stopPropagation();
+
+    if (selectedPlace.selectedPlace.length >= 10) {
+      return setModalDataState({
+        ...modalDataState,
+        isModalOpen: true,
+        title: '여행지 선택',
+        message: '여행지는 최대 10개까지만 선택할 수 있습니다.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+        },
+      });
+    }
 
     const selectedData = {
       placeCode: item.id || item.contentid,
