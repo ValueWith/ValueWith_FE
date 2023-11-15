@@ -1,12 +1,19 @@
+import { Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+
+import { useRecoilValue } from 'recoil';
+import { modalState } from './recoil/modalState';
+
 import MainTemplate from '@components/template/MainTemplate.tsx';
 import Header from '@components/Header/index.tsx';
 import Footer from '@components/Footer/index.tsx';
-import { Suspense } from 'react';
-import Loader from './components/Loader';
+import Loader from '@components/Loader';
+import ConfirmModal from './components/modal/Confirm';
+import AlertModal from './components/modal/Alert';
 
 function App() {
   const { pathname } = useLocation();
+  const modalDataState = useRecoilValue(modalState);
 
   return (
     <>
@@ -23,6 +30,16 @@ function App() {
             </Suspense>
           </MainTemplate>
           <Footer />
+        </>
+      )}
+
+      {modalDataState.isModalOpen && (
+        <>
+          {modalDataState.type === 'confirm' ? (
+            <ConfirmModal {...modalDataState} />
+          ) : (
+            <AlertModal {...modalDataState} />
+          )}
         </>
       )}
     </>

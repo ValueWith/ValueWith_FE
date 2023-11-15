@@ -1,13 +1,5 @@
 import * as S from '../styles.ts';
-import { ModalCSSProps } from '../model.ts';
-
-export interface AlertModalProps extends ModalCSSProps {
-  title: string;
-  message: string; // 텍스트만 있는 경우 message
-  children?: React.ReactNode; // 텍스트 외에 다른 컴포넌트가 있는 경우 children
-  confirmText?: string; // 확인 버튼 텍스트
-  onConfirm: () => void; // 확인 버튼 클릭 시 실행할 함수
-}
+import { ModalModel } from '@/recoil/modalState.ts';
 
 const AlertModal = ({
   title,
@@ -17,7 +9,7 @@ const AlertModal = ({
   confirmText = '확인',
   alignType = 'top',
   onConfirm,
-}: AlertModalProps) => {
+}: ModalModel) => {
   return (
     <S.ModalOverlay>
       <S.ModalContainer alignType={alignType}>
