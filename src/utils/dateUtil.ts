@@ -30,3 +30,20 @@ export function formatDotDate(dateString: string) {
 
   return `${year}.${month}.${day}`;
 }
+
+export function formatTripDate(dateString: Date) {
+  const date = dateString
+    .toLocaleDateString()
+    .replace(/\. /g, '-')
+    .replace(/\.$/, '');
+
+  return date;
+}
+
+export function formatDueDate(dateString: Date) {
+  const date = dateString
+    ? dateString.toLocaleDateString().replace(/\. /g, '-').replace(/\.$/, '')
+    : '';
+
+  return date;
+}
