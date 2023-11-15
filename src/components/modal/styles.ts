@@ -65,7 +65,7 @@ export const ConfirmButton = styled.button<ModalCSSProps>`
   margin-left: 10px;
   padding: 10px;
   border-radius: 5px;
-
+  color: #fff;
   font-weight: 600;
   border: none;
   cursor: pointer;
