@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useState } from 'react';
+import instance from '.';
 
 // export const key =
 //   'ZaKLTQ4YVv%2Fxm3MH5wZViKbWDtVeLw1IQmndQ0%2Bp4GthOdDlBrfGjdr1t4q5a1iGnwASF9zD2AF0jh9WHnw6Xg%3D%3D';
 
 export const key =
   'ompzpsrcSsZjQb6%2BQzGk1uP88alqJcWCdRmvneUwNI9F75haQ11AoAaS7MIoa89p1OHjLVaGxH6nRnVX85HzzQ%3D%3D';
+
 export interface SuggestionsModel {
   page: number;
   areaCode: number | null;
@@ -29,3 +31,11 @@ export const getSuggestionData = async ({
     return response;
   }
 };
+
+export function groupRegisterRequest(data: any) {
+  return instance.post('/api/groups', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
