@@ -47,7 +47,7 @@ function Login() {
           height={36}
           className="mr-4 mb-2"
         />
-        회원가입
+        로그인
       </S.UserHeader>
 
       <form className="login mt-[76px]" onSubmit={handleSubmit(onSubmit)}>
