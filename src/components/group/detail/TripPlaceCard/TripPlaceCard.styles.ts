@@ -3,11 +3,9 @@ import styled from '@emotion/styled';
 
 export const TripPlaceCardContainer = styled.div`
   width: 100%;
-  min-height: 65px;
   display: flex;
   align-items: center;
   padding: 0 56.5px;
-  margin-bottom: 6px;
 
   &:last-of-type {
     margin-bottom: 0;
@@ -19,7 +17,7 @@ export const TripPlaceCardOrder = styled.span`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  width: 25px;
+  min-width: 25px;
   height: 25px;
   margin-right: 12px;
   background-color: #f87973;
