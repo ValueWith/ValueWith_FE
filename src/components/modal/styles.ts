@@ -48,6 +48,8 @@ export const ModalContainer = styled.div<ModalCSSProps>`
 `;
 
 export const ModalHeader = styled.h2`
+  font-size: 21px;
+  font-weight: 500;
   margin-bottom: 14px;
 `;
 
