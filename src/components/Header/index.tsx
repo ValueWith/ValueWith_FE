@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
+
+import { paramsState } from '@/recoil/paramsState';
 
 // components
 import { RiMessage2Line } from 'react-icons/ri';
@@ -23,6 +26,8 @@ function Header() {
   const [currentCategory, setCurrentCategory] = useState<string>('');
 
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
+
+  const setParams = useSetRecoilState(paramsState);
 
   useEffect(() => {
     if (location.pathname.startsWith('/mylounge')) {
@@ -46,6 +51,16 @@ function Header() {
     navigate('/login');
   };
 
+  const handleGroup = () => {
+    setParams({
+      page: '1',
+      status: 'all',
+      area: 'all',
+      sort: 'latest',
+      title: '',
+    });
+  };
+
   return (
     <S.HeaderContainer>
       <S.HeaderInner>
@@ -59,7 +74,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className="header__menu-list">
+          <ul className='header__menu-list'>
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -75,7 +90,8 @@ function Header() {
                     }
 
                     if (page.path === '/group') {
-                      window.location.reload();
+                      // paramState 초기화
+                      handleGroup();
                     }
                   }}
                 >
@@ -100,12 +116,12 @@ function Header() {
                 <AiOutlineBell size={24} />
               </S.UserActionItem>
 
-              <span className="ml-4">|</span>
+              <span className='ml-4'>|</span>
 
               <Button
-                type="button"
-                styleType="text"
-                className="ml-4"
+                type='button'
+                styleType='text'
+                className='ml-4'
                 style={{
                   minWidth: 'auto',
                   color: `${theme.color.fontgray}`,
@@ -119,7 +135,7 @@ function Header() {
           )}
 
           {/* 로그인  */}
-          <Button type="button" styleType="basic" onClickHandler={handleLogin}>
+          <Button type='button' styleType='basic' onClickHandler={handleLogin}>
             로그인
           </Button>
         </S.UserActionsWrapper>
