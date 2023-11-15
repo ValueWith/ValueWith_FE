@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useRecoilState } from 'recoil';
-import { tokenState } from '@/recoil/userState';
 import { modalState } from '@/recoil/modalState';
 
 // constants
@@ -18,6 +17,7 @@ import Button from '../Button';
 import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
+import { loginState } from '@/recoil/userState';
 
 function Header() {
   const location = useLocation();
@@ -26,7 +26,7 @@ function Header() {
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
 
-  const [token, setToken] = useRecoilState<string | null>(tokenState);
+  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
   useEffect(() => {
@@ -47,6 +47,16 @@ function Header() {
     setCurrentCategory(location.pathname);
   }, [location]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+
+    if (token) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [isLogin]);
+
   const handleLogin = () => {
     navigate('/login');
   };
@@ -62,7 +72,8 @@ function Header() {
           ...modalDataState,
           isModalOpen: false,
         });
-        setToken(null);
+        localStorage.removeItem('accessToken');
+        setIsLogin(false);
         navigate('/');
       },
       onCancel: () => {
@@ -116,7 +127,7 @@ function Header() {
 
         {/* 사용자 액션  */}
         <S.UserActionsWrapper>
-          {token ? (
+          {isLogin ? (
             <S.UserActions>
               {/* 채팅 */}
               <S.UserActionItem>

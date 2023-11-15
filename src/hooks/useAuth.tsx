@@ -7,7 +7,7 @@ import { handleFetchAction } from '@/utils/fetchAction';
 
 import imageCompression from 'browser-image-compression';
 import { useSetRecoilState } from 'recoil';
-import { tokenState } from '@/recoil/userState';
+import { loginState } from '@/recoil/userState';
 
 export interface ModalProps {
   title: string;
@@ -18,7 +18,7 @@ export interface ModalProps {
 function useAuth() {
   const navigate = useNavigate();
 
-  const setToken = useSetRecoilState<string | null>(tokenState);
+  const setIsLogin = useSetRecoilState(loginState);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -96,8 +96,8 @@ function useAuth() {
 
     try {
       const response = await loginRequest(data);
-      setToken(response.data);
-
+      localStorage.setItem('accessToken', response.data);
+      setIsLogin(true);
       navigate('/');
     } catch (error) {
       // TODO : 회원가입이 안 된 경우, 비밀번호가 틀린 경우 등 에러 처리
