@@ -13,7 +13,7 @@ instance.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem('accessToken');
 
   if (accessToken) {
-    config.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
 });
@@ -38,7 +38,7 @@ instance.interceptors.response.use(
           return Promise.reject('알 수 없는 에러가 발생했습니다.');
       }
     } else {
-      return Promise.reject('알 수 없는 에러가 발생했습니다.');
+      return Promise.reject('네트워크 오류가 발생했습니다.');
     }
   }
 );
