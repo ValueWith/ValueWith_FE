@@ -28,7 +28,8 @@
     "react-paginate": "^8.2.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.17.0",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0"
   },
   "devDependencies": {
     "@types/json-server": "^0.14.6",
