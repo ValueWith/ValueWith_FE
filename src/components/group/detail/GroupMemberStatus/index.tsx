@@ -13,7 +13,7 @@ interface GroupMemberStatusProps {
   dueDate: string;
   profileUrl: string;
   nickName: string;
-  age: string;
+  age: number;
   gender: string;
   groupMembers: GroupMember[];
 }
@@ -58,7 +58,7 @@ function GroupMemberStatus({
                   key={member.groupMemberNickname}
                   profileUrl={member.groupMemberProfileUrl}
                   nickName={member.groupMemberNickname}
-                  age={Number(member.groupMemberAge)}
+                  age={member.groupMemberAge}
                   gender={member.groupMemberGender}
                   style={{ marginBottom: '5px', fontSize: '15px' }}
                 />

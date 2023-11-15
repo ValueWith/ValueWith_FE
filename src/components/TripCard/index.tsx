@@ -90,7 +90,7 @@ function TripCard({ group, cardType }: TripCardProps) {
               setIsOpenApplyList={setIsOpenApplyList}
             />
           ) : (
-            <GroupUserInfo
+            <TripCardUserInfo
               profileUrl={profileUrl}
               nickName={nickName}
               age={age}
@@ -106,13 +106,6 @@ function TripCard({ group, cardType }: TripCardProps) {
           <S.ApplyListTitle>지원자 목록</S.ApplyListTitle>
           <S.MemberListContainer>
             <GroupUserInfo
-              profileUrl={profileUrl}
-              nickName={nickName}
-              age={age}
-              gender={gender}
-            />
-
-            <TripCardUserInfo
               profileUrl={profileUrl}
               nickName={nickName}
               age={age}
