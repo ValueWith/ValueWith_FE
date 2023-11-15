@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
+import { useRecoilState } from 'recoil';
+import { tokenState } from '@/recoil/userState';
+import { modalState } from '@/recoil/modalState';
+
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 
@@ -22,12 +26,13 @@ function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>('');
-
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
 
+
   const setParams = useSetRecoilState(paramsState);
+  const [token, setToken] = useRecoilState<string | null>(tokenState);
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
   useEffect(() => {
     if (location.pathname.startsWith('/mylounge')) {
@@ -58,6 +63,29 @@ function Header() {
       area: 'all',
       sort: 'latest',
       title: '',
+    });
+  };
+
+  const handleLogout = () => {
+    setModalDataState({
+      isModalOpen: true,
+      type: 'confirm',
+      title: '로그아웃',
+      message: 'Tweaver에서 로그아웃 하시겠습니까?',
+      onConfirm: () => {
+        setModalDataState({
+          ...modalDataState,
+          isModalOpen: false,
+        });
+        setToken(null);
+        navigate('/');
+      },
+      onCancel: () => {
+        setModalDataState({
+          ...modalDataState,
+          isModalOpen: false,
+        });
+      },
     });
   };
 
@@ -104,7 +132,7 @@ function Header() {
 
         {/* 사용자 액션  */}
         <S.UserActionsWrapper>
-          {isLogin && (
+          {token ? (
             <S.UserActions>
               {/* 채팅 */}
               <S.UserActionItem>
@@ -127,17 +155,20 @@ function Header() {
                   color: `${theme.color.fontgray}`,
                   fontSize: '15px',
                 }}
-                onClickHandler={() => console.log('로그아웃')}
+                onClickHandler={handleLogout}
               >
                 로그아웃
               </Button>
             </S.UserActions>
+          ) : (
+            <Button
+              type="button"
+              styleType="basic"
+              onClickHandler={handleLogin}
+            >
+              로그인
+            </Button>
           )}
-
-          {/* 로그인  */}
-          <Button type='button' styleType='basic' onClickHandler={handleLogin}>
-            로그인
-          </Button>
         </S.UserActionsWrapper>
       </S.HeaderInner>
 

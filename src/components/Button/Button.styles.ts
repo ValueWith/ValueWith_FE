@@ -84,6 +84,7 @@ const handleButtonType = (props: ButtonCSSProps) => {
 };
 
 export const Button = styled.button<ButtonCSSProps>`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
