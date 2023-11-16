@@ -16,9 +16,12 @@ import * as S from './GroupMain.styles';
 function GroupMain() {
   const navigate = useNavigate();
   const [params, setParams] = useRecoilState(paramsState);
-  const [searchParams, setSearchParams] = useSearchParams(params);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const hasDiffParams = () => {
+  const hasDiffParams = (
+    params: GroupListParams,
+    searchParams: URLSearchParams
+  ) => {
     return Object.keys(params).some((key) => {
       const searchParamValue = searchParams.get(key);
       return searchParamValue !== params[key as keyof GroupListParams];
@@ -26,7 +29,7 @@ function GroupMain() {
   };
 
   useEffect(() => {
-    if (hasDiffParams()) {
+    if (hasDiffParams(params, searchParams)) {
       // 초기 파라미터 변경 시(새로고침) setParams
       setParams({
         page: searchParams.get('page') || params.page,
@@ -37,10 +40,10 @@ function GroupMain() {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
-    if (hasDiffParams()) {
+    if (hasDiffParams(params, searchParams)) {
       // 파라미터 변경 시 setSearchParams로 url 업데이트
       setSearchParams({ ...params });
     }

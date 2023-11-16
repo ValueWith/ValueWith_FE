@@ -1,16 +1,14 @@
 import useGroupDataFetching from '@/hooks/useGroup';
-import { paramsState } from '@/recoil/paramsState';
-import { useRecoilState } from 'recoil';
 import TripList from '../TripList';
-import { useEffect } from 'react';
 
 function HomeTripList() {
-  const [params, setParams] = useRecoilState(paramsState);
-
-  useEffect(() => {
-    setParams({ ...params, status: 'open' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const params = {
+    page: '1',
+    status: 'open',
+    area: 'all',
+    sort: 'latest',
+    title: '',
+  };
 
   const { data, isLoading, isError } = useGroupDataFetching(params);
 

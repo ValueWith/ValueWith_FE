@@ -35,7 +35,7 @@ function GroupDetail() {
                 profileUrl={data.tripGroupDetail.profileUrl}
                 nickName={data.tripGroupDetail.nickName}
                 age={data.tripGroupDetail.age}
-                gender={data.tripGroupDetail.genter}
+                gender={data.tripGroupDetail.gender}
                 groupMembers={data.groupMembers}
               />
               {/* TODO: 지원 상태 알아야 함 */}
