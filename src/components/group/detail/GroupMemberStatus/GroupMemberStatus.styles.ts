@@ -6,7 +6,7 @@ export const GroupMemberStatusContainer = styled.div`
   height: 138px;
   background-color: #fafafa;
   border-radius: 4px;
-  padding: 24px 0 0 27px;
+  padding: 24px 21px;
   margin-top: 40px;
 `;
 
@@ -15,7 +15,7 @@ export const ContentDiv = styled.div`
   gap: 21px;
   letter-spacing: -0.8px;
   margin-bottom: 8px;
-  font-size: 16px;
+  font-size: 15px;
   position: relative;
 `;
 
@@ -41,7 +41,7 @@ export const GroupMemberStatusModal = styled.div`
 `;
 
 export const ModalTitle = styled.p`
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: -0.8px;
   color: #1c1c1c;

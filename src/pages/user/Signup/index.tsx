@@ -1,6 +1,9 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 
+import { extractNumber } from '@/utils/extractNumber';
+
+import useAuth from '@/hooks/useAuth';
 import { useEmailVerification } from '@/hooks/useEmailValidation';
 
 import * as S from '../User.styles';
@@ -10,6 +13,9 @@ import Input from '@/components/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
 import Dropdown from '@/components/Dropdown';
 import ProfileUploader from '@/components/uploader/ProfileUploader';
+import AlertModal from '@/components/modal/Alert';
+import Loader from '@/components/Loader';
+import { SignUpProps } from '@/apis/user.model';
 
 interface SignupFormProps {
   nickname: string;
@@ -27,13 +33,14 @@ function Signup() {
     register,
     handleSubmit,
     watch,
+    trigger,
     setError,
     formState: { errors, isValid },
   } = useForm<SignupFormProps>({
     mode: 'onBlur',
   });
 
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | undefined>(undefined);
   const [isImgUploading, setImgUploading] = useState(false);
 
   const password = watch('password');
@@ -49,7 +56,9 @@ function Signup() {
     handleCheckEmailValidate,
     isEmailChecked,
     isEmailCodeValid,
-  } = useEmailVerification(watch('email'), watch('emailCode'), errors);
+  } = useEmailVerification(watch('email'), watch('emailCode'), errors, trigger);
+
+  const { handleSignup, isLoading, showModal, modalProps } = useAuth();
 
   // 디버깅용 코드
   // useEffect(() => {
@@ -66,13 +75,27 @@ function Signup() {
 
   //  폼 제출
   const onSubmit: SubmitHandler<SignupFormProps> = async (data) => {
-    console.log(data);
+    if (gender === '') return setIsGenderError(true);
+    if (ageGroup === '') return setIsAgeGroupError(true);
 
-    gender === '' ? setIsGenderError(true) : setIsGenderError(false);
+    const age = extractNumber(ageGroup);
+    if (age === null) return;
+
+    const params: SignUpProps = {
+      nickname: data.nickname,
+      email: data.email,
+      password: data.password,
+      gender: gender === '여성' ? 'female' : 'male',
+      age,
+    };
+
+    await handleSignup(params, file);
   };
 
   return (
     <S.UserWrapper>
+      {isLoading && <Loader className="z-[1]" />}
+
       <S.UserHeader>
         <Logo
           color={`${theme.color.primary}`}
@@ -235,13 +258,21 @@ function Signup() {
         {/* 회원가입 버튼  */}
         <Button
           type="submit"
-          styleType={isValid ? 'solid' : 'disabled'}
+          styleType={isValid && isEmailCodeValid ? 'solid' : 'disabled'}
           size="lg"
           fullWidth
         >
           회원가입
         </Button>
       </form>
+
+      {showModal && (
+        <AlertModal
+          title={modalProps.title}
+          message={modalProps?.message}
+          onConfirm={modalProps?.onConfirm}
+        />
+      )}
     </S.UserWrapper>
   );
 }
