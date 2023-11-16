@@ -1,7 +1,5 @@
-import { groupRegistState } from '@/recoil/GroupRegistState';
 import { useState } from 'react';
 import { FieldValues, UseFormSetError, UseFormTrigger } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
 
 interface useRegistFormValidationProps {
   trigger: UseFormTrigger<FieldValues>;
@@ -12,19 +10,17 @@ function useRegistFormValidation({
   trigger,
   setError,
 }: useRegistFormValidationProps) {
-  const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
   const [isFormError, setIsFormError] = useState({
     groupArea: false,
   });
 
   const handleFormValidate = (data: any, event?: React.KeyboardEvent) => {
-    console.log(event);
-
-    // 엔터키가 눌린 경우 input 태그가 아닌 항목에 유효성 검사
-    // 그룹 지역이 빈 값이라면, 폼 검증 여부를 false로 변경
     if (event && event.key === 'Enter') {
+      // 엔터키가 눌린 경우 input 태그가 아닌 항목에 유효성 검사
+      // 그룹 지역이 빈 값이라면, 폼 검증 여부를 false로 변경
       event.preventDefault();
       event.stopPropagation();
+
       trigger();
     }
 

@@ -175,7 +175,6 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
               onClick={handleMapCenter}
               ref={provided.innerRef}
               {...provided.draggableProps}
-              // {...provided.dragHandleProps}
             >
               <span className="handle" {...provided.dragHandleProps}>
                 <RiDraggable
