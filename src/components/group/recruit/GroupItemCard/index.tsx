@@ -160,7 +160,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
           <Button
             type="button"
             styleType="text"
-            style={{ minWidth: 'auto' }}
+            style={{ minWidth: 'auto', padding: '14px 0' }}
             onClickHandler={() => handleRegistrationCard(event, item)}
           >
             추가
@@ -176,9 +176,13 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
               ref={provided.innerRef}
               {...provided.draggableProps}
             >
-              <span className="handle" {...provided.dragHandleProps}>
+              <span className="handle py-8" {...provided.dragHandleProps}>
                 <RiDraggable
-                  style={{ cursor: 'grab', minWidth: '18px', height: '18px' }}
+                  style={{
+                    cursor: 'grab',
+                    minWidth: '18px',
+                    height: '18px',
+                  }}
                 />
               </span>
 
