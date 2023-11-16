@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
 import * as S from './SearchBar.styles';
 import Input from '../Input';
+import { useLocation } from 'react-router-dom';
 
 interface SearchBarProps {
   style?: React.CSSProperties;
@@ -15,6 +16,8 @@ function SearchBar({
   onSearchTermChange,
   defaultValue,
 }: SearchBarProps) {
+  const location = useLocation();
+
   const [searchValue, setSearchValue] = useState<string>('');
 
   useEffect(() => {
@@ -35,6 +38,9 @@ function SearchBar({
       | React.KeyboardEvent<HTMLInputElement>
       | React.MouseEvent<HTMLSpanElement>
   ) => {
+    if (location.pathname === '/group/recruit') {
+      if (!searchValue) return;
+    }
     if ('key' in event && event.key === 'Enter') {
       onSearchTermChange(searchValue);
     } else if ('type' in event && event.type === 'click') {
