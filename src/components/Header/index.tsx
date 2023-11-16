@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
+import { paramsState } from '@/recoil/paramsState';
 
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
@@ -26,6 +27,7 @@ function Header() {
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
 
+  const setParams = useSetRecoilState(paramsState);
   const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
@@ -85,6 +87,16 @@ function Header() {
     });
   };
 
+  const handleGroup = () => {
+    setParams({
+      page: '1',
+      status: 'all',
+      area: 'all',
+      sort: 'latest',
+      title: '',
+    });
+  };
+
   return (
     <S.HeaderContainer>
       <S.HeaderInner>
@@ -98,7 +110,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className="header__menu-list">
+          <ul className='header__menu-list'>
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -114,7 +126,7 @@ function Header() {
                     }
 
                     if (page.path === '/group') {
-                      window.location.reload();
+                      handleGroup();
                     }
                   }}
                 >
@@ -139,12 +151,12 @@ function Header() {
                 <AiOutlineBell size={24} />
               </S.UserActionItem>
 
-              <span className="ml-4">|</span>
+              <span className='ml-4'>|</span>
 
               <Button
-                type="button"
-                styleType="text"
-                className="ml-4"
+                type='button'
+                styleType='text'
+                className='ml-4'
                 style={{
                   minWidth: 'auto',
                   color: `${theme.color.fontgray}`,
@@ -157,8 +169,8 @@ function Header() {
             </S.UserActions>
           ) : (
             <Button
-              type="button"
-              styleType="basic"
+              type='button'
+              styleType='basic'
               onClickHandler={handleLogin}
             >
               로그인
