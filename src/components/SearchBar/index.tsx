@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { RiSearchLine } from 'react-icons/ri';
 import * as S from './SearchBar.styles';
@@ -7,10 +7,19 @@ import Input from '../Input';
 interface SearchBarProps {
   style?: React.CSSProperties;
   onSearchTermChange: (term: string) => void;
+  defaultValue?: string;
 }
 
-function SearchBar({ style, onSearchTermChange }: SearchBarProps) {
+function SearchBar({
+  style,
+  onSearchTermChange,
+  defaultValue,
+}: SearchBarProps) {
   const [searchValue, setSearchValue] = useState<string>('');
+
+  useEffect(() => {
+    setSearchValue(defaultValue || '');
+  }, [defaultValue]);
 
   const handleSearchValue = (
     event:
@@ -26,8 +35,6 @@ function SearchBar({ style, onSearchTermChange }: SearchBarProps) {
       | React.KeyboardEvent<HTMLInputElement>
       | React.MouseEvent<HTMLSpanElement>
   ) => {
-    if (!searchValue) return;
-
     if ('key' in event && event.key === 'Enter') {
       onSearchTermChange(searchValue);
     } else if ('type' in event && event.type === 'click') {
@@ -38,10 +45,10 @@ function SearchBar({ style, onSearchTermChange }: SearchBarProps) {
   return (
     <S.SearchBarContainer>
       <Input
-        inputType="input"
-        name="registSearch"
-        className="registSearch"
-        placeholder="검색어를 입력해주세요"
+        inputType='input'
+        name='registSearch'
+        className='registSearch'
+        placeholder='검색어를 입력해주세요'
         style={{
           height: '53px',
           paddingRight: '60px',
@@ -52,7 +59,7 @@ function SearchBar({ style, onSearchTermChange }: SearchBarProps) {
         onChange={handleSearchValue}
         onKeyDown={handleSearch}
       >
-        <button type="button" className="searchIcon" onClick={handleSearch}>
+        <button type='button' className='searchIcon' onClick={handleSearch}>
           <RiSearchLine style={{ width: '40px', height: '40px' }} />
         </button>
       </Input>
