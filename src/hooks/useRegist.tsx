@@ -77,10 +77,12 @@ export const useRegistGroup = () => {
       Object.keys(areaExtraction)[0]
     );
 
+    const convertArea = selectedArea === '서울특별시' ? '서울' : selectedArea;
+
     // 해당 지역의 value 값 찾기
     const areaValue = findValueByProperty(
       'value',
-      selectedArea,
+      convertArea,
       'label',
       AREA_OPTION
     );
