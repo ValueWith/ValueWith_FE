@@ -1,14 +1,10 @@
-import { FieldValues, UseFormSetError, UseFormTrigger } from 'react-hook-form';
+import { FieldValues, UseFormTrigger } from 'react-hook-form';
 
 interface useRegistFormValidationProps {
   trigger: UseFormTrigger<FieldValues>;
-  setError: UseFormSetError<FieldValues>;
 }
 
-function useRegistFormValidation({
-  trigger,
-  setError,
-}: useRegistFormValidationProps) {
+function useRegistFormValidation({ trigger }: useRegistFormValidationProps) {
   const handleFormValidate = (data: any, event?: React.KeyboardEvent) => {
     if (event && event.key === 'Enter') {
       event.preventDefault();
