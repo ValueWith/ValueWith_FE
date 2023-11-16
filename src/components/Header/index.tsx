@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
 
 import { useRecoilState } from 'recoil';
-import { tokenState } from '@/recoil/userState';
 import { modalState } from '@/recoil/modalState';
 
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
-
-import { paramsState } from '@/recoil/paramsState';
 
 // components
 import { RiMessage2Line } from 'react-icons/ri';
@@ -21,6 +17,7 @@ import Button from '../Button';
 import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
+import { loginState } from '@/recoil/userState';
 
 function Header() {
   const location = useLocation();
@@ -29,9 +26,7 @@ function Header() {
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
 
-
-  const setParams = useSetRecoilState(paramsState);
-  const [token, setToken] = useRecoilState<string | null>(tokenState);
+  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
   useEffect(() => {
@@ -52,18 +47,18 @@ function Header() {
     setCurrentCategory(location.pathname);
   }, [location]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+
+    if (token) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [isLogin]);
+
   const handleLogin = () => {
     navigate('/login');
-  };
-
-  const handleGroup = () => {
-    setParams({
-      page: '1',
-      status: 'all',
-      area: 'all',
-      sort: 'latest',
-      title: '',
-    });
   };
 
   const handleLogout = () => {
@@ -77,7 +72,8 @@ function Header() {
           ...modalDataState,
           isModalOpen: false,
         });
-        setToken(null);
+        localStorage.removeItem('accessToken');
+        setIsLogin(false);
         navigate('/');
       },
       onCancel: () => {
@@ -102,7 +98,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className='header__menu-list'>
+          <ul className="header__menu-list">
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -118,8 +114,7 @@ function Header() {
                     }
 
                     if (page.path === '/group') {
-                      // paramState 초기화
-                      handleGroup();
+                      window.location.reload();
                     }
                   }}
                 >
@@ -132,7 +127,7 @@ function Header() {
 
         {/* 사용자 액션  */}
         <S.UserActionsWrapper>
-          {token ? (
+          {isLogin ? (
             <S.UserActions>
               {/* 채팅 */}
               <S.UserActionItem>
@@ -144,12 +139,12 @@ function Header() {
                 <AiOutlineBell size={24} />
               </S.UserActionItem>
 
-              <span className='ml-4'>|</span>
+              <span className="ml-4">|</span>
 
               <Button
-                type='button'
-                styleType='text'
-                className='ml-4'
+                type="button"
+                styleType="text"
+                className="ml-4"
                 style={{
                   minWidth: 'auto',
                   color: `${theme.color.fontgray}`,
