@@ -19,6 +19,7 @@ import * as S from '@components/group/recruit/GroupRegist.styles';
 import Button from '@/components/Button';
 import useRegistFormValidation from '@/hooks/useRegistFormValidation';
 import Loader from '@/components/Loader';
+import ErrorMessage from '@/components/Message/ErrorMessage';
 
 export interface GroupRegistFromModel {
   groupTitle: string;
@@ -60,6 +61,7 @@ function GroupRegistInfo({
     trigger,
     watch,
     setError,
+    clearErrors,
     reset,
     formState: { errors, isValid },
   } = useForm({
@@ -124,15 +126,17 @@ function GroupRegistInfo({
   };
 
   useEffect(() => {
-    if (!recruitmentEndDate) return;
+    const existingError = errors['recruitmentEndDate'];
 
-    if (recruitmentEndDate > departureDate) {
-      return setError('recruitmentEndDate', {
-        type: 'manual',
+    if (recruitmentEndDate > departureDate && !existingError) {
+      setError('recruitmentEndDate', {
+        type: 'validate',
         message: '모집 마감 날짜는 여행 날짜 이전이어야 합니다.',
       });
+    } else if (recruitmentEndDate <= departureDate && existingError) {
+      clearErrors('recruitmentEndDate');
     }
-  }, [recruitmentEndDate, departureDate]);
+  }, [recruitmentEndDate, departureDate, errors['recruitmentEndDate']]);
 
   useEffect(() => {
     const groupThumbnail = watch('groupThumbnail');
@@ -164,6 +168,7 @@ function GroupRegistInfo({
       <Controller
         name="groupThumbnail"
         control={control}
+        rules={{ required: true }}
         render={({ field: { onChange } }) => (
           <FileUploader
             className={errors.groupThumbnail ? 'error' : ''}
@@ -238,13 +243,16 @@ function GroupRegistInfo({
           errors={errors}
         />
 
-        <div className="flex mt-auto py-10">
+        <div className="flex flex-col mt-auto pt-10 pb-12">
+          {isValid && selectedPlace.selectedPlace.length == 0 && (
+            <ErrorMessage className="mb-4">
+              여행 일정을 등록해주세요.
+            </ErrorMessage>
+          )}
+
           <Button
             styleType={
-              isValid &&
-              selectedPlace.selectedPlace.length !== 0 &&
-              (recruitmentEndDate === undefined ||
-                recruitmentEndDate <= departureDate)
+              isValid && selectedPlace.selectedPlace.length !== 0
                 ? 'solid'
                 : 'disabled'
             }
