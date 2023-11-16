@@ -32,18 +32,14 @@ export function formatDotDate(dateString: string) {
 }
 
 export function formatTripDate(dateString: Date) {
-  const date = dateString
+  return dateString
     .toLocaleDateString()
     .replace(/\. /g, '-')
     .replace(/\.$/, '');
-
-  return date;
 }
 
 export function formatDueDate(dateString: Date) {
-  const date = dateString
+  return dateString
     ? dateString.toLocaleDateString().replace(/\. /g, '-').replace(/\.$/, '')
     : '';
-
-  return date;
 }
