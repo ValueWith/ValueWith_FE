@@ -109,7 +109,7 @@ function GroupRegistSchedule({
         )}
       </S.GroupRegistContainer>
 
-      <div className="flex flex-col mt-auto py-10 px-[24px]">
+      <div className="flex flex-col mt-auto pt-10 pb-12 px-[24px]">
         <Button
           type="button"
           styleType={
