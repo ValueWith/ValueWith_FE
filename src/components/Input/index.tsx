@@ -61,11 +61,11 @@ function Input(
     <S.InputContainer>
       {label && <S.InputLabel htmlFor={name}>{label}</S.InputLabel>}
 
-      <div className="relative">
+      <div className='relative'>
         {inputType === 'textarea' ? (
           <S.Textarea
             className={errorKEY && 'error'}
-            spellCheck="false"
+            spellCheck='false'
             style={style}
             readOnly={readOnly}
             ref={ref as React.Ref<HTMLTextAreaElement>}
@@ -77,7 +77,7 @@ function Input(
             value={value}
             className={errorKEY ? `error ${className}` : className}
             style={style}
-            spellCheck="false"
+            spellCheck='false'
             readOnly={readOnly}
             onKeyDown={onKeyDown}
             onInput={oninput ? () => oninput : undefined}

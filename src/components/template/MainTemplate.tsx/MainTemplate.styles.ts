@@ -5,6 +5,10 @@ export const TemplateContainer = styled.main`
   width: 100%;
   min-height: ${`calc(100% - ${theme.layoutComponent.header_height}px - ${theme.layoutComponent.footer_height}px)`};
   padding: 50px 0;
+
+  &.chat {
+    background-color: #f1f9ff;
+  }
 `;
 
 export const TemplateInner = styled.div`

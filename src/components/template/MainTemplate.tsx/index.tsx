@@ -12,11 +12,17 @@ function MainTemplate({ children }: MainTemplateProps) {
   const [pageStyle, setPageStyle] = useState('');
 
   useEffect(() => {
-    setPageStyle(pathname === '/login' || pathname === '/signup' ? 'user' : '');
+    setPageStyle(
+      pathname === '/login' || pathname === '/signup'
+        ? 'user'
+        : pathname === '/chat'
+        ? 'chat'
+        : ''
+    );
   }, [pathname]);
 
   return (
-    <S.TemplateContainer>
+    <S.TemplateContainer className={pageStyle}>
       <S.TemplateInner className={pageStyle}>{children}</S.TemplateInner>
     </S.TemplateContainer>
   );

@@ -108,8 +108,11 @@ function RoomMessageList() {
           )
         )}
       </S.ChatListContainer>
-      <div className='relative'>
-        <form onSubmit={handleSubmitMessage}>
+      <div>
+        <form
+          onSubmit={handleSubmitMessage}
+          className='flex items-center border-solid border-t border-[#e0e0e0] bg-white chatInputForm'
+        >
           <Input
             inputType='input'
             name='inputMessage'
@@ -117,16 +120,15 @@ function RoomMessageList() {
             onChange={(e) => setInputValue(e.target.value)}
             style={{
               borderRadius: 0,
-              border: 0,
-              borderTop: '1px solid #e0e0e0',
-              height: '130px',
+              border: 'none',
+              height: '80px',
               fontSize: '15px',
             }}
           />
           <Button
             type='submit'
             styleType='solid'
-            style={{ position: 'absolute', right: '19px', bottom: 0 }}
+            style={{ marginRight: '12px' }}
           >
             전송
           </Button>
