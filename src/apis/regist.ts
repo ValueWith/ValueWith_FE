@@ -33,7 +33,7 @@ export const getSuggestionData = async ({
 };
 
 export function groupRegisterRequest(data: any) {
-  return instance.post('/api/groups', data, {
+  return instance.post('/api/groups/', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
