@@ -61,6 +61,7 @@ export const useGetSuggestionData = (params: SuggestionsModel) => {
 export const useRegistGroup = () => {
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
   const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const handleFilterArea = (data: any) => {
     const areaExtraction = data
@@ -103,6 +104,7 @@ export const useRegistGroup = () => {
 
   const handleFormSubmit = async (data: any, file: any) => {
     try {
+      setIsSubmitLoading(true);
       const formData = new FormData();
 
       const requestBlob = new Blob([JSON.stringify(data)], {
@@ -159,7 +161,14 @@ export const useRegistGroup = () => {
         },
       });
       console.log('error', error);
+    } finally {
+      setIsSubmitLoading(false);
     }
   };
-  return { handleFilterArea, handleSetOrder, handleFormSubmit };
+  return {
+    handleFilterArea,
+    handleSetOrder,
+    handleFormSubmit,
+    isSubmitLoading,
+  };
 };

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
@@ -18,6 +18,7 @@ import FileUploader from '@/components/uploader/FileUploader';
 import * as S from '@components/group/recruit/GroupRegist.styles';
 import Button from '@/components/Button';
 import useRegistFormValidation from '@/hooks/useRegistFormValidation';
+import Loader from '@/components/Loader';
 
 export interface GroupRegistFromModel {
   groupTitle: string;
@@ -70,14 +71,16 @@ function GroupRegistInfo({
 
   const recruitmentEndDate = watch('recruitmentEndDate');
   const departureDate = watch('departureDate');
-
   const { handleFormValidate } = useRegistFormValidation({
     trigger,
-    setError,
   });
 
-  const { handleFormSubmit, handleSetOrder, handleFilterArea } =
-    useRegistGroup();
+  const {
+    handleFormSubmit,
+    handleSetOrder,
+    handleFilterArea,
+    isSubmitLoading,
+  } = useRegistGroup();
 
   const resetRegisteredData = () => {
     reset({
@@ -154,7 +157,9 @@ function GroupRegistInfo({
   }, []);
 
   return (
-    <S.GroupRegistContainer className="px-[28px] pt-[28px] flex flex-col">
+    <S.GroupRegistContainer className="relative px-[28px] pt-[28px] flex flex-col">
+      {isSubmitLoading && <Loader className="z-[1]" />}
+
       {/* 썸네일 업로더 */}
       <Controller
         name="groupThumbnail"
@@ -236,7 +241,10 @@ function GroupRegistInfo({
         <div className="flex mt-auto py-10">
           <Button
             styleType={
-              isValid && selectedPlace.selectedPlace.length !== 0
+              isValid &&
+              selectedPlace.selectedPlace.length !== 0 &&
+              (recruitmentEndDate === undefined ||
+                recruitmentEndDate <= departureDate)
                 ? 'solid'
                 : 'disabled'
             }
