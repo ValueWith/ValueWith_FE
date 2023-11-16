@@ -13,7 +13,7 @@ instance.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem('accessToken');
 
   if (accessToken) {
-    config.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    config.headers.Authorization = `${accessToken}`;
   }
   return config;
 });
@@ -21,12 +21,10 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const {
-      response: { status },
-    } = error;
+    const { response } = error;
 
-    if (status) {
-      switch (status) {
+    if (response && response.status) {
+      switch (response.status) {
         case 400:
         case 404:
           return Promise.reject('API 요청에 실패했습니다.');
@@ -38,7 +36,7 @@ instance.interceptors.response.use(
           return Promise.reject('알 수 없는 에러가 발생했습니다.');
       }
     } else {
-      return Promise.reject('알 수 없는 에러가 발생했습니다.');
+      return Promise.reject('네트워크 오류가 발생했습니다.');
     }
   }
 );
