@@ -1,7 +1,4 @@
-import { groupRegistState } from '@/recoil/GroupRegistState';
-import { useEffect, useState } from 'react';
 import { FieldValues, UseFormSetError, UseFormTrigger } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
 
 interface useRegistFormValidationProps {
   trigger: UseFormTrigger<FieldValues>;
@@ -12,49 +9,16 @@ function useRegistFormValidation({
   trigger,
   setError,
 }: useRegistFormValidationProps) {
-  const [isFormError, setIsFormError] = useState({
-    groupArea: false,
-    groupThumbnail: false,
-  });
-  const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
-
   const handleFormValidate = (data: any, event?: React.KeyboardEvent) => {
     if (event && event.key === 'Enter') {
-      // 엔터키가 눌린 경우 input 태그가 아닌 항목에 유효성 검사
-      // 그룹 지역이 빈 값이라면, 폼 검증 여부를 false로 변경
       event.preventDefault();
       event.stopPropagation();
 
       trigger();
     }
-
-    if (groupFormData.groupThumbnail === null) {
-      return setIsFormError({
-        ...isFormError,
-        groupThumbnail: true,
-      });
-    }
-
-    // 모집 마감 날짜가 있다면, 모집 마감 날짜가 여행 날짜보다 빠른지 검사
-    if (data.recruitmentEndDate) {
-      if (data.recruitmentEndDate > data.departureDate) {
-        return setError('recruitmentEndDate', {
-          type: 'manual',
-          message: '모집 마감 날짜는 여행 날짜 이전이어야 합니다.',
-        });
-      }
-    }
   };
 
-  useEffect(() => {
-    setIsFormError({
-      groupArea: false,
-      groupThumbnail: false,
-    });
-  }, [groupFormData]);
-
   return {
-    isFormError,
     handleFormValidate,
   };
 }

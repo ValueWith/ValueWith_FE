@@ -25,6 +25,7 @@ export interface GroupRegistFromModel {
   groupMemberCount: number;
   departureDate: Date;
   recruitmentEndDate: Date;
+  groupThumbnail?: File | null;
 }
 
 const DATE_ATTRIBUTES = [
@@ -48,7 +49,6 @@ function GroupRegistInfo({
 }: {
   onSelectedStep: (step: number) => void;
 }) {
-  const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
 
@@ -59,15 +59,19 @@ function GroupRegistInfo({
     trigger,
     watch,
     setError,
+    reset,
     formState: { errors, isValid },
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       ...tempFormData,
     },
   });
 
-  const { handleFormValidate, isFormError } = useRegistFormValidation({
+  const recruitmentEndDate = watch('recruitmentEndDate');
+  const departureDate = watch('departureDate');
+
+  const { handleFormValidate } = useRegistFormValidation({
     trigger,
     setError,
   });
@@ -75,14 +79,17 @@ function GroupRegistInfo({
   const { handleFormSubmit, handleSetOrder, handleFilterArea } =
     useRegistGroup();
 
+  const resetRegisteredData = () => {
+    reset({
+      groupThumbnail: null,
+    });
+  };
+
   const onSubmit = async (data: GroupRegistFromModel, event?: any) => {
     if (selectedPlace.selectedPlace.length === 0) return;
 
     console.log('폼 제출', data);
-    console.log('그룹 데이터 상태', groupFormData);
     console.log('선택한 장소', selectedPlace.selectedPlace);
-
-    handleFormValidate(data, event);
 
     try {
       // 각 카드에 orders 속성 추가
@@ -107,11 +114,33 @@ function GroupRegistInfo({
         places: [...setOrderPlace],
       };
 
-      await handleFormSubmit(formPreprocessData, groupFormData.groupThumbnail);
+      await handleFormSubmit(formPreprocessData, data.groupThumbnail);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (!recruitmentEndDate) return;
+
+    if (recruitmentEndDate > departureDate) {
+      return setError('recruitmentEndDate', {
+        type: 'manual',
+        message: '모집 마감 날짜는 여행 날짜 이전이어야 합니다.',
+      });
+    }
+  }, [recruitmentEndDate, departureDate]);
+
+  useEffect(() => {
+    const groupThumbnail = watch('groupThumbnail');
+
+    if (isValid && groupThumbnail === undefined) {
+      return setError('groupThumbnail', {
+        type: 'required',
+        message: '썸네일을 등록해주세요.',
+      });
+    }
+  }, [isValid]);
 
   useEffect(() => {
     // 새로고침 하면 폼 데이터 초기화
@@ -127,17 +156,24 @@ function GroupRegistInfo({
   return (
     <S.GroupRegistContainer className="px-[28px] pt-[28px] flex flex-col">
       {/* 썸네일 업로더 */}
-      <FileUploader
-        className={isFormError.groupThumbnail === true ? 'error' : ''}
-        onFileSelected={(file) => {
-          setGroupFormData({ ...groupFormData, groupThumbnail: file });
-        }}
+      <Controller
+        name="groupThumbnail"
+        control={control}
+        render={({ field: { onChange } }) => (
+          <FileUploader
+            className={errors.groupThumbnail ? 'error' : ''}
+            onFileSelected={(file) => {
+              onChange(file);
+            }}
+            onFileDeleted={resetRegisteredData}
+          />
+        )}
       />
 
       <form
         className="flex flex-col h-full"
         onSubmit={handleSubmit(onSubmit)}
-        onKeyDown={handleFormValidate}
+        onKeyDown={() => handleFormValidate(watch())}
       >
         {/* 여행 날짜 / 마감 날짜 선택 */}
         {DATE_ATTRIBUTES.map((item, index) => (
@@ -198,22 +234,16 @@ function GroupRegistInfo({
         />
 
         <div className="flex mt-auto py-10">
-          <Button styleType={isValid ? 'solid' : 'disabled'} fullWidth>
-            그룹 모집하기
-          </Button>
-
-          {/* <Button
+          <Button
             styleType={
-              isValid &&
-              selectedPlace.selectedPlace.length !== 0 &&
-              isFormError.groupThumbnail !== true
+              isValid && selectedPlace.selectedPlace.length !== 0
                 ? 'solid'
                 : 'disabled'
             }
             fullWidth
           >
             그룹 모집하기
-          </Button> */}
+          </Button>
         </div>
       </form>
     </S.GroupRegistContainer>

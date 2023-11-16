@@ -7,12 +7,14 @@ import { RiDragDropLine } from 'react-icons/ri';
 
 interface FileUploaderProps {
   onFileSelected: (file: File) => void;
+  onFileDeleted: () => void;
   storedImgUrl?: string;
   className?: string;
 }
 
 function FileUploader({
   onFileSelected,
+  onFileDeleted,
   storedImgUrl,
   className,
 }: FileUploaderProps) {
@@ -76,6 +78,7 @@ function FileUploader({
   };
 
   const handleDeleteImage = () => {
+    onFileDeleted && onFileDeleted();
     setThumbnailUrl(undefined);
   };
 
