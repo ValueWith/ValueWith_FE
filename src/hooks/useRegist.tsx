@@ -9,7 +9,10 @@ import {
 import { useEffect, useState } from 'react';
 import { AREA_OPTION } from '@/constants/area';
 import { findValueByProperty } from '@/utils/findCodeByLabel';
-import instance from '@/apis';
+
+import { useRecoilState } from 'recoil';
+import { modalState } from '@/recoil/modalState';
+import { tempFormState } from '@/recoil/GroupRegistState';
 
 // TODO : params 타입 정의
 export const useGetSuggestionData = (params: SuggestionsModel) => {
@@ -56,6 +59,9 @@ export const useGetSuggestionData = (params: SuggestionsModel) => {
 };
 
 export const useRegistGroup = () => {
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
+  const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
+
   const handleFilterArea = (data: any) => {
     const areaExtraction = data
       .map((item: any) => item.address.split(' ')[0])
@@ -94,8 +100,6 @@ export const useRegistGroup = () => {
   };
 
   const handleFormSubmit = async (data: any, file: any) => {
-    console.log(data, '전송되는 데이터');
-
     try {
       const formData = new FormData();
 
@@ -118,7 +122,40 @@ export const useRegistGroup = () => {
       }
 
       const response = await groupRegisterRequest(formData);
+
+      setModalDataState({
+        ...modalDataState,
+        isModalOpen: true,
+        title: '여행 그룹 등록 완료',
+        message: '여행 그룹 등록이 완료되었습니다.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+
+          window.location.href = '/group';
+        },
+      });
+
+      setTempFormData({});
+
+      // 알럿 띄우기
     } catch (error) {
+      setModalDataState({
+        ...modalDataState,
+        isModalOpen: true,
+        title: '여행 그룹 등록 실패',
+        message: '여행 그룹 등록이 실패하였습니다.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+
+          window.location.href = '/group';
+        },
+      });
       console.log('error', error);
     }
   };
