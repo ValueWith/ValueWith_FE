@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
 import {
@@ -67,7 +67,7 @@ function GroupRegistInfo({
     },
   });
 
-  const { handleFormValidate } = useRegistFormValidation({
+  const { handleFormValidate, isFormError } = useRegistFormValidation({
     trigger,
     setError,
   });
@@ -125,19 +125,20 @@ function GroupRegistInfo({
   }, []);
 
   return (
-    <S.GroupRegistContainer className="px-[28px] pt-[28px]">
+    <S.GroupRegistContainer className="px-[28px] pt-[28px] flex flex-col">
+      {/* 썸네일 업로더 */}
+      <FileUploader
+        className={isFormError.groupThumbnail === true ? 'error' : ''}
+        onFileSelected={(file) => {
+          setGroupFormData({ ...groupFormData, groupThumbnail: file });
+        }}
+      />
+
       <form
         className="flex flex-col h-full"
         onSubmit={handleSubmit(onSubmit)}
         onKeyDown={handleFormValidate}
       >
-        {/* 썸네일 업로더 */}
-        <FileUploader
-          onFileSelected={(file) => {
-            setGroupFormData({ ...groupFormData, groupThumbnail: file });
-          }}
-        />
-
         {/* 여행 날짜 / 마감 날짜 선택 */}
         {DATE_ATTRIBUTES.map((item, index) => (
           <DateInput
@@ -203,7 +204,9 @@ function GroupRegistInfo({
 
           {/* <Button
             styleType={
-              isValid && selectedPlace.selectedPlace.length !== 0
+              isValid &&
+              selectedPlace.selectedPlace.length !== 0 &&
+              isFormError.groupThumbnail !== true
                 ? 'solid'
                 : 'disabled'
             }

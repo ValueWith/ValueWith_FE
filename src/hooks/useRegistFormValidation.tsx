@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { groupRegistState } from '@/recoil/GroupRegistState';
+import { useEffect, useState } from 'react';
 import { FieldValues, UseFormSetError, UseFormTrigger } from 'react-hook-form';
+import { useRecoilState } from 'recoil';
 
 interface useRegistFormValidationProps {
   trigger: UseFormTrigger<FieldValues>;
@@ -12,7 +14,9 @@ function useRegistFormValidation({
 }: useRegistFormValidationProps) {
   const [isFormError, setIsFormError] = useState({
     groupArea: false,
+    groupThumbnail: false,
   });
+  const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
 
   const handleFormValidate = (data: any, event?: React.KeyboardEvent) => {
     if (event && event.key === 'Enter') {
@@ -22,6 +26,13 @@ function useRegistFormValidation({
       event.stopPropagation();
 
       trigger();
+    }
+
+    if (groupFormData.groupThumbnail === null) {
+      return setIsFormError({
+        ...isFormError,
+        groupThumbnail: true,
+      });
     }
 
     // 모집 마감 날짜가 있다면, 모집 마감 날짜가 여행 날짜보다 빠른지 검사
@@ -34,6 +45,13 @@ function useRegistFormValidation({
       }
     }
   };
+
+  useEffect(() => {
+    setIsFormError({
+      groupArea: false,
+      groupThumbnail: false,
+    });
+  }, [groupFormData]);
 
   return {
     isFormError,
