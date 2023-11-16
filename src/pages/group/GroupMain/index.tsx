@@ -66,7 +66,7 @@ function GroupMain() {
       window.removeEventListener('popstate', handlePopstate);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params, searchParams]);
+  }, [params]);
 
   const [isClickFilter, setIsClickFilter] = useState(false);
   const [isClickSort, setIsClickSort] = useState(false);
