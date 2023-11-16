@@ -125,6 +125,7 @@ function GroupRegistInfo({
     }
   };
 
+  // 모집 마감 날짜가 여행 날짜 이전인지 검증
   useEffect(() => {
     const existingError = errors['recruitmentEndDate'];
 
@@ -138,23 +139,11 @@ function GroupRegistInfo({
     }
   }, [recruitmentEndDate, departureDate, errors['recruitmentEndDate']]);
 
+  // 다른 페이지 이동 시, 임시 데이터 저장
   useEffect(() => {
-    const groupThumbnail = watch('groupThumbnail');
-
-    if (isValid && groupThumbnail === undefined) {
-      return setError('groupThumbnail', {
-        type: 'required',
-        message: '썸네일을 등록해주세요.',
-      });
-    }
-  }, [isValid]);
-
-  useEffect(() => {
-    // 새로고침 하면 폼 데이터 초기화
-    setTempFormData({});
+    setTempFormData(null);
 
     return () => {
-      // 다른 페이지로 이동 시, 폼 데이터를 임시 저장
       const tempFormData = { ...watch() };
       setTempFormData(tempFormData);
     };
