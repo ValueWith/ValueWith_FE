@@ -45,7 +45,8 @@ function FileUploader({
     }
 
     // 파일이 없거나 이미지 파일이 아닌 경우 에러
-    if (!file || !file.type.match(/image.*/)) return setError(true);
+    if (!file || !file.type.match(/image.*/) || file.type === 'image/gif')
+      return setError(true);
 
     // 이미지 로드 후 썸네일 미리보기
     const reader = new FileReader();
