@@ -27,7 +27,7 @@ export const GroupContentContainer = styled.div`
 
 export const GroupContent = styled.div`
   border-top: 1px solid ${theme.color.gray100};
-  padding-top: 32px;
+  padding: 32px 0;
   font-size: 14px;
   letter-spacing: -0.7px;
   color: #595f63;
