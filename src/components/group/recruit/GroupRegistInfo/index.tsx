@@ -233,7 +233,7 @@ function GroupRegistInfo({
         />
 
         <div className="flex flex-col mt-auto pt-10 pb-12">
-          {isValid && selectedPlace.selectedPlace.length == 0 && (
+          {selectedPlace.selectedPlace.length == 0 && (
             <ErrorMessage className="mb-4">
               여행 일정을 등록해주세요.
             </ErrorMessage>
