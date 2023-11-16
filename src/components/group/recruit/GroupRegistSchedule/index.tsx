@@ -15,7 +15,11 @@ import { selectedPlaceState } from '@/recoil/GroupRegistState';
 import GroupItemCard from '../GroupItemCard';
 import NoResult from '../NoResult';
 
-function GroupRegistSchedule() {
+function GroupRegistSchedule({
+  onSelectedStep,
+}: {
+  onSelectedStep: (step: number) => void;
+}) {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isNestedSidebar, setIsNestedSidebar] = useState({
@@ -126,6 +130,7 @@ function GroupRegistSchedule() {
           }
           type="button"
           fullWidth
+          onClickHandler={() => onSelectedStep(2)}
         >
           다음
         </Button>

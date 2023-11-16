@@ -16,6 +16,7 @@ import FileUploader from '@/components/uploader/FileUploader';
 import * as S from '@components/group/recruit/GroupRegist.styles';
 import Button from '@/components/Button';
 import useRegistFormValidation from '@/hooks/useRegistFormValidation';
+import { useEffect } from 'react';
 
 const DATE_ATTRIBUTES = [
   {
@@ -31,7 +32,11 @@ const DATE_ATTRIBUTES = [
   },
 ];
 
-function GroupRegistInfo() {
+function GroupRegistInfo({
+  onSelectedStep,
+}: {
+  onSelectedStep: (step: number) => void;
+}) {
   const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
 
@@ -136,7 +141,7 @@ function GroupRegistInfo() {
             },
             pattern: {
               value: /^[0-9]*$/,
-              message: '숫자만 입력해주세요.',
+              message: '숫자만 입력해 주세요.',
             },
           })}
           errors={errors}
