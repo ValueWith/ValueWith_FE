@@ -1,4 +1,7 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 export interface MapOptionModel {
   center: {
@@ -50,4 +53,10 @@ export const selectedPlaceState = atom<SelectedPlaceModel>({
   default: {
     selectedPlace: [],
   },
+});
+
+export const tempFormState = atom({
+  key: 'tempFormState',
+  default: {},
+  effects_UNSTABLE: [persistAtom],
 });

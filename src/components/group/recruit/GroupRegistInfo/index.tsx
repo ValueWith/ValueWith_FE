@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
 import {
   groupRegistState,
   selectedPlaceState,
+  tempFormState,
 } from '@/recoil/GroupRegistState';
 
 import { useRegistGroup } from '@/hooks/useRegist';
@@ -16,7 +18,14 @@ import FileUploader from '@/components/uploader/FileUploader';
 import * as S from '@components/group/recruit/GroupRegist.styles';
 import Button from '@/components/Button';
 import useRegistFormValidation from '@/hooks/useRegistFormValidation';
-import { useEffect } from 'react';
+
+export interface GroupRegistFromModel {
+  groupTitle: string;
+  groupDescription: string;
+  groupMemberCount: number;
+  departureDate: Date;
+  recruitmentEndDate: Date;
+}
 
 const DATE_ATTRIBUTES = [
   {
@@ -25,10 +34,12 @@ const DATE_ATTRIBUTES = [
     rules: {
       required: '여행날짜를 입력해주세요.',
     },
+    defaultValue: undefined,
   },
   {
     name: 'recruitmentEndDate',
     label: '모집 마감 날짜',
+    defaultValue: undefined,
   },
 ];
 
@@ -39,16 +50,21 @@ function GroupRegistInfo({
 }) {
   const [groupFormData, setGroupFormData] = useRecoilState(groupRegistState);
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
+  const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
 
   const {
     register,
     handleSubmit,
     control,
     trigger,
+    watch,
     setError,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onBlur',
+    defaultValues: {
+      ...tempFormData,
+    },
   });
 
   const { handleFormValidate } = useRegistFormValidation({
@@ -59,15 +75,16 @@ function GroupRegistInfo({
   const { handleFormSubmit, handleSetOrder, handleFilterArea } =
     useRegistGroup();
 
-  // TODO : 폼 데이터 타입 정의
-  const onSubmit = async (data: any, event?: any) => {
+  const onSubmit = async (data: GroupRegistFromModel, event?: any) => {
+    if (selectedPlace.selectedPlace.length === 0) return;
+
+    console.log('폼 제출', data);
+    console.log('그룹 데이터 상태', groupFormData);
+    console.log('선택한 장소', selectedPlace.selectedPlace);
+
     handleFormValidate(data, event);
 
     try {
-      console.log('폼 제출', data);
-      console.log('그룹 데이터 상태', groupFormData);
-      console.log('선택한 장소', selectedPlace.selectedPlace);
-
       // 각 카드에 orders 속성 추가
       const setOrderPlace = handleSetOrder(selectedPlace.selectedPlace);
 
@@ -96,6 +113,17 @@ function GroupRegistInfo({
     }
   };
 
+  useEffect(() => {
+    // 새로고침 하면 폼 데이터 초기화
+    setTempFormData({});
+
+    return () => {
+      // 다른 페이지로 이동 시, 폼 데이터를 임시 저장
+      const tempFormData = { ...watch() };
+      setTempFormData(tempFormData);
+    };
+  }, []);
+
   return (
     <S.GroupRegistContainer className="px-[28px] pt-[28px]">
       <form
@@ -118,6 +146,7 @@ function GroupRegistInfo({
             name={item.name}
             label={item.label}
             rules={item.rules}
+            defaultValue={item.defaultValue}
             errors={errors}
           ></DateInput>
         ))}
@@ -171,6 +200,17 @@ function GroupRegistInfo({
           <Button styleType={isValid ? 'solid' : 'disabled'} fullWidth>
             그룹 모집하기
           </Button>
+
+          {/* <Button
+            styleType={
+              isValid && selectedPlace.selectedPlace.length !== 0
+                ? 'solid'
+                : 'disabled'
+            }
+            fullWidth
+          >
+            그룹 모집하기
+          </Button> */}
         </div>
       </form>
     </S.GroupRegistContainer>
