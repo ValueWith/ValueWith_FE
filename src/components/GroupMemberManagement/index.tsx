@@ -3,8 +3,7 @@ import Button from '../Button';
 import { FaChevronDown } from 'react-icons/fa';
 import * as S from './GroupMemberManagement.styles';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useGroupMemberList } from '@/apis/mylounge';
-import { set } from 'date-fns';
+import { useGroupMemberList } from '@/hooks/useLounge';
 
 interface GroupMemberManagementProps {
   tripGroupId: number;
