@@ -5,18 +5,27 @@ export const checkApplicationStatus = (
   leaderEmail: string,
   currentUserEmail: string
 ) => {
-  const isGroupMember = groupMembers.some(
+  const currentUserIsLeader = leaderEmail === currentUserEmail;
+
+  // 현재 유저가 leader인 경우
+  if (currentUserIsLeader) {
+    return '';
+  }
+
+  const currentUser = groupMembers.find(
     (member) => member.groupMemberEmail === currentUserEmail
   );
 
-  const isLeader = leaderEmail === currentUserEmail;
-
-  if (isGroupMember) {
-    return '지원취소';
-  }
-
-  if (isLeader) {
-    return '';
+  // 현재 유저가 groupMembers에 포함되어 있는 경우
+  if (currentUser) {
+    switch (currentUser.groupMemberStatus) {
+      case 'approve':
+        return '그룹탈퇴';
+      case 'pending':
+        return '지원취소';
+      default:
+        return '그룹탈퇴';
+    }
   }
 
   return '지원하기';
