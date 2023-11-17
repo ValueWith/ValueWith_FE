@@ -7,9 +7,9 @@ import GroupMemberStatus from '@/components/group/detail/GroupMemberStatus';
 import Loader from '@/components/Loader';
 import TripTitle from '@/components/group/detail/TripTitle';
 import TripPlaceList from '@/components/group/detail/TripPlaceList';
-import Button from '@/components/Button';
 
 import * as S from './GroupDetail.styles';
+import ApplyButton from '@/components/group/detail/ApplyButton';
 
 function GroupDetail() {
   const { groupId } = useParams();
@@ -38,10 +38,7 @@ function GroupDetail() {
                 gender={data.tripGroupDetail.gender}
                 groupMembers={data.groupMembers}
               />
-              {/* TODO: 지원 상태 알아야 함 */}
-              <Button type='button' styleType='solid' fullWidth>
-                지원하기
-              </Button>
+              <ApplyButton data={data} />
             </div>
 
             <div>
