@@ -95,18 +95,42 @@ function TripCard({ group, cardType }: TripCardProps) {
           {/* 마이라운지에서 '내 그룹' 에서는 UserInfo 대신 관리 버튼 노출   */}
           {cardType === 'leader' ? (
             <GroupMemberManagement
+              cardType={cardType}
               tripGroupId={group.tripGroupId}
               onSetApplyList={setApplyList}
               isOpenApplyList={isOpenApplyList}
               setIsOpenApplyList={setIsOpenApplyList}
             />
           ) : (
-            <TripCardUserInfo
-              profileUrl={profileUrl}
-              nickName={nickName}
-              age={age}
-              gender={gender}
-            />
+            <>
+              {cardType === 'approved' || cardType === 'pending' ? (
+                <>
+                  <TripCardUserInfo
+                    profileUrl={profileUrl}
+                    nickName={nickName}
+                    age={age}
+                    gender={gender}
+                  />
+                  <div className="w-full h-[1px] bg-gray-100 my-5"></div>
+                  <GroupMemberManagement
+                    cardType={cardType}
+                    tripGroupId={group.tripGroupId}
+                    onSetApplyList={setApplyList}
+                    isOpenApplyList={isOpenApplyList}
+                    setIsOpenApplyList={setIsOpenApplyList}
+                  />
+                </>
+              ) : (
+                <>
+                  <TripCardUserInfo
+                    profileUrl={profileUrl}
+                    nickName={nickName}
+                    age={age}
+                    gender={gender}
+                  />
+                </>
+              )}
+            </>
           )}
         </S.ContentContainer>
       </S.TripCardContainer>
