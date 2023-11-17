@@ -7,7 +7,7 @@ export const GroupMemberStatusContainer = styled.div`
   background-color: #fafafa;
   border-radius: 4px;
   padding: 24px 21px;
-  margin-top: 40px;
+  margin-top: 42px;
 `;
 
 export const ContentDiv = styled.div`
