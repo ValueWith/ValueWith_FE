@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import { TripGroup } from '@/apis/group';
-import TripCard from '@/components/TripCard';
-import useGroupDataFetching from '@/hooks/useGroup';
+
 import { paramsState } from '@/recoil/paramsState';
 import { useRecoilState } from 'recoil';
 
 import { findValueByProperty } from '@/utils/findCodeByLabel';
 
+import { TripGroup } from '@/apis/group';
+
+import TripCard from '@/components/TripCard';
 import * as S from './GroupManagement.styles';
 import Loader from '@/components/Loader';
 import { useMyLoungeData } from '@/hooks/useLounge';
+import Pagenation from '@/components/Pagination';
 
 const GROUP_MANAGEMENT_TABS = [
   {
@@ -29,11 +31,8 @@ const GROUP_MANAGEMENT_TABS = [
 function GroupManagement() {
   const [params, setParams] = useRecoilState(paramsState);
 
+  const [page, setPage] = useState<number>(1);
   const [loungeTab, setLoungeTab] = useState(GROUP_MANAGEMENT_TABS[0].type);
-
-  const handleLoungeTab = ({ type }: { type: string }) => {
-    setLoungeTab(type);
-  };
 
   const {
     data: loungeData,
@@ -41,18 +40,27 @@ function GroupManagement() {
     isError,
   } = useMyLoungeData({
     status: loungeTab,
+    page: page,
   });
 
+  const handlePageClick = (data: { selected: number }) => {
+    setPage(data.selected + 1);
+  };
+
+  const handleLoungeTab = ({ type }: { type: string }) => {
+    setLoungeTab(type);
+  };
+
   useEffect(() => {
-    setParams({
-      ...params,
+    setParams((prevParams) => ({
+      ...prevParams,
       status: loungeTab,
-    });
+    }));
   }, [loungeTab]);
 
   useEffect(() => {
-    console.log(loungeData?.data, 'data'); // currentpage, totalpages, totalElements tripGroups
-  }, [loungeTab]);
+    console.log(loungeData?.data, 'loungeData');
+  }, [loungeData]);
 
   return (
     <S.GroupManagementContainer>
@@ -78,6 +86,11 @@ function GroupManagement() {
                 cardType={loungeTab}
               />
             ))}
+            <Pagenation
+              page={page}
+              pageCount={loungeData.data.totalPages}
+              handlePageClick={handlePageClick}
+            />
           </>
         ) : (
           <Loader />
