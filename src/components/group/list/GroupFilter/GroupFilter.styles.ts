@@ -1,6 +1,16 @@
 import theme from '@/assets/styles/theme';
 import styled from '@emotion/styled';
 
+export const Dimmed = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: default;
+  z-index: 3;
+`;
+
 export const GroupFilterContainer = styled.div`
   position: absolute;
   top: 25px;
