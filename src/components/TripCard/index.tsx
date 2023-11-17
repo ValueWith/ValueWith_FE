@@ -135,8 +135,8 @@ function TripCard({ group, cardType }: TripCardProps) {
                     }}
                   >
                     {isOpenApplyList.type === 'approved'
-                      ? `${name} 의 멤버가 없습니다`
-                      : `${name} 의 지원자가 없습니다`}
+                      ? `그룹 ${name} 의 멤버가 없습니다`
+                      : `그룹 ${name} 의 지원자가 없습니다`}
                   </p>
                 )}
               </>
