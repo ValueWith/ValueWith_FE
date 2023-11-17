@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from 'react';
 import { AREA_OPTION } from '@/constants/area';
 import { findValueByProperty } from '@/utils/findCodeByLabel';
+import { convertAreaName } from '@/utils/conversionArea';
 
 import { useRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
@@ -78,12 +79,12 @@ export const useRegistGroup = () => {
       Object.keys(areaExtraction)[0]
     );
 
-    const convertArea = selectedArea === '서울특별시' ? '서울' : selectedArea;
+    const convertedArea: string = convertAreaName(selectedArea);
 
     // 해당 지역의 value 값 찾기
     const areaValue = findValueByProperty(
       'value',
-      convertArea,
+      convertedArea,
       'label',
       AREA_OPTION
     );
