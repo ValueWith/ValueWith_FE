@@ -1,7 +1,8 @@
 import instance from '.';
 
 export interface GroupMember {
-  groupMemberAge: string;
+  groupMemberAge: number;
+  groupMemberEmail: string;
   groupMemberGender: string;
   groupMemberNickname: string;
   groupMemberProfileUrl: string;
@@ -25,6 +26,7 @@ export interface TripGroupDetail {
   currentUserNumber: number;
   dueDate: string;
   gender: string;
+  leaderEmail: string;
   maxUserNumber: number;
   name: string;
   nickName: string;
