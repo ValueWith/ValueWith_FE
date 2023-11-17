@@ -1,11 +1,14 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import * as S from './GroupUserInfo.styles';
 import Button from '../Button';
 import theme from '@/assets/styles/theme';
 import { conversionGender } from '@/utils/conversionGender';
+import { useLounge } from '@/hooks/useLounge';
 
 interface GroupUserInfoProps {
   type?: string; // approved | pending
+  tripGroupId: number;
+  groupMemberId: number;
   profileUrl: string;
   nickName: string;
   age: number;
@@ -15,12 +18,26 @@ interface GroupUserInfoProps {
 
 function GroupUserInfo({
   type,
+  tripGroupId,
+  groupMemberId,
   profileUrl,
   nickName,
   age,
   gender,
   style,
 }: GroupUserInfoProps) {
+  const [listType, setListType] = useState('');
+  const { handleMemberConfirm, handleMemberReject, handleMemberKick } =
+    useLounge();
+
+  useEffect(() => {
+    if (type === 'approved') {
+      setListType('approved');
+    } else {
+      setListType('pending');
+    }
+  }, [type]);
+
   return (
     <S.ProfileContainer>
       <S.ProfileImageContainer>
@@ -33,7 +50,7 @@ function GroupUserInfo({
       </S.ProfileInfo>
 
       <div className="flex items-center ml-auto">
-        {type === 'approved' ? (
+        {listType === 'approved' ? (
           <>
             <Button
               type="button"
@@ -45,6 +62,9 @@ function GroupUserInfo({
                 padding: '0 8px',
                 fontSize: '12px',
               }}
+              onClickHandler={() =>
+                handleMemberKick(tripGroupId, groupMemberId)
+              }
             >
               그룹에서 추방
             </Button>
@@ -61,6 +81,7 @@ function GroupUserInfo({
                 padding: '0 8px',
                 fontSize: '12px',
               }}
+              onClickHandler={() => handleMemberReject(groupMemberId)}
             >
               거절
             </Button>
@@ -77,6 +98,7 @@ function GroupUserInfo({
                 padding: '0 8px',
                 fontSize: '12px',
               }}
+              onClickHandler={() => handleMemberConfirm(groupMemberId)}
             >
               멤버로 초대
             </Button>

@@ -33,6 +33,7 @@ function TripCard({ group, cardType }: TripCardProps) {
     nickName,
     age,
     gender,
+    tripGroupId,
   } = group;
 
   const [applyList, setApplyList] = useState([]);
@@ -117,6 +118,8 @@ function TripCard({ group, cardType }: TripCardProps) {
                   applyList.map((member: any, index: number) => (
                     <GroupUserInfo
                       key={index}
+                      tripGroupId={tripGroupId}
+                      groupMemberId={member.groupMemberId}
                       type={isOpenApplyList.type}
                       profileUrl={member.groupMemberProfileUrl}
                       nickName={member.groupMemberNickname}
