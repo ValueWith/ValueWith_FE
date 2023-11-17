@@ -35,6 +35,7 @@ export interface GroupListItem {
   tripGroups: TripGroup[];
 }
 
+// 그룹 리스트 조회
 export const fetchGroupList = async (
   params: GroupListParams
 ): Promise<GroupListItem> => {
@@ -47,4 +48,9 @@ export const fetchGroupList = async (
     console.error('Error Fetching data: ', error);
     throw error;
   }
+};
+
+// 그룹 삭제
+export const deleteGroupRequest = async (tripGroupId: number) => {
+  return instance.delete(`/api/groups/${tripGroupId}`);
 };

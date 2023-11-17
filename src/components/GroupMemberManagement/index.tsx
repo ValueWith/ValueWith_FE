@@ -1,14 +1,17 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGroupMemberList } from '@/hooks/useLounge';
 
-import Button from '../Button';
+import { useRecoilState } from 'recoil';
+import { modalState } from '@/recoil/modalState';
 
-import { IoArrowForward } from 'react-icons/io5';
-import { IoIosArrowDown } from 'react-icons/io';
+import Button from '../Button';
+import DropdownMenu from '../DropdownMenu';
 
 import * as S from './GroupMemberManagement.styles';
-import DropdownMenu from '../DropdownMenu';
-import { useNavigate } from 'react-router-dom';
+import { IoArrowForward } from 'react-icons/io5';
+import { IoIosArrowDown } from 'react-icons/io';
+import { useGroup } from '@/hooks/useGroup';
 
 interface GroupMemberManagementProps {
   tripGroupId: number;
@@ -19,17 +22,6 @@ interface GroupMemberManagementProps {
   onSetApplyList: (applyList: any) => void;
 }
 
-const DROPDOWN_MENU_OPTIONS = [
-  {
-    label: '수정',
-    onClickHandler: () => console.log('수정'),
-  },
-  {
-    label: '삭제',
-    onClickHandler: () => console.log('삭제'),
-  },
-];
-
 function GroupMemberManagement({
   tripGroupId,
   isOpenApplyList,
@@ -38,12 +30,49 @@ function GroupMemberManagement({
 }: GroupMemberManagementProps) {
   const navigate = useNavigate();
   const [fetched, setFetched] = useState(false);
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
   const {
     data: groupMemberList,
     isLoading,
     isError,
   } = useGroupMemberList(isOpenApplyList.type, tripGroupId, fetched);
+
+  const { handleDeleteGroup } = useGroup();
+
+  const dropdownOption = [
+    {
+      label: '수정',
+      onClickHandler: () => console.log('수정'),
+    },
+    {
+      label: '삭제',
+      onClickHandler: () => {
+        setModalDataState({
+          isModalOpen: true,
+          type: 'confirm',
+          title: '그룹 삭제',
+          confirmType: 'warning',
+          confirmText: '삭제',
+          message: `그룹을 삭제하면 복구할 수 없습니다. 
+          정말로 그룹을 삭제하시겠습니까?`,
+          onConfirm: () => {
+            handleDeleteGroup(tripGroupId);
+            setModalDataState({
+              ...modalDataState,
+              isModalOpen: false,
+            });
+          },
+          onCancel: () => {
+            setModalDataState({
+              ...modalDataState,
+              isModalOpen: false,
+            });
+          },
+        });
+      },
+    },
+  ];
 
   const handleClickApplyModal = (event: any, type: string) => {
     event.stopPropagation();
@@ -79,7 +108,7 @@ function GroupMemberManagement({
       <S.AdminContainer>
         <div className="flex gap-3">
           {/* 그룹 관리 */}
-          <DropdownMenu options={DROPDOWN_MENU_OPTIONS}>
+          <DropdownMenu options={dropdownOption}>
             <Button
               type="button"
               styleType="basic"
