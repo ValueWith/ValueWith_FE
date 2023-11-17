@@ -16,18 +16,21 @@ import * as S from './GroupMain.styles';
 function GroupMain() {
   const navigate = useNavigate();
   const [params, setParams] = useRecoilState(paramsState);
-  const [searchParams, setSearchParams] = useSearchParams(params);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const hasDiffParams = () => {
+  const hasDiffParams = (
+    params: GroupListParams,
+    searchParams: URLSearchParams
+  ) => {
     return Object.keys(params).some((key) => {
       const searchParamValue = searchParams.get(key);
       return searchParamValue !== params[key as keyof GroupListParams];
     });
   };
 
+  // 초기 로딩 시, URL 파라미터를 상태에 적용
   useEffect(() => {
-    if (hasDiffParams()) {
-      // 초기 파라미터 변경 시(새로고침) setParams
+    if (hasDiffParams(params, searchParams)) {
       setParams({
         page: searchParams.get('page') || params.page,
         status: searchParams.get('status') || params.status,
@@ -40,10 +43,28 @@ function GroupMain() {
   }, []);
 
   useEffect(() => {
-    if (hasDiffParams()) {
-      // 파라미터 변경 시 setSearchParams로 url 업데이트
-      setSearchParams({ ...params });
-    }
+    // URL 파라미터가 변경될 때마다 URL을 업데이트
+    setSearchParams({ ...params });
+
+    const handlePopstate = () => {
+      // 브라우저의 뒤로 가기/앞으로 가기 버튼을 처리하는 함수
+      const newSearchParams = new URLSearchParams(window.location.search);
+      if (hasDiffParams(params, newSearchParams)) {
+        setParams({
+          page: newSearchParams.get('page') || params.page,
+          status: newSearchParams.get('status') || params.status,
+          area: newSearchParams.get('area') || params.area,
+          sort: newSearchParams.get('sort') || params.sort,
+          title: newSearchParams.get('title') || params.title,
+        });
+      }
+    };
+
+    window.addEventListener('popstate', handlePopstate);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopstate);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
@@ -61,7 +82,7 @@ function GroupMain() {
   };
 
   const handleSearchTerm = (searchTerm: string) => {
-    setParams({ ...params, title: searchTerm });
+    setParams({ ...params, title: searchTerm, page: '1' });
   };
 
   return (
@@ -69,6 +90,7 @@ function GroupMain() {
       {/* SearchForm  */}
       <SearchBar
         onSearchTermChange={(searchTerm) => handleSearchTerm(searchTerm)}
+        defaultValue={params.title}
       />
 
       {/* Filter */}

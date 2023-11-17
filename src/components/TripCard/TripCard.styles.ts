@@ -43,7 +43,7 @@ export const Closed = styled.div`
 
 export const CardTumbnail = styled.img`
   width: 100%;
-  height: 180px;
+  min-height: 180px;
   object-fit: cover;
 `;
 

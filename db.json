@@ -295,5 +295,112 @@
         "distance": 0
       }
     ]
+  },
+  "messages": {
+    "currentPage": 1,
+    "totalPages": 4,
+    "totalElements": 80,
+    "last": false,
+    "messages": [
+      {
+        "userId": "userId1",
+        "nickName": "유진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId1",
+        "messageContent": "첫 번째 메세지입니다.",
+        "createdAt": "2023-11-12T15:03:17.402Z",
+        "isWelcome": false
+      },
+      {
+        "userId": "userId2",
+        "nickName": "수진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId2",
+        "messageContent": "두 번째 메세지입니다.",
+        "createdAt": "2023-11-12T15:03:18.402Z",
+        "isWelcome": false
+      },
+      {
+        "userId": "userId3",
+        "nickName": "미진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId3",
+        "messageContent": "세 번째 메세지입니다.",
+        "createdAt": "2023-11-12T15:03:19.402Z",
+        "isWelcome": false
+      },
+      {
+        "userId": "userId4",
+        "nickName": "예진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId4",
+        "messageContent": "",
+        "createdAt": "2023-11-12T15:03:20.402Z",
+        "isWelcome": true
+      },
+      {
+        "userId": "userId4",
+        "nickName": "예진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId5",
+        "messageContent": "네 번째 메세지입니다.",
+        "createdAt": "2023-11-12T15:03:21.402Z",
+        "isWelcome": false
+      },
+      {
+        "userId": "userId1",
+        "nickName": "유진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId6",
+        "messageContent": "다섯 번째 메세지입니다.",
+        "createdAt": "2023-11-12T15:03:22.402Z",
+        "isWelcome": false
+      },
+      {
+        "userId": "userId5",
+        "nickName": "가진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId7",
+        "messageContent": "여섯 번째 메세지입니다.",
+        "createdAt": "2023-11-12T15:03:23.402Z",
+        "isWelcome": false
+      },
+      {
+        "userId": "userId8",
+        "nickName": "나진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId8",
+        "messageContent": "일곱 번째 메세지입니다.",
+        "createdAt": "2023-11-12T15:03:24.402Z",
+        "isWelcome": false
+      },
+      {
+        "userId": "userId9",
+        "nickName": "다진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId9",
+        "messageContent": "여덟 번째 메세지입니다.",
+        "createdAt": "2023-11-12T15:03:25.402Z",
+        "isWelcome": false
+      },
+      {
+        "userId": "userId10",
+        "nickName": "라진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId10",
+        "messageContent": "",
+        "createdAt": "2023-11-12T15:03:26.402Z",
+        "isWelcome": true
+      },
+      {
+        "userId": "userId10",
+        "nickName": "라진",
+        "profileUrl": "https://picsum.photos/200",
+        "messageId": "messageId11",
+        "messageContent": "아홉 번째 메세지입니다.",
+        "createdAt": "2023-11-12T15:03:27.402Z",
+        "isWelcome": false
+      }
+    ]
   }
 }

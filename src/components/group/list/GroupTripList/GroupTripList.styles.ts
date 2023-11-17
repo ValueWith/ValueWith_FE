@@ -3,7 +3,10 @@ import styled from '@emotion/styled';
 
 export const PaginationContainer = styled.div`
   max-width: 100%;
-  margin: 50px auto 0 auto;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   .pagination {
     display: flex;

@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { modalState } from '@/recoil/modalState';
+import { paramsState } from '@/recoil/paramsState';
+
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 
@@ -14,15 +18,18 @@ import Button from '../Button';
 import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
+import { loginState } from '@/recoil/userState';
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>('');
-
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
+
+  const setParams = useSetRecoilState(paramsState);
+  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
   useEffect(() => {
     if (location.pathname.startsWith('/mylounge')) {
@@ -42,8 +49,52 @@ function Header() {
     setCurrentCategory(location.pathname);
   }, [location]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+
+    if (token) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [isLogin]);
+
   const handleLogin = () => {
     navigate('/login');
+  };
+
+  const handleLogout = () => {
+    setModalDataState({
+      isModalOpen: true,
+      type: 'confirm',
+      title: '로그아웃',
+      message: 'Tweaver에서 로그아웃 하시겠습니까?',
+      onConfirm: () => {
+        setModalDataState({
+          ...modalDataState,
+          isModalOpen: false,
+        });
+        localStorage.removeItem('accessToken');
+        setIsLogin(false);
+        navigate('/');
+      },
+      onCancel: () => {
+        setModalDataState({
+          ...modalDataState,
+          isModalOpen: false,
+        });
+      },
+    });
+  };
+
+  const handleGroup = () => {
+    setParams({
+      page: '1',
+      status: 'all',
+      area: 'all',
+      sort: 'latest',
+      title: '',
+    });
   };
 
   return (
@@ -59,7 +110,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className="header__menu-list">
+          <ul className='header__menu-list'>
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -75,7 +126,7 @@ function Header() {
                     }
 
                     if (page.path === '/group') {
-                      window.location.reload();
+                      handleGroup();
                     }
                   }}
                 >
@@ -88,7 +139,7 @@ function Header() {
 
         {/* 사용자 액션  */}
         <S.UserActionsWrapper>
-          {isLogin && (
+          {isLogin ? (
             <S.UserActions>
               {/* 채팅 */}
               <S.UserActionItem>
@@ -100,28 +151,31 @@ function Header() {
                 <AiOutlineBell size={24} />
               </S.UserActionItem>
 
-              <span className="ml-4">|</span>
+              <span className='ml-4'>|</span>
 
               <Button
-                type="button"
-                styleType="text"
-                className="ml-4"
+                type='button'
+                styleType='text'
+                className='ml-4'
                 style={{
                   minWidth: 'auto',
                   color: `${theme.color.fontgray}`,
                   fontSize: '15px',
                 }}
-                onClickHandler={() => console.log('로그아웃')}
+                onClickHandler={handleLogout}
               >
                 로그아웃
               </Button>
             </S.UserActions>
+          ) : (
+            <Button
+              type='button'
+              styleType='basic'
+              onClickHandler={handleLogin}
+            >
+              로그인
+            </Button>
           )}
-
-          {/* 로그인  */}
-          <Button type="button" styleType="basic" onClickHandler={handleLogin}>
-            로그인
-          </Button>
         </S.UserActionsWrapper>
       </S.HeaderInner>
 

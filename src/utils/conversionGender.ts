@@ -1,5 +1,4 @@
 export const conversionGender = (gender: string) => {
-  console.log('gender', gender);
   switch (gender) {
     case 'female':
       return '여성';

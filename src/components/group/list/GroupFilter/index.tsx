@@ -19,15 +19,15 @@ function GroupFilter({ option }: GroupFilterProps) {
   const [params, setParams] = useRecoilState(paramsState);
 
   const handleStatusChange = (value: string) => {
-    setParams({ ...params, status: value });
+    setParams({ ...params, status: value, page: '1' });
   };
 
   const handleAreaChange = (value: string) => {
-    setParams({ ...params, area: value });
+    setParams({ ...params, area: value, page: '1' });
   };
 
   const handleSortingChange = (value: string) => {
-    setParams({ ...params, sort: value });
+    setParams({ ...params, sort: value, page: '1' });
   };
 
   return (

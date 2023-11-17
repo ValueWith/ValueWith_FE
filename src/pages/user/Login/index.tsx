@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import useAuth from '@/hooks/useAuth';
+
 import * as S from '../User.styles';
 import Button from '@/components/Button';
 import theme from '@/assets/styles/theme';
 import Input from '@/components/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
 import ErrorMessage from '@/components/Message/ErrorMessage';
-import { IoIosArrowForward } from 'react-icons/io';
+import Loader from '@/components/Loader';
 
 interface SignupFormProps {
   nickname: string;
@@ -24,20 +26,16 @@ function Login() {
   const {
     register,
     handleSubmit,
-    watch,
-    setError,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<SignupFormProps>({
     mode: 'onBlur',
   });
 
+  const { handleLogin, isLoading, isError } = useAuth();
+
   //  폼 제출
   const onSubmit: SubmitHandler<SignupFormProps> = async (data) => {
-    console.log(data);
-
-    // 데이터 통신 로직
-
-    // 커스텀 에러 처리
+    await handleLogin(data);
   };
 
   return (
@@ -49,7 +47,7 @@ function Login() {
           height={36}
           className="mr-4 mb-2"
         />
-        회원가입
+        로그인
       </S.UserHeader>
 
       <form className="login mt-[76px]" onSubmit={handleSubmit(onSubmit)}>
@@ -73,17 +71,24 @@ function Login() {
           errors={errors}
         />
 
-        {/* 회원가입 버튼  */}
-        <Button type="submit" size="lg" fullWidth>
-          로그인
+        {/* 로그인 버튼  */}
+        <Button
+          type="submit"
+          size="lg"
+          fullWidth
+          styleType={isLoading ? 'disabled' : 'solid'}
+        >
+          {isLoading ? <Loader width={30} height={30} /> : '로그인'}
         </Button>
       </form>
 
-      {/* <ErrorMessage className="mt-1">
-        없는 이메일이거나, 비밀번호가 일치하지 않습니다.
-      </ErrorMessage> */}
+      {isError && (
+        <ErrorMessage className="mt-1">
+          없는 이메일이거나, 비밀번호가 일치하지 않습니다.
+        </ErrorMessage>
+      )}
 
-      <div className="flex">
+      <div className="flex mt-3">
         <Button
           type="button"
           size="sm"
