@@ -54,3 +54,13 @@ export const fetchGroupList = async (
 export const deleteGroupRequest = async (tripGroupId: number) => {
   return instance.delete(`/api/groups/${tripGroupId}`);
 };
+
+// 그룹 지원 취소
+export const cancelApplyRequest = async (tripGroupId: number) => {
+  return instance.delete(`/api/groups/application/${tripGroupId}`);
+};
+
+// 그룹 탈퇴
+export const leaveGroupRequest = async (tripGroupId: number) => {
+  return instance.patch(`/api/groups/${tripGroupId}/member/left`);
+};
