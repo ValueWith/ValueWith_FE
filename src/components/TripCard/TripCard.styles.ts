@@ -9,9 +9,9 @@ export const TripCardContainer = styled.div`
   border: 1px solid #d1d1d1;
   border-radius: 4px;
   transition: all 0.3s;
-  cursor: pointer;
 
   &:not(.mylounge) {
+    cursor: pointer;
     &:hover {
       transform: scale(1.01);
     }
