@@ -2,32 +2,61 @@ import Button from '../Button';
 
 import { FaChevronDown } from 'react-icons/fa';
 import * as S from './GroupMemberManagement.styles';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useGroupMemberList } from '@/apis/mylounge';
+import { set } from 'date-fns';
 
 interface GroupMemberManagementProps {
+  tripGroupId: number;
   isOpenApplyList: { isOpen: boolean; type: string };
   setIsOpenApplyList: Dispatch<
     SetStateAction<{ isOpen: boolean; type: string }>
   >;
+  onSetApplyList: (applyList: any) => void;
 }
 
 function GroupMemberManagement({
+  tripGroupId,
   isOpenApplyList,
   setIsOpenApplyList,
+  onSetApplyList,
 }: GroupMemberManagementProps) {
+  const [fetched, setFetched] = useState(false);
+
+  const {
+    data: groupMemberList,
+    isLoading,
+    isError,
+  } = useGroupMemberList(isOpenApplyList.type, tripGroupId, fetched);
+
   const handleClickApplyModal = (event: any, type: string) => {
     event.stopPropagation();
 
+    setIsOpenApplyList({
+      ...isOpenApplyList,
+      type: type,
+    });
+
     // 같은 버튼을 클릭했을 때는 지원자 목록 보기 리스트 창 감춤
     if (isOpenApplyList.isOpen && isOpenApplyList.type === type) {
-      setIsOpenApplyList({ isOpen: false, type: '' });
+      setIsOpenApplyList({
+        ...isOpenApplyList,
+        isOpen: false,
+      });
     }
 
     // 다른 버튼을 클릭했을 때는 지원자 목록 보기 리스트 창 보여줌
     if (!isOpenApplyList.isOpen || isOpenApplyList.type !== type) {
-      setIsOpenApplyList({ isOpen: true, type: type });
+      setIsOpenApplyList({ ...isOpenApplyList, isOpen: true, type: type });
     }
+
+    setFetched(true);
+    onSetApplyList(groupMemberList?.data);
   };
+
+  useEffect(() => {
+    onSetApplyList(groupMemberList?.data);
+  }, [groupMemberList, isOpenApplyList]);
 
   return (
     <>
@@ -44,9 +73,7 @@ function GroupMemberManagement({
               height: '31px',
               padding: '12px',
             }}
-            onClickHandler={(event) =>
-              handleClickApplyModal(event, 'management')
-            }
+            onClickHandler={(event) => handleClickApplyModal(event, 'approved')}
           >
             멤버 관리 <FaChevronDown />
           </Button>
@@ -61,7 +88,7 @@ function GroupMemberManagement({
               height: '31px',
               padding: '7px',
             }}
-            onClickHandler={(event) => handleClickApplyModal(event, 'list')}
+            onClickHandler={(event) => handleClickApplyModal(event, 'pending')}
           >
             지원자 목록 보기 <FaChevronDown />
           </Button>

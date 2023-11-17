@@ -11,6 +11,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import { MdCalendarMonth } from 'react-icons/md';
 
 import * as S from './TripCard.styles';
+import theme from '@/assets/styles/theme';
 
 interface TripCardProps {
   group: TripGroup;
@@ -34,9 +35,10 @@ function TripCard({ group, cardType }: TripCardProps) {
     gender,
   } = group;
 
+  const [applyList, setApplyList] = useState([]);
   const [isOpenApplyList, setIsOpenApplyList] = useState({
     isOpen: false,
-    type: '',
+    type: 'approved',
   });
 
   const d_day = calculateDday(dueDate);
@@ -56,7 +58,7 @@ function TripCard({ group, cardType }: TripCardProps) {
         }}
       >
         {isClosed && <S.Closed />}
-        <S.CardTumbnail src={thumbnailUrl} alt='지도 썸네일' />
+        <S.CardTumbnail src={thumbnailUrl} alt="지도 썸네일" />
         <S.IconContainer>
           <S.Icon>
             <FaMapMarkerAlt />
@@ -84,8 +86,10 @@ function TripCard({ group, cardType }: TripCardProps) {
           <S.Content>{content}</S.Content>
 
           {/* 마이라운지에서 '내 그룹' 에서는 UserInfo 대신 관리 버튼 노출   */}
-          {cardType === 'management' ? (
+          {cardType === 'leader' ? (
             <GroupMemberManagement
+              tripGroupId={group.tripGroupId}
+              onSetApplyList={setApplyList}
               isOpenApplyList={isOpenApplyList}
               setIsOpenApplyList={setIsOpenApplyList}
             />
@@ -101,16 +105,40 @@ function TripCard({ group, cardType }: TripCardProps) {
       </S.TripCardContainer>
 
       {/* 지원자 목록 보기 버튼 클릭 시 */}
-      {isOpenApplyList.isOpen && (
+      {isOpenApplyList.isOpen && cardType === 'leader' && (
         <S.ApplyListContainer>
-          <S.ApplyListTitle>지원자 목록</S.ApplyListTitle>
-          <S.MemberListContainer>
-            <GroupUserInfo
-              profileUrl={profileUrl}
-              nickName={nickName}
-              age={age}
-              gender={gender}
-            />
+          <S.ApplyListTitle>
+            {isOpenApplyList.type === 'approved' ? '멤버 관리' : '지원자 목록'}
+          </S.ApplyListTitle>
+          <S.MemberListContainer className="relative">
+            {applyList && (
+              <>
+                {applyList.length > 0 ? (
+                  applyList.map((member: any, index: number) => (
+                    <GroupUserInfo
+                      key={index}
+                      profileUrl={member.groupMemberProfileUrl}
+                      nickName={member.groupMemberNickname}
+                      age={member.groupMemberAge}
+                      gender={member.groupMemberAge}
+                    />
+                  ))
+                ) : (
+                  <p
+                    className="mt-1 text-[14px]"
+                    style={{
+                      color: `${theme.color.gray400}`,
+                    }}
+                  >
+                    {isOpenApplyList.type === 'approved'
+                      ? `${name} 의 멤버가 없습니다`
+                      : `${name} 의 지원자가 없습니다`}
+                  </p>
+                )}
+              </>
+            )}
+
+            {!applyList && <p>데이터를 로딩 중입니다...</p>}
           </S.MemberListContainer>
         </S.ApplyListContainer>
       )}
