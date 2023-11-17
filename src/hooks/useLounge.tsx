@@ -5,7 +5,6 @@ import {
   memberKickRequest,
 } from '@/apis/mylounge';
 import { modalState } from '@/recoil/modalState';
-import { fi } from 'date-fns/locale';
 import { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
