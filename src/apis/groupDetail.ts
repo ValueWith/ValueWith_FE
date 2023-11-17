@@ -6,6 +6,7 @@ export interface GroupMember {
   groupMemberGender: string;
   groupMemberNickname: string;
   groupMemberProfileUrl: string;
+  groupMemberStatus: string;
 }
 
 export interface Place {
