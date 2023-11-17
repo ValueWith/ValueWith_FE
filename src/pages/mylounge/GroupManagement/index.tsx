@@ -8,33 +8,50 @@ import { useRecoilState } from 'recoil';
 import { findValueByProperty } from '@/utils/findCodeByLabel';
 
 import * as S from './GroupManagement.styles';
+import { getGroupList, useMyLoungeData } from '@/apis/mylounge';
 
 const GROUP_MANAGEMENT_TABS = [
   {
     label: '내가 만든 그룹',
-    type: 'management',
+    type: 'leader',
   },
   {
     label: '참여중인 그룹',
-    type: 'registration',
+    type: 'approved',
   },
   {
     label: '대기중인 그룹',
-    type: 'waiting',
+    type: 'pending',
   },
 ];
 
 function GroupManagement() {
   const [params, setParams] = useRecoilState(paramsState);
-  const { data, isLoading, isError } = useGroupDataFetching(params);
 
   const [loungeTab, setLoungeTab] = useState(GROUP_MANAGEMENT_TABS[0].type);
 
   const handleLoungeTab = ({ type }: { type: string }) => {
     setLoungeTab(type);
-
-    // TODO : 내가 만든 그룹 , 참여중인 그룹, 대기중인 그룹 호출 GET으로 수정
   };
+
+  const {
+    data: loungeData,
+    isLoading,
+    isError,
+  } = useMyLoungeData({
+    status: loungeTab,
+  });
+
+  useEffect(() => {
+    setParams({
+      ...params,
+      status: loungeTab,
+    });
+  }, [loungeTab]);
+
+  useEffect(() => {
+    console.log(loungeData?.data, 'data'); // currentpage, totalpages, totalElements tripGroups
+  }, [loungeTab]);
 
   return (
     <S.GroupManagementContainer>
@@ -51,15 +68,19 @@ function GroupManagement() {
       </S.GroupManagementHeader>
 
       <S.GroupManagementContent>
-        {/* TODO : 현재 라운지 타입에 따라 데이터를 렌더링 */}
-        {data &&
-          data.tripGroups.map((group: TripGroup) => (
-            <TripCard
-              key={group.tripGroupId}
-              group={group}
-              cardType={loungeTab}
-            />
-          ))}
+        {loungeData ? (
+          <>
+            {loungeData.data.tripGroups.map((group: TripGroup) => (
+              <TripCard
+                key={group.tripGroupId}
+                group={group}
+                cardType={loungeTab}
+              />
+            ))}
+          </>
+        ) : (
+          '데이터가 없습니다.'
+        )}
       </S.GroupManagementContent>
     </S.GroupManagementContainer>
   );
