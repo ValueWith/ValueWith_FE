@@ -4,6 +4,7 @@ import Button from '../Button';
 import theme from '@/assets/styles/theme';
 import { conversionGender } from '@/utils/conversionGender';
 import { useLounge } from '@/hooks/useLounge';
+import Loader from '../Loader';
 
 interface GroupUserInfoProps {
   type?: string; // approved | pending
@@ -27,8 +28,12 @@ function GroupUserInfo({
   style,
 }: GroupUserInfoProps) {
   const [listType, setListType] = useState('');
-  const { handleMemberConfirm, handleMemberReject, handleMemberKick } =
-    useLounge();
+  const {
+    handleMemberConfirm,
+    handleMemberReject,
+    handleMemberKick,
+    isLoading,
+  } = useLounge();
 
   useEffect(() => {
     if (type === 'approved') {
@@ -40,6 +45,8 @@ function GroupUserInfo({
 
   return (
     <S.ProfileContainer>
+      {isLoading && <Loader className="z-[1]" />}
+
       <S.ProfileImageContainer>
         <S.ProfileImage src={profileUrl} alt="프로필 이미지" />
         <S.ProfileName>{nickName}</S.ProfileName>

@@ -4,7 +4,11 @@ import {
   memberConfirmRequest,
   memberKickRequest,
 } from '@/apis/mylounge';
+import { modalState } from '@/recoil/modalState';
+import { fi } from 'date-fns/locale';
+import { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
+import { useRecoilState } from 'recoil';
 
 export const useGroupMemberList = (
   status: string,
@@ -26,30 +30,60 @@ export const useMyLoungeData = (params: any) => {
 
 export const useLounge = () => {
   const queryClient = useQueryClient();
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
+  const [isLoading, setIsLoading] = useState(false);
 
   // 멤버 승인
   const handleMemberConfirm = async (groupMemberId: number) => {
     try {
+      setIsLoading(true);
       const response = await memberConfirmRequest(groupMemberId);
 
       console.log(response);
 
       queryClient.invalidateQueries(['groupMemberList', 'pending']);
     } catch (error) {
+      setModalDataState({
+        isModalOpen: true,
+        title: '멤버 승인 실패',
+        message: '멤버 승인에 실패하였습니다. 다시 시도해주세요.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+        },
+      });
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // 멤버 거절
   const handleMemberReject = async (groupMemberId: number) => {
     try {
+      setIsLoading(true);
       const response = await memberConfirmRequest(groupMemberId);
 
       console.log(response);
 
       queryClient.invalidateQueries(['groupMemberList', 'pending']);
     } catch (error) {
+      setModalDataState({
+        isModalOpen: true,
+        title: '멤버 거절 실패',
+        message: '멤버 거절에 실패하였습니다. 다시 시도해주세요.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+        },
+      });
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -59,6 +93,7 @@ export const useLounge = () => {
     groupMemberId: number
   ) => {
     try {
+      setIsLoading(true);
       const response = await memberKickRequest(tripGroupId, groupMemberId);
 
       console.log(response);
@@ -69,9 +104,26 @@ export const useLounge = () => {
         tripGroupId,
       ]);
     } catch (error) {
-      console.log(error);
+      setModalDataState({
+        isModalOpen: true,
+        title: '멤버 추방 실패',
+        message: '멤버 추방에 실패하였습니다. 다시 시도해주세요.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+        },
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return { handleMemberConfirm, handleMemberReject, handleMemberKick };
+  return {
+    handleMemberConfirm,
+    handleMemberReject,
+    handleMemberKick,
+    isLoading,
+  };
 };
