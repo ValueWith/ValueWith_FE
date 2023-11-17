@@ -9,6 +9,7 @@ import { findValueByProperty } from '@/utils/findCodeByLabel';
 
 import * as S from './GroupManagement.styles';
 import { getGroupList, useMyLoungeData } from '@/apis/mylounge';
+import Loader from '@/components/Loader';
 
 const GROUP_MANAGEMENT_TABS = [
   {
@@ -79,7 +80,7 @@ function GroupManagement() {
             ))}
           </>
         ) : (
-          '데이터가 없습니다.'
+          <Loader />
         )}
       </S.GroupManagementContent>
     </S.GroupManagementContainer>
