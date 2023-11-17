@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import { paramsState } from '@/recoil/paramsState';
 import { useRecoilState } from 'recoil';
 
-import { findValueByProperty } from '@/utils/findCodeByLabel';
-
 import { TripGroup } from '@/apis/group';
 
-import TripCard from '@/components/TripCard';
-import * as S from './GroupManagement.styles';
-import Loader from '@/components/Loader';
 import { useMyLoungeData } from '@/hooks/useLounge';
+
+import TripCard from '@/components/TripCard';
+import Loader from '@/components/Loader';
 import Pagenation from '@/components/Pagination';
+
+import * as S from './GroupManagement.styles';
 
 const GROUP_MANAGEMENT_TABS = [
   {
