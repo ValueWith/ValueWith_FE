@@ -6,6 +6,7 @@ export const HeaderContainer = styled.header`
   width: 100%;
   height: ${theme.layoutComponent.header_height}px;
   border-bottom: 1px solid ${theme.color.gray200};
+  z-index: 1;
 `;
 
 export const HeaderInner = styled.div`
