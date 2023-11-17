@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
 
 import { useGroupDetailDataFetching } from '@/hooks/useGroup';
 
@@ -13,6 +14,7 @@ import ApplyButton from '@/components/group/detail/ApplyButton';
 
 function GroupDetail() {
   const { groupId } = useParams();
+  const queryClient = useQueryClient();
 
   const { data, isLoading, isError } = useGroupDetailDataFetching(
     Number(groupId)
@@ -38,7 +40,7 @@ function GroupDetail() {
                 gender={data.tripGroupDetail.gender}
                 groupMembers={data.groupMembers}
               />
-              <ApplyButton data={data} />
+              <ApplyButton data={data} queryClient={queryClient} />
             </div>
 
             <div>
