@@ -16,9 +16,6 @@ function MainTemplate({ children }: MainTemplateProps) {
       case '/login':
       case '/signup':
         return 'user';
-      case '/mylounge':
-      case '/mylounge/management':
-        return 'lounge';
       default:
         return '';
     }
