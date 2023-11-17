@@ -45,7 +45,7 @@ function GroupTripList() {
               containerClassName={'pagination'}
               activeClassName={'active'}
               renderOnZeroPageCount={null}
-              initialPage={Number(params.page) - 1}
+              forcePage={Number(params.page) - 1}
             />
           </S.PaginationContainer>
         </>

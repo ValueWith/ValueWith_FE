@@ -8,3 +8,10 @@ export const TripListContainer = styled.div`
   justify-content: center;
   padding-bottom: 50px;
 `;
+
+export const NoTripList = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
