@@ -11,8 +11,21 @@ function MainTemplate({ children }: MainTemplateProps) {
 
   const [pageStyle, setPageStyle] = useState('');
 
+  const determinePageStyle = (path: string) => {
+    switch (path) {
+      case '/login':
+      case '/signup':
+        return 'user';
+      case '/mylounge':
+      case '/mylounge/management':
+        return 'lounge';
+      default:
+        return '';
+    }
+  };
+
   useEffect(() => {
-    setPageStyle(pathname === '/login' || pathname === '/signup' ? 'user' : '');
+    setPageStyle(determinePageStyle(pathname));
   }, [pathname]);
 
   return (

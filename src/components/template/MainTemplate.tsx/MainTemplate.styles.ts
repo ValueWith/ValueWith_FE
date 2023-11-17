@@ -17,4 +17,8 @@ export const TemplateInner = styled.div`
   &.user {
     max-width: calc(450px + 32px);
   }
+
+  &.lounge {
+    max-width: calc(800px + 32px);
+  }
 `;
