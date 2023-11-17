@@ -8,8 +8,8 @@ import { useRecoilState } from 'recoil';
 import { findValueByProperty } from '@/utils/findCodeByLabel';
 
 import * as S from './GroupManagement.styles';
-import { getGroupList, useMyLoungeData } from '@/apis/mylounge';
 import Loader from '@/components/Loader';
+import { useMyLoungeData } from '@/hooks/useLounge';
 
 const GROUP_MANAGEMENT_TABS = [
   {

@@ -3,36 +3,40 @@ import { GroupListParams } from './group';
 import instance from '.';
 import { useEffect } from 'react';
 
-//params :
-// - leader : 내가 그룹장인 여행그룹
-// - approved : 승인된 여행그룹
-// - pending : 승인 대기중인 여행그룹
-export function getGroupList(params: GroupListParams) {
+/**
+ *
+ * @param { string } params
+ * leader : 내가 그룹장인 여행그룹,
+ * approved : 승인된 여행그룹,
+ * pending : 승인 대기중인 여행그룹
+ */
+export const getGroupList = (params: GroupListParams) => {
   return instance.get('/api/groups/list/my-list', {
     params,
   });
-}
-
-export const useMyLoungeData = (params: any) => {
-  return useQuery(['myLoungeData', params], () => getGroupList(params));
 };
 
-// 참가자 조회 (그룹장)
-
-export function getGroupMemberList(status: string, tripGroupId: number) {
+// 멤버 조회 (그룹장)
+export const getGroupMemberList = (status: string, tripGroupId: number) => {
   return instance.get(`/api/groups/members/${tripGroupId}?status=${status}`);
-}
+};
 
-export const useGroupMemberList = (
-  status: string,
+// 멤버 승인 (그룹장)
+export const memberConfirmRequest = (groupMemberId: number) => {
+  return instance.patch(`/api/groups/application/confirm/${groupMemberId}`);
+};
+
+// 멤버 거절 (그룹장)
+export const memberRejectRequest = (groupMemberId: number) => {
+  return instance.patch(`/api/groups/application/reject/${groupMemberId}`);
+};
+
+// 멤버 강퇴 (그룹장)
+export const memberKickRequest = (
   tripGroupId: number,
-  fetched: boolean
+  groupMemberId: number
 ) => {
-  return useQuery(
-    ['groupMemberList', status, tripGroupId],
-    () => getGroupMemberList(status, tripGroupId),
-    {
-      enabled: fetched,
-    }
+  return instance.patch(
+    `/api/groups/${tripGroupId}/member/${groupMemberId}/banned`
   );
 };
