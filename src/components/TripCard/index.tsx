@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import GroupUserInfo from '../GroupUserInfo';
 import GroupMemberManagement from '../GroupMemberManagement';
 import TripCardUserInfo from '../TripCardUserInfo';
@@ -36,6 +37,7 @@ function TripCard({ group, cardType }: TripCardProps) {
     tripGroupId,
   } = group;
 
+  const navigate = useNavigate();
   const [applyList, setApplyList] = useState([]);
   const [isOpenApplyList, setIsOpenApplyList] = useState({
     isOpen: false,
@@ -46,20 +48,24 @@ function TripCard({ group, cardType }: TripCardProps) {
   const isClosed = status !== '모집중';
   const koreanArea = conversionArea(tripArea);
 
+  const redirectToTripDetail = () => {
+    navigate(`/group/${tripGroupId}`);
+  };
+
   useEffect(() => {
     if (!isOpenApplyList.isOpen) return;
   }, [isOpenApplyList]);
 
   return (
     <>
-      <S.TripCardContainer
-        className={cardType && 'mylounge'}
-        onClick={() => {
-          console.log('클릭');
-        }}
-      >
+      <S.TripCardContainer className={cardType && 'mylounge'}>
         {isClosed && <S.Closed />}
-        <S.CardTumbnail src={thumbnailUrl} alt="지도 썸네일" />
+        <S.CardTumbnail
+          src={thumbnailUrl}
+          alt="지도 썸네일"
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onClick={cardType ? redirectToTripDetail : () => {}}
+        />
         <S.IconContainer>
           <S.Icon>
             <FaMapMarkerAlt />

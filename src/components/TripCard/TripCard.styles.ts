@@ -45,6 +45,10 @@ export const CardTumbnail = styled.img`
   width: 100%;
   min-height: 180px;
   object-fit: cover;
+
+  .mylounge & {
+    cursor: pointer;
+  }
 `;
 
 export const IconContainer = styled.div`

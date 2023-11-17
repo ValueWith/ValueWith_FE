@@ -8,6 +8,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 
 import * as S from './GroupMemberManagement.styles';
 import DropdownMenu from '../DropdownMenu';
+import { useNavigate } from 'react-router-dom';
 
 interface GroupMemberManagementProps {
   tripGroupId: number;
@@ -35,6 +36,7 @@ function GroupMemberManagement({
   setIsOpenApplyList,
   onSetApplyList,
 }: GroupMemberManagementProps) {
+  const navigate = useNavigate();
   const [fetched, setFetched] = useState(false);
 
   const {
@@ -136,6 +138,9 @@ function GroupMemberManagement({
             size="sm"
             styleType="text"
             style={{ color: '#000', minWidth: '0' }}
+            onClickHandler={() => {
+              navigate(`/group/${tripGroupId}`);
+            }}
           >
             <span>자세히 보기</span>
             <IoArrowForward style={{ marginLeft: '5px' }} />
