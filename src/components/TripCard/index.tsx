@@ -117,10 +117,11 @@ function TripCard({ group, cardType }: TripCardProps) {
                   applyList.map((member: any, index: number) => (
                     <GroupUserInfo
                       key={index}
+                      type={isOpenApplyList.type}
                       profileUrl={member.groupMemberProfileUrl}
                       nickName={member.groupMemberNickname}
                       age={member.groupMemberAge}
-                      gender={member.groupMemberAge}
+                      gender={member.groupMemberGender}
                     />
                   ))
                 ) : (
