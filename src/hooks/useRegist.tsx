@@ -42,13 +42,15 @@ export const useGetSuggestionData = (params: SuggestionsModel) => {
       const data = TourState?.data?.response?.body?.items.item || [];
       console.log(data);
 
+      const filteredData = data.filter((item: any) => item.addr1 !== '');
+
       if (prevCategory !== params.categoryCode) {
-        setSuggestionData(data);
+        setSuggestionData(filteredData);
       } else {
         if (prevArea !== params.areaCode) {
-          setSuggestionData(data);
+          setSuggestionData(filteredData);
         } else {
-          setSuggestionData([...suggestionData, ...data]);
+          setSuggestionData([...suggestionData, ...filteredData]);
         }
       }
       setPrevCategory(params.categoryCode);
