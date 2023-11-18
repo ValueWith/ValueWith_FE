@@ -16,11 +16,9 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
 import {
   PlaceObjectModel,
-  SelectedPlaceModel,
   selectedPlaceState,
   tempFormState,
 } from '@/recoil/GroupRegistState';
-import { fi } from 'date-fns/locale';
 
 // TODO : params 타입 정의
 export const useGetSuggestionData = (params: SuggestionsModel) => {
