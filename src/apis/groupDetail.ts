@@ -1,7 +1,7 @@
 import instance from '.';
 
 export interface GroupMember {
-  groupMemberAge: string;
+  groupMemberAge: number;
   groupMemberGender: string;
   groupMemberNickname: string;
   groupMemberProfileUrl: string;
