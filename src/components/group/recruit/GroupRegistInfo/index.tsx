@@ -157,10 +157,8 @@ function GroupRegistInfo({
       <Controller
         name="groupThumbnail"
         control={control}
-        rules={{ required: true }}
         render={({ field: { onChange } }) => (
           <FileUploader
-            className={errors.groupThumbnail ? 'error' : ''}
             onFileSelected={(file) => {
               onChange(file);
             }}
