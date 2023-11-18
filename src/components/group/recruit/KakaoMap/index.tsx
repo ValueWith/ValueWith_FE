@@ -1,5 +1,5 @@
 import theme from '@/assets/styles/theme';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import {
   CustomOverlayMap,
   Map,
@@ -12,7 +12,6 @@ import { getMarkerBackground } from '@/utils/getMarkerBackground';
 import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
 
 function KakaoMap() {
-  const mapRef = useRef<kakao.maps.Map>(null);
   const [selectedPlaceData] = useRecoilState(selectedPlaceState);
   const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
 
@@ -48,17 +47,8 @@ function KakaoMap() {
     }
   }, []);
 
-  // 새로 선택한 장소가 있거나, 장소를 클릭해서 맵이 이동했을 때 맵 레벨을 3으로 변경
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    map.setLevel(3);
-  }, [mapOptions]);
-
   return (
     <Map
-      ref={mapRef}
       style={{ width: '100%', height: '100%' }} // 지도 크기
       {...mapOptions}
     >
