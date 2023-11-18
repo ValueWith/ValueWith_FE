@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -36,6 +35,14 @@ function Login() {
   //  폼 제출
   const onSubmit: SubmitHandler<SignupFormProps> = async (data) => {
     await handleLogin(data);
+  };
+
+  const handleKakaoLogin = () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${
+      import.meta.env.VITE_KAKAO_API_KEY
+    }&redirect_uri=${
+      import.meta.env.VITE_KAKAO_REDIRECT_URI
+    }&response_type=code`;
   };
 
   return (
@@ -103,6 +110,8 @@ function Login() {
           Tweaver 회원가입
         </Button>
       </div>
+
+      <button onClick={handleKakaoLogin}>카카오 로그인</button>
     </S.UserWrapper>
   );
 }
