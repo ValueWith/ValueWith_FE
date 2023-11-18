@@ -11,6 +11,7 @@ import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
 import { modalState } from '@/recoil/modalState';
+import { getMarkerBackground } from '@/utils/getMarkerBackground';
 
 interface GroupItemCardProps {
   item: any;
@@ -33,27 +34,6 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [mapOption, setMapOption] = useRecoilState(mapOptionState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
-
-  function getOrderClassName(categoryText: string) {
-    if (categoryText.includes('숙박')) {
-      return 'hotel';
-    } else if (
-      categoryText.includes('음식점') ||
-      categoryText.includes('카페') ||
-      categoryText.includes('식당')
-    ) {
-      return 'food';
-    } else if (
-      categoryText.includes('관광') ||
-      categoryText.includes('문화') ||
-      categoryText.includes('역사') ||
-      categoryText.includes('행사')
-    ) {
-      return 'attraction';
-    } else {
-      return '';
-    }
-  }
 
   const handleMapCenter = () => {
     setMapOption({
@@ -188,7 +168,9 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
 
               {type === 'registed' && (
                 <S.GroupItemCardOrder
-                  className={getOrderClassName(categoryText)}
+                  style={{
+                    backgroundColor: getMarkerBackground(categoryText),
+                  }}
                 >
                   {index + 1}
                 </S.GroupItemCardOrder>
