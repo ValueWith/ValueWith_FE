@@ -118,7 +118,12 @@ function GroupRegistSchedule({
         )}
       </S.GroupRegistContainer>
 
-      <div className="flex flex-col mt-auto pt-10 pb-12 px-[24px]">
+      <div
+        className="flex flex-col mt-auto pt-10 pb-12 px-[24px]"
+        style={{
+          borderRight: '1px solid #e3e3e3',
+        }}
+      >
         <Button
           type="button"
           styleType={
