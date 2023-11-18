@@ -133,7 +133,7 @@ export const useRegistGroup = () => {
         formData.append('file', '');
       }
 
-      const response = await groupRegisterRequest(formData);
+      await groupRegisterRequest(formData);
 
       setModalDataState({
         ...modalDataState,
