@@ -14,6 +14,7 @@ export interface SuggestionsModel {
   categoryCode: number | null;
 }
 
+// TOUP API에서 추천 데이터
 export const getSuggestionData = async ({
   page,
   areaCode,
@@ -32,10 +33,16 @@ export const getSuggestionData = async ({
   }
 };
 
-export function groupRegisterRequest(data: any) {
+// 추천 경로
+export const recommendRouteRequest = (data: any) => {
+  return instance.post('/api/recommend/route', data);
+};
+
+// 그룹 등록
+export const groupRegisterRequest = (data: any) => {
   return instance.post('/api/groups/', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
-}
+};
