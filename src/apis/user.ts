@@ -43,6 +43,18 @@ export const signupRequest = async (data: SignUpProps, formData?: any) => {
 };
 
 // 로그인
-export function loginRequest(data: LoginProps) {
+export const loginRequest = (data: LoginProps) => {
   return instance.post('/api/auth/signin', data);
-}
+};
+
+// 토큰 갱신
+export const tokenRefreshRequest = async () => {
+  try {
+    const response = await instance.post('/api/auth/refresh');
+    localStorage.setItem('accessToken', response.data.accessToken);
+
+    return response.data.accessToken;
+  } catch (e) {
+    console.log(e);
+  }
+};
