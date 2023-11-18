@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import theme from '@/assets/styles/theme';
 
 export const GroupManagementContainer = styled.div`
-  max-width: 800px;
   margin: 0 auto;
   padding-top: 55px;
 `;
