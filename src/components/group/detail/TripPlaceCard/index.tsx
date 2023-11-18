@@ -31,9 +31,9 @@ function TripPlaceCard({
           </S.TripPlaceCardDetailInfo>
         </S.TripPlaceCardInfo>
       </S.TripPlaceCardContainer>
-      {distance !== 0 && (
+      {distance !== null && (
         <S.TripPlaceDistanceContainer>
-          <div className='flex items-center w-[56px] justify-end'>
+          <div className="flex items-center w-[56px] justify-end">
             <S.TripPlaceDistance>{distance}km</S.TripPlaceDistance>
             <AiFillCaretRight style={{ fontSize: '12px', marginLeft: '3px' }} />
           </div>
