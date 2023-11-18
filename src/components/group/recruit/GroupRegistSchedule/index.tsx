@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react';
 
-import NestedSidebar from '../NestedSidebar';
-
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
-
-import * as S from '@components/group/recruit/GroupRegist.styles';
-import * as CS from '@components/group/recruit/GroupRegist.styles';
-
-import SearchBar from '@/components/SearchBar';
-import Button from '@/components/Button';
 
 import { useRecoilState } from 'recoil';
 import { selectedPlaceState } from '@/recoil/GroupRegistState';
+
+import { useRecommendRoute } from '@/hooks/useRegist';
+
+import SearchBar from '@/components/SearchBar';
+import Button from '@/components/Button';
+import NestedSidebar from '../NestedSidebar';
 import GroupItemCard from '../GroupItemCard';
 import NoResult from '../NoResult';
+
+import * as S from '@components/group/recruit/GroupRegist.styles';
+import * as CS from '@components/group/recruit/GroupRegist.styles';
+import Loader from '@/components/Loader';
 
 function GroupRegistSchedule({
   onSelectedStep,
@@ -26,6 +28,8 @@ function GroupRegistSchedule({
     status: false,
     type: 'search', // 'suggest' | 'search'
   });
+
+  const { handleRecommendRoute, isLoading } = useRecommendRoute();
 
   const onDragEnd = (result: any) => {
     // 리스트 밖으로 드래그한 경우
@@ -47,7 +51,12 @@ function GroupRegistSchedule({
   };
 
   return (
-    <div className="relative h-full flex flex-col">
+    <div
+      className="relative h-full flex flex-col"
+      style={{
+        pointerEvents: isLoading ? 'none' : 'auto',
+      }}
+    >
       <S.GroupRegistContainer>
         {/* 검색창 */}
         <div className="registGroup">
@@ -121,6 +130,9 @@ function GroupRegistSchedule({
           style={{
             marginBottom: '8px',
           }}
+          onClickHandler={() =>
+            handleRecommendRoute(selectedPlace.selectedPlace)
+          }
         >
           최적경로 추천받기
         </Button>
@@ -135,6 +147,8 @@ function GroupRegistSchedule({
           다음
         </Button>
       </div>
+
+      {isLoading && <Loader />}
 
       {/* 추천 / 검색 사이드바 2depth */}
       {isNestedSidebar.status === true && (

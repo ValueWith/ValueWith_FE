@@ -5,15 +5,22 @@ import {
   SuggestionsModel,
   getSuggestionData,
   groupRegisterRequest,
+  recommendRouteRequest,
 } from '@/apis/regist';
 import { useEffect, useState } from 'react';
 import { AREA_OPTION } from '@/constants/area';
 import { findValueByProperty } from '@/utils/findCodeByLabel';
 import { convertAreaName } from '@/utils/conversionArea';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
-import { tempFormState } from '@/recoil/GroupRegistState';
+import {
+  PlaceObjectModel,
+  SelectedPlaceModel,
+  selectedPlaceState,
+  tempFormState,
+} from '@/recoil/GroupRegistState';
+import { fi } from 'date-fns/locale';
 
 // TODO : params 타입 정의
 export const useGetSuggestionData = (params: SuggestionsModel) => {
@@ -172,4 +179,52 @@ export const useRegistGroup = () => {
     handleFormSubmit,
     isSubmitLoading,
   };
+};
+
+export const useRecommendRoute = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const setSelectedPlace = useSetRecoilState(selectedPlaceState);
+
+  const handleRecommendRoute = async (selectedPlace: any) => {
+    const preProcessData = selectedPlace.map((item: any, index: number) => {
+      return {
+        index: index,
+        placeCode: item.placeCode,
+        x: Number(item.x),
+        y: Number(item.y),
+      };
+    });
+
+    try {
+      setIsLoading(true);
+
+      const response = await recommendRouteRequest(preProcessData);
+
+      // 추천 경로 순으로 응답을 받으면. placeCode만 뽑아서 배열로 만들어서 리턴
+      const recommendRoute = response.data.map((item: any) => item.placeCode);
+
+      // selectedPlace 를 recommendRoute에 담긴 placeCode 순서대로 재정렬
+      const selectedPlaceClone = [...selectedPlace];
+
+      const reorderPlace = selectedPlaceClone.sort(
+        (a: PlaceObjectModel, b: PlaceObjectModel) => {
+          const placeCodeA = a.placeCode;
+          const placeCodeB = b.placeCode;
+
+          const indexA = recommendRoute.indexOf(placeCodeA);
+          const indexB = recommendRoute.indexOf(placeCodeB);
+
+          return indexA - indexB;
+        }
+      );
+
+      setSelectedPlace({ selectedPlace: reorderPlace });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { handleRecommendRoute, isLoading };
 };
