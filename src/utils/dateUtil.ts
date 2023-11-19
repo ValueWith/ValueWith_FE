@@ -30,3 +30,16 @@ export function formatDotDate(dateString: string) {
 
   return `${year}.${month}.${day}`;
 }
+
+export function formatTripDate(dateString: Date) {
+  return dateString
+    .toLocaleDateString()
+    .replace(/\. /g, '-')
+    .replace(/\.$/, '');
+}
+
+export function formatDueDate(dateString: Date) {
+  return dateString
+    ? dateString.toLocaleDateString().replace(/\. /g, '-').replace(/\.$/, '')
+    : '';
+}

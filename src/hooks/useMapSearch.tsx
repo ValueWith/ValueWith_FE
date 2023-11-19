@@ -9,6 +9,7 @@ interface MapSearchProps {
 
 function useMapSearch({ searchTerm, page = 1 }: MapSearchProps) {
   const [searchResult, setSearchResult] = useState<any>([]);
+  const [isLast, setIsLast] = useState<boolean>(false);
 
   const handleCheckEqual = (object1: any, object2: any) => {
     if (typeof object1 !== typeof object2) return false;
@@ -19,31 +20,32 @@ function useMapSearch({ searchTerm, page = 1 }: MapSearchProps) {
   };
 
   useEffect(() => {
-    if (page > 3) return;
+    if (isLast) return;
 
     // 장소검색 완료 시 호출
-    const placesSearchCB = (data: any, status: any) => {
+    const placesSearchCB = (data: any, status: any, pagination: any) => {
       if (status === kakao.maps.services.Status.OK) {
         console.log('검색된 데이터', data);
+        console.log(pagination, '페이지네이션');
         console.log(page, '페이지');
+
+        if (pagination.last === pagination.current) {
+          setIsLast(true);
+        }
 
         if (page === 1) {
           setSearchResult(data);
         } else {
-          const temp = [...searchResult, ...data];
-          const temp2 = temp.filter((item, index) => {
+          const updatedResult = [...searchResult, ...data];
+          const deduplicatedResult = updatedResult.filter((item, index) => {
             return (
-              temp.findIndex((item2) => {
+              updatedResult.findIndex((item2) => {
                 return handleCheckEqual(item, item2);
               }) === index
             );
           });
-          setSearchResult(temp2);
+          setSearchResult(deduplicatedResult);
         }
-
-        console.log(searchResult, '다합친 검색 데이터');
-
-        // 하나로 쓸 수 있다
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         console.log('검색 결과가 존재하지 않습니다.');
         setSearchResult([]);
@@ -66,7 +68,12 @@ function useMapSearch({ searchTerm, page = 1 }: MapSearchProps) {
     }
   }, [searchTerm, page]);
 
-  return { searchResult };
+  useEffect(() => {
+    setIsLast(false);
+    setSearchResult([]);
+  }, [searchTerm]);
+
+  return { searchResult, isLast };
 }
 
 export default useMapSearch;

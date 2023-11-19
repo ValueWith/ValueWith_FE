@@ -56,6 +56,7 @@ export const DateInput = styled.div`
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    font-size: 13px;
     padding: 0;
   }
 
@@ -67,12 +68,16 @@ export const DateInput = styled.div`
     height: 100%;
     margin-top: 8px;
     padding: 0 14px;
+
     color: #fff;
   }
 
   .react-datepicker__day-name {
     width: 36px;
     color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 5px;
   }
 
   .react-datepicker__day--outside-month {

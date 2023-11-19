@@ -35,9 +35,9 @@ export const findLabelByCode = (type: string, code: number, option: any) => {
 };
 
 export const findValueByProperty = (
-  returnType: 'code' | 'label' | 'type',
+  returnType: 'code' | 'label' | 'type' | 'value',
   value: string | number,
-  property: 'label' | 'code' | 'type',
+  property: 'label' | 'code' | 'type' | 'value',
   option: any[]
 ): string | number | null => {
   const item = option.find((item: any) => item[property] === value);

@@ -113,4 +113,8 @@ export const FileDropZone = styled.div`
     max-width: 160px;
     border-radius: 50%;
   }
+
+  .error & {
+    border: 1px solid ${theme.color.red300};
+  }
 `;
