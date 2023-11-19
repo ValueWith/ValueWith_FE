@@ -40,7 +40,7 @@ export const recommendRouteRequest = (data: any) => {
 
 // 그룹 등록
 export const groupRegisterRequest = (data: any) => {
-  return instance.post('/api/groups/', data, {
+  return instance.post('/api/groups', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
