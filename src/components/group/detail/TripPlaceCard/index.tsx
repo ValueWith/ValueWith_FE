@@ -14,7 +14,8 @@ function TripPlaceCard({
   orders,
   distance,
 }: Place) {
-  const markerColor = getMarkerBackground(category);
+  const markerColor = getMarkerBackground(category || '기타');
+
   return (
     <div>
       <S.TripPlaceCardContainer>
@@ -33,7 +34,7 @@ function TripPlaceCard({
       </S.TripPlaceCardContainer>
       {distance !== 0 && (
         <S.TripPlaceDistanceContainer>
-          <div className='flex items-center w-[56px] justify-end'>
+          <div className="flex items-center w-[56px] justify-end">
             <S.TripPlaceDistance>{distance}km</S.TripPlaceDistance>
             <AiFillCaretRight style={{ fontSize: '12px', marginLeft: '3px' }} />
           </div>
