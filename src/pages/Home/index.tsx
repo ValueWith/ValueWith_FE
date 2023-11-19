@@ -11,7 +11,7 @@ function Home() {
     <S.HomeMainContainer>
       <S.Banner>
         <img
-          src="https://github.com/ValueWith/ValueWith_FE/assets/110911811/ec0727a0-28d4-43cc-9f1f-d09c000e45a1"
+          src="https://d1udi89ozp4mef.cloudfront.net/location%2F89617668-8754-4c3b-b8ac-814a414f624e-123.png"
           alt="배너 이미지"
         />
       </S.Banner>
