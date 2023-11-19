@@ -27,7 +27,7 @@ export const HeaderMenu = styled.nav`
   align-items: center;
   margin-left: 68px;
 
-  .header__menu-list {
+  .list {
     display: inline-flex;
     align-items: center;
     height: 100%;

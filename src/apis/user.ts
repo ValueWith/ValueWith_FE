@@ -4,10 +4,8 @@ import { LoginProps, SignUpProps } from './user.model';
 // 이메일 인증 코드 요청
 export const verifyEmail = async (email: string): Promise<void> => {
   try {
-    const response = await instance.post('/api/auth/verify', null, {
-      params: {
-        email: email,
-      },
+    const response = await instance.post('/api/auth/verify', {
+      email,
     });
     return response.data;
   } catch (error) {
@@ -18,11 +16,9 @@ export const verifyEmail = async (email: string): Promise<void> => {
 // 이메일 인증 코드 확인
 export const verifyEmailCheck = async (email: string, code: string) => {
   try {
-    const response = await instance.post('/api/auth/verify/check', null, {
-      params: {
-        email,
-        code,
-      },
+    const response = await instance.post('/api/auth/verify/check', {
+      email,
+      code,
     });
     return response.data;
   } catch (error) {
@@ -47,6 +43,18 @@ export const signupRequest = async (data: SignUpProps, formData?: any) => {
 };
 
 // 로그인
-export function loginRequest(data: LoginProps) {
+export const loginRequest = (data: LoginProps) => {
   return instance.post('/api/auth/signin', data);
-}
+};
+
+// 토큰 갱신
+export const tokenRefreshRequest = async () => {
+  try {
+    const response = await instance.post('/api/auth/refresh');
+    localStorage.setItem('accessToken', response.data.accessToken);
+
+    return response.data.accessToken;
+  } catch (e) {
+    console.log(e);
+  }
+};
