@@ -1,6 +1,6 @@
 export function calculateDday(dueDate: string) {
   const currentDate = new Date();
-  const dueDateObj = new Date(dueDate);
+  const dueDateObj = new Date(dueDate + 'T00:00:00'); // 시간을 00:00:00 으로 설정하여 날짜만 비교
   const timeDifference = dueDateObj.getTime() - currentDate.getTime();
   const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
 

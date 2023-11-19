@@ -76,15 +76,15 @@ function RoomMessageList() {
     if (inputValue.trim() !== '') {
       // TODO: message POST
       console.log('input message', inputValue);
-      window.__LIVE_TEST__.publishEvent(roomId, {
-        userId: `userId${roomId}`, // currentUserId
-        nickName: 'name',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: `messageId${Math.random()}`,
-        messageContent: inputValue,
-        createdAt: new Date().toISOString(),
-        isWelcome: false,
-      });
+      // window.__LIVE_TEST__.publishEvent(roomId, {
+      //   userId: `userId${roomId}`, // currentUserId
+      //   nickName: 'name',
+      //   profileUrl: 'https://picsum.photos/200',
+      //   messageId: `messageId${Math.random()}`,
+      //   messageContent: inputValue,
+      //   createdAt: new Date().toISOString(),
+      //   isWelcome: false,
+      // });
 
       setInputValue('');
     }
@@ -108,11 +108,11 @@ function RoomMessageList() {
           )
         )}
       </S.ChatListContainer>
-      <div className='relative'>
+      <div className="relative">
         <form onSubmit={handleSubmitMessage}>
           <Input
-            inputType='input'
-            name='inputMessage'
+            inputType="input"
+            name="inputMessage"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             style={{
@@ -124,8 +124,8 @@ function RoomMessageList() {
             }}
           />
           <Button
-            type='submit'
-            styleType='solid'
+            type="submit"
+            styleType="solid"
             style={{ position: 'absolute', right: '19px', bottom: 0 }}
           >
             전송

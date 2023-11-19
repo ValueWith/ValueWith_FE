@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
+import { paramsState } from '@/recoil/paramsState';
 
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
@@ -26,6 +27,7 @@ function Header() {
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
 
+  const setParams = useSetRecoilState(paramsState);
   const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
@@ -73,6 +75,7 @@ function Header() {
           isModalOpen: false,
         });
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('userInfo');
         setIsLogin(false);
         navigate('/');
       },
@@ -82,6 +85,16 @@ function Header() {
           isModalOpen: false,
         });
       },
+    });
+  };
+
+  const handleGroup = () => {
+    setParams({
+      page: '1',
+      status: 'all',
+      area: 'all',
+      sort: 'latest',
+      title: '',
     });
   };
 
@@ -98,7 +111,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className="header__menu-list">
+          <ul className="list">
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -114,7 +127,7 @@ function Header() {
                     }
 
                     if (page.path === '/group') {
-                      window.location.reload();
+                      handleGroup();
                     }
                   }}
                 >

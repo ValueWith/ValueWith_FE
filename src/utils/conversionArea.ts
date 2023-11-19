@@ -8,6 +8,8 @@ export const conversionArea = (area: string): string => {
       return '경남';
     case 'gyeongbuk':
       return '경북';
+    case 'gwangju':
+      return '광주';
     case 'daegu':
       return '대구';
     case 'daejeon':
