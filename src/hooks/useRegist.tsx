@@ -19,6 +19,7 @@ import {
   selectedPlaceState,
   tempFormState,
 } from '@/recoil/GroupRegistState';
+import { useNavigate } from 'react-router-dom';
 
 // TODO : params 타입 정의
 export const useGetSuggestionData = (params: SuggestionsModel) => {
@@ -67,6 +68,7 @@ export const useGetSuggestionData = (params: SuggestionsModel) => {
 };
 
 export const useRegistGroup = () => {
+  const navigate = useNavigate();
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
   const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
@@ -146,7 +148,7 @@ export const useRegistGroup = () => {
             isModalOpen: false,
           });
 
-          window.location.href = '/group';
+          navigate('/group');
         },
       });
 
@@ -157,6 +159,7 @@ export const useRegistGroup = () => {
       setModalDataState({
         ...modalDataState,
         isModalOpen: true,
+        confirmType: 'warning',
         title: '여행 그룹 등록 실패',
         message: '여행 그룹 등록이 실패하였습니다.',
         onConfirm: () => {
@@ -164,8 +167,6 @@ export const useRegistGroup = () => {
             ...modalDataState,
             isModalOpen: false,
           });
-
-          window.location.href = '/group';
         },
       });
       console.log('error', error);
