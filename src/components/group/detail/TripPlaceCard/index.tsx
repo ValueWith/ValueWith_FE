@@ -25,9 +25,11 @@ function TripPlaceCard({
         <S.TripPlaceCardInfo>
           <S.TripPlaceCardHeading>{name}</S.TripPlaceCardHeading>
           <S.TripPlaceCardDetailInfo>
-            <S.TripPlaceCardCategory>
-              {category}&nbsp;&#183;&nbsp;
-            </S.TripPlaceCardCategory>
+            {category && (
+              <S.TripPlaceCardCategory>
+                {category}&nbsp;&#183;&nbsp;
+              </S.TripPlaceCardCategory>
+            )}
             <S.TripPlaceCardAddress>{address}</S.TripPlaceCardAddress>
           </S.TripPlaceCardDetailInfo>
         </S.TripPlaceCardInfo>
