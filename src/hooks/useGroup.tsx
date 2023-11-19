@@ -39,6 +39,8 @@ export const useGroup = () => {
     try {
       const response = await deleteGroupRequest(tripGroupId);
       console.log(response);
+
+      queryClient.invalidateQueries(['myLoungeData', { status: 'leader' }]);
     } catch (error) {
       console.log(error);
     } finally {
