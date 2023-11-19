@@ -10,15 +10,19 @@ function HomeTripList() {
     title: '',
   };
 
-  const { data, isLoading, isError } = useGroupDataFetching(params);
+  const {
+    data: fetchGroupData,
+    isLoading,
+    isError,
+  } = useGroupDataFetching(params);
 
-  const groupData = data?.tripGroups.slice(0, 8);
+  // const groupData = data?.tripGroups.slice(0, 8);
 
   return (
     <>
       {isLoading && <div>Loading...</div>}
       {isError && <div>Error...</div>}
-      {groupData && <TripList groupData={groupData} />}
+      {fetchGroupData && <TripList groupData={fetchGroupData.tripGroups} />}
     </>
   );
 }
