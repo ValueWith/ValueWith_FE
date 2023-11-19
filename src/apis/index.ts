@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { tokenRefreshRequest } from './user';
 
-const baseURL = 'http://localhost:5173';
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const instance = axios.create({
   baseURL,
