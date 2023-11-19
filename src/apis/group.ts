@@ -39,9 +39,12 @@ export const fetchGroupList = async (
   params: GroupListParams
 ): Promise<GroupListItem> => {
   try {
-    const response = await instance.get<GroupListItem>('/api/groups/list', {
-      params: params,
-    });
+    const response = await instance.get<GroupListItem>(
+      import.meta.env.VITE_SERVER_URL + '/groups/list',
+      {
+        params: params,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error('Error Fetching data: ', error);
