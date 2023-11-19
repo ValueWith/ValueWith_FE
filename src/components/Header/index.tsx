@@ -13,6 +13,7 @@ import { RiMessage2Line } from 'react-icons/ri';
 import { AiOutlineBell } from 'react-icons/ai';
 
 import Button from '../Button';
+import AlarmModal from '../alarm/AlarmModal';
 
 // styles
 import * as S from './Header.styles';
@@ -26,6 +27,7 @@ function Header() {
 
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
+  const [isAlarmModal, setIsAlarmModal] = useState<boolean>(false);
 
   const setParams = useSetRecoilState(paramsState);
   const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
@@ -147,8 +149,14 @@ function Header() {
               </S.UserActionItem>
 
               {/* 알림 */}
-              <S.UserActionItem>
-                <AiOutlineBell size={24} />
+              <S.UserActionItem className='relative'>
+                <AiOutlineBell
+                  size={24}
+                  onClick={() => setIsAlarmModal(true)}
+                />
+                {isAlarmModal && (
+                  <AlarmModal onClose={() => setIsAlarmModal(false)} />
+                )}
               </S.UserActionItem>
 
               <span className='ml-4'>|</span>
