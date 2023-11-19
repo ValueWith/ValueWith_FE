@@ -38,3 +38,14 @@ export const getAlarmList = async (): Promise<AlarmData> => {
     throw error;
   }
 };
+
+// 알림 삭제 현재 작동하지 않음.
+export const deleteAlarm = async (alertId: number): Promise<boolean> => {
+  try {
+    const response = await instance.delete(`/api/alert/${alertId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting alarm: ', error);
+    throw error;
+  }
+};
