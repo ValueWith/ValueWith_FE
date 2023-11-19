@@ -52,7 +52,7 @@ function GroupManagement() {
 
       <S.GroupManagementContent>
         {/* TODO : 현재 라운지 타입에 따라 데이터를 렌더링 */}
-        {data &&
+        {data?.tripGroups &&
           data.tripGroups.map((group: TripGroup) => (
             <TripCard
               key={group.tripGroupId}

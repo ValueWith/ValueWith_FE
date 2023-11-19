@@ -20,7 +20,7 @@ function groupPageLink(groupId: number) {
 }
 
 function TripList({ groupData }: TripListProps) {
-  if (groupData.length === 0) {
+  if (groupData && groupData.length === 0) {
     return (
       <S.TripListContainer>
         <S.NoTripList>현재 등록된 여행 일정이 없습니다.</S.NoTripList>
