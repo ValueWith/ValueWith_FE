@@ -21,7 +21,9 @@ instance.interceptors.request.use((config) => {
 
 export const getToken = async () => {
   try {
-    const response = await instance.post('/api/auth/refresh');
+    const response = await instance.post(
+      import.meta.env.VITE_SERVER_URL + '/auth/refresh'
+    );
     localStorage.setItem('accessToken', response.data.accessToken);
 
     return response.data.accessToken;
