@@ -46,7 +46,7 @@ export const fetchGroupDetail = async (
 ): Promise<GroupDetailListItem> => {
   try {
     const response = await instance.get<GroupDetailListItem>(
-      `/api/groups/list/${groupId}`
+      import.meta.env.VITE_SERVER_URL + `/groups/list/${groupId}`
     );
     return response.data;
   } catch (error) {
