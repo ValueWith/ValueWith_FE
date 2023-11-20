@@ -71,6 +71,7 @@ export const useRegistGroup = () => {
   const navigate = useNavigate();
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
   const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
+  const setSelectedPlace = useSetRecoilState(selectedPlaceState);
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const handleFilterArea = (data: any) => {
@@ -153,6 +154,7 @@ export const useRegistGroup = () => {
       });
 
       setTempFormData({});
+      setSelectedPlace({ selectedPlace: [] });
 
       // 알럿 띄우기
     } catch (error) {
