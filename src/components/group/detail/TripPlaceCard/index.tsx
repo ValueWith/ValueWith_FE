@@ -3,6 +3,7 @@ import { getMarkerBackground } from '@/utils/getMarkerBackground';
 
 import { AiFillCaretRight } from 'react-icons/ai';
 import * as S from './TripPlaceCard.styles';
+import { metersToKilometers } from '@/utils/metersToKilometers';
 
 interface TripPlaceCardProps extends Place {
   isLast?: boolean;
@@ -19,6 +20,8 @@ function TripPlaceCard({
   isLast,
 }: TripPlaceCardProps) {
   const markerColor = getMarkerBackground(category);
+  const kilometers = metersToKilometers(distance);
+
   return (
     <div>
       <S.TripPlaceCardContainer>
@@ -37,10 +40,10 @@ function TripPlaceCard({
       </S.TripPlaceCardContainer>
       {!isLast && (
         <S.TripPlaceDistanceContainer>
-          <div className="flex items-center w-[56px] justify-end">
+          <div className='flex items-center w-[56px] justify-end'>
             {distance != null && (
               <>
-                <S.TripPlaceDistance>{distance}km</S.TripPlaceDistance>
+                <S.TripPlaceDistance>{kilometers}&nbsp;km</S.TripPlaceDistance>
                 <AiFillCaretRight
                   style={{ fontSize: '12px', marginLeft: '3px' }}
                 />
