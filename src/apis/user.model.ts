@@ -3,7 +3,7 @@ export interface SignUpProps {
   email: string;
   password: string;
   gender: string;
-  age: number;
+  age: string;
 }
 
 export interface LoginProps {
