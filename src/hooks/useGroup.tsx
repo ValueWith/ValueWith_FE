@@ -167,6 +167,7 @@ export const useGroup = () => {
 export const useGroupDetail = () => {
   const queryClient = useQueryClient();
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleApply = (groupId: number) => {
     setModalDataState({
@@ -176,7 +177,14 @@ export const useGroupDetail = () => {
       message: '현재 그룹에 지원 하시겠습니까?',
       onConfirm: async () => {
         setModalDataState({ ...modalDataState, isModalOpen: false });
-        await postGroupApply(groupId);
+        try {
+          setIsLoading(true);
+          await postGroupApply(groupId);
+        } catch (error) {
+          return Promise.reject(error);
+        } finally {
+          setIsLoading(false);
+        }
 
         queryClient.invalidateQueries(['groupDetailData', groupId]);
       },
@@ -194,7 +202,14 @@ export const useGroupDetail = () => {
       message: '현재 그룹에서 탈퇴하시겠습니까?',
       onConfirm: async () => {
         setModalDataState({ ...modalDataState, isModalOpen: false });
-        await patchGroupApply(groupId);
+        try {
+          setIsLoading(true);
+          await patchGroupApply(groupId);
+        } catch (error) {
+          return Promise.reject(error);
+        } finally {
+          setIsLoading(false);
+        }
 
         queryClient.invalidateQueries(['groupDetailData', groupId]);
       },
@@ -212,7 +227,15 @@ export const useGroupDetail = () => {
       message: '현재 그룹에 지원을 취소하시겠습니까?',
       onConfirm: async () => {
         setModalDataState({ ...modalDataState, isModalOpen: false });
-        await deleteGroupApply(groupId);
+
+        try {
+          setIsLoading(true);
+          await deleteGroupApply(groupId);
+        } catch (error) {
+          return Promise.reject(error);
+        } finally {
+          setIsLoading(false);
+        }
 
         queryClient.invalidateQueries(['groupDetailData', groupId]);
       },
@@ -226,6 +249,7 @@ export const useGroupDetail = () => {
     handleApply,
     handleLeaveGroup,
     handleCancleApply,
+    isLoading,
   };
 };
 

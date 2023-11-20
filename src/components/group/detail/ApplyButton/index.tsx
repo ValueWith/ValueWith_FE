@@ -1,4 +1,5 @@
 import Button from '@/components/Button';
+import Loader from '@/components/Loader';
 import { useGroupDetail } from '@/hooks/useGroup';
 
 export interface ApplyButtonProps {
@@ -7,14 +8,20 @@ export interface ApplyButtonProps {
 }
 
 function ApplyButton({ groupId, userStatus }: ApplyButtonProps) {
-  const { handleApply, handleLeaveGroup, handleCancleApply } = useGroupDetail();
+  const { handleApply, handleLeaveGroup, handleCancleApply, isLoading } =
+    useGroupDetail();
 
   return (
-    <>
+    <div className="relative">
+      {isLoading && (
+        <Loader className="z-[1]" width={30} height={30} bgColor="white" />
+      )}
+
       {userStatus === '지원하기' && (
         <Button
           type="button"
           styleType="solid"
+          style={isLoading ? { pointerEvents: 'none' } : {}}
           fullWidth
           onClickHandler={() => handleApply(groupId)}
         >
@@ -25,6 +32,7 @@ function ApplyButton({ groupId, userStatus }: ApplyButtonProps) {
         <Button
           type="button"
           styleType="warning"
+          style={isLoading ? { pointerEvents: 'none' } : {}}
           fullWidth
           onClickHandler={() => handleLeaveGroup(groupId)}
         >
@@ -35,6 +43,7 @@ function ApplyButton({ groupId, userStatus }: ApplyButtonProps) {
         <Button
           type="button"
           styleType="warning"
+          style={isLoading ? { pointerEvents: 'none' } : {}}
           fullWidth
           onClickHandler={() => handleCancleApply(groupId)}
         >
@@ -46,7 +55,7 @@ function ApplyButton({ groupId, userStatus }: ApplyButtonProps) {
           마감
         </Button>
       )}
-    </>
+    </div>
   );
 }
 

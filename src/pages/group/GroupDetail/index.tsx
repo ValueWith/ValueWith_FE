@@ -17,7 +17,6 @@ function GroupDetail() {
   const { groupId } = useParams();
 
   const userInfoString = localStorage.getItem('userInfo');
-  const [currentUserEmail, setCurrentUserEmail] = useState<string>('');
   const [userStatus, setUserStatus] = useState<string>('');
 
   const { data, isLoading, isError } = useGroupDetailDataFetching(
