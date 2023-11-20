@@ -153,6 +153,7 @@ export const useRegistGroup = () => {
       });
 
       setTempFormData({});
+      localStorage.removeItem('groupThumbnail');
 
       // 알럿 띄우기
     } catch (error) {
