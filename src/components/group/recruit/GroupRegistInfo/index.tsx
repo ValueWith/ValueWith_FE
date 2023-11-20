@@ -127,16 +127,23 @@ function GroupRegistInfo({
       };
 
       // 썸네일 이미지의 type이 string이면 아무 사진 없을 때와 동일하게 처리 -> 그룹 수정 시, 수정을 안했을 경우, 썸네일 이미지가 string으로 들어오기 때문
-      const thumbnail =
-        typeof data.groupThumbnail === 'string'
-          ? undefined
-          : data.groupThumbnail;
+      let thumbnail;
+      let originThumbnail;
+
+      if (typeof data.groupThumbnail === 'string') {
+        thumbnail = undefined;
+        originThumbnail = true;
+      } else {
+        thumbnail = data.groupThumbnail;
+        originThumbnail = false;
+      }
 
       await handleFormSubmit(
         formPreprocessData,
         thumbnail,
         isEdit,
-        editGroupID
+        editGroupID,
+        originThumbnail
       );
     } catch (error) {
       console.log(error);

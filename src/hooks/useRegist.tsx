@@ -118,7 +118,8 @@ export const useRegistGroup = () => {
     data: any,
     file: any,
     isEdit?: boolean,
-    editGroupID?: string
+    editGroupID?: string,
+    originThumbnail?: boolean
   ) => {
     try {
       setIsSubmitLoading(true);
@@ -126,6 +127,10 @@ export const useRegistGroup = () => {
 
       if (isEdit) {
         data.tripGroupId = editGroupID;
+
+        originThumbnail
+          ? formData.append('isDeletedFile', String(false))
+          : formData.append('isDeletedFile', String(true));
       }
 
       const requestBlob = new Blob([JSON.stringify(data)], {
