@@ -10,7 +10,7 @@ import { useEditGroup } from '@/hooks/useRegist';
 
 function GroupEdit() {
   const { pathname } = useLocation();
-  const { handleEditData } = useEditGroup();
+  const { handleEditData, isEdit, editGroupID } = useEditGroup();
   const [currentStep, setCurrentStep] = useState(1); // Step1 : 기본 정보, Step2 : 일정 선택
 
   const handleFormStep = (step: number) => {
@@ -32,7 +32,11 @@ function GroupEdit() {
           {currentStep === 1 ? (
             <GroupRegistSchedule onSelectedStep={handleFormStep} />
           ) : (
-            <GroupRegistInfo onSelectedStep={handleFormStep} />
+            <GroupRegistInfo
+              editGroupID={editGroupID}
+              isEdit={isEdit}
+              onSelectedStep={handleFormStep}
+            />
           )}
         </section>
       </div>

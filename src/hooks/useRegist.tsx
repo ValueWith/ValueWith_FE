@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import {
   SuggestionsModel,
   getSuggestionData,
+  groupEditRegisterRequest,
   groupRegisterRequest,
   recommendRouteRequest,
 } from '@/apis/regist';
@@ -112,10 +113,19 @@ export const useRegistGroup = () => {
     return setOrderPlace;
   };
 
-  const handleFormSubmit = async (data: any, file: any) => {
+  const handleFormSubmit = async (
+    data: any,
+    file: any,
+    isEdit?: boolean,
+    editGroupID?: string
+  ) => {
     try {
       setIsSubmitLoading(true);
       const formData = new FormData();
+
+      if (isEdit) {
+        data.tripGroupId = editGroupID;
+      }
 
       const requestBlob = new Blob([JSON.stringify(data)], {
         type: 'application/json',
@@ -123,7 +133,7 @@ export const useRegistGroup = () => {
 
       formData.append('tripGroupRequestDto', requestBlob);
 
-      if (file) {
+      if (file && typeof file !== 'string') {
         const options = {
           maxSizeMB: 1,
           maxWidthOrHeight: 1920,
@@ -135,13 +145,15 @@ export const useRegistGroup = () => {
         formData.append('file', '');
       }
 
-      await groupRegisterRequest(formData);
+      isEdit
+        ? await groupEditRegisterRequest(formData)
+        : await groupRegisterRequest(formData);
 
       setModalDataState({
         ...modalDataState,
         isModalOpen: true,
-        title: '여행 그룹 등록 완료',
-        message: '여행 그룹 등록이 완료되었습니다.',
+        title: `여행 그룹 ${isEdit ? '수정' : '등록'} 완료`,
+        message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 완료되었습니다.`,
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
@@ -161,8 +173,8 @@ export const useRegistGroup = () => {
         ...modalDataState,
         isModalOpen: true,
         confirmType: 'warning',
-        title: '여행 그룹 등록 실패',
-        message: '여행 그룹 등록이 실패하였습니다.',
+        title: `여행 그룹 ${isEdit ? '수정' : '등록'} 실패`,
+        message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 실패했습니다`,
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
@@ -234,6 +246,8 @@ export const useRecommendRoute = () => {
 export const useEditGroup = () => {
   const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editGroupID, setEditGroupID] = useState<string | undefined>(undefined);
 
   const handleEditData = async (pathname: string) => {
     if (pathname.startsWith('/group/edit')) {
@@ -242,7 +256,9 @@ export const useEditGroup = () => {
       if (match) {
         const groupId = match[1];
         const response = await fetchGroupDetail(Number(groupId));
-        console.log(response);
+
+        setIsEdit(true);
+        setEditGroupID(groupId);
 
         const preProcessData = response.places.map((item: any) => {
           return {
@@ -271,10 +287,11 @@ export const useEditGroup = () => {
 
         setTempFormData(tempFormData);
       } else {
+        setIsEdit(false);
         console.log('No match found');
       }
     }
   };
 
-  return { handleEditData };
+  return { handleEditData, isEdit, editGroupID };
 };

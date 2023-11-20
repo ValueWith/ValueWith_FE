@@ -48,8 +48,12 @@ const DATE_ATTRIBUTES = [
 
 function GroupRegistInfo({
   onSelectedStep,
+  isEdit,
+  editGroupID,
 }: {
   onSelectedStep: (step: number) => void;
+  isEdit?: boolean;
+  editGroupID?: string;
 }) {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
@@ -90,6 +94,7 @@ function GroupRegistInfo({
     reset({
       groupThumbnail: null,
     });
+    setStoredImgUrl(undefined);
   };
 
   const onSubmit = async (data: GroupRegistFromModel, event?: any) => {
@@ -121,7 +126,18 @@ function GroupRegistInfo({
         places: [...setOrderPlace],
       };
 
-      await handleFormSubmit(formPreprocessData, data.groupThumbnail);
+      // 썸네일 이미지의 type이 string이면 아무 사진 없을 때와 동일하게 처리 -> 그룹 수정 시, 수정을 안했을 경우, 썸네일 이미지가 string으로 들어오기 때문
+      const thumbnail =
+        typeof data.groupThumbnail === 'string'
+          ? undefined
+          : data.groupThumbnail;
+
+      await handleFormSubmit(
+        formPreprocessData,
+        thumbnail,
+        isEdit,
+        editGroupID
+      );
     } catch (error) {
       console.log(error);
     }
