@@ -47,3 +47,9 @@ export const ModalTitle = styled.p`
   color: #1c1c1c;
   margin-bottom: 14px;
 `;
+
+export const ModalNoContent = styled.p`
+  font-size: 13px;
+  color: #707070;
+  letter-spacing: -0.8px;
+`;

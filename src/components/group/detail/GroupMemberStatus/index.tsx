@@ -63,6 +63,11 @@ function GroupMemberStatus({
                   style={{ marginBottom: '5px', fontSize: '15px' }}
                 />
               ))}
+            {groupMembers.length === 0 && (
+              <S.ModalNoContent>
+                현재 함께하는 멤버가 없습니다.
+              </S.ModalNoContent>
+            )}
           </S.GroupMemberStatusModal>
         )}
       </S.ContentDiv>
