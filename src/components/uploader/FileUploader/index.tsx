@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import * as S from '../Uploader.styles';
 import ErrorMessage from '../../Message/ErrorMessage';
@@ -8,7 +8,7 @@ import { RiDragDropLine } from 'react-icons/ri';
 interface FileUploaderProps {
   onFileSelected: (file: File) => void;
   onFileDeleted: () => void;
-  storedImgUrl?: string;
+  storedImgUrl?: any;
   className?: string;
 }
 
@@ -22,6 +22,11 @@ function FileUploader({
   const [thumbnailUrl, setThumbnailUrl] = useState<string | undefined>();
   const [error, setError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [imageList, setImageList] = useState(); //이미지 리스트
+
+  useEffect(() => {
+    setThumbnailUrl(storedImgUrl);
+  }, [storedImgUrl]);
 
   const handleImageLoad = () => {
     setIsLoading(false);
@@ -38,6 +43,7 @@ function FileUploader({
     setError(false);
 
     let file: File | undefined = undefined;
+    setImageList(file);
 
     // 드래그 이벤트, input 이벤트
     if ('dataTransfer' in event) {
@@ -54,7 +60,8 @@ function FileUploader({
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === 'string') {
-        setUrl(reader.result);
+        setThumbnailUrl(reader.result);
+        localStorage.setItem('groupThumbnail', reader.result);
       }
     };
     reader.readAsDataURL(file);

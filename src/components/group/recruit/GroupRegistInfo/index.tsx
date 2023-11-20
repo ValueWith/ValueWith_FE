@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
@@ -53,6 +53,8 @@ function GroupRegistInfo({
 }) {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
+  const [storedImgUrl, setStoredImgUrl] =
+    useState<SetStateAction<string | null | undefined>>();
 
   const {
     register,
@@ -139,14 +141,25 @@ function GroupRegistInfo({
     }
   }, [recruitmentEndDate, departureDate, errors['recruitmentEndDate']]);
 
-  // 다른 페이지 이동 시, 임시 데이터 저장
+  // 다른 페이지 이동 시, 임시 폼 데이터 저장
   useEffect(() => {
-    setTempFormData(null);
-
     return () => {
       const tempFormData = { ...watch() };
       setTempFormData(tempFormData);
     };
+  }, []);
+
+  // 그룹 정보 페이지에 접근할 때, 그룹 썸네일 이미지가 있다면 불러오기
+  useEffect(() => {
+    const changeTempThumbnail = localStorage.getItem('groupThumbnail');
+
+    if (changeTempThumbnail) {
+      setStoredImgUrl(changeTempThumbnail);
+    } else if (tempFormData?.groupThumbnail) {
+      setStoredImgUrl(tempFormData?.groupThumbnail);
+    } else {
+      setStoredImgUrl(undefined);
+    }
   }, []);
 
   return (
@@ -159,6 +172,7 @@ function GroupRegistInfo({
         control={control}
         render={({ field: { onChange } }) => (
           <FileUploader
+            storedImgUrl={storedImgUrl}
             onFileSelected={(file) => {
               onChange(file);
             }}
