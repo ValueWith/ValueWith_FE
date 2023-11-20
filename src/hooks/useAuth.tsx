@@ -96,11 +96,14 @@ function useAuth() {
 
     try {
       const response = await loginRequest(data);
-      localStorage.setItem('accessToken', response.data);
+      localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem(
+        'userInfo',
+        JSON.stringify(response.data.loginMemberIdDto)
+      );
       setIsLogin(true);
       navigate('/');
     } catch (error) {
-      // TODO : 회원가입이 안 된 경우, 비밀번호가 틀린 경우 등 에러 처리
       setIsLoading(false);
       setIsError(true);
 

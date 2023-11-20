@@ -75,6 +75,7 @@ function Header() {
           isModalOpen: false,
         });
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('userInfo');
         setIsLogin(false);
         navigate('/');
       },
@@ -110,7 +111,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className='header__menu-list'>
+          <ul className="list">
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -151,12 +152,12 @@ function Header() {
                 <AiOutlineBell size={24} />
               </S.UserActionItem>
 
-              <span className='ml-4'>|</span>
+              <span className="ml-4">|</span>
 
               <Button
-                type='button'
-                styleType='text'
-                className='ml-4'
+                type="button"
+                styleType="text"
+                className="ml-4"
                 style={{
                   minWidth: 'auto',
                   color: `${theme.color.fontgray}`,
@@ -169,8 +170,8 @@ function Header() {
             </S.UserActions>
           ) : (
             <Button
-              type='button'
-              styleType='basic'
+              type="button"
+              styleType="basic"
               onClickHandler={handleLogin}
             >
               로그인

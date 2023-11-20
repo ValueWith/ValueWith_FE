@@ -1,5 +1,5 @@
 import theme from '@/assets/styles/theme';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   CustomOverlayMap,
   Map,
@@ -14,8 +14,6 @@ import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
 function KakaoMap() {
   const [selectedPlaceData] = useRecoilState(selectedPlaceState);
   const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
-
-  console.log(selectedPlaceData.selectedPlace, '맵 마커 데이터');
 
   // 맵 마커는 selectedPlaceData.selectedPlace에 없을 때만 렌더링
   const shouldRenderMapMarker = selectedPlaceData.selectedPlace.every(

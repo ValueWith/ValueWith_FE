@@ -1,10 +1,4 @@
-import {
-  Control,
-  Controller,
-  FieldErrors,
-  FieldValues,
-  UseFormRegister,
-} from 'react-hook-form';
+import { Control, Controller, FieldErrors, FieldValues } from 'react-hook-form';
 
 import { getMonth, getYear } from 'date-fns';
 import DatePicker from 'react-datepicker';
@@ -27,9 +21,17 @@ interface DateInputProps {
   label?: string;
   errors?: FieldErrors | undefined;
   rules?: RulesProps;
+  defaultValue?: Date | undefined;
 }
 
-function DateInput({ control, name, label, errors, rules }: DateInputProps) {
+function DateInput({
+  control,
+  name,
+  label,
+  errors,
+  rules,
+  defaultValue,
+}: DateInputProps) {
   const errorKEY = errors?.[name as string]?.message as string;
 
   const currentYear = new Date().getFullYear();
@@ -63,6 +65,7 @@ function DateInput({ control, name, label, errors, rules }: DateInputProps) {
         control={control}
         name={name}
         rules={rules}
+        defaultValue={defaultValue}
         render={({ field }) => (
           <InputStyle.DateInput>
             <DatePicker

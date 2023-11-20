@@ -20,7 +20,11 @@ function GroupRecruit() {
           onSelectedStep={handleFormStep}
         />
         <section className="h-full">
-          {currentStep === 1 ? <GroupRegistSchedule /> : <GroupRegistInfo />}
+          {currentStep === 1 ? (
+            <GroupRegistSchedule onSelectedStep={handleFormStep} />
+          ) : (
+            <GroupRegistInfo onSelectedStep={handleFormStep} />
+          )}
         </section>
       </div>
       <div className="flex w-full">

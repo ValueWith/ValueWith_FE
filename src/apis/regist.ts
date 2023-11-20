@@ -1,17 +1,20 @@
 import axios from 'axios';
 import { useState } from 'react';
+import instance from '.';
 
 // export const key =
 //   'ZaKLTQ4YVv%2Fxm3MH5wZViKbWDtVeLw1IQmndQ0%2Bp4GthOdDlBrfGjdr1t4q5a1iGnwASF9zD2AF0jh9WHnw6Xg%3D%3D';
 
 export const key =
   'ompzpsrcSsZjQb6%2BQzGk1uP88alqJcWCdRmvneUwNI9F75haQ11AoAaS7MIoa89p1OHjLVaGxH6nRnVX85HzzQ%3D%3D';
+
 export interface SuggestionsModel {
   page: number;
   areaCode: number | null;
   categoryCode: number | null;
 }
 
+// TOUP API에서 추천 데이터
 export const getSuggestionData = async ({
   page,
   areaCode,
@@ -28,4 +31,18 @@ export const getSuggestionData = async ({
     const response = await axios.get(`${baseUrl}`);
     return response;
   }
+};
+
+// 추천 경로
+export const recommendRouteRequest = (data: any) => {
+  return instance.post('/api/recommend/route', data);
+};
+
+// 그룹 등록
+export const groupRegisterRequest = (data: any) => {
+  return instance.post('/api/groups', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };

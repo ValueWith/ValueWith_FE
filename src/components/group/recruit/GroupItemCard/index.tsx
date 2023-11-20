@@ -10,6 +10,8 @@ import { RiFlag2Line, RiFlag2Fill, RiDraggable } from 'react-icons/ri';
 import Button from '@/components/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
+import { modalState } from '@/recoil/modalState';
+import { getMarkerBackground } from '@/utils/getMarkerBackground';
 
 interface GroupItemCardProps {
   item: any;
@@ -31,27 +33,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
 
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [mapOption, setMapOption] = useRecoilState(mapOptionState);
-
-  function getOrderClassName(categoryText: string) {
-    if (categoryText.includes('숙박')) {
-      return 'hotel';
-    } else if (
-      categoryText.includes('음식점') ||
-      categoryText.includes('카페') ||
-      categoryText.includes('식당')
-    ) {
-      return 'food';
-    } else if (
-      categoryText.includes('관광') ||
-      categoryText.includes('문화') ||
-      categoryText.includes('역사') ||
-      categoryText.includes('행사')
-    ) {
-      return 'attraction';
-    } else {
-      return '';
-    }
-  }
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
   const handleMapCenter = () => {
     setMapOption({
@@ -92,6 +74,21 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
 
   const handleRegistrationCard = (event: any, item: any) => {
     event.stopPropagation();
+
+    if (selectedPlace.selectedPlace.length >= 10) {
+      return setModalDataState({
+        ...modalDataState,
+        isModalOpen: true,
+        title: '여행지 선택',
+        message: '여행지는 최대 10개까지만 선택할 수 있습니다.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+        },
+      });
+    }
 
     const selectedData = {
       placeCode: item.id || item.contentid,
@@ -143,7 +140,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
           <Button
             type="button"
             styleType="text"
-            style={{ minWidth: 'auto' }}
+            style={{ minWidth: 'auto', padding: '14px 0' }}
             onClickHandler={() => handleRegistrationCard(event, item)}
           >
             추가
@@ -158,17 +155,22 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
               onClick={handleMapCenter}
               ref={provided.innerRef}
               {...provided.draggableProps}
-              // {...provided.dragHandleProps}
             >
-              <span className="handle" {...provided.dragHandleProps}>
+              <span className="handle py-8" {...provided.dragHandleProps}>
                 <RiDraggable
-                  style={{ cursor: 'grab', minWidth: '18px', height: '18px' }}
+                  style={{
+                    cursor: 'grab',
+                    minWidth: '18px',
+                    height: '18px',
+                  }}
                 />
               </span>
 
               {type === 'registed' && (
                 <S.GroupItemCardOrder
-                  className={getOrderClassName(categoryText)}
+                  style={{
+                    backgroundColor: getMarkerBackground(categoryText),
+                  }}
                 >
                   {index + 1}
                 </S.GroupItemCardOrder>

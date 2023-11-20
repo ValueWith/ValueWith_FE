@@ -1,4 +1,7 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 export interface MapOptionModel {
   center: {
@@ -16,13 +19,13 @@ export interface PlaceObjectModel {
   x: number;
   y: number;
   place_url?: string;
+  orders?: number;
 }
 export interface SelectedPlaceModel {
   selectedPlace: PlaceObjectModel[];
 }
 
 export interface GroupRegistModel {
-  groupArea: string;
   groupThumbnail: File | null;
 }
 
@@ -41,7 +44,6 @@ export const mapOptionState = atom<MapOptionModel>({
 export const groupRegistState = atom<GroupRegistModel>({
   key: 'groupRegistState',
   default: {
-    groupArea: '',
     groupThumbnail: null,
   },
 });
@@ -51,4 +53,10 @@ export const selectedPlaceState = atom<SelectedPlaceModel>({
   default: {
     selectedPlace: [],
   },
+});
+
+export const tempFormState = atom({
+  key: 'tempFormState',
+  default: {},
+  effects_UNSTABLE: [persistAtom],
 });
