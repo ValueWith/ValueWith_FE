@@ -5,13 +5,13 @@ export const TripCardContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 380px;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
   transition: all 0.3s;
-  cursor: pointer;
 
   &:not(.mylounge) {
+    height: 380px;
+    cursor: pointer;
     &:hover {
       transform: scale(1.01);
     }
@@ -45,6 +45,11 @@ export const CardTumbnail = styled.img`
   width: 100%;
   min-height: 180px;
   object-fit: cover;
+
+  .mylounge & {
+    height: 180px;
+    cursor: pointer;
+  }
 `;
 
 export const IconContainer = styled.div`

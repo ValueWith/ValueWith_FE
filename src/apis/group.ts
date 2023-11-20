@@ -34,6 +34,7 @@ export interface GroupListItem {
   tripGroups: TripGroup[];
 }
 
+// 그룹 리스트 조회
 export const fetchGroupList = async (
   params: GroupListParams
 ): Promise<GroupListItem> => {
@@ -46,4 +47,19 @@ export const fetchGroupList = async (
     console.error('Error Fetching data: ', error);
     throw error;
   }
+};
+
+// 그룹 삭제
+export const deleteGroupRequest = async (tripGroupId: number) => {
+  return instance.delete(`/api/groups/${tripGroupId}`);
+};
+
+// 그룹 지원 취소
+export const cancelApplyRequest = async (tripGroupId: number) => {
+  return instance.delete(`/api/groups/application/${tripGroupId}`);
+};
+
+// 그룹 탈퇴
+export const leaveGroupRequest = async (tripGroupId: number) => {
+  return instance.patch(`/api/groups/${tripGroupId}/member/left`);
 };

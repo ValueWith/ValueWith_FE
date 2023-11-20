@@ -81,15 +81,15 @@ function Signup() {
     const age = extractNumber(ageGroup);
     if (age === null) return;
 
-    const params: SignUpProps = {
+    const userData: SignUpProps = {
       nickname: data.nickname,
       email: data.email,
       password: data.password,
       gender: gender === '여성' ? 'female' : 'male',
-      age,
+      age: String(age),
     };
 
-    await handleSignup(params, file);
+    await handleSignup(userData, file);
   };
 
   return (

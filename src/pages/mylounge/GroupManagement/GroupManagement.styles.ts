@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import theme from '@/assets/styles/theme';
 
 export const GroupManagementContainer = styled.div`
+  margin: 0 auto;
   padding-top: 55px;
 `;
 
