@@ -11,6 +11,10 @@ export const checkApplicationStatus = (data: any, currentUserEmail: any) => {
     (member: any) => member.groupMemberEmail === currentUserEmail
   );
 
+  if (data.tripGroupDetail.status === '마감') {
+    return '마감';
+  }
+
   // 현재 유저가 groupMembers에 포함되어 있는 경우
   if (currentUser) {
     switch (currentUser.groupMemberStatus) {
@@ -21,10 +25,6 @@ export const checkApplicationStatus = (data: any, currentUserEmail: any) => {
       default:
         return '그룹탈퇴';
     }
-  }
-
-  if (data.groupStatus === '마감') {
-    return '마감';
   }
 
   return '지원하기';
