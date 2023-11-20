@@ -1,4 +1,7 @@
 import axios from 'axios';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+import instance from '.';
 
 export interface Message {
   userId: string;
@@ -32,96 +35,106 @@ const messageListenerMap = new Map<number, MessageListener[]>();
 
 // 페이지 진입 시 소켓 연결하는 함수
 export function requestSocketSession(onSuccess: (rooms: RoomInfo[]) => void) {
-  // TODO: 실제로 해야하는 일
-  // const socket = new SockJS(`${API_BASE_URL}${LIVE_ENDPOINT}`);
-  // const stompClient = Stomp.over(socket);
-  // stompClient.connect({}, async () => {
-  //   const rooms = await getRooms();
-  //   rooms.forEach((roomInfo) => {
-  //     stompClient?.subscribe(`rooms/${roomInfo.roomId}/chats`, ({ body }) => {
-  //       const newMessage = JSON.parse(body) as Message;
-  //       messageListenerMap
-  //         .get(roomInfo.roomId)
-  //         ?.forEach((messageListener) => messageListener(newMessage));
-  //     });
-  //   });
-  //   onSuccess(rooms);
-  // });
+  const socket = new SockJS('https://tweaver.site/chat');
+  const stompClient = Stomp.over(socket);
 
-  // TODO: Mock
-  onSuccess([
-    {
-      roomId: 1,
-      currentMemberCount: 1,
-      maxMemberCount: 5,
-      title: '한옥에서 한복입고 사진찍는거 어때?',
-      lastMessage: {
-        userId: 'test',
-        nickName: '유진',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId1',
-        messageContent: '',
-        createdAt: '2023-11-12T15:03:17.402Z',
-        isWelcome: true,
-      },
-    },
-    {
-      roomId: 2,
-      currentMemberCount: 2,
-      maxMemberCount: 5,
-      title: '보드게임카페 가쥬아',
-      lastMessage: {
-        userId: 'test',
-        nickName: '지유진',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId1',
-        messageContent: '제 MBTI는 ISTJ 입니다.',
-        createdAt: '2023-11-12T15:03:17.402Z',
-        isWelcome: false,
-      },
-    },
-    {
-      roomId: 3,
-      currentMemberCount: 3,
-      maxMemberCount: 5,
-      title: '물놀이 어때요?',
-      lastMessage: {
-        userId: 'test',
-        nickName: '수균',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId1',
-        messageContent: '안녕하세요 이수근입니다.',
-        createdAt: '2023-11-12T15:03:17.402Z',
-        isWelcome: false,
-      },
-    },
-    {
-      roomId: 4,
-      currentMemberCount: 4,
-      maxMemberCount: 5,
-      title: '부산 회먹으러 갈사람?',
-      lastMessage: {
-        userId: 'test',
-        nickName: '수균',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId1',
-        messageContent: '저는 부산 처음가봐요.',
-        createdAt: '2023-11-12T15:03:17.402Z',
-        isWelcome: false,
-      },
-    },
-  ]);
+  stompClient.connect({}, async () => {
+    const rooms = await getRooms();
+    rooms.forEach((roomInfo) => {
+      stompClient?.subscribe(
+        `/sub/chat/room/${roomInfo.roomId}`,
+        ({ body }) => {
+          const newMessage = JSON.parse(body) as Message;
+          messageListenerMap
+            .get(roomInfo.roomId)
+            ?.forEach((messageListener) => messageListener(newMessage));
+        }
+      );
+    });
+    onSuccess(rooms);
+  });
 
   return () => {
     // TODO: 실제로 해야하는 일
-    // stompClient.connected && stompClient.disconnect();
+    if (stompClient.connected) {
+      stompClient.disconnect(() => {
+        console.log('Disconnected!');
+      });
+    }
   };
 }
 
-function getRooms(): Promise<RoomInfo[]> {
-  return new Promise((resolve) => {
-    // resolve(true);
-  });
+export async function getRooms(): Promise<RoomInfo[]> {
+  try {
+    // const response = await instance.get(`/api/chat/room`);
+    // return response.data;
+    const response = [
+      {
+        roomId: 1,
+        currentMemberCount: 1,
+        maxMemberCount: 5,
+        title: '한옥에서 한복입고 사진찍는거 어때?',
+        lastMessage: {
+          userId: 'test',
+          nickName: '유진',
+          profileUrl: 'https://picsum.photos/200',
+          messageId: 'messageId1',
+          messageContent: '',
+          createdAt: '2023-11-12T15:03:17.402Z',
+          isWelcome: true,
+        },
+      },
+      {
+        roomId: 2,
+        currentMemberCount: 2,
+        maxMemberCount: 5,
+        title: '보드게임카페 가쥬아',
+        lastMessage: {
+          userId: 'test',
+          nickName: '지유진',
+          profileUrl: 'https://picsum.photos/200',
+          messageId: 'messageId1',
+          messageContent: '제 MBTI는 ISTJ 입니다.',
+          createdAt: '2023-11-12T15:03:17.402Z',
+          isWelcome: false,
+        },
+      },
+      {
+        roomId: 3,
+        currentMemberCount: 3,
+        maxMemberCount: 5,
+        title: '물놀이 어때요?',
+        lastMessage: {
+          userId: 'test',
+          nickName: '수균',
+          profileUrl: 'https://picsum.photos/200',
+          messageId: 'messageId1',
+          messageContent: '안녕하세요 이수근입니다.',
+          createdAt: '2023-11-12T15:03:17.402Z',
+          isWelcome: false,
+        },
+      },
+      {
+        roomId: 4,
+        currentMemberCount: 4,
+        maxMemberCount: 5,
+        title: '부산 회먹으러 갈사람?',
+        lastMessage: {
+          userId: 'test',
+          nickName: '수균',
+          profileUrl: 'https://picsum.photos/200',
+          messageId: 'messageId1',
+          messageContent: '저는 부산 처음가봐요.',
+          createdAt: '2023-11-12T15:03:17.402Z',
+          isWelcome: false,
+        },
+      },
+    ];
+    return response;
+  } catch (error) {
+    console.error('Error Fetching rooms', error);
+    throw error;
+  }
 }
 
 export function addOnMessageListener(
