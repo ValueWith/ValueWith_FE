@@ -28,7 +28,8 @@ function ApplyButton({ data, queryClient }: ApplyButtonProps) {
     const status = checkApplicationStatus(
       data.groupMembers,
       data.tripGroupDetail.leaderEmail,
-      currentUserEmail
+      currentUserEmail,
+      data.tripGroupDetail.status
     );
     setApplicationStatus(status);
   }, [data]);
@@ -126,6 +127,11 @@ function ApplyButton({ data, queryClient }: ApplyButtonProps) {
           onClickHandler={handleCancleApply}
         >
           지원취소
+        </Button>
+      )}
+      {applicationStatus === '마감' && (
+        <Button type='button' styleType='disabled' fullWidth>
+          마감
         </Button>
       )}
     </>

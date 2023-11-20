@@ -3,7 +3,8 @@ import { GroupMember } from '@/apis/groupDetail';
 export const checkApplicationStatus = (
   groupMembers: GroupMember[],
   leaderEmail: string,
-  currentUserEmail: string
+  currentUserEmail: string,
+  groupStatus: string
 ) => {
   const currentUserIsLeader = leaderEmail === currentUserEmail;
 
@@ -26,6 +27,10 @@ export const checkApplicationStatus = (
       default:
         return '그룹탈퇴';
     }
+  }
+
+  if (groupStatus === '마감') {
+    return '마감';
   }
 
   return '지원하기';
