@@ -26,13 +26,13 @@ export interface TripGroupDetail {
   createdAt: string;
   currentUserNumber: number;
   dueDate: string;
-  gender: string;
+  gender: 'male' | 'female';
   leaderEmail: string;
   maxUserNumber: number;
   name: string;
   nickName: string;
   profileUrl: string;
-  status: string;
+  status: '모집중' | '마감';
   thumbnailUrl: string;
   tripArea: string;
   tripDate: string;
