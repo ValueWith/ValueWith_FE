@@ -38,6 +38,12 @@ function useAuth() {
     try {
       const formData = new FormData();
 
+      formData.append('nickname', data.nickname);
+      formData.append('email', data.email);
+      formData.append('password', data.password);
+      formData.append('gender', data.gender);
+      formData.append('age', data.age);
+
       const options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 1920,
@@ -51,7 +57,7 @@ function useAuth() {
         formData.append('file', '');
       }
 
-      const response = await signupRequest(data, formData);
+      const response = await signupRequest(formData);
 
       const successProps = {
         title: '회원가입 성공',
