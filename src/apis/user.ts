@@ -27,18 +27,17 @@ export const verifyEmailCheck = async (email: string, code: string) => {
 };
 
 // 회원가입
-export const signupRequest = async (data: SignUpProps, formData?: any) => {
+export const signupRequest = async (formData: any) => {
   try {
     const response = await instance.post('/api/auth/signup', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      params: { ...data },
     });
 
     return response;
   } catch (error) {
-    return console.error('Error Fetching data: ', error);
+    return Promise.reject(error);
   }
 };
 
