@@ -72,6 +72,7 @@ export const useRegistGroup = () => {
   const navigate = useNavigate();
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
   const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
+  const setSelectedPlace = useSetRecoilState(selectedPlaceState);
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   const handleFilterArea = (data: any) => {
