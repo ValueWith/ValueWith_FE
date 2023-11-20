@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
+import { useEffect, useState } from 'react';
 
 import { useGroupDetailDataFetching } from '@/hooks/useGroup';
 
@@ -11,14 +11,29 @@ import TripPlaceList from '@/components/group/detail/TripPlaceList';
 
 import * as S from './GroupDetail.styles';
 import ApplyButton from '@/components/group/detail/ApplyButton';
+import { checkApplicationStatus } from '@/utils/checkApplicationStatus';
 
 function GroupDetail() {
   const { groupId } = useParams();
-  const queryClient = useQueryClient();
+
+  const userInfoString = localStorage.getItem('userInfo');
+  const [currentUserEmail, setCurrentUserEmail] = useState<string>('');
+  const [userStatus, setUserStatus] = useState<string>('');
 
   const { data, isLoading, isError } = useGroupDetailDataFetching(
     Number(groupId)
   );
+
+  useEffect(() => {
+    if (userInfoString) {
+      const userInfo = JSON.parse(userInfoString);
+      const memberEmail = userInfo.memberEmail;
+
+      if (data) {
+        setUserStatus(checkApplicationStatus(data, memberEmail));
+      }
+    }
+  }, [userInfoString, data]);
 
   return (
     <>
@@ -29,7 +44,7 @@ function GroupDetail() {
           <GroupTitle title={data.tripGroupDetail.name} />
           <S.GroupThumbnail src={data.tripGroupDetail.thumbnailUrl} />
           <S.GroupContentContainer>
-            <div className='flex flex-col gap-3'>
+            <div className="flex flex-col gap-3">
               <GroupMemberStatus
                 currentUserNumber={data.tripGroupDetail.currentUserNumber}
                 maxUserNumber={data.tripGroupDetail.maxUserNumber}
@@ -40,7 +55,7 @@ function GroupDetail() {
                 gender={data.tripGroupDetail.gender}
                 groupMembers={data.groupMembers}
               />
-              <ApplyButton data={data} queryClient={queryClient} />
+              <ApplyButton groupId={Number(groupId)} userStatus={userStatus} />
             </div>
 
             <div>

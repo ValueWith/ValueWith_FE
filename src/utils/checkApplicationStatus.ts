@@ -1,26 +1,20 @@
-import { GroupMember } from '@/apis/groupDetail';
-
-export const checkApplicationStatus = (
-  groupMembers: GroupMember[],
-  leaderEmail: string,
-  currentUserEmail: string,
-  groupStatus: string
-) => {
-  const currentUserIsLeader = leaderEmail === currentUserEmail;
+export const checkApplicationStatus = (data: any, currentUserEmail: any) => {
+  const currentUserIsLeader =
+    data.tripGroupDetail.leaderEmail === currentUserEmail;
 
   // 현재 유저가 leader인 경우
   if (currentUserIsLeader) {
     return '';
   }
 
-  const currentUser = groupMembers.find(
-    (member) => member.groupMemberEmail === currentUserEmail
+  const currentUser = data.groupMembers.find(
+    (member: any) => member.groupMemberEmail === currentUserEmail
   );
 
   // 현재 유저가 groupMembers에 포함되어 있는 경우
   if (currentUser) {
     switch (currentUser.groupMemberStatus) {
-      case 'approve':
+      case 'approved':
         return '그룹탈퇴';
       case 'pending':
         return '지원취소';
@@ -29,7 +23,7 @@ export const checkApplicationStatus = (
     }
   }
 
-  if (groupStatus === '마감') {
+  if (data.groupStatus === '마감') {
     return '마감';
   }
 
