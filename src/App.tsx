@@ -15,9 +15,11 @@ function App() {
   const { pathname } = useLocation();
   const modalDataState = useRecoilValue(modalState);
 
+  const isGroupEditPage = pathname.startsWith('/group/edit');
+
   return (
     <>
-      {pathname === '/group/recruit' ? (
+      {pathname === '/group/recruit' || isGroupEditPage ? (
         <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
