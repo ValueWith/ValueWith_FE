@@ -20,8 +20,8 @@ import {
   tempFormState,
 } from '@/recoil/GroupRegistState';
 import { useNavigate } from 'react-router-dom';
+import { fetchGroupDetail } from '@/apis/groupDetail';
 
-// TODO : params 타입 정의
 export const useGetSuggestionData = (params: SuggestionsModel) => {
   const [suggestionData, setSuggestionData] = useState<any>([]);
   const [prevCategory, setPrevCategory] = useState<number | null>(null);
@@ -228,4 +228,52 @@ export const useRecommendRoute = () => {
   };
 
   return { handleRecommendRoute, isLoading };
+};
+
+export const useEditGroup = () => {
+  const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
+  const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
+
+  const handleEditData = async (pathname: string) => {
+    if (pathname.startsWith('/group/edit')) {
+      const match = pathname.match(/\/(\d+)$/);
+
+      if (match) {
+        const groupId = match[1];
+        const response = await fetchGroupDetail(Number(groupId));
+        console.log(response);
+
+        const preProcessData = response.places.map((item: any) => {
+          return {
+            placeCode: item.placeCode,
+            name: item.name,
+            address: item.address,
+            category: item.category,
+            orders: item.orders,
+            x: Number(item.x),
+            y: Number(item.y),
+          };
+        });
+
+        console.log(preProcessData);
+        setSelectedPlace({ selectedPlace: preProcessData });
+
+        console.log(response);
+        const tempFormData = {
+          groupTitle: response.tripGroupDetail.name,
+          groupDescription: response.tripGroupDetail.content,
+          groupMemberCount: response.tripGroupDetail.maxUserNumber,
+          departureDate: new Date(response.tripGroupDetail.tripDate),
+          recruitmentEndDate: new Date(response.tripGroupDetail.dueDate),
+          groupThumbnail: response.tripGroupDetail.thumbnailUrl,
+        };
+
+        setTempFormData(tempFormData);
+      } else {
+        console.log('No match found');
+      }
+    }
+  };
+
+  return { handleEditData };
 };
