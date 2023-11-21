@@ -24,6 +24,7 @@ function GroupDetail() {
   const [userStatus, setUserStatus] = useState<string>('');
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [isDetail, setIsDetail] = useState<boolean>(false);
+  const [isDetailError, setIsDetailError] = useState<boolean>(false);
 
   const { data, isLoading, isError } = useGroupDetailDataFetching(
     Number(groupId)
@@ -52,7 +53,7 @@ function GroupDetail() {
 
           {/* 카카오 지도  */}
           <div className="w-full h-[500px] mt-6">
-            <KakaoMap isDetail={isDetail} />
+            <KakaoMap isDetail={isDetail} isError={isError} />
           </div>
 
           {/* 그룹 멤버 정보 & 지원 정보  */}
