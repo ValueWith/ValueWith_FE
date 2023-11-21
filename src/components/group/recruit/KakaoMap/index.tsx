@@ -10,9 +10,14 @@ import { useRecoilState } from 'recoil';
 
 import { getMarkerBackground } from '@/utils/getMarkerBackground';
 import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
+import { useLocation } from 'react-router-dom';
+import Loader from '@/components/Loader';
 
-function KakaoMap() {
-  const [selectedPlaceData] = useRecoilState(selectedPlaceState);
+function KakaoMap({ isDetail }: { isDetail?: boolean }) {
+  const location = useLocation();
+
+  const [selectedPlaceData, setSelectedPlaceData] =
+    useRecoilState(selectedPlaceState);
   const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
 
   // 맵 마커는 selectedPlaceData.selectedPlace에 없을 때만 렌더링
@@ -25,27 +30,51 @@ function KakaoMap() {
   );
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
+    const isRecruit = location.pathname.startsWith('/group/recruit');
 
-          setMapOptions({
-            ...mapOptions,
-            center: { lat: latitude, lng: longitude },
-          });
-        },
-        (error) => {
-          console.error(error);
-        },
-        {
-          enableHighAccuracy: true,
-          maximumAge: 0,
-          timeout: Infinity, // 위치 정보를 가져오는데 걸리는 시간 제한 없음
-        }
-      );
+    if (isRecruit) {
+      setSelectedPlaceData({ selectedPlace: [] });
+
+      // 초기화 -> 상세 페이지에서 첫번째 장소로 지도 중심 설정하고 있어서 초기화 필요
+      setMapOptions({
+        ...mapOptions,
+        center: { lat: 0, lng: 0 },
+      });
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+
+            setMapOptions({
+              ...mapOptions,
+              center: { lat: latitude, lng: longitude },
+            });
+          },
+          (error) => {
+            setMapOptions({
+              ...mapOptions,
+            });
+          },
+          {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+            timeout: Infinity, // 위치 정보를 가져오는데 걸리는 시간 제한 없음
+          }
+        );
+      }
+    } else if (!isRecruit) {
+      if (selectedPlaceData.selectedPlace.length > 0) {
+        setMapOptions({
+          ...mapOptions,
+          center: {
+            lat: selectedPlaceData.selectedPlace[0].y,
+            lng: selectedPlaceData.selectedPlace[0].x,
+          },
+        });
+      }
     }
-  }, []);
+  }, [isDetail]);
 
   return (
     <Map
@@ -93,7 +122,15 @@ function KakaoMap() {
         />
       )}
 
-      {shouldRenderMapMarker && <MapMarker position={mapOptions.center} />}
+      {shouldRenderMapMarker &&
+        (mapOptions.center.lat !== 0 && mapOptions.center.lng !== 0 ? (
+          <MapMarker position={mapOptions.center} />
+        ) : (
+          <>
+            현재 위치를 찾고 있습니다. 잠시만 기다려주세요
+            <Loader width={30} height={30} className="z-[1]" />
+          </>
+        ))}
     </Map>
   );
 }

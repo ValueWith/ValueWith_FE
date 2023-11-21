@@ -27,7 +27,7 @@ function GroupRecruit() {
           )}
         </section>
       </div>
-      <div className="flex w-full">
+      <div className="flex w-full relative">
         <KakaoMap />
       </div>
     </main>

@@ -71,16 +71,6 @@ function GroupMain() {
   const [isClickFilter, setIsClickFilter] = useState(false);
   const [isClickSort, setIsClickSort] = useState(false);
 
-  const handleFilterModal = () => {
-    setIsClickFilter(!isClickFilter);
-    setIsClickSort(false);
-  };
-
-  const handleSortModal = () => {
-    setIsClickSort(!isClickSort);
-    setIsClickFilter(false);
-  };
-
   const handleSearchTerm = (searchTerm: string) => {
     setParams({ ...params, title: searchTerm, page: '1' });
   };
@@ -98,18 +88,31 @@ function GroupMain() {
         <div className='flex items-center gap-8'>
           <S.FilterButton>
             <div
-              onClick={handleFilterModal}
+              onClick={() => setIsClickFilter(true)}
               className='flex items-center gap-1'
             >
               필터 <RiFilterLine />
             </div>
-            {isClickFilter && <GroupFilter option={'filter'} />}
+            {isClickFilter && (
+              <GroupFilter
+                option={'filter'}
+                onClose={() => setIsClickFilter(false)}
+              />
+            )}
           </S.FilterButton>
           <S.FilterButton>
-            <div onClick={handleSortModal} className='flex items-center gap-1'>
+            <div
+              onClick={() => setIsClickSort(true)}
+              className='flex items-center gap-1'
+            >
               정렬 <RiFilter3Fill />
             </div>
-            {isClickSort && <GroupFilter option={'sort'} />}
+            {isClickSort && (
+              <GroupFilter
+                option={'sort'}
+                onClose={() => setIsClickSort(false)}
+              />
+            )}
           </S.FilterButton>
         </div>
         {/* New Post */}

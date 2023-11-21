@@ -14,8 +14,13 @@ import {
 import { GroupDetailListItem, fetchGroupDetail } from '@/apis/groupDetail';
 
 import { confirmTexts, messages, titles } from '@/constants/loungeModalOption';
+import {
+  deleteGroupApply,
+  patchGroupApply,
+  postGroupApply,
+} from '@/apis/groupApply';
 
-export const useGroupDataFetching = (params: GroupListParams) => {
+export const useGroupDataFetching = (params: any) => {
   return useQuery<GroupListItem, Error>(['groupData', params], () =>
     fetchGroupList(params)
   );
@@ -157,6 +162,95 @@ export const useGroup = () => {
   };
 
   return { getDropdownOptions, isLoading };
+};
+
+export const useGroupDetail = () => {
+  const queryClient = useQueryClient();
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleApply = (groupId: number) => {
+    setModalDataState({
+      isModalOpen: true,
+      type: 'confirm',
+      title: '지원하기',
+      message: '현재 그룹에 지원 하시겠습니까?',
+      onConfirm: async () => {
+        setModalDataState({ ...modalDataState, isModalOpen: false });
+        try {
+          setIsLoading(true);
+          await postGroupApply(groupId);
+        } catch (error) {
+          return Promise.reject(error);
+        } finally {
+          setIsLoading(false);
+        }
+
+        queryClient.invalidateQueries(['groupDetailData', groupId]);
+      },
+      onCancel: () => {
+        setModalDataState({ ...modalDataState, isModalOpen: false });
+      },
+    });
+  };
+
+  const handleLeaveGroup = (groupId: number) => {
+    setModalDataState({
+      isModalOpen: true,
+      type: 'confirm',
+      title: '그룹 탈퇴하기',
+      message: '현재 그룹에서 탈퇴하시겠습니까?',
+      onConfirm: async () => {
+        setModalDataState({ ...modalDataState, isModalOpen: false });
+        try {
+          setIsLoading(true);
+          await patchGroupApply(groupId);
+        } catch (error) {
+          return Promise.reject(error);
+        } finally {
+          setIsLoading(false);
+        }
+
+        queryClient.invalidateQueries(['groupDetailData', groupId]);
+      },
+      onCancel: () => {
+        setModalDataState({ ...modalDataState, isModalOpen: false });
+      },
+    });
+  };
+
+  const handleCancleApply = (groupId: number) => {
+    setModalDataState({
+      isModalOpen: true,
+      type: 'confirm',
+      title: '지원 취소하기',
+      message: '현재 그룹에 지원을 취소하시겠습니까?',
+      onConfirm: async () => {
+        setModalDataState({ ...modalDataState, isModalOpen: false });
+
+        try {
+          setIsLoading(true);
+          await deleteGroupApply(groupId);
+        } catch (error) {
+          return Promise.reject(error);
+        } finally {
+          setIsLoading(false);
+        }
+
+        queryClient.invalidateQueries(['groupDetailData', groupId]);
+      },
+      onCancel: () => {
+        setModalDataState({ ...modalDataState, isModalOpen: false });
+      },
+    });
+  };
+
+  return {
+    handleApply,
+    handleLeaveGroup,
+    handleCancleApply,
+    isLoading,
+  };
 };
 
 export default useGroupDataFetching;

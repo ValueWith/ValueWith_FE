@@ -1,11 +1,10 @@
-import axios from 'axios';
 import instance from '.';
 
 export interface GroupListParams {
   page: string;
-  status: string;
+  status: 'all' | 'open';
   area: string;
-  sort: string;
+  sort: 'latest' | 'deadline';
   title: string;
 }
 
@@ -19,12 +18,12 @@ export interface TripGroup {
   tripDate: string;
   dueDate: string;
   createdAt: string;
-  status: string;
+  status: '모집중' | '마감';
   thumbnailUrl: string;
   profileUrl: string;
   nickName: string;
   age: number;
-  gender: string;
+  gender: 'male' | 'female';
 }
 
 export interface GroupListItem {
