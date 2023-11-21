@@ -21,13 +21,20 @@ import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
 import { loginState } from '@/recoil/userState';
 
+interface UserInfo {
+  memberId: number;
+  memberNickname: string;
+  memberEmail: string;
+  memberProfileUrl: string;
+}
+
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
-  const [userInfo, setUserInfo] = useState({
+  const [userInfo, setUserInfo] = useState<UserInfo>({
     memberId: 0,
     memberNickname: '',
     memberEmail: '',
@@ -61,7 +68,7 @@ function Header() {
 
     if (token) {
       const userStorageInfo = localStorage.getItem('userInfo');
-      const userInfo = JSON.parse(userStorageInfo || '{}');
+      const userInfo = JSON.parse(userStorageInfo ?? '');
 
       setIsLogin(true);
       setUserInfo(userInfo);
