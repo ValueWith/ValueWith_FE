@@ -12,11 +12,13 @@ export interface ProfileUploaderCSSProps {
 
 interface ProfileUploaderProps extends ProfileUploaderCSSProps {
   onFileSelected: (file: File) => void;
+  onFileDeleted: () => void;
   storedImgUrl?: string;
 }
 
 function ProfileUploader({
   onFileSelected,
+  onFileDeleted,
   storedImgUrl,
   className,
 }: ProfileUploaderProps) {
@@ -31,7 +33,7 @@ function ProfileUploader({
     handleDragOver,
     handleDragLeave,
     handleDrop,
-  } = useFileUpload(onFileSelected);
+  } = useFileUpload(onFileSelected, onFileDeleted);
 
   return (
     <S.FileUploaderContainer className={`profile ${className}`}>

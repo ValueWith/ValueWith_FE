@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
-function useFileUpload(onFileSelected: (file: File) => void) {
+function useFileUpload(
+  onFileSelected: (file: File) => void,
+  onFileDeleted?: () => void
+) {
   const [isLoading, setIsLoading] = useState(true);
   const [thumbnailUrl, setThumbnailUrl] = useState<string | undefined>();
   const [error, setError] = useState(false);
@@ -63,6 +66,7 @@ function useFileUpload(onFileSelected: (file: File) => void) {
   };
 
   const handleDeleteImage = () => {
+    onFileDeleted && onFileDeleted();
     setThumbnailUrl(undefined);
   };
 
