@@ -127,7 +127,6 @@ function KakaoMap({ isDetail }: { isDetail?: boolean }) {
           <MapMarker position={mapOptions.center} />
         ) : (
           <>
-            현재 위치를 찾고 있습니다. 잠시만 기다려주세요
             <Loader width={30} height={30} className="z-[1]" />
           </>
         ))}
