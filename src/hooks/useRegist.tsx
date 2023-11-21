@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import {
   SuggestionsModel,
   getSuggestionData,
+  groupEditRegisterRequest,
   groupRegisterRequest,
   recommendRouteRequest,
 } from '@/apis/regist';
@@ -20,8 +21,8 @@ import {
   tempFormState,
 } from '@/recoil/GroupRegistState';
 import { useNavigate } from 'react-router-dom';
+import { fetchGroupDetail } from '@/apis/groupDetail';
 
-// TODO : params 타입 정의
 export const useGetSuggestionData = (params: SuggestionsModel) => {
   const [suggestionData, setSuggestionData] = useState<any>([]);
   const [prevCategory, setPrevCategory] = useState<number | null>(null);
@@ -113,10 +114,24 @@ export const useRegistGroup = () => {
     return setOrderPlace;
   };
 
-  const handleFormSubmit = async (data: any, file: any) => {
+  const handleFormSubmit = async (
+    data: any,
+    file: any,
+    isEdit?: boolean,
+    editGroupID?: string,
+    originThumbnail?: boolean
+  ) => {
     try {
       setIsSubmitLoading(true);
       const formData = new FormData();
+
+      if (isEdit) {
+        data.tripGroupId = editGroupID;
+
+        originThumbnail
+          ? formData.append('isDeletedFile', String(false))
+          : formData.append('isDeletedFile', String(true));
+      }
 
       const requestBlob = new Blob([JSON.stringify(data)], {
         type: 'application/json',
@@ -124,7 +139,7 @@ export const useRegistGroup = () => {
 
       formData.append('tripGroupRequestDto', requestBlob);
 
-      if (file) {
+      if (file && typeof file !== 'string') {
         const options = {
           maxSizeMB: 1,
           maxWidthOrHeight: 1920,
@@ -136,13 +151,15 @@ export const useRegistGroup = () => {
         formData.append('file', '');
       }
 
-      await groupRegisterRequest(formData);
+      isEdit
+        ? await groupEditRegisterRequest(formData)
+        : await groupRegisterRequest(formData);
 
       setModalDataState({
         ...modalDataState,
         isModalOpen: true,
-        title: '여행 그룹 등록 완료',
-        message: '여행 그룹 등록이 완료되었습니다.',
+        title: `여행 그룹 ${isEdit ? '수정' : '등록'} 완료`,
+        message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 완료되었습니다.`,
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
@@ -154,7 +171,7 @@ export const useRegistGroup = () => {
       });
 
       setTempFormData({});
-      setSelectedPlace({ selectedPlace: [] });
+      localStorage.removeItem('groupThumbnail');
 
       // 알럿 띄우기
     } catch (error) {
@@ -162,8 +179,8 @@ export const useRegistGroup = () => {
         ...modalDataState,
         isModalOpen: true,
         confirmType: 'warning',
-        title: '여행 그룹 등록 실패',
-        message: '여행 그룹 등록이 실패하였습니다.',
+        title: `여행 그룹 ${isEdit ? '수정' : '등록'} 실패`,
+        message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 실패했습니다`,
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
@@ -230,4 +247,57 @@ export const useRecommendRoute = () => {
   };
 
   return { handleRecommendRoute, isLoading };
+};
+
+export const useEditGroup = () => {
+  const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
+  const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editGroupID, setEditGroupID] = useState<string | undefined>(undefined);
+
+  const handleEditData = async (pathname: string) => {
+    if (pathname.startsWith('/group/edit')) {
+      const match = pathname.match(/\/(\d+)$/);
+
+      if (match) {
+        const groupId = match[1];
+        const response = await fetchGroupDetail(Number(groupId));
+
+        setIsEdit(true);
+        setEditGroupID(groupId);
+
+        const preProcessData = response.places.map((item: any) => {
+          return {
+            placeCode: item.placeCode,
+            name: item.name,
+            address: item.address,
+            category: item.category,
+            orders: item.orders,
+            x: Number(item.x),
+            y: Number(item.y),
+          };
+        });
+
+        console.log(preProcessData);
+        setSelectedPlace({ selectedPlace: preProcessData });
+
+        console.log(response);
+        const tempFormData = {
+          groupTitle: response.tripGroupDetail.name,
+          groupDescription: response.tripGroupDetail.content,
+          groupMemberCount: response.tripGroupDetail.maxUserNumber,
+          departureDate: new Date(response.tripGroupDetail.tripDate),
+          recruitmentEndDate: new Date(response.tripGroupDetail.dueDate),
+          groupThumbnail: response.tripGroupDetail.thumbnailUrl,
+        };
+
+        setTempFormData(tempFormData);
+      } else {
+        setIsEdit(false);
+        console.log('No match found');
+      }
+    }
+  };
+
+  return { handleEditData, isEdit, editGroupID };
 };

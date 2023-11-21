@@ -11,6 +11,7 @@ const GroupRecruit = lazy(() => import('./pages/group/GroupRecruit'));
 const GroupManagement = lazy(() => import('./pages/mylounge/GroupManagement'));
 const EditProfile = lazy(() => import('./pages/mylounge/EditProfile'));
 const GroupDetail = lazy(() => import('./pages/group/GroupDetail'));
+const GroupEdit = lazy(() => import('./pages/group/GroupEdit'));
 const Chat = lazy(() => import('./pages/chat'));
 
 export {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
         path: 'group',
         children: [
           { path: ':groupId', element: <GroupDetail /> },
+          {
+            path: 'edit/:groupId',
+            element: <GroupEdit />,
+          },
           {
             path: 'recruit',
             element: <GroupRecruit />,
