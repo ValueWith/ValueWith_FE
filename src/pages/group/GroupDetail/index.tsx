@@ -35,10 +35,18 @@ function GroupDetail() {
       const userInfo = JSON.parse(userInfoString);
       const memberEmail = userInfo.memberEmail;
 
+      // 데이터가 없을 때 에러 처리
       if (data) {
         setUserStatus(checkApplicationStatus(data, memberEmail));
         setSelectedPlace({ selectedPlace: data.places });
         setIsDetail(true);
+      } else {
+        setIsDetailError(false);
+      }
+
+      // 데이터는 있지만 places가 없을 때 에러 처리
+      if (!data?.places) {
+        setIsDetailError(true);
       }
     }
   }, [userInfoString, data, setSelectedPlace]);
@@ -53,7 +61,7 @@ function GroupDetail() {
 
           {/* 카카오 지도  */}
           <div className="w-full h-[500px] mt-6">
-            <KakaoMap isDetail={isDetail} isError={isError} />
+            <KakaoMap isDetail={isDetail} isError={isDetailError} />
           </div>
 
           {/* 그룹 멤버 정보 & 지원 정보  */}
