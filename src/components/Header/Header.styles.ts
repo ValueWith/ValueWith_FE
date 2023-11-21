@@ -6,6 +6,7 @@ export const HeaderContainer = styled.header`
   width: 100%;
   height: ${theme.layoutComponent.header_height}px;
   border-bottom: 1px solid ${theme.color.gray200};
+  z-index: 1;
 `;
 
 export const HeaderInner = styled.div`
@@ -68,6 +69,29 @@ export const UserActionItem = styled.li`
   &:first-of-type {
     margin-left: 0;
   }
+
+  &.userProfile {
+    margin-left: 20px;
+  }
+`;
+
+// 프로필 드롭다운
+export const ProfileDropdownContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+`;
+
+export const ProfileImage = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+`;
+
+export const ProfileNickname = styled.span`
+  margin-left: 5px;
+  color: #000;
 `;
 
 //  서브 메뉴

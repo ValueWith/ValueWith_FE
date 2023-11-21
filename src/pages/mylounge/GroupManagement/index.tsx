@@ -1,40 +1,66 @@
 import { useEffect, useState } from 'react';
-import { TripGroup } from '@/apis/group';
-import TripCard from '@/components/TripCard';
-import useGroupDataFetching from '@/hooks/useGroup';
+
 import { paramsState } from '@/recoil/paramsState';
 import { useRecoilState } from 'recoil';
 
-import { findValueByProperty } from '@/utils/findCodeByLabel';
+import { TripGroup } from '@/apis/group';
+
+import { useMyLoungeData } from '@/hooks/useLounge';
+
+import TripCard from '@/components/TripCard';
+import Loader from '@/components/Loader';
+import Pagenation from '@/components/Pagination';
 
 import * as S from './GroupManagement.styles';
 
 const GROUP_MANAGEMENT_TABS = [
   {
     label: '내가 만든 그룹',
-    type: 'management',
+    type: 'leader',
   },
   {
     label: '참여중인 그룹',
-    type: 'registration',
+    type: 'approved',
   },
   {
     label: '대기중인 그룹',
-    type: 'waiting',
+    type: 'pending',
   },
 ];
 
 function GroupManagement() {
   const [params, setParams] = useRecoilState(paramsState);
-  const { data, isLoading, isError } = useGroupDataFetching(params);
 
+  const [page, setPage] = useState<number>(1);
   const [loungeTab, setLoungeTab] = useState(GROUP_MANAGEMENT_TABS[0].type);
+
+  const {
+    data: loungeData,
+    isLoading,
+    isError,
+  } = useMyLoungeData({
+    status: loungeTab,
+    page: page,
+  });
+
+  const handlePageClick = (data: { selected: number }) => {
+    setPage(data.selected + 1);
+  };
 
   const handleLoungeTab = ({ type }: { type: string }) => {
     setLoungeTab(type);
-
-    // TODO : 내가 만든 그룹 , 참여중인 그룹, 대기중인 그룹 호출 GET으로 수정
   };
+
+  useEffect(() => {
+    setParams((prevParams) => ({
+      ...prevParams,
+      status: loungeTab,
+    }));
+  }, [loungeTab]);
+
+  useEffect(() => {
+    console.log(loungeData?.data, 'loungeData');
+  }, [loungeData]);
 
   return (
     <S.GroupManagementContainer>
@@ -51,15 +77,24 @@ function GroupManagement() {
       </S.GroupManagementHeader>
 
       <S.GroupManagementContent>
-        {/* TODO : 현재 라운지 타입에 따라 데이터를 렌더링 */}
-        {data &&
-          data.tripGroups.map((group: TripGroup) => (
-            <TripCard
-              key={group.tripGroupId}
-              group={group}
-              cardType={loungeTab}
+        {loungeData ? (
+          <>
+            {loungeData.data.tripGroups.map((group: TripGroup) => (
+              <TripCard
+                key={group.tripGroupId}
+                group={group}
+                cardType={loungeTab}
+              />
+            ))}
+            <Pagenation
+              page={page}
+              pageCount={loungeData.data.totalPages}
+              handlePageClick={handlePageClick}
             />
-          ))}
+          </>
+        ) : (
+          <Loader />
+        )}
       </S.GroupManagementContent>
     </S.GroupManagementContainer>
   );

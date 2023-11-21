@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import { lazy } from 'react';
+import Error from './pages/user/Error';
 
 const Signup = lazy(() => import('./pages/user/Signup'));
 const Login = lazy(() => import('./pages/user/Login'));
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <div>404 Not Found</div>,
+    errorElement: <Error />,
     children: [
       { index: true, path: '/', element: <Home /> },
       {
