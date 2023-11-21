@@ -13,7 +13,13 @@ import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
 import { useLocation } from 'react-router-dom';
 import Loader from '@/components/Loader';
 
-function KakaoMap({ isDetail }: { isDetail?: boolean }) {
+function KakaoMap({
+  isDetail,
+  isError,
+}: {
+  isDetail?: boolean;
+  isError?: boolean;
+}) {
   const location = useLocation();
 
   const [selectedPlaceData, setSelectedPlaceData] =
@@ -130,6 +136,14 @@ function KakaoMap({ isDetail }: { isDetail?: boolean }) {
             <Loader width={30} height={30} className="z-[1]" />
           </>
         ))}
+
+      {isError && (
+        <MapMarker position={mapOptions.center}>
+          <div style={{ padding: '5px', color: '#000' }}>
+            {'위치를 불러오지 못했습니다.'}
+          </div>
+        </MapMarker>
+      )}
     </Map>
   );
 }
