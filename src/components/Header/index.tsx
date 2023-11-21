@@ -40,8 +40,6 @@ function Header() {
 
   const { userInfo, isLogin, setIsLogin } = useUser();
 
-  console.log(userInfo, 'userInfo');
-
   useEffect(() => {
     if (location.pathname.startsWith('/mylounge')) {
       setIsSubMenuVisible(true);
