@@ -95,23 +95,25 @@ function Login() {
         </ErrorMessage>
       )}
 
-      <div className="flex mt-3">
-        <Button
-          type="button"
-          size="sm"
-          styleType="text"
-          className="ml-auto"
-          style={{
-            padding: '0',
-            color: `${theme.color.fontgray}`,
-          }}
-          onClickHandler={() => navigate('/signup')}
-        >
-          Tweaver 회원가입
-        </Button>
-      </div>
+      <S.Divider></S.Divider>
 
-      <button onClick={handleKakaoLogin}>카카오 로그인</button>
+      {/* 소셜 로그인  */}
+      <S.SocialLoginContainer>
+        {/* 이메일 로그인 */}
+        <S.EmailButton onClick={() => navigate('/signup')}>
+          <IoMailSharp
+            className="w-[24px] h-[24px]"
+            style={{ marginRight: '9px' }}
+          />
+          이메일로 시작하기
+        </S.EmailButton>
+
+        {/* 카카오 로그인 */}
+        <S.KakaoButton onClick={handleKakaoLogin}>
+          <KakaoLogo style={{ marginRight: '10px' }} />
+          카카오로 시작하기
+        </S.KakaoButton>
+      </S.SocialLoginContainer>
     </S.UserWrapper>
   );
 }
