@@ -14,3 +14,20 @@ export const TripLocation = styled.span`
   font-weight: 500;
   letter-spacing: -1.2px;
 `;
+
+export const ClipBoard = styled.button`
+  min-width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  background-color: #eaeaea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ClipBoardSuccess = styled.p`
+  position: absolute;
+  right: 0;
+  top: -20px;
+  font-size: 12px;
+`;

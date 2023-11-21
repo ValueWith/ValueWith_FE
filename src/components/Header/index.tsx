@@ -13,12 +13,20 @@ import { RiMessage2Line } from 'react-icons/ri';
 import { AiOutlineBell } from 'react-icons/ai';
 
 import Button from '../Button';
+import DropdownMenu from '../DropdownMenu';
 
 // styles
 import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
-import { loginState } from '@/recoil/userState';
+import { useUser } from '@/hooks/useUser';
+
+interface UserInfo {
+  memberId: number;
+  memberNickname: string;
+  memberEmail: string;
+  memberProfileUrl: string;
+}
 
 function Header() {
   const location = useLocation();
@@ -28,8 +36,11 @@ function Header() {
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
 
   const setParams = useSetRecoilState(paramsState);
-  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
+
+  const { userInfo, isLogin, setIsLogin } = useUser();
+
+  console.log(userInfo, 'userInfo');
 
   useEffect(() => {
     if (location.pathname.startsWith('/mylounge')) {
@@ -49,16 +60,6 @@ function Header() {
     setCurrentCategory(location.pathname);
   }, [location]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-
-    if (token) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, [isLogin]);
-
   const handleLogin = () => {
     navigate('/login');
   };
@@ -75,6 +76,7 @@ function Header() {
           isModalOpen: false,
         });
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('userInfo');
         setIsLogin(false);
         navigate('/');
       },
@@ -110,7 +112,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className='header__menu-list'>
+          <ul className="list">
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -151,26 +153,46 @@ function Header() {
                 <AiOutlineBell size={24} />
               </S.UserActionItem>
 
-              <span className='ml-4'>|</span>
-
-              <Button
-                type='button'
-                styleType='text'
-                className='ml-4'
-                style={{
-                  minWidth: 'auto',
-                  color: `${theme.color.fontgray}`,
-                  fontSize: '15px',
-                }}
-                onClickHandler={handleLogout}
-              >
-                로그아웃
-              </Button>
+              <S.UserActionItem className="userProfile">
+                <DropdownMenu
+                  options={[
+                    {
+                      label: '내 프로필 수정',
+                      onClickHandler: () => navigate('/mylounge/profile'),
+                    },
+                    {
+                      label: '로그아웃',
+                      onClickHandler: () => handleLogout(),
+                    },
+                  ]}
+                  dropdownMunuStyle={{
+                    top: 'calc(100% + 10px)',
+                    left: '-37px',
+                  }}
+                >
+                  <S.ProfileDropdownContainer>
+                    {userInfo?.memberProfileUrl && (
+                      <S.ProfileImage
+                        src={userInfo.memberProfileUrl}
+                        alt="프로필 사진"
+                      />
+                    )}
+                    {userInfo?.memberNickname && (
+                      <>
+                        <S.ProfileNickname>
+                          {userInfo.memberNickname}
+                        </S.ProfileNickname>
+                        &nbsp;님
+                      </>
+                    )}
+                  </S.ProfileDropdownContainer>
+                </DropdownMenu>
+              </S.UserActionItem>
             </S.UserActions>
           ) : (
             <Button
-              type='button'
-              styleType='basic'
+              type="button"
+              styleType="basic"
               onClickHandler={handleLogin}
             >
               로그인

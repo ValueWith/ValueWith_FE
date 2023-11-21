@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import {
@@ -16,11 +16,12 @@ import SearchResultCard from '../GroupItemCard';
 import SuggestLabel from '../SuggestLabel';
 import Dropdown from '@/components/Dropdown';
 import Loader from '@/components/Loader';
+import NoResult from '../NoResult';
 
+import theme from '@/assets/styles/theme';
 import * as S from './NestedSidebar.styles';
 import * as GS from '@components/group/recruit/GroupRegist.styles';
 import * as SC from '@components/group/recruit/SuggestLabel/SuggestLabel.styles';
-import NoResult from '../NoResult';
 
 interface NestedSidebarStatusProps {
   status: boolean;
@@ -39,7 +40,7 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
   const [suggestionArea, setSuggestionArea] = useState('서울');
   const [category, setCategory] = useState('전체');
 
-  const [ref, inView] = useInView({
+  const { ref } = useInView({
     threshold: 0.5, // 가시성이 50% 이상일 때 트리거
     onChange: (inView) => {
       if (inView) {
@@ -48,7 +49,7 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
     },
   });
 
-  const { searchResult } = useMapSearch({ searchTerm, page });
+  const { searchResult, isLast } = useMapSearch({ searchTerm, page });
   const { isTourLoading, isTourError, isTourSuccess, suggestionData } =
     useGetSuggestionData({
       page: suggestionPage,
@@ -76,13 +77,11 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
     handleSuggestions(category, selectedLabelIndex);
   }, [category, suggestionArea]);
 
+  // 검색어가 바뀌거나, 추천 사이드바에서 지역이 바뀔 때 페이지 초기화
   useEffect(() => {
-    if (option.type === 'search') {
-      setSuggestionPage(1);
-    } else {
-      setPage(1);
-    }
-  }, [option.type]);
+    setPage(1);
+    setSuggestionPage(1);
+  }, [searchTerm, option.type]);
 
   return (
     <S.NestedSidebarContainer>
@@ -126,25 +125,33 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
             <br />
             다른 키워드로 검색해보세요
           </NoResult>
-        ) : option.type === 'suggest' && suggestionData.length === 0 ? (
-          <NoResult>
-            검색 결과가 없어요
-            <br />
-            다른 키워드로 검색해보세요
-          </NoResult>
         ) : (
           <div>
             {option.type === 'search' ? (
               <>
+                {/* 카카오맵 검색 결과  */}
                 {searchResult.map((item: any, index: number) => (
                   <SearchResultCard key={index} index={index} item={item} />
                 ))}
+
+                {isLast && (
+                  <p
+                    className="text-center my-6"
+                    style={{
+                      color: `${theme.color.gray600}`,
+                    }}
+                  >
+                    마지막 페이지입니다.
+                  </p>
+                )}
+
                 {searchResult && searchResult.length > 0 && (
                   <span ref={ref} style={{ width: '100%', height: 30 }} />
                 )}
               </>
             ) : (
               <>
+                {/* 장소추천 검색 결과  */}
                 {suggestionData.map((item: any, index: number) => (
                   <SearchResultCard
                     key={index}
@@ -158,6 +165,7 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
                 )}
               </>
             )}
+
             {option.type === 'suggest' && isTourLoading && <Loader />}
           </div>
         )}

@@ -2,6 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '@assets/TweaverLogo.svg?react';
 import * as S from './GroupNavSidebar.styles';
 import theme from '@/assets/styles/theme';
+import { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { tempFormState } from '@/recoil/GroupRegistState';
 
 const RECRUIT_STEP = [
   {
@@ -24,6 +27,13 @@ function GroupNavSidebar({
   onSelectedStep,
 }: GroupNavSidebarProps) {
   const navigate = useNavigate();
+
+  const setTempFormData = useSetRecoilState(tempFormState);
+
+  useEffect(() => {
+    setTempFormData(null);
+    localStorage.removeItem('groupThumbnail');
+  }, []);
 
   return (
     <S.RecruitSidebarContainer>

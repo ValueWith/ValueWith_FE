@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { ModalCSSProps } from './model.ts';
 import theme from '@/assets/styles/theme.ts';
+import { ModalCSSProps } from '@/recoil/modalState';
 
 export const ModalOverlay = styled.div`
   position: fixed;
