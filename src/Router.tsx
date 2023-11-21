@@ -1,6 +1,6 @@
+import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
-import { lazy } from 'react';
 import Error from './pages/user/Error';
 
 const Signup = lazy(() => import('./pages/user/Signup'));
