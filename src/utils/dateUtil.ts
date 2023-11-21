@@ -54,25 +54,3 @@ export function formatDueDate(dateString: Date) {
         .replace(/\.$/, '')
     : '';
 }
-
-// export function formatTripDate(dateString: Date) {
-//   return dateString
-//     .toLocaleDateString(undefined, {
-//       day: '2-digit',
-//       month: '2-digit',
-//       year: 'numeric',
-//     })
-//     .replace(/\//g, '-');
-// }
-
-// export function formatDueDate(dateString: Date) {
-//   return dateString
-//     ? dateString
-//         .toLocaleDateString(undefined, {
-//           day: '2-digit',
-//           month: '2-digit',
-//           year: 'numeric',
-//         })
-//         .replace(/\//g, '-')
-//     : '';
-// }
