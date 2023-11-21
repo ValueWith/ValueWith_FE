@@ -52,20 +52,18 @@ function GroupMemberStatus({
         {isOpenStatusModal && (
           <S.GroupMemberStatusModal>
             <S.ModalTitle>함께하는 멤버</S.ModalTitle>
-            {groupMembers &&
-              groupMembers
-                .filter((member) => member.groupMemberStatus === 'approved')
-                .map((member) => (
-                  <TripCardUserInfo
-                    key={member.groupMemberNickname}
-                    profileUrl={member.groupMemberProfileUrl}
-                    nickName={member.groupMemberNickname}
-                    age={member.groupMemberAge}
-                    gender={member.groupMemberGender}
-                    style={{ marginBottom: '5px', fontSize: '15px' }}
-                  />
-                ))}
-            {groupMembers.length === 0 && (
+            {groupMembers ? (
+              groupMembers.map((member) => (
+                <TripCardUserInfo
+                  key={member.groupMemberNickname}
+                  profileUrl={member.groupMemberProfileUrl}
+                  nickName={member.groupMemberNickname}
+                  age={member.groupMemberAge}
+                  gender={member.groupMemberGender}
+                  style={{ marginBottom: '5px', fontSize: '15px' }}
+                />
+              ))
+            ) : (
               <S.ModalNoContent>
                 현재 함께하는 멤버가 없습니다.
               </S.ModalNoContent>
