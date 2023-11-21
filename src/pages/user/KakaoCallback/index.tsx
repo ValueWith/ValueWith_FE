@@ -1,3 +1,4 @@
+import instance from '@/apis';
 import Loader from '@/components/Loader';
 import { modalState } from '@/recoil/modalState';
 import axios from 'axios';
@@ -29,7 +30,7 @@ function KakaoCallback() {
       );
 
       // 백엔드로 카카오로부터 받은 인가 코드를 보내고, 백엔드로부터 유저 정보와 jwt 토큰을 받아온다.
-      const getUserData = await axios.post(``);
+      const getUserData = await instance.post(``);
 
       // 받아온 유저 정보를 localStorage에 저장한다.
       // localStorage.setItem('accessToken', getUserData.accessToken);
