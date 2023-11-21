@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import Error from './pages/user/Error';
@@ -49,7 +50,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Login /> },
           {
-            path: 'oauth2/code/kakao',
+            path: 'oauth2/callback/kakao',
             element: <KakaoCallback />,
           },
         ],
