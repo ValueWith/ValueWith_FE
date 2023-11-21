@@ -21,6 +21,13 @@ import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
 import { useUser } from '@/hooks/useUser';
 
+interface UserInfo {
+  memberId: number;
+  memberNickname: string;
+  memberEmail: string;
+  memberProfileUrl: string;
+}
+
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
