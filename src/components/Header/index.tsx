@@ -19,7 +19,7 @@ import DropdownMenu from '../DropdownMenu';
 import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
-import { loginState } from '@/recoil/userState';
+import { useUser } from '@/hooks/useUser';
 
 interface UserInfo {
   memberId: number;
@@ -34,16 +34,13 @@ function Header() {
 
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
-  const [userInfo, setUserInfo] = useState<UserInfo>({
-    memberId: 0,
-    memberNickname: '',
-    memberEmail: '',
-    memberProfileUrl: '',
-  });
 
   const setParams = useSetRecoilState(paramsState);
-  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
+
+  const { userInfo, isLogin, setIsLogin } = useUser();
+
+  console.log(userInfo, 'userInfo');
 
   useEffect(() => {
     if (location.pathname.startsWith('/mylounge')) {
@@ -62,20 +59,6 @@ function Header() {
   useEffect(() => {
     setCurrentCategory(location.pathname);
   }, [location]);
-
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-
-    if (token) {
-      const userStorageInfo = localStorage.getItem('userInfo');
-      const userInfo = JSON.parse(userStorageInfo ?? '');
-
-      setIsLogin(true);
-      setUserInfo(userInfo);
-    } else {
-      setIsLogin(false);
-    }
-  }, [isLogin]);
 
   const handleLogin = () => {
     navigate('/login');

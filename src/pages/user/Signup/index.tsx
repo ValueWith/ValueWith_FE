@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { extractNumber } from '@/utils/extractNumber';
 
@@ -13,7 +13,6 @@ import Input from '@/components/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
 import Dropdown from '@/components/Dropdown';
 import ProfileUploader from '@/components/uploader/ProfileUploader';
-import AlertModal from '@/components/modal/Alert';
 import Loader from '@/components/Loader';
 import { SignUpProps } from '@/apis/user.model';
 
@@ -58,7 +57,7 @@ function Signup() {
     isEmailCodeValid,
   } = useEmailVerification(watch('email'), watch('emailCode'), errors, trigger);
 
-  const { handleSignup, isLoading, showModal, modalProps } = useAuth();
+  const { handleSignup, isLoading } = useAuth();
 
   // 디버깅용 코드
   // useEffect(() => {
@@ -258,21 +257,17 @@ function Signup() {
         {/* 회원가입 버튼  */}
         <Button
           type="submit"
-          styleType={isValid && isEmailCodeValid ? 'solid' : 'disabled'}
+          styleType={
+            isValid && isEmailCodeValid && ageGroup !== '' && gender != ''
+              ? 'solid'
+              : 'disabled'
+          }
           size="lg"
           fullWidth
         >
           회원가입
         </Button>
       </form>
-
-      {showModal && (
-        <AlertModal
-          title={modalProps.title}
-          message={modalProps?.message}
-          onConfirm={modalProps?.onConfirm}
-        />
-      )}
     </S.UserWrapper>
   );
 }
