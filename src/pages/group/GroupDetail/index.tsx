@@ -16,6 +16,7 @@ import KakaoMap from '@/components/group/recruit/KakaoMap';
 import { checkApplicationStatus } from '@/utils/checkApplicationStatus';
 import { useRecoilState } from 'recoil';
 import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
+import { useUser } from '@/hooks/useUser';
 
 function GroupDetail() {
   const { groupId } = useParams();
@@ -29,9 +30,10 @@ function GroupDetail() {
     Number(groupId)
   );
 
+  const { userInfo } = useUser();
+
   useEffect(() => {
     if (userInfoString) {
-      const userInfo = JSON.parse(userInfoString);
       const memberEmail = userInfo.memberEmail;
 
       if (data) {
