@@ -27,7 +27,7 @@ function GroupDetail() {
           <GroupTitle title={data.tripGroupDetail.name} />
           <S.GroupThumbnail src={data.tripGroupDetail.thumbnailUrl} />
           <S.GroupContentContainer>
-            <div className='flex flex-col gap-3'>
+            <div className="flex flex-col gap-3">
               <GroupMemberStatus
                 currentUserNumber={data.tripGroupDetail.currentUserNumber}
                 maxUserNumber={data.tripGroupDetail.maxUserNumber}
@@ -38,8 +38,7 @@ function GroupDetail() {
                 gender={data.tripGroupDetail.gender}
                 groupMembers={data.groupMembers}
               />
-              {/* TODO: 지원 상태 알아야 함 */}
-              <Button type='button' styleType='solid' fullWidth>
+              <Button type="button" styleType="solid" fullWidth>
                 지원하기
               </Button>
             </div>
