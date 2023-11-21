@@ -13,6 +13,7 @@ import { RiMessage2Line } from 'react-icons/ri';
 import { AiOutlineBell } from 'react-icons/ai';
 
 import Button from '../Button';
+import DropdownMenu from '../DropdownMenu';
 
 // styles
 import * as S from './Header.styles';
@@ -26,6 +27,12 @@ function Header() {
 
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
+  const [userInfo, setUserInfo] = useState({
+    memberId: 0,
+    memberNickname: '',
+    memberEmail: '',
+    memberProfileUrl: '',
+  });
 
   const setParams = useSetRecoilState(paramsState);
   const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
@@ -53,7 +60,11 @@ function Header() {
     const token = localStorage.getItem('accessToken');
 
     if (token) {
+      const userStorageInfo = localStorage.getItem('userInfo');
+      const userInfo = JSON.parse(userStorageInfo || '{}');
+
       setIsLogin(true);
+      setUserInfo(userInfo);
     } else {
       setIsLogin(false);
     }
@@ -152,21 +163,36 @@ function Header() {
                 <AiOutlineBell size={24} />
               </S.UserActionItem>
 
-              <span className="ml-4">|</span>
-
-              <Button
-                type="button"
-                styleType="text"
-                className="ml-4"
-                style={{
-                  minWidth: 'auto',
-                  color: `${theme.color.fontgray}`,
-                  fontSize: '15px',
-                }}
-                onClickHandler={handleLogout}
-              >
-                로그아웃
-              </Button>
+              <S.UserActionItem className="userProfile">
+                <DropdownMenu
+                  options={[
+                    {
+                      label: '로그아웃',
+                      onClickHandler: () => handleLogout(),
+                    },
+                  ]}
+                  dropdownMunuStyle={{
+                    top: 'calc(100% + 10px)',
+                  }}
+                >
+                  <S.ProfileDropdownContainer>
+                    {userInfo?.memberProfileUrl && (
+                      <S.ProfileImage
+                        src={userInfo.memberProfileUrl}
+                        alt="프로필 사진"
+                      />
+                    )}
+                    {userInfo?.memberNickname && (
+                      <>
+                        <S.ProfileNickname>
+                          {userInfo.memberNickname}
+                        </S.ProfileNickname>
+                        &nbsp;님
+                      </>
+                    )}
+                  </S.ProfileDropdownContainer>
+                </DropdownMenu>
+              </S.UserActionItem>
             </S.UserActions>
           ) : (
             <Button

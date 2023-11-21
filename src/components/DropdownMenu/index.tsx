@@ -4,9 +4,14 @@ import * as S from './DropdownMenu.styles';
 interface DropdownMenuProps {
   options: any;
   children: React.ReactNode;
+  dropdownMunuStyle?: React.CSSProperties;
 }
 
-function DropdownMenu({ options, children }: DropdownMenuProps) {
+function DropdownMenu({
+  options,
+  dropdownMunuStyle,
+  children,
+}: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionClick = (event: any, option: any) => {
@@ -20,7 +25,10 @@ function DropdownMenu({ options, children }: DropdownMenuProps) {
         {children}
       </div>
       {isOpen && (
-        <S.DropdownMenuList className="dropdown-menu__list">
+        <S.DropdownMenuList
+          className="dropdown-menu__list"
+          style={dropdownMunuStyle}
+        >
           {options.map((option: any, index: number) => (
             <S.DropdownMenuItem
               key={index}
