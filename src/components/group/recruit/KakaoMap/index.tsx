@@ -11,6 +11,7 @@ import { useRecoilState } from 'recoil';
 import { getMarkerBackground } from '@/utils/getMarkerBackground';
 import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
 import { useLocation } from 'react-router-dom';
+import Loader from '@/components/Loader';
 
 function KakaoMap({ isDetail }: { isDetail?: boolean }) {
   const location = useLocation();
@@ -51,7 +52,9 @@ function KakaoMap({ isDetail }: { isDetail?: boolean }) {
             });
           },
           (error) => {
-            console.error(error);
+            setMapOptions({
+              ...mapOptions,
+            });
           },
           {
             enableHighAccuracy: true,
@@ -119,7 +122,15 @@ function KakaoMap({ isDetail }: { isDetail?: boolean }) {
         />
       )}
 
-      {shouldRenderMapMarker && <MapMarker position={mapOptions.center} />}
+      {shouldRenderMapMarker &&
+        (mapOptions.center.lat !== 0 && mapOptions.center.lng !== 0 ? (
+          <MapMarker position={mapOptions.center} />
+        ) : (
+          <>
+            현재 위치를 찾고 있습니다. 잠시만 기다려주세요
+            <Loader width={30} height={30} className="z-[1]" />
+          </>
+        ))}
     </Map>
   );
 }
