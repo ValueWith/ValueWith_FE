@@ -33,13 +33,24 @@ export function formatDotDate(dateString: string) {
 
 export function formatTripDate(dateString: Date) {
   return dateString
-    .toLocaleDateString()
+    .toLocaleDateString(undefined, {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    })
     .replace(/\. /g, '-')
     .replace(/\.$/, '');
 }
 
 export function formatDueDate(dateString: Date) {
   return dateString
-    ? dateString.toLocaleDateString().replace(/\. /g, '-').replace(/\.$/, '')
+    ? dateString
+        .toLocaleDateString(undefined, {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        })
+        .replace(/\. /g, '-')
+        .replace(/\.$/, '')
     : '';
 }

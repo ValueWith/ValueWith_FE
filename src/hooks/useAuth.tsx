@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { loginRequest, signupRequest } from '@/apis/user';
 import { LoginProps, SignUpProps } from '@/apis/user.model';
-import { handleFetchAction } from '@/utils/fetchAction';
 
 import imageCompression from 'browser-image-compression';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginState } from '@/recoil/userState';
+import { modalState } from '@/recoil/modalState';
 
 export interface ModalProps {
   title: string;
@@ -22,15 +22,7 @@ function useAuth() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [modalProps, setModalProps] = useState<ModalProps>({
-    title: '',
-    message: '',
-    onConfirm: () => {
-      setIsShowModal(false);
-    },
-  });
-
-  const [showModal, setIsShowModal] = useState(false);
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
   // 회원가입
   const handleSignup = async (data: SignUpProps, file?: any) => {
@@ -44,14 +36,13 @@ function useAuth() {
       formData.append('gender', data.gender);
       formData.append('age', data.age);
 
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1920,
-      };
-
-      const compressedFile = await imageCompression(file, options);
-
       if (file) {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+        };
+
+        const compressedFile = await imageCompression(file, options);
         formData.append('file', compressedFile);
       } else {
         formData.append('file', '');
@@ -67,29 +58,32 @@ function useAuth() {
         },
       };
 
-      handleFetchAction(
-        setIsLoading,
-        setIsShowModal,
-        setModalProps,
-        successProps
-      );
+      setModalDataState({
+        isModalOpen: true,
+        title: '회원가입 성공',
+        message: '회원가입에 완료되었습니다.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+          navigate('/login');
+        },
+      });
 
       return response;
     } catch (error) {
-      const errorProps = {
+      setModalDataState({
+        isModalOpen: true,
         title: '회원가입 실패',
-        message: '회원가입에 실패하였습니다.',
+        message: '회원가입에 실패하였습니다. 다시 시도해주세요.',
         onConfirm: () => {
-          navigate('/signup');
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
         },
-      };
-
-      handleFetchAction(
-        setIsLoading,
-        setIsShowModal,
-        setModalProps,
-        errorProps
-      );
+      });
 
       return console.error('Error Fetching data: ', error);
     }
@@ -122,8 +116,6 @@ function useAuth() {
     handleLogin,
     isLoading,
     isError,
-    showModal,
-    modalProps,
   };
 }
 

@@ -6,6 +6,7 @@ export const TripPlaceCardContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0 56.5px;
+  cursor: pointer;
 
   &:last-of-type {
     margin-bottom: 0;

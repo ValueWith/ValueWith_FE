@@ -40,7 +40,7 @@ function GroupMemberStatus({
     <S.GroupMemberStatusContainer>
       <S.ContentDiv>
         <S.Title>모집현황</S.Title>
-        <div className='flex items-center gap-[8px]'>
+        <div className="flex items-center gap-[8px]">
           <S.Content>
             {currentUserNumber}명 / {maxUserNumber}명
           </S.Content>
@@ -52,7 +52,7 @@ function GroupMemberStatus({
         {isOpenStatusModal && (
           <S.GroupMemberStatusModal>
             <S.ModalTitle>함께하는 멤버</S.ModalTitle>
-            {groupMembers &&
+            {groupMembers ? (
               groupMembers.map((member) => (
                 <TripCardUserInfo
                   key={member.groupMemberNickname}
@@ -62,7 +62,12 @@ function GroupMemberStatus({
                   gender={member.groupMemberGender}
                   style={{ marginBottom: '5px', fontSize: '15px' }}
                 />
-              ))}
+              ))
+            ) : (
+              <S.ModalNoContent>
+                현재 함께하는 멤버가 없습니다.
+              </S.ModalNoContent>
+            )}
           </S.GroupMemberStatusModal>
         )}
       </S.ContentDiv>
@@ -72,7 +77,7 @@ function GroupMemberStatus({
           {dot_day} ({d_day})
         </S.Content>
       </S.ContentDiv>
-      <div className='mt-[20px]'>
+      <div className="mt-[20px]">
         <TripCardUserInfo
           profileUrl={profileUrl}
           nickName={nickName}

@@ -5,6 +5,7 @@ export const TripPlaceListContainer = styled.div`
   width: 100%;
   border: 1px solid ${theme.color.gray100};
   border-radius: 4px;
-  padding: 25px 35px;
-  margin-top: 26px;
+  padding: 31px 35px;
+
+  /* margin-top: 26px; */
 `;
