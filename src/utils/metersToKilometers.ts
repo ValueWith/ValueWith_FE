@@ -1,4 +1,5 @@
 export function metersToKilometers(meters: number): number {
   const kilometers = meters / 1000;
-  return kilometers;
+
+  return Number(kilometers.toFixed(2));
 }

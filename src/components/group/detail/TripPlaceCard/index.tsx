@@ -60,7 +60,11 @@ function TripPlaceCard({
               <>
                 <S.TripPlaceDistance>{kilometers}&nbsp;km</S.TripPlaceDistance>
                 <AiFillCaretRight
-                  style={{ fontSize: '12px', marginLeft: '3px' }}
+                  style={{
+                    fontSize: '12px',
+                    marginLeft: '3px',
+                    minWidth: '1em',
+                  }}
                 />
               </>
             )}
