@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
@@ -33,6 +34,7 @@ export const useGroupDetailDataFetching = (groupId: number) => {
 };
 
 export const useGroup = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -135,7 +137,7 @@ export const useGroup = () => {
         return [
           {
             label: '수정',
-            onClickHandler: () => console.log('수정'),
+            onClickHandler: () => navigate(`/group/edit/${tripGroupId}`),
           },
           {
             label: '삭제',

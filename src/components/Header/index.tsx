@@ -157,12 +157,17 @@ function Header() {
                 <DropdownMenu
                   options={[
                     {
+                      label: '내 프로필 수정',
+                      onClickHandler: () => navigate('/mylounge/profile'),
+                    },
+                    {
                       label: '로그아웃',
                       onClickHandler: () => handleLogout(),
                     },
                   ]}
                   dropdownMunuStyle={{
                     top: 'calc(100% + 10px)',
+                    left: '-37px',
                   }}
                 >
                   <S.ProfileDropdownContainer>
