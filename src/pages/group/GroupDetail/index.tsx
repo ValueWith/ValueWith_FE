@@ -11,13 +11,19 @@ import TripPlaceList from '@/components/group/detail/TripPlaceList';
 
 import * as S from './GroupDetail.styles';
 import ApplyButton from '@/components/group/detail/ApplyButton';
+import KakaoMap from '@/components/group/recruit/KakaoMap';
+
 import { checkApplicationStatus } from '@/utils/checkApplicationStatus';
+import { useRecoilState } from 'recoil';
+import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
 
 function GroupDetail() {
   const { groupId } = useParams();
 
   const userInfoString = localStorage.getItem('userInfo');
   const [userStatus, setUserStatus] = useState<string>('');
+  const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
+  const [isDetail, setIsDetail] = useState<boolean>(false);
 
   const { data, isLoading, isError } = useGroupDetailDataFetching(
     Number(groupId)
@@ -30,9 +36,11 @@ function GroupDetail() {
 
       if (data) {
         setUserStatus(checkApplicationStatus(data, memberEmail));
+        setSelectedPlace({ selectedPlace: data.places });
+        setIsDetail(true);
       }
     }
-  }, [userInfoString, data]);
+  }, [userInfoString, data, setSelectedPlace]);
 
   return (
     <>
@@ -41,7 +49,13 @@ function GroupDetail() {
       {data && (
         <S.GroupDetailContainer>
           <GroupTitle title={data.tripGroupDetail.name} />
-          <S.GroupThumbnail src={data.tripGroupDetail.thumbnailUrl} />
+
+          {/* 카카오 지도  */}
+          <div className="w-full h-[500px] mt-6">
+            <KakaoMap isDetail={isDetail} />
+          </div>
+
+          {/* 그룹 멤버 정보 & 지원 정보  */}
           <S.GroupContentContainer>
             <div className="flex flex-col gap-3">
               <GroupMemberStatus
@@ -57,6 +71,7 @@ function GroupDetail() {
               <ApplyButton groupId={Number(groupId)} userStatus={userStatus} />
             </div>
 
+            {/* 그룹 내용  */}
             <div>
               <TripTitle
                 tripDate={data.tripGroupDetail.tripDate}

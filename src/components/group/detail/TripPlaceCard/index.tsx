@@ -1,12 +1,17 @@
 import { Place } from '@/apis/groupDetail';
+
+import { useRecoilState } from 'recoil';
+import { mapOptionState } from '@/recoil/GroupRegistState';
+
+import { metersToKilometers } from '@/utils/metersToKilometers';
 import { getMarkerBackground } from '@/utils/getMarkerBackground';
 
 import { AiFillCaretRight } from 'react-icons/ai';
 import * as S from './TripPlaceCard.styles';
-import { metersToKilometers } from '@/utils/metersToKilometers';
 
 interface TripPlaceCardProps extends Place {
   isLast?: boolean;
+  onClickHandler?: () => void;
 }
 function TripPlaceCard({
   category,
@@ -18,13 +23,23 @@ function TripPlaceCard({
   orders,
   distance,
   isLast,
+  onClickHandler,
 }: TripPlaceCardProps) {
+  const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
+
+  const handleMapOption = () => {
+    setMapOptions({
+      ...mapOptions,
+      center: { lat: y, lng: x },
+    });
+  };
+
   const markerColor = getMarkerBackground(category);
   const kilometers = metersToKilometers(distance);
 
   return (
     <div>
-      <S.TripPlaceCardContainer>
+      <S.TripPlaceCardContainer onClick={handleMapOption}>
         <S.TripPlaceCardOrder style={{ backgroundColor: markerColor }}>
           {orders}
         </S.TripPlaceCardOrder>
@@ -40,7 +55,7 @@ function TripPlaceCard({
       </S.TripPlaceCardContainer>
       {!isLast && (
         <S.TripPlaceDistanceContainer>
-          <div className='flex items-center w-[56px] justify-end'>
+          <div className="flex items-center w-[56px] justify-end">
             {distance != null && (
               <>
                 <S.TripPlaceDistance>{kilometers}&nbsp;km</S.TripPlaceDistance>

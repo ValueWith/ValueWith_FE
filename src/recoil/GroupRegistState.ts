@@ -33,8 +33,8 @@ export const mapOptionState = atom<MapOptionModel>({
   key: 'mapOptionState',
   default: {
     center: {
-      lat: 33.450701,
-      lng: 126.570667,
+      lat: 37.577613288258206,
+      lng: 126.97689786832184,
     },
     level: 3,
     isPanto: true,
