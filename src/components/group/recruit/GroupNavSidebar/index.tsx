@@ -3,7 +3,7 @@ import Logo from '@assets/TweaverLogo.svg?react';
 import * as S from './GroupNavSidebar.styles';
 import theme from '@/assets/styles/theme';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { tempFormState } from '@/recoil/GroupRegistState';
 
 const RECRUIT_STEP = [
@@ -28,7 +28,7 @@ function GroupNavSidebar({
 }: GroupNavSidebarProps) {
   const navigate = useNavigate();
 
-  const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
+  const setTempFormData = useSetRecoilState(tempFormState);
 
   useEffect(() => {
     setTempFormData(null);
