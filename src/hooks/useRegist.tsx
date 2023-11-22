@@ -163,7 +163,10 @@ export const useRegistGroup = () => {
         await groupRegisterRequest(formData);
       }
 
-      setModalDataState({
+      setTempFormData({});
+      localStorage.removeItem('groupThumbnail');
+
+      return setModalDataState({
         ...modalDataState,
         isModalOpen: true,
         title: `여행 그룹 ${isEdit ? '수정' : '등록'} 완료`,
@@ -177,9 +180,6 @@ export const useRegistGroup = () => {
           navigate('/group');
         },
       });
-
-      setTempFormData({});
-      localStorage.removeItem('groupThumbnail');
 
       // 알럿 띄우기
     } catch (error) {
