@@ -8,11 +8,10 @@ interface ChatRoomListProps {
 }
 
 function ChatRoomList({ rooms }: ChatRoomListProps) {
-  console.log('rooms', rooms);
   return (
     <S.ChatRoomListContainer>
       {rooms.map((room) => (
-        <ChatRoomCard key={room.roomId} room={room} />
+        <ChatRoomCard key={room.chatRoomId} room={room} />
       ))}
     </S.ChatRoomListContainer>
   );
