@@ -37,18 +37,16 @@ const router = createBrowserRouter([
       {
         // 로그인 페이지
         path: 'login',
-        children: [
-          { index: true, element: <Login /> },
-          {
-            path: 'oauth2/callback/kakao',
-            element: <KakaoCallback />,
-          },
-        ],
+        children: [{ index: true, element: <Login /> }],
       },
       {
         // 회원가입 페이지
         path: '/signup',
         element: <Signup />,
+      },
+      {
+        path: 'oauth2/callback/kakao',
+        element: <KakaoCallback />,
       },
       {
         path: 'group',

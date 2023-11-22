@@ -14,6 +14,7 @@ import Input from '@/components/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
 import ErrorMessage from '@/components/Message/ErrorMessage';
 import Loader from '@/components/Loader';
+import instance from '@/apis';
 
 interface SignupFormProps {
   nickname: string;
@@ -41,7 +42,7 @@ function Login() {
     await handleLogin(data);
   };
 
-  const handleKakaoLogin = () => {
+  const handleKakaoLogin = async () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${
       import.meta.env.VITE_KAKAO_API_KEY
     }&redirect_uri=${
