@@ -1,4 +1,4 @@
-import ErrorImage from '@/assets/error.svg?react';
+import ErrorImage from '@/assets/Error.svg?react';
 import theme from '@/assets/styles/theme';
 import Button from '@/components/Button';
 
