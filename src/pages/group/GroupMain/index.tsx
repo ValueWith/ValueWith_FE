@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { ParamsModel, paramsState } from '@/recoil/paramsState';
+import { paramsState } from '@/recoil/paramsState';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { GroupListParams } from '@/apis/group';
@@ -16,7 +16,7 @@ import { modalState } from '@/recoil/modalState';
 
 function GroupMain() {
   const navigate = useNavigate();
-  const [params, setParams] = useRecoilState<ParamsModel>(paramsState);
+  const [params, setParams] = useRecoilState(paramsState);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
