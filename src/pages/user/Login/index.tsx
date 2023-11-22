@@ -37,7 +37,7 @@ function Login() {
     await handleLogin(data);
   };
 
-  const handleKakaoLogin = () => {
+  const handleKakaoLogin = async () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${
       import.meta.env.VITE_KAKAO_API_KEY
     }&redirect_uri=${
