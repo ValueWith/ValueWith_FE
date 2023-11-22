@@ -1,13 +1,14 @@
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+
 import {
   Message,
   RoomInfo,
   addOnMessageListener,
   removeOnMessageListener,
 } from '@/apis/chat';
-
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { chatRoomIdState } from '@/recoil/chatRoomIdState';
+import { chatRoomState } from '@/recoil/chatRoomState';
+import { chatMessagesState } from '@/recoil/chatRoomState';
 
 import * as S from './ChatRoomCard.styles';
 
@@ -16,31 +17,37 @@ interface ChatRoomCardProps {
 }
 
 function ChatRoomCard({ room }: ChatRoomCardProps) {
-  const [roomId, setRoomId] = useRecoilState(chatRoomIdState);
+  const [roomInfo, setRoomInfo] = useRecoilState(chatRoomState);
+  const [chatMessages, setChatMessages] = useRecoilState(chatMessagesState);
 
-  const [lastMessage, setLastMessage] = useState<Message>(room.lastMessage);
-  const [currentMemberCount, setCurrentMemberCount] = useState<number>(
-    room.currentMemberCount
-  );
+  const lastMessage =
+    chatMessages[room.chatRoomId] && chatMessages[room.chatRoomId].length > 0
+      ? chatMessages[room.chatRoomId][chatMessages[room.chatRoomId].length - 1]
+          .content
+      : null;
 
   useEffect(() => {
+    console.log(chatMessages);
     function messageHandler(message: Message) {
-      setLastMessage(message);
-      if (message.isWelcome) {
-        setCurrentMemberCount((prev) => ++prev);
-      }
+      setChatMessages((prev) => ({
+        ...prev,
+        [room.chatRoomId]: [...(prev[room.chatRoomId] || []), message],
+      }));
     }
 
-    addOnMessageListener(room.roomId, messageHandler);
-    return () => removeOnMessageListener(room.roomId, messageHandler);
-  }, [room.roomId]);
+    addOnMessageListener(room.chatRoomId, messageHandler);
+    return () => removeOnMessageListener(room.chatRoomId, messageHandler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [room]);
 
   const handleClickRoom = () => {
-    setRoomId(room.roomId);
+    setRoomInfo(room);
+    // enterRoom(room.chatRoomId);
+    // -> 오류메세지: 해당 그룹원이 아닙니다
   };
 
   const cardStyleType = () => {
-    if (room.roomId === roomId) {
+    if (roomInfo.chatRoomId === room.chatRoomId) {
       return '#fafafa';
     } else return '';
   };
@@ -51,14 +58,8 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
       style={{ backgroundColor: cardStyleType() }}
     >
       <div>
-        <S.ChatRoomTitle>
-          ({currentMemberCount}/{room.maxMemberCount}) {room.title}
-        </S.ChatRoomTitle>
-        <S.ChatRoomLastMessage>
-          {lastMessage.isWelcome
-            ? `'${lastMessage.nickName}' 님이 '${room.title}' 그룹에 참여하셨습니다.`
-            : lastMessage.messageContent}
-        </S.ChatRoomLastMessage>
+        <S.ChatRoomTitle>{room.title}</S.ChatRoomTitle>
+        <S.ChatRoomLastMessage>{lastMessage}</S.ChatRoomLastMessage>
       </div>
     </S.ChatRoomCardContainer>
   );
