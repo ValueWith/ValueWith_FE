@@ -47,10 +47,6 @@ function GroupDetail() {
     }
   }, [userInfo, data, setSelectedPlace]);
 
-  useEffect(() => {
-    console.log(userStatus, '유저 상태');
-  }, [userStatus]);
-
   return (
     <>
       {isLoading && <Loader />}
