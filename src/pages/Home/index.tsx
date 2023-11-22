@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import HomeTripList from '@/components/HomeTripList';
 
 import * as S from './Home.styles';
+import theme from '@/assets/styles/theme';
 
 function Home() {
   const navigate = useNavigate();
@@ -15,10 +16,23 @@ function Home() {
           alt="배너 이미지"
         />
       </S.Banner>
+
       <S.TitleContainer>
-        <S.Title>카테고리 이름</S.Title>
+        <S.Title>
+          <span
+            className="mr-2"
+            style={{
+              color: `${theme.color.primary}`,
+              fontWeight: 'bold',
+            }}
+          >
+            NEW!
+          </span>
+          최근 등록된 여행 그룹
+        </S.Title>
+
         <S.Link onClick={() => navigate('/group')}>
-          더 많은 일정 확인하기 &gt;
+          더 많은 그룹 확인하기 &gt;
         </S.Link>
       </S.TitleContainer>
       <HomeTripList />
