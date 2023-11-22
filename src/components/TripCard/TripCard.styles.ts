@@ -122,6 +122,7 @@ export const Content = styled.p`
   word-break: break-word;
   overflow: hidden;
   display: -webkit-box;
+  line-height: 15px;
   -webkit-line-clamp: 2; // 원하는 라인수
   -webkit-box-orient: vertical;
 `;
