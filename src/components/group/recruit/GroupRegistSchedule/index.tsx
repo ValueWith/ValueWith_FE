@@ -50,6 +50,13 @@ function GroupRegistSchedule({
     setSearchTerm(term);
   };
 
+  const handleNestedSidebar = () => {
+    setIsNestedSidebar({
+      status: false,
+      type: 'search',
+    });
+  };
+
   return (
     <div
       className="relative h-full flex flex-col"
@@ -157,7 +164,11 @@ function GroupRegistSchedule({
 
       {/* 추천 / 검색 사이드바 2depth */}
       {isNestedSidebar.status === true && (
-        <NestedSidebar option={isNestedSidebar} searchTerm={searchTerm} />
+        <NestedSidebar
+          option={isNestedSidebar}
+          setOption={handleNestedSidebar}
+          searchTerm={searchTerm}
+        />
       )}
     </div>
   );

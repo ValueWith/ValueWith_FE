@@ -19,6 +19,8 @@ import Loader from '@/components/Loader';
 import NoResult from '../NoResult';
 
 import theme from '@/assets/styles/theme';
+import { MdOutlineClose } from 'react-icons/md';
+
 import * as S from './NestedSidebar.styles';
 import * as GS from '@components/group/recruit/GroupRegist.styles';
 import * as SC from '@components/group/recruit/SuggestLabel/SuggestLabel.styles';
@@ -30,10 +32,11 @@ interface NestedSidebarStatusProps {
 
 interface NestedSidebarProps {
   option: NestedSidebarStatusProps;
+  setOption: any;
   searchTerm: string;
 }
 
-function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
+function NestedSidebar({ option, setOption, searchTerm }: NestedSidebarProps) {
   const [page, setPage] = useState<number>(1);
   const [suggestionPage, setSuggestionPage] = useState<number>(1);
   const [selectedLabelIndex, setSelectedLabelIndex] = useState(0);
@@ -85,6 +88,12 @@ function NestedSidebar({ option, searchTerm }: NestedSidebarProps) {
 
   return (
     <S.NestedSidebarContainer>
+      {/* 닫기 버튼 */}
+      <S.NestedSidebarCloseButton onClick={setOption}>
+        <MdOutlineClose className="closeIcon" />
+      </S.NestedSidebarCloseButton>
+
+      {/* 검색 및 데이터 결과 */}
       <S.NestedSidebarHeading>
         {option.type === 'suggest' ? (
           <>
