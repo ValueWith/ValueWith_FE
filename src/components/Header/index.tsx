@@ -5,6 +5,8 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
 import { paramsState } from '@/recoil/paramsState';
 
+import { useUser } from '@/hooks/useUser';
+
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 
@@ -19,7 +21,6 @@ import DropdownMenu from '../DropdownMenu';
 import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
-import { useUser } from '@/hooks/useUser';
 
 interface UserInfo {
   memberId: number;
@@ -97,6 +98,22 @@ function Header() {
     });
   };
 
+  const handleLinkAction = (page: { name: string; path: string }) => {
+    if (page.name === '로그인') {
+      handleLogin();
+    }
+
+    if (page.path === '/group') {
+      handleGroup();
+    }
+
+    if (page.path === '/mylounge') {
+      if (!isLogin) return navigate('/login');
+    }
+
+    navigate(page.path);
+  };
+
   return (
     <S.HeaderContainer>
       <S.HeaderInner>
@@ -119,15 +136,7 @@ function Header() {
                     location.pathname.startsWith(page.path) ? 'active' : ''
                   }
                   onClick={() => {
-                    navigate(page.path);
-
-                    if (page.name === '로그인') {
-                      handleLogin();
-                    }
-
-                    if (page.path === '/group') {
-                      handleGroup();
-                    }
+                    handleLinkAction(page);
                   }}
                 >
                   {page.name}
