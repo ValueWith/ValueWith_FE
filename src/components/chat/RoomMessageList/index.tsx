@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { Message, postMessage } from '@/apis/chat';
+import { Message, postMessage, postWelcomeMessage } from '@/apis/chat';
 import { chatRoomState } from '@/recoil/chatRoomState';
 import { chatMessagesState } from '@/recoil/chatRoomState';
 
@@ -21,6 +21,23 @@ function RoomMessageList() {
 
   const chatMessages = useRecoilValue(chatMessagesState);
   const messageForRoom = chatMessages[roomInfo.chatRoomId] || [];
+
+  function isWelcome() {
+    if (messageForRoom) {
+      for (const message of messageForRoom) {
+        if (message.memberIdDto.memberId === userInfo.memberId) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  useEffect(() => {
+    isWelcome()
+      ? postWelcomeMessage(roomInfo.chatRoomId, userInfo.memberId)
+      : null;
+  }, [roomInfo]);
 
   useEffect(() => {
     const chatListContainer = chatListContainerRef.current;

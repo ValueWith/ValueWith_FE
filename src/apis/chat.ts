@@ -105,6 +105,10 @@ export function postMessage(roomId: number, newMessage: Message) {
   stompClient?.send(`/pub/message/${roomId}`, {}, JSON.stringify(newMessage));
 }
 
+export function postWelcomeMessage(roomId: number, memberId: number) {
+  stompClient?.send(`/pub/message/join/${roomId}/${memberId}`);
+}
+
 export async function enterRoom(roomId: number) {
   try {
     const response = await instance.post(`/api/chat/room/${roomId}`);

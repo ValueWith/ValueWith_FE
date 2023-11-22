@@ -10,23 +10,31 @@ function RoomMessageCard({ message }: RoomMessageCardProps) {
   const userInfo = getStorage && JSON.parse(getStorage);
   const userId = userInfo.memberId;
 
+  const isWelcome = message.content.includes('그룹에 참여하셨습니다.');
+
   return (
     <>
-      {userId === message.memberIdDto.memberId ? (
-        <S.MyMessageCardContainer>
-          <S.UserChatContainer>
-            <S.UserName>나</S.UserName>
-            <S.MyMessage>{message.content}</S.MyMessage>
-          </S.UserChatContainer>
-        </S.MyMessageCardContainer>
+      {isWelcome ? (
+        <S.UserWelcome>{message.content}</S.UserWelcome>
       ) : (
-        <S.OtherMessageCardContainer>
-          <S.UserProfileImg src={message.memberIdDto.memberProfileUrl} />
-          <S.UserChatContainer>
-            <S.UserName>{message.memberIdDto.memberNickname}</S.UserName>
-            <S.UserMessage>{message.content}</S.UserMessage>
-          </S.UserChatContainer>
-        </S.OtherMessageCardContainer>
+        <>
+          {userId === message.memberIdDto.memberId ? (
+            <S.MyMessageCardContainer>
+              <S.UserChatContainer>
+                <S.UserName>나</S.UserName>
+                <S.MyMessage>{message.content}</S.MyMessage>
+              </S.UserChatContainer>
+            </S.MyMessageCardContainer>
+          ) : (
+            <S.OtherMessageCardContainer>
+              <S.UserProfileImg src={message.memberIdDto.memberProfileUrl} />
+              <S.UserChatContainer>
+                <S.UserName>{message.memberIdDto.memberNickname}</S.UserName>
+                <S.UserMessage>{message.content}</S.UserMessage>
+              </S.UserChatContainer>
+            </S.OtherMessageCardContainer>
+          )}
+        </>
       )}
     </>
   );
