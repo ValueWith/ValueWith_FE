@@ -1,6 +1,10 @@
+import imageCompression from 'browser-image-compression';
+
 import {
+  editProfileRequest,
   getGroupList,
   getGroupMemberList,
+  getProfileRequest,
   memberConfirmRequest,
   memberKickRequest,
 } from '@/apis/mylounge';
@@ -119,10 +123,85 @@ export const useLounge = () => {
     }
   };
 
+  // 프로필 편집 - 정보 수정
+  const handleEditProfile = async (
+    data: any,
+    memberId: any,
+    memberEmail: any,
+    file?: File
+  ) => {
+    try {
+      setIsLoading(true);
+      const formData = new FormData();
+
+      const requestBlob = new Blob([JSON.stringify(data)], {
+        type: 'application/json',
+      });
+
+      formData.append('requestDto', requestBlob);
+
+      if (file !== undefined) {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+        };
+
+        const compressedFile = await imageCompression(file, options);
+        formData.append('file', compressedFile);
+      } else {
+        formData.append('file', '');
+      }
+
+      await editProfileRequest(memberId, formData);
+
+      const userInfo = {
+        memberId,
+        memberNickname: data.nickName,
+        memberEmail,
+        memberProfileUrl: data.memberProfileUrl,
+      };
+
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+      setModalDataState({
+        isModalOpen: true,
+        title: '프로필 편집',
+        message: '프로필 편집에 성공했습니다.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+        },
+      });
+
+      queryClient.invalidateQueries('profile');
+    } catch (error) {
+      setModalDataState({
+        isModalOpen: true,
+        title: '프로필 편집',
+        message: '프로필 편집에 실패하였습니다. 다시 시도해주세요.',
+        onConfirm: () => {
+          setModalDataState({
+            ...modalDataState,
+            isModalOpen: false,
+          });
+        },
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     handleMemberConfirm,
     handleMemberReject,
     handleMemberKick,
+    handleEditProfile,
     isLoading,
   };
+};
+
+export const useProfile = () => {
+  return useQuery('profile', getProfileRequest);
 };

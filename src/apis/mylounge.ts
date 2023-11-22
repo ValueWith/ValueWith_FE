@@ -40,3 +40,17 @@ export const memberKickRequest = (
     `/api/groups/${tripGroupId}/member/${groupMemberId}/banned`
   );
 };
+
+// 프로필 편집 - 유저 정보 조회
+export const getProfileRequest = () => {
+  return instance.get(`/api/member`);
+};
+
+// 프로필 편집 - 유저 정보 수정
+export const editProfileRequest = (memberId: any, formData: any) => {
+  return instance.put(`/api/member/${memberId}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};

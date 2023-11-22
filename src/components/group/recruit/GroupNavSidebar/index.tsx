@@ -32,6 +32,7 @@ function GroupNavSidebar({
 
   useEffect(() => {
     setTempFormData(null);
+    localStorage.removeItem('groupThumbnail');
   }, []);
 
   return (

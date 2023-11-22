@@ -8,6 +8,7 @@ import { getMarkerBackground } from '@/utils/getMarkerBackground';
 
 import { AiFillCaretRight } from 'react-icons/ai';
 import * as S from './TripPlaceCard.styles';
+import { useCallback } from 'react';
 
 interface TripPlaceCardProps extends Place {
   isLast?: boolean;
@@ -27,12 +28,13 @@ function TripPlaceCard({
 }: TripPlaceCardProps) {
   const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
 
-  const handleMapOption = () => {
+  // useCallback 함수로 반복되는 함수를 최적화
+  const handleMapOption = useCallback(() => {
     setMapOptions({
       ...mapOptions,
       center: { lat: y, lng: x },
     });
-  };
+  }, [y, x, setMapOptions]);
 
   const markerColor = getMarkerBackground(category);
   const kilometers = metersToKilometers(distance);

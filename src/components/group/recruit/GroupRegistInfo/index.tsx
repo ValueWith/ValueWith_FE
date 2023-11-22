@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useRecoilState } from 'recoil';
@@ -48,11 +48,17 @@ const DATE_ATTRIBUTES = [
 
 function GroupRegistInfo({
   onSelectedStep,
+  isEdit,
+  editGroupID,
 }: {
   onSelectedStep: (step: number) => void;
+  isEdit?: boolean;
+  editGroupID?: string;
 }) {
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [tempFormData, setTempFormData] = useRecoilState(tempFormState);
+  const [storedImgUrl, setStoredImgUrl] =
+    useState<SetStateAction<string | null | undefined>>();
 
   const {
     register,
@@ -88,6 +94,7 @@ function GroupRegistInfo({
     reset({
       groupThumbnail: null,
     });
+    setStoredImgUrl(undefined);
   };
 
   const onSubmit = async (data: GroupRegistFromModel, event?: any) => {
@@ -119,7 +126,25 @@ function GroupRegistInfo({
         places: [...setOrderPlace],
       };
 
-      await handleFormSubmit(formPreprocessData, data.groupThumbnail);
+      // 썸네일 이미지의 type이 string이면 아무 사진 없을 때와 동일하게 처리 -> 그룹 수정 시, 수정을 안했을 경우, 썸네일 이미지가 string으로 들어오기 때문
+      let thumbnail;
+      let originThumbnail;
+
+      if (typeof data.groupThumbnail === 'string') {
+        thumbnail = undefined;
+        originThumbnail = true;
+      } else {
+        thumbnail = data.groupThumbnail;
+        originThumbnail = false;
+      }
+
+      await handleFormSubmit(
+        formPreprocessData,
+        thumbnail,
+        isEdit,
+        editGroupID,
+        originThumbnail
+      );
     } catch (error) {
       console.log(error);
     }
@@ -139,14 +164,25 @@ function GroupRegistInfo({
     }
   }, [recruitmentEndDate, departureDate, errors['recruitmentEndDate']]);
 
-  // 다른 페이지 이동 시, 임시 데이터 저장
+  // 다른 페이지 이동 시, 임시 폼 데이터 저장
   useEffect(() => {
-    setTempFormData(null);
-
     return () => {
       const tempFormData = { ...watch() };
       setTempFormData(tempFormData);
     };
+  }, []);
+
+  // 그룹 정보 페이지에 접근할 때, 그룹 썸네일 이미지가 있다면 불러오기
+  useEffect(() => {
+    const changeTempThumbnail = localStorage.getItem('groupThumbnail');
+
+    if (changeTempThumbnail) {
+      setStoredImgUrl(changeTempThumbnail);
+    } else if (tempFormData?.groupThumbnail) {
+      setStoredImgUrl(tempFormData?.groupThumbnail);
+    } else {
+      setStoredImgUrl(undefined);
+    }
   }, []);
 
   return (
@@ -159,6 +195,7 @@ function GroupRegistInfo({
         control={control}
         render={({ field: { onChange } }) => (
           <FileUploader
+            storedImgUrl={storedImgUrl}
             onFileSelected={(file) => {
               onChange(file);
             }}
