@@ -42,6 +42,10 @@ export const InputContainer = styled.div`
   .registGroup & {
     margin-bottom: 10px;
   }
+
+  .chatInputForm & {
+    margin-bottom: 0;
+  }
 `;
 
 export const InputLabel = styled.label`
