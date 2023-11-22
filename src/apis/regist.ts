@@ -52,7 +52,7 @@ export const groupRegisterRequest = (data: any) => {
 
 // 그룹 수정
 export const groupEditRegisterRequest = (data: any) => {
-  return instance.put('/api/groups', data, {
+  return instance.put(import.meta.env.VITE_SERVER_URL + '/groups', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

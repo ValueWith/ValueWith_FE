@@ -11,24 +11,36 @@ import { useEffect } from 'react';
  * pending : 승인 대기중인 여행그룹
  */
 export const getGroupList = (params: GroupListParams) => {
-  return instance.get('/api/groups/list/my-list', {
-    params,
-  });
+  return instance.get(
+    import.meta.env.VITE_SERVER_URL + '/groups/list/my-list',
+    {
+      params,
+    }
+  );
 };
 
 // 멤버 조회 (그룹장)
 export const getGroupMemberList = (status: string, tripGroupId: number) => {
-  return instance.get(`/api/groups/members/${tripGroupId}?status=${status}`);
+  return instance.get(
+    import.meta.env.VITE_SERVER_URL +
+      `/groups/members/${tripGroupId}?status=${status}`
+  );
 };
 
 // 멤버 승인 (그룹장)
 export const memberConfirmRequest = (groupMemberId: number) => {
-  return instance.patch(`/api/groups/application/confirm/${groupMemberId}`);
+  return instance.patch(
+    import.meta.env.VITE_SERVER_URL +
+      `/groups/application/confirm/${groupMemberId}`
+  );
 };
 
 // 멤버 거절 (그룹장)
 export const memberRejectRequest = (groupMemberId: number) => {
-  return instance.patch(`/api/groups/application/reject/${groupMemberId}`);
+  return instance.patch(
+    import.meta.env.VITE_SERVER_URL +
+      `/groups/application/reject/${groupMemberId}`
+  );
 };
 
 // 멤버 강퇴 (그룹장)
@@ -37,20 +49,25 @@ export const memberKickRequest = (
   groupMemberId: number
 ) => {
   return instance.patch(
-    `/api/groups/${tripGroupId}/member/${groupMemberId}/banned`
+    import.meta.env.VITE_SERVER_URL +
+      `/groups/${tripGroupId}/member/${groupMemberId}/banned`
   );
 };
 
 // 프로필 편집 - 유저 정보 조회
 export const getProfileRequest = () => {
-  return instance.get(`/api/member`);
+  return instance.get(import.meta.env.VITE_SERVER_URL + `/member`);
 };
 
 // 프로필 편집 - 유저 정보 수정
 export const editProfileRequest = (memberId: any, formData: any) => {
-  return instance.put(`/api/member/${memberId}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  return instance.put(
+    import.meta.env.VITE_SERVER_URL + `/member/${memberId}`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
 };
