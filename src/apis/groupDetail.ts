@@ -11,7 +11,7 @@ export interface GroupMember {
 
 export interface Place {
   address: string;
-  category?: string;
+  category: string;
   distance?: number;
   name: string;
   orders: number;

@@ -18,7 +18,7 @@ export interface PlaceObjectModel {
   category: string;
   x: number;
   y: number;
-  place_url?: string;
+  distance?: number;
   orders?: number;
 }
 export interface SelectedPlaceModel {
