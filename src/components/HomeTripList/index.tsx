@@ -1,5 +1,6 @@
 import useGroupDataFetching from '@/hooks/useGroup';
 import TripList from '../TripList';
+import Loader from '../Loader';
 
 function HomeTripList() {
   const params = {
@@ -16,7 +17,7 @@ function HomeTripList() {
 
   return (
     <>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <Loader className='mt-[340px]' />}
       {isError && <div>Error...</div>}
       {groupData && <TripList groupData={groupData} />}
     </>

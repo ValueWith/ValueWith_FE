@@ -1,4 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+
+import { paramsState } from '@/recoil/paramsState';
 
 import HomeTripList from '@/components/HomeTripList';
 
@@ -7,6 +10,17 @@ import theme from '@/assets/styles/theme';
 
 function Home() {
   const navigate = useNavigate();
+  const setParams = useSetRecoilState(paramsState);
+
+  const handleGroup = () => {
+    setParams({
+      page: '1',
+      status: 'all',
+      area: 'all',
+      sort: 'latest',
+      title: '',
+    });
+  };
 
   return (
     <S.HomeMainContainer>
@@ -31,7 +45,12 @@ function Home() {
           최근 등록된 여행 그룹
         </S.Title>
 
-        <S.Link onClick={() => navigate('/group')}>
+        <S.Link
+          onClick={() => {
+            navigate('/group');
+            handleGroup();
+          }}
+        >
           더 많은 그룹 확인하기 &gt;
         </S.Link>
       </S.TitleContainer>
