@@ -1,6 +1,7 @@
+import { GroupListParams } from '@/apis/group';
 import { atom } from 'recoil';
 
-export const paramsState = atom({
+export const paramsState = atom<GroupListParams>({
   key: 'paramsState',
   default: {
     page: '1',

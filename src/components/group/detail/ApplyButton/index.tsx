@@ -50,6 +50,7 @@ function ApplyButton({ groupId, userStatus }: ApplyButtonProps) {
           지원취소
         </Button>
       )}
+
       {userStatus === '마감' && (
         <Button type="button" styleType="disabled" fullWidth>
           마감

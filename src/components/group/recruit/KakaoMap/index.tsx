@@ -133,7 +133,7 @@ function KakaoMap({
           <MapMarker position={mapOptions.center} />
         ) : (
           <>
-            <Loader width={30} height={30} className="z-[1]" />
+            <Loader width={50} height={50} className="z-[1]" />
           </>
         ))}
 

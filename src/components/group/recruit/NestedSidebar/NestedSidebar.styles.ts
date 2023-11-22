@@ -24,3 +24,17 @@ export const NestedSidebarHeading = styled.h2`
   padding: 0 28px;
   font-weight: 500;
 `;
+
+export const NestedSidebarCloseButton = styled.button`
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  display: block;
+  width: 30px;
+  height: 30px;
+
+  .closeIcon {
+    width: 100%;
+    height: 100%;
+  }
+`;
