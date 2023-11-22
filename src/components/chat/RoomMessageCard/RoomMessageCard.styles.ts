@@ -21,6 +21,7 @@ export const UserWelcome = styled.div`
   color: #222222;
   text-align: center;
   padding: 10px 0;
+  margin-bottom: 22px;
 `;
 
 export const UserProfileImg = styled.img`
