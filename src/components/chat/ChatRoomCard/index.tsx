@@ -27,7 +27,6 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
       : null;
 
   useEffect(() => {
-    console.log(chatMessages);
     function messageHandler(message: Message) {
       setChatMessages((prev) => ({
         ...prev,
