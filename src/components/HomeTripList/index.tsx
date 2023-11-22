@@ -13,13 +13,11 @@ function HomeTripList() {
 
   const { data, isLoading, isError } = useGroupDataFetching(params);
 
-  const groupData = data?.tripGroups?.slice(0, 8) || [];
-
   return (
     <>
       {isLoading && <Loader className='mt-[340px]' />}
       {isError && <div>Error...</div>}
-      {groupData && <TripList groupData={groupData} />}
+      {data && <TripList groupData={data.tripGroups.slice(0, 8)} />}
     </>
   );
 }
