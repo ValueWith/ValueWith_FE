@@ -91,6 +91,10 @@ function Signup() {
     await handleSignup(userData, file);
   };
 
+  const resetRegisteredData = () => {
+    setFile(undefined);
+  };
+
   return (
     <S.UserWrapper>
       {isLoading && <Loader className="z-[1]" />}
@@ -112,6 +116,7 @@ function Signup() {
       >
         {/* 프로필 이미지 */}
         <ProfileUploader
+          onFileDeleted={resetRegisteredData}
           onFileSelected={setFile}
           className={isImgUploading ? 'loading' : ''}
         />
