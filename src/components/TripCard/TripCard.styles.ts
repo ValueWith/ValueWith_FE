@@ -44,6 +44,7 @@ export const Closed = styled.div`
 export const CardTumbnail = styled.img`
   width: 100%;
   min-height: 180px;
+  max-height: 180px;
   object-fit: cover;
 
   .mylounge & {
