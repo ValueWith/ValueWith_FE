@@ -12,7 +12,7 @@ export interface GroupMember {
 export interface Place {
   address: string;
   category: string;
-  distance: number;
+  distance?: number;
   name: string;
   orders: number;
   placeCode: string;
@@ -49,7 +49,7 @@ export const fetchGroupDetail = async (
 ): Promise<GroupDetailListItem> => {
   try {
     const response = await instance.get<GroupDetailListItem>(
-      `/api/groups/list/${groupId}`
+      import.meta.env.VITE_SERVER_URL + `/groups/list/${groupId}`
     );
     return response.data;
   } catch (error) {

@@ -21,7 +21,6 @@ import { useUser } from '@/hooks/useUser';
 function GroupDetail() {
   const { groupId } = useParams();
 
-  const userInfoString = localStorage.getItem('userInfo');
   const [userStatus, setUserStatus] = useState<string>('');
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [isDetail, setIsDetail] = useState<boolean>(false);
@@ -31,33 +30,28 @@ function GroupDetail() {
     Number(groupId)
   );
 
-  const { userInfo } = useUser();
+  const { userInfo, isLogin } = useUser();
 
   useEffect(() => {
-    if (userInfoString) {
+    if (isLogin) {
       const memberEmail = userInfo.memberEmail;
 
-      // 데이터가 없을 때 에러 처리
       if (data) {
-        setUserStatus(checkApplicationStatus(data, memberEmail));
+        const status = checkApplicationStatus(data, memberEmail);
+        setUserStatus(status);
         setSelectedPlace({ selectedPlace: data.places });
         setIsDetail(true);
       } else {
         setIsDetailError(false);
       }
-
-      // 데이터는 있지만 places가 없을 때 에러 처리
-      if (!data?.places) {
-        setIsDetailError(true);
-      }
     }
-  }, [userInfoString, data, setSelectedPlace]);
+  }, [userInfo, data, setSelectedPlace]);
 
   return (
     <>
       {isLoading && <Loader />}
       {isError && <div>Error...</div>}
-      {data && (
+      {data && userInfo && (
         <S.GroupDetailContainer>
           <GroupTitle title={data.tripGroupDetail.name} />
 

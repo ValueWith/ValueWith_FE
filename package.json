@@ -13,6 +13,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@hello-pangea/dnd": "^16.3.0",
+    "@loadable/component": "^5.15.3",
     "axios": "^1.5.1",
     "browser-image-compression": "^2.0.2",
     "date-fns": "^2.30.0",
@@ -29,12 +30,13 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.17.0",
     "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "sockjs-client": "^1.6.1",
-    "stompjs": "^2.3.3",
-    "recoil-persist": "^5.1.0"
+    "stompjs": "^2.3.3"
   },
   "devDependencies": {
     "@types/json-server": "^0.14.6",
+    "@types/loadable__component": "^5.13.7",
     "@types/node": "^20.8.8",
     "@types/react": "^18.0.28",
     "@types/react-datepicker": "^4.19.1",

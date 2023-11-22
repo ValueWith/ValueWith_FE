@@ -6,6 +6,7 @@ import { paramsState } from '@/recoil/paramsState';
 import HomeTripList from '@/components/HomeTripList';
 
 import * as S from './Home.styles';
+import theme from '@/assets/styles/theme';
 
 function Home() {
   const navigate = useNavigate();
@@ -23,16 +24,34 @@ function Home() {
 
   return (
     <S.HomeMainContainer>
-      <S.Banner />
+      <S.Banner>
+        <img
+          src="https://d1udi89ozp4mef.cloudfront.net/location%2F89617668-8754-4c3b-b8ac-814a414f624e-123.png"
+          alt="배너 이미지"
+        />
+      </S.Banner>
+
       <S.TitleContainer>
-        <S.Title>카테고리 이름</S.Title>
+        <S.Title>
+          <span
+            className="mr-2"
+            style={{
+              color: `${theme.color.primary}`,
+              fontWeight: 'bold',
+            }}
+          >
+            NEW!
+          </span>
+          최근 등록된 여행 그룹
+        </S.Title>
+
         <S.Link
           onClick={() => {
             navigate('/group');
             handleGroup();
           }}
         >
-          더 많은 일정 확인하기 &gt;
+          더 많은 그룹 확인하기 &gt;
         </S.Link>
       </S.TitleContainer>
       <HomeTripList />

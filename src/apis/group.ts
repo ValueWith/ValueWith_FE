@@ -2,9 +2,9 @@ import instance from '.';
 
 export interface GroupListParams {
   page: string;
-  status: 'all' | 'open';
+  status: string; // 'all' | 'open';
   area: string;
-  sort: 'latest' | 'deadline';
+  sort: string; // 'latest' | 'deadline';
   title: string;
 }
 
@@ -39,9 +39,12 @@ export const fetchGroupList = async (
   params: GroupListParams
 ): Promise<GroupListItem> => {
   try {
-    const response = await instance.get<GroupListItem>('/api/groups/list', {
-      params: params,
-    });
+    const response = await instance.get<GroupListItem>(
+      import.meta.env.VITE_SERVER_URL + '/groups/list',
+      {
+        params: params,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error('Error Fetching data: ', error);
@@ -51,15 +54,21 @@ export const fetchGroupList = async (
 
 // 그룹 삭제
 export const deleteGroupRequest = async (tripGroupId: number) => {
-  return instance.delete(`/api/groups/${tripGroupId}`);
+  return instance.delete(
+    import.meta.env.VITE_SERVER_URL + `/groups/${tripGroupId}`
+  );
 };
 
 // 그룹 지원 취소
 export const cancelApplyRequest = async (tripGroupId: number) => {
-  return instance.delete(`/api/groups/application/${tripGroupId}`);
+  return instance.delete(
+    import.meta.env.VITE_SERVER_URL + `/groups/application/${tripGroupId}`
+  );
 };
 
 // 그룹 탈퇴
 export const leaveGroupRequest = async (tripGroupId: number) => {
-  return instance.patch(`/api/groups/${tripGroupId}/member/left`);
+  return instance.patch(
+    import.meta.env.VITE_SERVER_URL + `/groups/${tripGroupId}/member/left`
+  );
 };

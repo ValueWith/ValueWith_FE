@@ -36,8 +36,8 @@ function TripPlaceCard({
     });
   }, [y, x, setMapOptions]);
 
-  const markerColor = getMarkerBackground(category);
-  const kilometers = metersToKilometers(distance);
+  const markerColor = getMarkerBackground(category || '기타');
+  const kilometers = distance && metersToKilometers(distance);
 
   return (
     <div>
@@ -48,9 +48,11 @@ function TripPlaceCard({
         <S.TripPlaceCardInfo>
           <S.TripPlaceCardHeading>{name}</S.TripPlaceCardHeading>
           <S.TripPlaceCardDetailInfo>
-            <S.TripPlaceCardCategory>
-              {category}&nbsp;&#183;&nbsp;
-            </S.TripPlaceCardCategory>
+            {category && (
+              <S.TripPlaceCardCategory>
+                {category}&nbsp;&#183;&nbsp;
+              </S.TripPlaceCardCategory>
+            )}
             <S.TripPlaceCardAddress>{address}</S.TripPlaceCardAddress>
           </S.TripPlaceCardDetailInfo>
         </S.TripPlaceCardInfo>

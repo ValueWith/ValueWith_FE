@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { tokenRefreshRequest } from './user';
 
-const baseURL = 'http://localhost:5173';
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const instance = axios.create({
   baseURL,
@@ -18,17 +18,6 @@ instance.interceptors.request.use((config) => {
   }
   return config;
 });
-
-export const getToken = async () => {
-  try {
-    const response = await instance.post('/api/auth/refresh');
-    localStorage.setItem('accessToken', response.data.accessToken);
-
-    return response.data.accessToken;
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 instance.interceptors.response.use(
   (response) => response,
@@ -49,7 +38,7 @@ instance.interceptors.response.use(
 
         // 토큰이 재발급 되었으면 헤더에 새로운 토큰을 넣어준다
         if (accessToken) {
-          config.headers.Authorization = `${accessToken}`;
+          config.headers.Authorization = `Bearer ${accessToken}`;
 
           // 액세스 토큰과 유저 정보를 로컬 스토리지에 저장
           localStorage.setItem('accessToken', response.data.accessToken);

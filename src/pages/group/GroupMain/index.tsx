@@ -3,20 +3,25 @@ import { useRecoilState } from 'recoil';
 import { paramsState } from '@/recoil/paramsState';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import { GroupListParams } from '@/apis/group';
+import { useUser } from '@/hooks/useUser';
+
+import * as S from './GroupMain.styles';
+import { RiFilterLine, RiFilter3Fill, RiEditFill } from 'react-icons/ri';
 import Button from '@/components/Button';
 import GroupFilter from '@/components/group/list/GroupFilter';
 import GroupTripList from '@/components/group/list/GroupTripList';
 import SearchBar from '@/components/SearchBar';
-
-import { GroupListParams } from '@/apis/group';
-
-import { RiFilterLine, RiFilter3Fill, RiEditFill } from 'react-icons/ri';
-import * as S from './GroupMain.styles';
+import { modalState } from '@/recoil/modalState';
 
 function GroupMain() {
   const navigate = useNavigate();
   const [params, setParams] = useRecoilState(paramsState);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [modalDataState, setModalDataState] = useRecoilState(modalState);
+
+  const { isLogin } = useUser();
 
   const hasDiffParams = (
     params: GroupListParams,
@@ -33,9 +38,10 @@ function GroupMain() {
     if (hasDiffParams(params, searchParams)) {
       setParams({
         page: searchParams.get('page') || params.page,
-        status: searchParams.get('status') || params.status,
+        status: (searchParams.get('status') as 'all' | 'open') || params.status,
         area: searchParams.get('area') || params.area,
-        sort: searchParams.get('sort') || params.sort,
+        sort:
+          (searchParams.get('sort') as 'latest' | 'deadline') || params.sort,
         title: searchParams.get('title') || params.title,
       });
     }
@@ -51,11 +57,13 @@ function GroupMain() {
       const newSearchParams = new URLSearchParams(window.location.search);
       if (hasDiffParams(params, newSearchParams)) {
         setParams({
-          page: newSearchParams.get('page') || params.page,
-          status: newSearchParams.get('status') || params.status,
-          area: newSearchParams.get('area') || params.area,
-          sort: newSearchParams.get('sort') || params.sort,
-          title: newSearchParams.get('title') || params.title,
+          page: searchParams.get('page') || params.page,
+          status:
+            (searchParams.get('status') as 'all' | 'open') || params.status,
+          area: searchParams.get('area') || params.area,
+          sort:
+            (searchParams.get('sort') as 'latest' | 'deadline') || params.sort,
+          title: searchParams.get('title') || params.title,
         });
       }
     };
@@ -84,12 +92,12 @@ function GroupMain() {
       />
 
       {/* Filter */}
-      <S.SearchOptionContainer className='mt-[20px]'>
-        <div className='flex items-center gap-8'>
+      <S.SearchOptionContainer className="mt-[20px]">
+        <div className="flex items-center gap-8">
           <S.FilterButton>
             <div
               onClick={() => setIsClickFilter(true)}
-              className='flex items-center gap-1'
+              className="flex items-center gap-1"
             >
               필터 <RiFilterLine />
             </div>
@@ -103,7 +111,7 @@ function GroupMain() {
           <S.FilterButton>
             <div
               onClick={() => setIsClickSort(true)}
-              className='flex items-center gap-1'
+              className="flex items-center gap-1"
             >
               정렬 <RiFilter3Fill />
             </div>
@@ -117,12 +125,27 @@ function GroupMain() {
         </div>
         {/* New Post */}
         <Button
-          size='sm'
-          type='button'
-          styleType='solid'
+          size="sm"
+          type="button"
+          styleType="solid"
           style={{ fontWeight: '500' }}
-          className='gap-2'
+          className="gap-2"
           onClickHandler={() => {
+            if (!isLogin) {
+              return setModalDataState({
+                ...modalDataState,
+                isModalOpen: true,
+                title: '모집글 작성하기',
+                message: '모집글 작성을 위해 로그인이 필요합니다.',
+                onConfirm: () => {
+                  setModalDataState({
+                    ...modalDataState,
+                    isModalOpen: false,
+                  });
+                  navigate('/login');
+                },
+              });
+            }
             navigate('/group/recruit');
           }}
         >

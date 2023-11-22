@@ -35,12 +35,15 @@ export const getSuggestionData = async ({
 
 // 추천 경로
 export const recommendRouteRequest = (data: any) => {
-  return instance.post('/api/recommend/route', data);
+  return instance.post(
+    import.meta.env.VITE_SERVER_URL + '/recommend/route',
+    data
+  );
 };
 
 // 그룹 등록
 export const groupRegisterRequest = (data: any) => {
-  return instance.post('/api/groups', data, {
+  return instance.post(import.meta.env.VITE_SERVER_URL + '/groups', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -49,7 +52,7 @@ export const groupRegisterRequest = (data: any) => {
 
 // 그룹 수정
 export const groupEditRegisterRequest = (data: any) => {
-  return instance.put('/api/groups', data, {
+  return instance.put(import.meta.env.VITE_SERVER_URL + '/groups', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

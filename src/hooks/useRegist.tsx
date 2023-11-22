@@ -128,9 +128,15 @@ export const useRegistGroup = () => {
       if (isEdit) {
         data.tripGroupId = editGroupID;
 
-        originThumbnail
-          ? formData.append('isDeletedFile', String(false))
-          : formData.append('isDeletedFile', String(true));
+        const thumbnailBlob = new Blob([JSON.stringify(originThumbnail)], {
+          type: 'application/json',
+        });
+
+        if (originThumbnail) {
+          formData.append('isDeletedFile', thumbnailBlob);
+        } else {
+          formData.append('isDeletedFile', thumbnailBlob);
+        }
       }
 
       const requestBlob = new Blob([JSON.stringify(data)], {
@@ -151,9 +157,11 @@ export const useRegistGroup = () => {
         formData.append('file', '');
       }
 
-      isEdit
-        ? await groupEditRegisterRequest(formData)
-        : await groupRegisterRequest(formData);
+      if (isEdit) {
+        await groupEditRegisterRequest(formData);
+      } else {
+        await groupRegisterRequest(formData);
+      }
 
       setModalDataState({
         ...modalDataState,
