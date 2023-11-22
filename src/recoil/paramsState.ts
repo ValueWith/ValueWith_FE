@@ -1,6 +1,14 @@
 import { atom } from 'recoil';
 
-export const paramsState = atom({
+export interface ParamsModel {
+  page: string;
+  status: 'all' | 'open';
+  area: string;
+  sort: 'latest' | 'deadline';
+  title: string;
+}
+
+export const paramsState = atom<ParamsModel>({
   key: 'paramsState',
   default: {
     page: '1',
