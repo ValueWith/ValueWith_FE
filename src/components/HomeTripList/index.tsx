@@ -17,7 +17,7 @@ function HomeTripList() {
 
   return (
     <>
-      {isLoading && <Loader />}
+      {isLoading && <Loader className='mt-[340px]' />}
       {isError && <div>Error...</div>}
       {groupData && <TripList groupData={groupData} />}
     </>
