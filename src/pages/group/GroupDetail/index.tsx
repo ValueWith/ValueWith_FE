@@ -45,11 +45,6 @@ function GroupDetail() {
       } else {
         setIsDetailError(false);
       }
-
-      // 데이터는 있지만 places가 없을 때 에러 처리
-      if (!data?.places) {
-        setIsDetailError(true);
-      }
     }
   }, [userInfoString, data, setSelectedPlace]);
 
