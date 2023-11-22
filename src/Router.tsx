@@ -1,18 +1,27 @@
-import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import Error from './pages/user/Error';
+import loadable from '@loadable/component';
 
-const Signup = lazy(() => import('./pages/user/Signup'));
-const Login = lazy(() => import('./pages/user/Login'));
-const Home = lazy(() => import('./pages/Home'));
-const GroupMain = lazy(() => import('./pages/group/GroupMain'));
-const GroupRecruit = lazy(() => import('./pages/group/GroupRecruit'));
-const GroupManagement = lazy(() => import('./pages/mylounge/GroupManagement'));
-const EditProfile = lazy(() => import('./pages/mylounge/EditProfile'));
-const GroupDetail = lazy(() => import('./pages/group/GroupDetail'));
-const GroupEdit = lazy(() => import('./pages/group/GroupEdit'));
-const Chat = lazy(() => import('./pages/chat'));
+const Signup = loadable(() => import('./pages/user/Signup/index.tsx'));
+const Login = loadable(() => import('./pages/user/Login/index.tsx'));
+const Home = loadable(() => import('./pages/Home/index.tsx'));
+const GroupMain = loadable(() => import('./pages/group/GroupMain/index.tsx'));
+const GroupRecruit = loadable(
+  () => import('./pages/group/GroupRecruit/index.tsx')
+);
+const GroupEdit = loadable(() => import('./pages/group/GroupEdit'));
+const GroupManagement = loadable(
+  () => import('./pages/mylounge/GroupManagement/index.tsx')
+);
+
+const EditProfile = loadable(
+  () => import('./pages/mylounge/EditProfile/index.tsx')
+);
+const GroupDetail = loadable(
+  () => import('./pages/group/GroupDetail/index.tsx')
+);
+const Chat = loadable(() => import('./pages/chat/index.tsx'));
 
 export {
   Signup,

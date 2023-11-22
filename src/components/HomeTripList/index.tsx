@@ -12,7 +12,7 @@ function HomeTripList() {
 
   const { data, isLoading, isError } = useGroupDataFetching(params);
 
-  const groupData = data?.tripGroups.slice(0, 8);
+  const groupData = data?.tripGroups?.slice(0, 8) || [];
 
   return (
     <>

@@ -10,10 +10,13 @@ export const HomeMainContainer = styled.div`
 
 export const Banner = styled.div`
   width: 100%;
-  height: 313px;
   border-radius: 4px;
-  background-color: #3e837e;
-  background-image: url('/images/banner.png')
+  height: 313px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 export const TitleContainer = styled.div`
