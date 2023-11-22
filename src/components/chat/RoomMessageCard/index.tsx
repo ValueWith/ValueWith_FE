@@ -6,34 +6,27 @@ interface RoomMessageCardProps {
 }
 
 function RoomMessageCard({ message }: RoomMessageCardProps) {
-  // userId 가 현재 user와 동일한지 식별하기 위한 임시 변수
-  const currentUserId = 'userId1';
+  const getStorage = localStorage.getItem('userInfo');
+  const userInfo = getStorage && JSON.parse(getStorage);
+  const userId = userInfo.memberId;
 
   return (
     <>
-      {message.isWelcome ? (
-        <S.UserWelcome>
-          '{message.nickName}' 님이 그룹에 참여하셨습니다.
-        </S.UserWelcome>
+      {userId === message.memberIdDto.memberId ? (
+        <S.MyMessageCardContainer>
+          <S.UserChatContainer>
+            <S.UserName>나</S.UserName>
+            <S.MyMessage>{message.content}</S.MyMessage>
+          </S.UserChatContainer>
+        </S.MyMessageCardContainer>
       ) : (
-        <>
-          {currentUserId === message.userId ? (
-            <S.MyMessageCardContainer>
-              <S.UserChatContainer>
-                <S.UserName>나</S.UserName>
-                <S.MyMessage>{message.messageContent}</S.MyMessage>
-              </S.UserChatContainer>
-            </S.MyMessageCardContainer>
-          ) : (
-            <S.OtherMessageCardContainer>
-              <S.UserProfileImg src={message.profileUrl} />
-              <S.UserChatContainer>
-                <S.UserName>{message.nickName}</S.UserName>
-                <S.UserMessage>{message.messageContent}</S.UserMessage>
-              </S.UserChatContainer>
-            </S.OtherMessageCardContainer>
-          )}
-        </>
+        <S.OtherMessageCardContainer>
+          <S.UserProfileImg src={message.memberIdDto.memberProfileUrl} />
+          <S.UserChatContainer>
+            <S.UserName>{message.memberIdDto.memberNickname}</S.UserName>
+            <S.UserMessage>{message.content}</S.UserMessage>
+          </S.UserChatContainer>
+        </S.OtherMessageCardContainer>
       )}
     </>
   );
