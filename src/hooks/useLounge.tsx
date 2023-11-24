@@ -45,6 +45,7 @@ export const useLounge = () => {
       console.log(response);
 
       queryClient.invalidateQueries(['groupMemberList', 'pending']);
+      queryClient.invalidateQueries(['myLoungeData', { status: 'leader' }]);
     } catch (error) {
       setModalDataState({
         isModalOpen: true,
@@ -72,6 +73,7 @@ export const useLounge = () => {
       console.log(response);
 
       queryClient.invalidateQueries(['groupMemberList', 'pending']);
+      queryClient.invalidateQueries(['myLoungeData', { status: 'leader' }]);
     } catch (error) {
       setModalDataState({
         isModalOpen: true,
@@ -106,6 +108,7 @@ export const useLounge = () => {
         'approved',
         tripGroupId,
       ]);
+      queryClient.invalidateQueries(['myLoungeData', { status: 'leader' }]);
     } catch (error) {
       setModalDataState({
         isModalOpen: true,

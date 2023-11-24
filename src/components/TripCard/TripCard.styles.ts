@@ -44,6 +44,7 @@ export const Closed = styled.div`
 export const CardTumbnail = styled.img`
   width: 100%;
   min-height: 180px;
+  max-height: 180px;
   object-fit: cover;
 
   .mylounge & {
@@ -121,6 +122,7 @@ export const Content = styled.p`
   word-break: break-word;
   overflow: hidden;
   display: -webkit-box;
+  line-height: 15px;
   -webkit-line-clamp: 2; // 원하는 라인수
   -webkit-box-orient: vertical;
 `;

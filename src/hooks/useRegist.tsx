@@ -128,7 +128,9 @@ export const useRegistGroup = () => {
       if (isEdit) {
         data.tripGroupId = editGroupID;
 
-        const thumbnailBlob = new Blob([JSON.stringify(originThumbnail)], {
+        const isDeletedFile = originThumbnail ? true : false;
+
+        const thumbnailBlob = new Blob([JSON.stringify(isDeletedFile)], {
           type: 'application/json',
         });
 
@@ -163,7 +165,10 @@ export const useRegistGroup = () => {
         await groupRegisterRequest(formData);
       }
 
-      setModalDataState({
+      setTempFormData({});
+      localStorage.removeItem('groupThumbnail');
+
+      return setModalDataState({
         ...modalDataState,
         isModalOpen: true,
         title: `여행 그룹 ${isEdit ? '수정' : '등록'} 완료`,
@@ -177,9 +182,6 @@ export const useRegistGroup = () => {
           navigate('/group');
         },
       });
-
-      setTempFormData({});
-      localStorage.removeItem('groupThumbnail');
 
       // 알럿 띄우기
     } catch (error) {
