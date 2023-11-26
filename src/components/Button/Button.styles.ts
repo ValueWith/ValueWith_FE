@@ -73,6 +73,14 @@ const handleButtonType = (props: ButtonCSSProps) => {
         height: auto;
         padding: 0;
         color: ${theme.color.primary};
+        ${props.isHover
+          ? `
+                &:hover {
+                  text-decoration: underline;
+                  text-underline-position: under;
+              }
+          `
+          : ''}
       `;
     case 'basic':
       return css`

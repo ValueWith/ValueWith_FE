@@ -11,6 +11,7 @@ export interface ButtonCSSProps {
     | 'warning'
     | 'text'; // 버튼 디자인 타입, default: solid
   fullWidth?: boolean; // 버튼 가로 너비 100%, default: false
+  isHover?: boolean; // 버튼 hover 효과, default: false
 }
 
 interface ButtonProps extends ButtonCSSProps {
@@ -31,6 +32,7 @@ function Button({
   type = 'submit',
   size = 'md',
   styleType = 'solid',
+  isHover = false,
   fullWidth = false,
   onClickHandler,
 }: ButtonProps) {
@@ -41,6 +43,7 @@ function Button({
       styleType={styleType}
       fullWidth={fullWidth}
       className={className}
+      isHover={isHover}
       style={{
         ...style,
       }}

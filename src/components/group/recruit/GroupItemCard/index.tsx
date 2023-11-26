@@ -141,6 +141,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
             type="button"
             styleType="text"
             style={{ minWidth: 'auto', padding: '14px 0' }}
+            isHover={true}
             onClickHandler={() => handleRegistrationCard(event, item)}
           >
             추가
