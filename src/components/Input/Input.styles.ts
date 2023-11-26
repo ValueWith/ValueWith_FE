@@ -72,7 +72,7 @@ export const Input = styled.input<InputCSSProps>`
 
 export const Textarea = styled.textarea`
   ${commonInputStyle}
-  padding: 10px;
+  padding: 16px;
   min-height: 158px;
   resize: none;
   overflow-y: scroll;
