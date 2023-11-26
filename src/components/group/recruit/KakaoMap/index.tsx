@@ -60,6 +60,7 @@ function KakaoMap({
           (error) => {
             setMapOptions({
               ...mapOptions,
+              center: { lat: 37.577613288258206, lng: 126.97689786832184 },
             });
           },
           {
@@ -80,7 +81,7 @@ function KakaoMap({
         });
       }
     }
-  }, [isDetail]);
+  }, [location, isDetail, isError]);
 
   return (
     <Map
@@ -130,20 +131,12 @@ function KakaoMap({
 
       {shouldRenderMapMarker &&
         (mapOptions.center.lat !== 0 && mapOptions.center.lng !== 0 ? (
-          <MapMarker position={mapOptions.center} />
+          <MapMarker position={mapOptions.center}></MapMarker>
         ) : (
           <>
             <Loader width={50} height={50} className="z-[1]" />
           </>
         ))}
-
-      {isError && (
-        <MapMarker position={mapOptions.center}>
-          <div style={{ padding: '5px', color: '#000' }}>
-            {'위치를 불러오지 못했습니다.'}
-          </div>
-        </MapMarker>
-      )}
     </Map>
   );
 }
