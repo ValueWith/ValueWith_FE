@@ -7,7 +7,7 @@ import {
   STATUS_OPTIONS,
 } from '@/constants/filterOption';
 
-import RadioGroup from '@components/RadioGroup';
+import RadioGroup from '@/components/common/RadioGroup';
 
 import * as S from './GroupFilter.styles';
 
@@ -47,14 +47,14 @@ function GroupFilter({ option, onClose }: GroupFilterProps) {
             <RadioGroup
               options={STATUS_OPTIONS}
               selectedValue={params.status}
-              styleType='radio'
+              styleType="radio"
               onChange={handleStatusChange}
             />
             <S.FilterTitle>지역</S.FilterTitle>
             <RadioGroup
               options={AREA_OPTIONS}
               selectedValue={params.area}
-              styleType='card'
+              styleType="card"
               onChange={handleAreaChange}
             />
           </>
@@ -65,7 +65,7 @@ function GroupFilter({ option, onClose }: GroupFilterProps) {
             <RadioGroup
               options={SORT_OPTIONS}
               selectedValue={params.sort}
-              styleType='radio'
+              styleType="radio"
               onChange={handleSortingChange}
             />
           </>

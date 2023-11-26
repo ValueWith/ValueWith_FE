@@ -1,10 +1,10 @@
 import { CSSProperties, useEffect, useState } from 'react';
 import * as S from './GroupUserInfo.styles';
-import Button from '../Button';
+import Button from '../common/Button';
 import theme from '@/assets/styles/theme';
 import { conversionGender } from '@/utils/conversionGender';
 import { useLounge } from '@/hooks/useLounge';
-import Loader from '../Loader';
+import Loader from '../common/Loader';
 
 interface GroupUserInfoProps {
   type?: string; // approved | pending
