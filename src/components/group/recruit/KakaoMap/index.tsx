@@ -70,7 +70,9 @@ function KakaoMap({
           }
         );
       }
-    } else if (!isRecruit) {
+    }
+
+    if (isDetail) {
       if (selectedPlaceData.selectedPlace.length > 0) {
         setMapOptions({
           ...mapOptions,
