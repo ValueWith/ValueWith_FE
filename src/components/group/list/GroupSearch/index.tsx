@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import Input from '@components/Input';
+import Input from '@/components/common/Input';
 
 import { BsSearch } from 'react-icons/bs';
 import * as S from './GroupSearch.styles';
@@ -25,15 +25,15 @@ function GroupSearch() {
 
   return (
     <S.GroupSearchContainer>
-      <form className='relative' onSubmit={handleSubmit}>
+      <form className="relative" onSubmit={handleSubmit}>
         <Input
           inputType={'input'}
-          name='searchGroup'
-          placeholder='검색어를 입력하세요'
+          name="searchGroup"
+          placeholder="검색어를 입력하세요"
           defaultValue={params.title}
           ref={inputRef}
         />
-        <S.SearchButton type='button' onClick={handleSearch}>
+        <S.SearchButton type="button" onClick={handleSearch}>
           <BsSearch />
         </S.SearchButton>
       </form>

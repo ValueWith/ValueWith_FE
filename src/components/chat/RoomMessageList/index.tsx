@@ -8,10 +8,10 @@ import {
   removeOnMessageListener,
 } from '@/apis/chat';
 
-import Input from '@/components/Input';
-import Button from '@/components/Button';
+import Input from '@/components/common/Input';
+import Button from '@/components/common/Button';
 import useGetMessages from '@/hooks/useChat';
-import Loader from '@/components/Loader';
+import Loader from '@/components/common/Loader';
 import RoomMessageCard from '../RoomMessageCard';
 
 import * as S from './RoomMessageList.styles';

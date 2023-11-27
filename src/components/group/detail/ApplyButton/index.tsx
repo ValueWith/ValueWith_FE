@@ -1,5 +1,5 @@
-import Button from '@/components/Button';
-import Loader from '@/components/Loader';
+import Button from '@/components/common/Button';
+import Loader from '@/components/common/Loader';
 import { useGroupDetail } from '@/hooks/useGroup';
 
 export interface ApplyButtonProps {

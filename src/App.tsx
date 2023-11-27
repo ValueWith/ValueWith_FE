@@ -5,9 +5,9 @@ import { useRecoilValue } from 'recoil';
 import { modalState } from './recoil/modalState';
 
 import MainTemplate from '@components/template/MainTemplate.tsx';
-import Header from '@components/Header/index.tsx';
-import Footer from '@components/Footer/index.tsx';
-import Loader from '@components/Loader';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
+import Loader from '@/components/common/Loader';
 import ConfirmModal from './components/modal/Confirm';
 import AlertModal from './components/modal/Alert';
 

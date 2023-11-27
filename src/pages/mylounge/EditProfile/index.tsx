@@ -1,10 +1,10 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { SetStateAction, useEffect, useState } from 'react';
-import ProfileUploader from '@/components/uploader/ProfileUploader';
-import Input from '@/components/Input';
-import Button from '@/components/Button';
-import Dropdown from '@/components/Dropdown';
+import ProfileUploader from '@/components/common/uploader/ProfileUploader';
+import Input from '@/components/common/Input';
+import Button from '@/components/common/Button';
+import Dropdown from '@/components/common/Dropdown';
 
 import * as S from './EditProfile.styles';
 import * as US from '@pages/user/User.styles';
