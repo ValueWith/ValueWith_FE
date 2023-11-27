@@ -128,7 +128,7 @@ export const useRegistGroup = () => {
       if (isEdit) {
         data.tripGroupId = editGroupID;
 
-        const isDeletedFile = originThumbnail ? true : false;
+        const isDeletedFile = originThumbnail ? false : true;
 
         const thumbnailBlob = new Blob([JSON.stringify(isDeletedFile)], {
           type: 'application/json',
