@@ -66,7 +66,15 @@ function SearchBar({
         onKeyDown={handleSearch}
       >
         <button type="button" className="searchIcon" onClick={handleSearch}>
-          <RiSearchLine style={{ width: '40px', height: '40px' }} />
+          <RiSearchLine
+            style={{
+              width: '36px',
+              height: '36px',
+              color: `${
+                location.pathname === `/group/recruit` ? `#222` : `#777`
+              }`,
+            }}
+          />
         </button>
       </Input>
     </S.SearchBarContainer>

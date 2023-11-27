@@ -3,6 +3,14 @@ import theme from '@assets/styles/theme';
 
 export const UserWrapper = styled.div`
   padding-top: 156px;
+
+  @media (max-width: 1024px) {
+    padding-top: 120px;
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 80px;
+  }
 `;
 
 export const UserHeader = styled.div`
