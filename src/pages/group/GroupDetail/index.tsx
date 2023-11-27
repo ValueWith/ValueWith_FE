@@ -5,7 +5,7 @@ import { useGroupDetailDataFetching } from '@/hooks/useGroup';
 
 import GroupTitle from '@/components/group/detail/GroupTitle';
 import GroupMemberStatus from '@/components/group/detail/GroupMemberStatus';
-import Loader from '@/components/Loader';
+import Loader from '@/components/common/Loader';
 import TripTitle from '@/components/group/detail/TripTitle';
 import TripPlaceList from '@/components/group/detail/TripPlaceList';
 

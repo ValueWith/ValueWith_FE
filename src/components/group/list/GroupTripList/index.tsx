@@ -3,10 +3,10 @@ import ReactPaginate from 'react-paginate';
 
 import useGroupDataFetching from '@/hooks/useGroup';
 import { paramsState } from '@/recoil/paramsState';
-import TripList from '@components/TripList';
+import TripList from '@/components/group/card/TripList';
 
 import * as S from './GroupTripList.styles';
-import Loader from '@components/Loader';
+import Loader from '@/components/common/Loader';
 
 interface PageChangeCallback {
   selected: number;

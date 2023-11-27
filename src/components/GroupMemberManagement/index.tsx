@@ -2,14 +2,14 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGroupMemberList } from '@/hooks/useLounge';
 
-import Button from '../Button';
-import DropdownMenu from '../DropdownMenu';
+import Button from '../common/Button';
+import DropdownMenu from '../common/DropdownMenu';
 
 import * as S from './GroupMemberManagement.styles';
 import { IoArrowForward } from 'react-icons/io5';
 import { IoIosArrowDown } from 'react-icons/io';
 import { useGroup } from '@/hooks/useGroup';
-import Loader from '../Loader';
+import Loader from '../common/Loader';
 
 interface GroupMemberManagementProps {
   tripGroupId: number;

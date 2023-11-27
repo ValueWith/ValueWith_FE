@@ -4,12 +4,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import useAuth from '@/hooks/useAuth';
 
 import * as S from '../User.styles';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import theme from '@/assets/styles/theme';
-import Input from '@/components/Input';
+import Input from '@/components/common/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
-import ErrorMessage from '@/components/Message/ErrorMessage';
-import Loader from '@/components/Loader';
+import ErrorMessage from '@/components/common/Message/ErrorMessage';
+import Loader from '@/components/common/Loader';
 
 interface SignupFormProps {
   nickname: string;

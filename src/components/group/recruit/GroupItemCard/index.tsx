@@ -7,7 +7,7 @@ import { findLabelByCode } from '@/utils/findCodeByLabel';
 import { CATEGORY_OPTION } from '@/constants/area';
 
 import { RiFlag2Line, RiFlag2Fill, RiDraggable } from 'react-icons/ri';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
 import { modalState } from '@/recoil/modalState';

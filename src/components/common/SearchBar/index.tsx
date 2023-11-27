@@ -51,10 +51,10 @@ function SearchBar({
   return (
     <S.SearchBarContainer>
       <Input
-        inputType='input'
-        name='registSearch'
-        className='registSearch'
-        placeholder='검색어를 입력해주세요'
+        inputType="input"
+        name="registSearch"
+        className="registSearch"
+        placeholder="검색어를 입력해주세요"
         style={{
           height: '53px',
           paddingRight: '60px',
@@ -65,7 +65,7 @@ function SearchBar({
         onChange={handleSearchValue}
         onKeyDown={handleSearch}
       >
-        <button type='button' className='searchIcon' onClick={handleSearch}>
+        <button type="button" className="searchIcon" onClick={handleSearch}>
           <RiSearchLine style={{ width: '40px', height: '40px' }} />
         </button>
       </Input>
