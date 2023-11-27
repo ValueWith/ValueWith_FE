@@ -16,6 +16,7 @@ import { AiOutlineBell } from 'react-icons/ai';
 
 import Button from '../Button';
 import DropdownMenu from '../DropdownMenu';
+import AlarmModal from '../alarm/AlarmModal';
 
 // styles
 import * as S from './Header.styles';
@@ -35,6 +36,7 @@ function Header() {
 
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
+  const [isAlarmModal, setIsAlarmModal] = useState<boolean>(false);
 
   const setParams = useSetRecoilState(paramsState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
@@ -127,7 +129,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className="list">
+          <ul className='list'>
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -156,11 +158,17 @@ function Header() {
               </S.UserActionItem>
 
               {/* 알림 */}
-              <S.UserActionItem>
-                <AiOutlineBell size={24} />
+              <S.UserActionItem className='relative'>
+                <AiOutlineBell
+                  size={24}
+                  onClick={() => setIsAlarmModal(true)}
+                />
+                {isAlarmModal && (
+                  <AlarmModal onClose={() => setIsAlarmModal(false)} />
+                )}
               </S.UserActionItem>
 
-              <S.UserActionItem className="userProfile">
+              <S.UserActionItem className='userProfile'>
                 <DropdownMenu
                   options={[
                     {
@@ -181,7 +189,7 @@ function Header() {
                     {userInfo?.memberProfileUrl && (
                       <S.ProfileImage
                         src={userInfo.memberProfileUrl}
-                        alt="프로필 사진"
+                        alt='프로필 사진'
                       />
                     )}
                     {userInfo?.memberNickname && (
@@ -198,8 +206,8 @@ function Header() {
             </S.UserActions>
           ) : (
             <Button
-              type="button"
-              styleType="basic"
+              type='button'
+              styleType='basic'
               onClickHandler={handleLogin}
             >
               로그인
