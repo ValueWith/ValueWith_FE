@@ -15,8 +15,8 @@ function GroupTitle({ title }: GroupTitleProps) {
   };
 
   return (
-    <S.GroupTitleContainer>
-      <S.PreviousButton onClick={handleClickPrevios}>
+    <S.GroupTitleContainer onClick={handleClickPrevios}>
+      <S.PreviousButton>
         <FaChevronLeft />
       </S.PreviousButton>
       <S.GroupTitle>{title}</S.GroupTitle>
