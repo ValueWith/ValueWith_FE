@@ -15,7 +15,7 @@ export const AlarmCardContentContainer = styled.div`
   gap: 5px;
 `;
 
-export const AlarmCardGroupName = styled.p`
+export const AlarmCardGroupName = styled.span`
   font-size: 14px;
   color: #222222;
   font-weight: 600;
@@ -24,7 +24,6 @@ export const AlarmCardGroupName = styled.p`
 export const AlarmCardContent = styled.div`
   font-size: 14px;
   color: #222222;
-  display: flex;
   align-items: center;
 `;
 

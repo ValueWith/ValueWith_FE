@@ -23,6 +23,7 @@ export const AlarmModalContainer = styled.div`
   border-radius: 4px;
   cursor: default;
   z-index: 2;
+  overflow-y: scroll;
 `;
 
 export const AlarmModalTitleContainer = styled.div`
