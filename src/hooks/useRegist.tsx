@@ -171,6 +171,8 @@ export const useRegistGroup = () => {
       return setModalDataState({
         ...modalDataState,
         isModalOpen: true,
+        confirmType: 'confirm',
+        confirmText: '확인',
         title: `여행 그룹 ${isEdit ? '수정' : '등록'} 완료`,
         message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 완료되었습니다.`,
         onConfirm: () => {
@@ -189,6 +191,7 @@ export const useRegistGroup = () => {
         ...modalDataState,
         isModalOpen: true,
         confirmType: 'warning',
+        confirmText: '확인',
         title: `여행 그룹 ${isEdit ? '수정' : '등록'} 실패`,
         message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 실패했습니다`,
         onConfirm: () => {
