@@ -2,8 +2,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { Message, postMessage, postWelcomeMessage } from '@/apis/chat';
-import { chatRoomState } from '@/recoil/chatRoomState';
-import { chatMessagesState } from '@/recoil/chatRoomState';
+import { chatRoomIdState, roomInfoMapState } from '@/recoil/chatRoomState';
 
 import Input from '@/components/Input';
 import Button from '@/components/Button';
@@ -13,14 +12,15 @@ import * as S from './RoomMessageList.styles';
 
 function RoomMessageList() {
   const [inputValue, setInputValue] = useState('');
-  const roomInfo = useRecoilValue(chatRoomState);
   const chatListContainerRef = useRef<HTMLDivElement>(null);
 
   const storedData = localStorage.getItem('userInfo');
   const userInfo = storedData && JSON.parse(storedData);
 
-  const chatMessages = useRecoilValue(chatMessagesState);
-  const messageForRoom = chatMessages[roomInfo.chatRoomId] || [];
+  const roomId = useRecoilValue(chatRoomIdState);
+  const roomInfo = useRecoilValue(roomInfoMapState);
+
+  const messageForRoom = (roomInfo[roomId] && roomInfo[roomId].messages) || [];
 
   function isWelcome() {
     if (messageForRoom) {
@@ -30,13 +30,11 @@ function RoomMessageList() {
         }
       }
     }
-    return true;
+    return false;
   }
 
   useEffect(() => {
-    isWelcome()
-      ? postWelcomeMessage(roomInfo.chatRoomId, userInfo.memberId)
-      : null;
+    isWelcome() ? postWelcomeMessage(roomId, userInfo.memberId) : null;
   }, [roomInfo]);
 
   useEffect(() => {
@@ -46,7 +44,7 @@ function RoomMessageList() {
       // 스크롤을 항상 아래에 유지
       chatListContainer.scrollTop = chatListContainer.scrollHeight;
     }
-  }, [chatMessages]);
+  }, [roomId, roomInfo]);
 
   const handleSubmitMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,12 +59,12 @@ function RoomMessageList() {
           memberProfileUrl: userInfo.memberProfileUrl,
         },
       };
-      postMessage(roomInfo.chatRoomId, newMessage);
+      postMessage(roomId, newMessage);
       setInputValue('');
     }
   };
 
-  if (roomInfo.chatRoomId === 0) {
+  if (roomId === 0) {
     return <S.RoomMessageListContainer />;
   }
 

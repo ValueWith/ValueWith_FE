@@ -1,23 +1,36 @@
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
+import { RoomInfoMap, roomInfoMapState } from '@/recoil/chatRoomState';
 import { RoomInfo, requestSocketSession } from '@/apis/chat';
 
 import ChatRoomList from '@/components/chat/ChatRoomList';
 import RoomMessageList from '@/components/chat/RoomMessageList';
-
-import * as S from './Chat.styles';
 import Loader from '@/components/Loader';
 
+import * as S from './Chat.styles';
+
+function convertToMap(roomInfos: RoomInfo[]): RoomInfoMap {
+  const roomInfoMap: RoomInfoMap = {};
+
+  roomInfos.forEach((roomInfo) => {
+    roomInfoMap[roomInfo.chatRoomId] = roomInfo;
+  });
+
+  return roomInfoMap;
+}
+
 function Chat() {
-  const [rooms, setRooms] = useState<RoomInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [rooms, setRooms] = useRecoilState(roomInfoMapState);
 
   useEffect(() => {
     const closeSession = requestSocketSession((rooms) => {
-      setRooms(rooms);
+      setRooms(convertToMap(rooms));
       setIsLoading(false);
     });
-    return closeSession();
+    return () => closeSession();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

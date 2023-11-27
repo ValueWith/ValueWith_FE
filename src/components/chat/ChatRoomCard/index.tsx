@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import {
   Message,
@@ -7,8 +7,7 @@ import {
   addOnMessageListener,
   removeOnMessageListener,
 } from '@/apis/chat';
-import { chatRoomState } from '@/recoil/chatRoomState';
-import { chatMessagesState } from '@/recoil/chatRoomState';
+import { chatRoomIdState, roomInfoMapState } from '@/recoil/chatRoomState';
 
 import * as S from './ChatRoomCard.styles';
 
@@ -17,20 +16,26 @@ interface ChatRoomCardProps {
 }
 
 function ChatRoomCard({ room }: ChatRoomCardProps) {
-  const [roomInfo, setRoomInfo] = useRecoilState(chatRoomState);
-  const [chatMessages, setChatMessages] = useRecoilState(chatMessagesState);
+  const setRoom = useSetRecoilState(roomInfoMapState);
+
+  const [roomId, setRoomId] = useRecoilState(chatRoomIdState);
 
   const lastMessage =
-    chatMessages[room.chatRoomId] && chatMessages[room.chatRoomId].length > 0
-      ? chatMessages[room.chatRoomId][chatMessages[room.chatRoomId].length - 1]
-          .content
-      : null;
+    room.messages.length > 0
+      ? room.messages[room.messages.length - 1].content
+      : '';
 
   useEffect(() => {
     function messageHandler(message: Message) {
-      setChatMessages((prev) => ({
-        ...prev,
-        [room.chatRoomId]: [...(prev[room.chatRoomId] || []), message],
+      setRoom((prevRoomInfoMap) => ({
+        ...prevRoomInfoMap,
+        [room.chatRoomId]: {
+          ...prevRoomInfoMap[room.chatRoomId],
+          messages: [
+            ...(prevRoomInfoMap[room.chatRoomId]?.messages || []),
+            message,
+          ],
+        },
       }));
     }
 
@@ -40,13 +45,11 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
   }, [room]);
 
   const handleClickRoom = () => {
-    setRoomInfo(room);
-    // enterRoom(room.chatRoomId);
-    // -> 오류메세지: 해당 그룹원이 아닙니다
+    setRoomId(room.chatRoomId);
   };
 
   const cardStyleType = () => {
-    if (roomInfo.chatRoomId === room.chatRoomId) {
+    if (roomId === room.chatRoomId) {
       return '#fafafa';
     } else return '';
   };
