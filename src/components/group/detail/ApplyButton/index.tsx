@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import Button from '@/components/common/Button';
 import Loader from '@/components/common/Loader';
 import { useGroup } from '@/hooks/useGroup';
@@ -9,11 +11,35 @@ export interface ApplyButtonProps {
 
 function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
   const { handleModalAction, isLoading } = useGroup();
+  const navigate = useNavigate();
 
   return (
     <div className='relative'>
       {isLoading && (
         <Loader className='z-[1]' width={30} height={30} bgColor='white' />
+      )}
+
+      {userStatus === 'leader' && (
+        <div className='flex gap-3'>
+          <Button
+            type='button'
+            styleType='solid'
+            style={isLoading ? { pointerEvents: 'none' } : {}}
+            fullWidth
+            onClickHandler={() => navigate(`/group/edit/${tripGroupId}`)}
+          >
+            수정
+          </Button>
+          <Button
+            type='button'
+            styleType='warning'
+            style={isLoading ? { pointerEvents: 'none' } : {}}
+            fullWidth
+            onClickHandler={() => handleModalAction(tripGroupId, 'leader')}
+          >
+            삭제
+          </Button>
+        </div>
       )}
 
       {userStatus === 'notMember' && (
