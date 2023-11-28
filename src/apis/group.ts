@@ -34,6 +34,32 @@ export interface GroupListItem {
   tripGroups: TripGroup[];
 }
 
+export interface GroupMember {
+  groupMemberAge: number;
+  groupMemberEmail: string;
+  groupMemberGender: string;
+  groupMemberNickname: string;
+  groupMemberProfileUrl: string;
+  groupMemberStatus: string;
+}
+
+export interface Place {
+  address: string;
+  category: string;
+  distance?: number;
+  name: string;
+  orders: number;
+  placeCode: string;
+  x: number;
+  y: number;
+}
+
+export interface GroupDetailListItem {
+  tripGroupDetail: TripGroup;
+  groupMembers: GroupMember[];
+  places: Place[];
+}
+
 // 그룹 리스트 조회
 export const fetchGroupList = async (
   params: GroupListParams
@@ -44,6 +70,21 @@ export const fetchGroupList = async (
       {
         params: params,
       }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error Fetching data: ', error);
+    throw error;
+  }
+};
+
+// 그룹 상세 데이터 조회
+export const fetchGroupDetail = async (
+  groupId: number
+): Promise<GroupDetailListItem> => {
+  try {
+    const response = await instance.get<GroupDetailListItem>(
+      import.meta.env.VITE_SERVER_URL + `/groups/list/${groupId}`
     );
     return response.data;
   } catch (error) {

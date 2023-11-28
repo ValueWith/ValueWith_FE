@@ -6,13 +6,14 @@ import { modalState } from '@/recoil/modalState';
 
 import {
   GroupListItem,
+  GroupDetailListItem,
+  fetchGroupDetail,
   applyGroupRequest,
   cancelApplyRequest,
   deleteGroupRequest,
   fetchGroupList,
   leaveGroupRequest,
 } from '@/apis/group';
-import { GroupDetailListItem, fetchGroupDetail } from '@/apis/groupDetail';
 
 import {
   confirmTexts,
