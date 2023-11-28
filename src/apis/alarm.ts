@@ -19,16 +19,6 @@ export interface AlarmData {
   redirectUrl: string;
 }
 
-export const subscribeAlarm = async () => {
-  try {
-    const response = await instance.get('/api/alert/subscribe');
-    return response.data;
-  } catch (error) {
-    console.error('Error Subscribe Alarm: ', error);
-    throw error;
-  }
-};
-
 export const getAlarmList = async (): Promise<AlarmData> => {
   try {
     const response = await instance.get('/api/alert/');
@@ -39,13 +29,32 @@ export const getAlarmList = async (): Promise<AlarmData> => {
   }
 };
 
-// 알림 삭제 현재 작동하지 않음.
 export const deleteAlarm = async (alertId: number): Promise<boolean> => {
   try {
     const response = await instance.delete(`/api/alert/${alertId}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting alarm: ', error);
+    throw error;
+  }
+};
+
+export const readAlarm = async (alertId: number): Promise<boolean> => {
+  try {
+    const response = await instance.patch(`/api/alert/${alertId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error patching read alarm: ', error);
+    throw error;
+  }
+};
+
+export const readAllAlarm = async () => {
+  try {
+    const response = await instance.patch(`/api/alert/all`);
+    return response.data;
+  } catch (error) {
+    console.error('Error patching read all alarm: ', error);
     throw error;
   }
 };

@@ -1,4 +1,4 @@
-import { AlarmData, deleteAlarm } from '@/apis/alarm';
+import { AlarmData, deleteAlarm, readAlarm } from '@/apis/alarm';
 import { formatAlarmDate } from '@/utils/dateUtil';
 
 import { AiOutlineClose } from 'react-icons/ai';
@@ -18,8 +18,13 @@ function AlarmCard({ data }: AlarmCardProps) {
     queryClient.invalidateQueries(['alarmData']);
   };
 
+  const handleRead = async () => {
+    await readAlarm(data.alertId);
+    queryClient.invalidateQueries(['alarmData']);
+  };
+
   return (
-    <S.AlarmCardContainer>
+    <S.AlarmCardContainer onClick={handleRead}>
       <S.AlarmCardContentContainer>
         <S.AlarmCardContent>
           <S.AlarmCardGroupName>{data.groupName}</S.AlarmCardGroupName>

@@ -7,6 +7,11 @@ export const AlarmCardContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  border-radius: 4px;
+  &:hover {
+    background-color: #f6f6f6;
+  }
 `;
 
 export const AlarmCardContentContainer = styled.div`
