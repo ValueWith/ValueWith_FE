@@ -36,6 +36,7 @@
     "stompjs": "^2.3.3"
   },
   "devDependencies": {
+    "@types/event-source-polyfill": "^1.0.5",
     "@types/json-server": "^0.14.6",
     "@types/loadable__component": "^5.13.7",
     "@types/node": "^20.8.8",
