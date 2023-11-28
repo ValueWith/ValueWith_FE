@@ -32,10 +32,6 @@ function GroupMemberStatus({
   const d_day = calculateDday(dueDate);
   const dot_day = formatDotDate(dueDate);
 
-  const handleClickDropdown = () => {
-    setIsOpenStatusModal(!isOpenStatusModal);
-  };
-
   return (
     <S.GroupMemberStatusContainer>
       <S.ContentDiv>
@@ -44,13 +40,14 @@ function GroupMemberStatus({
           <S.Content>
             {currentUserNumber}명 / {maxUserNumber}명
           </S.Content>
-          <button onClick={handleClickDropdown}>
+          <button onClick={() => setIsOpenStatusModal(true)}>
             {!isOpenStatusModal && <AiFillCaretDown />}
             {isOpenStatusModal && <AiFillCaretUp />}
           </button>
         </div>
         {isOpenStatusModal && (
           <S.GroupMemberStatusModal>
+            <S.Dimmed onClick={() => setIsOpenStatusModal(false)}></S.Dimmed>
             <S.ModalTitle>함께하는 멤버</S.ModalTitle>
             {groupMembers ? (
               groupMembers
