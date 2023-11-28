@@ -100,8 +100,8 @@ function GroupRegistInfo({
   const onSubmit = async (data: GroupRegistFromModel, event?: any) => {
     if (selectedPlace.selectedPlace.length === 0) return;
 
-    console.log('폼 제출', data);
-    console.log('선택한 장소', selectedPlace.selectedPlace);
+    // console.log('폼 제출', data);
+    // console.log('선택한 장소', selectedPlace.selectedPlace);
 
     try {
       // 각 카드에 orders 속성 추가
