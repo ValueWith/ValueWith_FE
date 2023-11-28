@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { calculateDday, formatDotDate } from '@/utils/dateUtil';
-import { GroupMember } from '@/apis/groupDetail';
+import { GroupMember } from '@/apis/group';
 import TripCardUserInfo from '@/components/group/card/TripCardUserInfo';
 
 import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai';
@@ -40,7 +40,7 @@ function GroupMemberStatus({
     <S.GroupMemberStatusContainer>
       <S.ContentDiv>
         <S.Title>모집현황</S.Title>
-        <div className="flex items-center gap-[8px]">
+        <div className='flex items-center gap-[8px]'>
           <S.Content>
             {currentUserNumber}명 / {maxUserNumber}명
           </S.Content>
@@ -79,7 +79,7 @@ function GroupMemberStatus({
           {dot_day} ({d_day})
         </S.Content>
       </S.ContentDiv>
-      <div className="mt-[20px]">
+      <div className='mt-[20px]'>
         <TripCardUserInfo
           profileUrl={profileUrl}
           nickName={nickName}
