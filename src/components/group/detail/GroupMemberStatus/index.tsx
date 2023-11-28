@@ -49,7 +49,7 @@ function GroupMemberStatus({
           <S.GroupMemberStatusModal>
             <S.Dimmed onClick={() => setIsOpenStatusModal(false)}></S.Dimmed>
             <S.ModalTitle>함께하는 멤버</S.ModalTitle>
-            {groupMembers ? (
+            {groupMembers.length > 0 ? (
               groupMembers
                 .filter((member) => member.groupMemberStatus !== 'pending')
                 .map((member) => (
