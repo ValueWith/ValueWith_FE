@@ -12,11 +12,10 @@ import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 
 // components
 import { RiMessage2Line } from 'react-icons/ri';
-import { AiOutlineBell } from 'react-icons/ai';
 
+import Alarm from '../alarm/Alarm/Alarm';
 import Button from '../Button';
 import DropdownMenu from '../DropdownMenu';
-import AlarmModal from '../alarm/AlarmModal';
 
 // styles
 import * as S from './Header.styles';
@@ -36,7 +35,6 @@ function Header() {
 
   const [currentCategory, setCurrentCategory] = useState<string>('');
   const [isSubMenuVisible, setIsSubMenuVisible] = useState(true);
-  const [isAlarmModal, setIsAlarmModal] = useState<boolean>(false);
 
   const setParams = useSetRecoilState(paramsState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
@@ -159,13 +157,7 @@ function Header() {
 
               {/* 알림 */}
               <S.UserActionItem className='relative'>
-                <AiOutlineBell
-                  size={24}
-                  onClick={() => setIsAlarmModal(true)}
-                />
-                {isAlarmModal && (
-                  <AlarmModal onClose={() => setIsAlarmModal(false)} />
-                )}
+                <Alarm />
               </S.UserActionItem>
 
               <S.UserActionItem className='userProfile'>

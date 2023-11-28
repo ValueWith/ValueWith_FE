@@ -1,22 +1,17 @@
-import { useGetAlarmData } from '@/hooks/useAlarm';
 import * as S from './AlarmModal.styles';
-import Loader from '@/components/Loader';
 import AlarmCard from '../AlarmCard';
 import { AlarmData } from '@/apis/alarm';
 
 interface AlarmModalProps {
   onClose: () => void;
+  data: AlarmData | undefined;
 }
 
-function AlarmModal({ onClose }: AlarmModalProps) {
-  const { data, isLoading, isError } = useGetAlarmData();
-
+function AlarmModal({ onClose, data }: AlarmModalProps) {
   return (
     <>
       <S.Dimmed onClick={() => onClose()} />
       <S.AlarmModalContainer>
-        {isLoading && <Loader />}
-        {isError && <div>Error...</div>}
         <S.AlarmModalTitleContainer>
           <S.AlarmModalTitle>알림</S.AlarmModalTitle>
           <S.AlarmReadAll>모두읽기</S.AlarmReadAll>
