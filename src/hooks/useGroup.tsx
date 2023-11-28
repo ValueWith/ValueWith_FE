@@ -1,25 +1,26 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
 
 import {
   GroupListItem,
-  GroupListParams,
+  GroupDetailListItem,
+  fetchGroupDetail,
+  applyGroupRequest,
   cancelApplyRequest,
   deleteGroupRequest,
   fetchGroupList,
   leaveGroupRequest,
 } from '@/apis/group';
-import { GroupDetailListItem, fetchGroupDetail } from '@/apis/groupDetail';
 
-import { confirmTexts, messages, titles } from '@/constants/loungeModalOption';
 import {
-  deleteGroupApply,
-  patchGroupApply,
-  postGroupApply,
-} from '@/apis/groupApply';
+  confirmTexts,
+  confirmTypes,
+  messages,
+  titles,
+} from '@/constants/groupModalOption';
 
 export const useGroupDataFetching = (params: any) => {
   return useQuery<GroupListItem, Error>(['groupData', params], () =>
@@ -27,14 +28,15 @@ export const useGroupDataFetching = (params: any) => {
   );
 };
 
-export const useGroupDetailDataFetching = (groupId: number) => {
-  return useQuery<GroupDetailListItem>(['groupDetailData', groupId], () =>
-    fetchGroupDetail(groupId)
+export const useGroupDetailDataFetching = (tripGroupId: number) => {
+  return useQuery<GroupDetailListItem>(['groupDetailData', tripGroupId], () =>
+    fetchGroupDetail(tripGroupId)
   );
 };
 
 export const useGroup = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +57,21 @@ export const useGroup = () => {
     }
   };
 
+  // 그룹 지원
+  const handleApplyGroup = async (tripGroupId: number) => {
+    setIsLoading(true);
+    try {
+      const response = await applyGroupRequest(tripGroupId);
+      console.log(response);
+
+      queryClient.invalidateQueries(['groupDetailData', tripGroupId]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // 그룹 탈퇴
   const handleLeaveGroup = async (tripGroupId: number) => {
     setIsLoading(true);
@@ -62,7 +79,11 @@ export const useGroup = () => {
       const response = await leaveGroupRequest(tripGroupId);
       console.log(response);
 
-      queryClient.invalidateQueries(['myLoungeData', { status: 'approved' }]);
+      if (location.pathname === 'mylounge') {
+        queryClient.invalidateQueries(['myLoungeData', { status: 'approved' }]);
+      } else if (location.pathname.includes('group')) {
+        queryClient.invalidateQueries(['groupDetailData', tripGroupId]);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,7 +98,11 @@ export const useGroup = () => {
       const response = await cancelApplyRequest(tripGroupId);
       console.log(response);
 
-      queryClient.invalidateQueries(['myLoungeData', { status: 'pending' }]);
+      if (location.pathname === 'mylounge') {
+        queryClient.invalidateQueries(['myLoungeData', { status: 'pending' }]);
+      } else if (location.pathname.includes('group')) {
+        queryClient.invalidateQueries(['groupDetailData', tripGroupId]);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -89,13 +114,14 @@ export const useGroup = () => {
     title: string,
     confirmText: string,
     message: string,
+    confirmType: 'confirm' | 'warning',
     onConfirm: () => void
   ) => {
     setModalDataState({
       isModalOpen: true,
       type: 'confirm',
       title,
-      confirmType: 'warning',
+      confirmType,
       confirmText,
       message,
       onConfirm: () => {
@@ -119,13 +145,16 @@ export const useGroup = () => {
       titles[cardType],
       confirmTexts[cardType],
       messages[cardType],
+      confirmTypes[cardType],
       () => {
         if (cardType === 'leader') {
           handleDeleteGroup(tripGroupId);
         } else if (cardType === 'approved') {
           handleLeaveGroup(tripGroupId);
-        } else {
+        } else if (cardType === 'pending') {
           handleCancelApplyGroup(tripGroupId);
+        } else if (cardType === 'notMember') {
+          handleApplyGroup(tripGroupId);
         }
       }
     );
@@ -163,96 +192,7 @@ export const useGroup = () => {
     }
   };
 
-  return { getDropdownOptions, isLoading };
-};
-
-export const useGroupDetail = () => {
-  const queryClient = useQueryClient();
-  const [modalDataState, setModalDataState] = useRecoilState(modalState);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleApply = (groupId: number) => {
-    setModalDataState({
-      isModalOpen: true,
-      type: 'confirm',
-      title: '지원하기',
-      message: '현재 그룹에 지원 하시겠습니까?',
-      onConfirm: async () => {
-        setModalDataState({ ...modalDataState, isModalOpen: false });
-        try {
-          setIsLoading(true);
-          await postGroupApply(groupId);
-        } catch (error) {
-          return Promise.reject(error);
-        } finally {
-          setIsLoading(false);
-        }
-
-        queryClient.invalidateQueries(['groupDetailData', groupId]);
-      },
-      onCancel: () => {
-        setModalDataState({ ...modalDataState, isModalOpen: false });
-      },
-    });
-  };
-
-  const handleLeaveGroup = (groupId: number) => {
-    setModalDataState({
-      isModalOpen: true,
-      type: 'confirm',
-      title: '그룹 탈퇴하기',
-      message: '현재 그룹에서 탈퇴하시겠습니까?',
-      onConfirm: async () => {
-        setModalDataState({ ...modalDataState, isModalOpen: false });
-        try {
-          setIsLoading(true);
-          await patchGroupApply(groupId);
-        } catch (error) {
-          return Promise.reject(error);
-        } finally {
-          setIsLoading(false);
-        }
-
-        queryClient.invalidateQueries(['groupDetailData', groupId]);
-      },
-      onCancel: () => {
-        setModalDataState({ ...modalDataState, isModalOpen: false });
-      },
-    });
-  };
-
-  const handleCancleApply = (groupId: number) => {
-    setModalDataState({
-      isModalOpen: true,
-      type: 'confirm',
-      title: '지원 취소하기',
-      message: '현재 그룹에 지원을 취소하시겠습니까?',
-      onConfirm: async () => {
-        setModalDataState({ ...modalDataState, isModalOpen: false });
-
-        try {
-          setIsLoading(true);
-          await deleteGroupApply(groupId);
-        } catch (error) {
-          return Promise.reject(error);
-        } finally {
-          setIsLoading(false);
-        }
-
-        queryClient.invalidateQueries(['groupDetailData', groupId]);
-      },
-      onCancel: () => {
-        setModalDataState({ ...modalDataState, isModalOpen: false });
-      },
-    });
-  };
-
-  return {
-    handleApply,
-    handleLeaveGroup,
-    handleCancleApply,
-    isLoading,
-  };
+  return { getDropdownOptions, handleModalAction, isLoading };
 };
 
 export default useGroupDataFetching;

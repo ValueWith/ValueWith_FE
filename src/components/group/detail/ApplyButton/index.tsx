@@ -1,58 +1,83 @@
+import { useNavigate } from 'react-router-dom';
+
 import Button from '@/components/common/Button';
 import Loader from '@/components/common/Loader';
-import { useGroupDetail } from '@/hooks/useGroup';
+import { useGroup } from '@/hooks/useGroup';
 
 export interface ApplyButtonProps {
-  groupId: number;
+  tripGroupId: number;
   userStatus: string;
 }
 
-function ApplyButton({ groupId, userStatus }: ApplyButtonProps) {
-  const { handleApply, handleLeaveGroup, handleCancleApply, isLoading } =
-    useGroupDetail();
+function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
+  const { handleModalAction, isLoading } = useGroup();
+  const navigate = useNavigate();
 
   return (
-    <div className="relative">
+    <div className='relative'>
       {isLoading && (
-        <Loader className="z-[1]" width={30} height={30} bgColor="white" />
+        <Loader className='z-[1]' width={30} height={30} bgColor='white' />
       )}
 
-      {userStatus === '지원하기' && (
+      {userStatus === 'leader' && (
+        <div className='flex gap-3'>
+          <Button
+            type='button'
+            styleType='solid'
+            style={isLoading ? { pointerEvents: 'none' } : {}}
+            fullWidth
+            onClickHandler={() => navigate(`/group/edit/${tripGroupId}`)}
+          >
+            수정
+          </Button>
+          <Button
+            type='button'
+            styleType='warning'
+            style={isLoading ? { pointerEvents: 'none' } : {}}
+            fullWidth
+            onClickHandler={() => handleModalAction(tripGroupId, 'leader')}
+          >
+            삭제
+          </Button>
+        </div>
+      )}
+
+      {userStatus === 'notMember' && (
         <Button
-          type="button"
-          styleType="solid"
+          type='button'
+          styleType='solid'
           style={isLoading ? { pointerEvents: 'none' } : {}}
           fullWidth
-          onClickHandler={() => handleApply(groupId)}
+          onClickHandler={() => handleModalAction(tripGroupId, 'notMember')}
         >
           지원하기
         </Button>
       )}
-      {userStatus === '그룹탈퇴' && (
+      {userStatus === 'approved' && (
         <Button
-          type="button"
-          styleType="warning"
+          type='button'
+          styleType='warning'
           style={isLoading ? { pointerEvents: 'none' } : {}}
           fullWidth
-          onClickHandler={() => handleLeaveGroup(groupId)}
+          onClickHandler={() => handleModalAction(tripGroupId, 'approved')}
         >
           그룹탈퇴
         </Button>
       )}
-      {userStatus === '지원취소' && (
+      {userStatus === 'pending' && (
         <Button
-          type="button"
-          styleType="warning"
+          type='button'
+          styleType='warning'
           style={isLoading ? { pointerEvents: 'none' } : {}}
           fullWidth
-          onClickHandler={() => handleCancleApply(groupId)}
+          onClickHandler={() => handleModalAction(tripGroupId, 'pending')}
         >
           지원취소
         </Button>
       )}
 
       {userStatus === '마감' && (
-        <Button type="button" styleType="disabled" fullWidth>
+        <Button type='button' styleType='disabled' fullWidth>
           마감
         </Button>
       )}

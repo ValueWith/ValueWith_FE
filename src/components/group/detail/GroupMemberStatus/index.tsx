@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { calculateDday, formatDotDate } from '@/utils/dateUtil';
-import { GroupMember } from '@/apis/groupDetail';
+import { GroupMember } from '@/apis/group';
 import TripCardUserInfo from '@/components/group/card/TripCardUserInfo';
 
 import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai';
@@ -32,27 +32,24 @@ function GroupMemberStatus({
   const d_day = calculateDday(dueDate);
   const dot_day = formatDotDate(dueDate);
 
-  const handleClickDropdown = () => {
-    setIsOpenStatusModal(!isOpenStatusModal);
-  };
-
   return (
     <S.GroupMemberStatusContainer>
       <S.ContentDiv>
         <S.Title>모집현황</S.Title>
-        <div className="flex items-center gap-[8px]">
+        <div className='flex items-center gap-[8px]'>
           <S.Content>
             {currentUserNumber}명 / {maxUserNumber}명
           </S.Content>
-          <button onClick={handleClickDropdown}>
+          <button onClick={() => setIsOpenStatusModal(true)}>
             {!isOpenStatusModal && <AiFillCaretDown />}
             {isOpenStatusModal && <AiFillCaretUp />}
           </button>
         </div>
         {isOpenStatusModal && (
           <S.GroupMemberStatusModal>
+            <S.Dimmed onClick={() => setIsOpenStatusModal(false)}></S.Dimmed>
             <S.ModalTitle>함께하는 멤버</S.ModalTitle>
-            {groupMembers ? (
+            {groupMembers.length > 0 ? (
               groupMembers
                 .filter((member) => member.groupMemberStatus !== 'pending')
                 .map((member) => (
@@ -79,7 +76,7 @@ function GroupMemberStatus({
           {dot_day} ({d_day})
         </S.Content>
       </S.ContentDiv>
-      <div className="mt-[20px]">
+      <div className='mt-[20px]'>
         <TripCardUserInfo
           profileUrl={profileUrl}
           nickName={nickName}
