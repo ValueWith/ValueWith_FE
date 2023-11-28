@@ -10,6 +10,7 @@ export const AlarmCardContainer = styled.div`
 `;
 
 export const AlarmCardContentContainer = styled.div`
+  width: 205px;
   display: flex;
   flex-direction: column;
   gap: 5px;
