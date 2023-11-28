@@ -56,23 +56,13 @@ export function formatDueDate(dateString: Date) {
 }
 
 export function formatAlarmDate(dateArray: number[]): string {
-  const [year, month, day, hours, minutes, seconds, milliseconds] = dateArray;
-  const date = new Date(
-    year,
-    month - 1,
-    day,
-    hours,
-    minutes,
-    seconds,
-    milliseconds
-  );
-  const formattedDate = `${date.getFullYear()}.${String(
-    date.getMonth() + 1
-  ).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')} ${String(
-    date.getHours()
-  ).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(
-    date.getSeconds()
-  ).padStart(2, '0')}`;
+  const [year, month, day, hours, minutes, seconds] = dateArray;
+
+  const formattedDate = `${year}.${String(month).padStart(2, '0')}.${String(
+    day
+  ).padStart(2, '0')} ${String(hours).padStart(2, '0')}:${String(
+    minutes
+  ).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
   return formattedDate;
 }
