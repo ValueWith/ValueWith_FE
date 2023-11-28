@@ -57,6 +57,9 @@ function DateInput({
     'December',
   ];
 
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
   return (
     <S.InputContainer>
       {label && <S.InputLabel htmlFor={name}>{label}</S.InputLabel>}
@@ -74,7 +77,7 @@ function DateInput({
               dateFormat="yyyy.MM.dd"
               popperPlacement="bottom-end"
               autoComplete="off"
-              minDate={new Date()}
+              minDate={tomorrow}
               selected={field.value}
               onChange={field.onChange}
               formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
