@@ -59,6 +59,13 @@ export const deleteGroupRequest = async (tripGroupId: number) => {
   );
 };
 
+// 그룹 지원
+export const applyGroupRequest = async (tripGroupId: number) => {
+  return instance.post(
+    import.meta.env.VITE_SERVER_URL + `/groups/application/${tripGroupId}`
+  );
+};
+
 // 그룹 지원 취소
 export const cancelApplyRequest = async (tripGroupId: number) => {
   return instance.delete(
