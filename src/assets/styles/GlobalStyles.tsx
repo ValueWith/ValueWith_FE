@@ -40,6 +40,10 @@ const styles = css`
     letter-spacing: -0.384px;
     text-rendering: auto;
     box-sizing: border-box;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   #root {

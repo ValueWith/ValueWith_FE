@@ -14,8 +14,8 @@ import { findCodeByLabel } from '@/utils/findCodeByLabel';
 
 import SearchResultCard from '../GroupItemCard';
 import SuggestLabel from '../SuggestLabel';
-import Dropdown from '@/components/Dropdown';
-import Loader from '@/components/Loader';
+import Dropdown from '@/components/common/Dropdown';
+import Loader from '@/components/common/Loader';
 import NoResult from '../NoResult';
 
 import theme from '@/assets/styles/theme';

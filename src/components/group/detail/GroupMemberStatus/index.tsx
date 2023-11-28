@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { calculateDday, formatDotDate } from '@/utils/dateUtil';
 import { GroupMember } from '@/apis/groupDetail';
-import TripCardUserInfo from '@components/TripCardUserInfo';
+import TripCardUserInfo from '@/components/group/card/TripCardUserInfo';
 
 import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai';
 import * as S from './GroupMemberStatus.styles';
