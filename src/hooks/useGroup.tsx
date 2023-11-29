@@ -102,6 +102,8 @@ export const useGroup = () => {
         onConfirm();
         setModalDataState((prevState) => ({
           ...prevState,
+          confirmType: 'confirm',
+          confirmText: '확인',
           isModalOpen: false,
         }));
       },

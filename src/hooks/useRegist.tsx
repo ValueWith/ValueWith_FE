@@ -178,6 +178,7 @@ export const useRegistGroup = () => {
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
+            type: 'alert',
             isModalOpen: false,
           });
 
@@ -197,6 +198,7 @@ export const useRegistGroup = () => {
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
+            confirmType: 'confirm',
             isModalOpen: false,
           });
         },
