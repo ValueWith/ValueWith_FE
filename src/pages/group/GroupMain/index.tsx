@@ -8,10 +8,10 @@ import { useUser } from '@/hooks/useUser';
 
 import * as S from './GroupMain.styles';
 import { RiFilterLine, RiFilter3Fill, RiEditFill } from 'react-icons/ri';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import GroupFilter from '@/components/group/list/GroupFilter';
 import GroupTripList from '@/components/group/list/GroupTripList';
-import SearchBar from '@/components/SearchBar';
+import SearchBar from '@/components/common/SearchBar';
 import { modalState } from '@/recoil/modalState';
 
 function GroupMain() {

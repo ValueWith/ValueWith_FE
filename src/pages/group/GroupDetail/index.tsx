@@ -5,7 +5,7 @@ import { useGroupDetailDataFetching } from '@/hooks/useGroup';
 
 import GroupTitle from '@/components/group/detail/GroupTitle';
 import GroupMemberStatus from '@/components/group/detail/GroupMemberStatus';
-import Loader from '@/components/Loader';
+import Loader from '@/components/common/Loader';
 import TripTitle from '@/components/group/detail/TripTitle';
 import TripPlaceList from '@/components/group/detail/TripPlaceList';
 
@@ -60,13 +60,13 @@ function GroupDetail() {
           <GroupTitle title={data.tripGroupDetail.name} />
 
           {/* 카카오 지도  */}
-          <div className="w-full h-[500px] mt-6">
+          <div className='w-full h-[500px] mt-6'>
             <KakaoMap isDetail={isDetail} isError={isDetailError} />
           </div>
 
           {/* 그룹 멤버 정보 & 지원 정보  */}
           <S.GroupContentContainer>
-            <div className="flex flex-col gap-3">
+            <div className='flex flex-col gap-3'>
               <GroupMemberStatus
                 currentUserNumber={data.tripGroupDetail.currentUserNumber}
                 maxUserNumber={data.tripGroupDetail.maxUserNumber}
@@ -77,7 +77,10 @@ function GroupDetail() {
                 gender={data.tripGroupDetail.gender}
                 groupMembers={data.groupMembers}
               />
-              <ApplyButton groupId={Number(groupId)} userStatus={userStatus} />
+              <ApplyButton
+                tripGroupId={Number(groupId)}
+                userStatus={userStatus}
+              />
             </div>
 
             {/* 그룹 내용  */}

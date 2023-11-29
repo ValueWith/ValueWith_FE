@@ -28,6 +28,16 @@ export const Content = styled.span`
   color: #707070;
 `;
 
+export const Dimmed = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: default;
+  z-index: 3;
+`;
+
 export const GroupMemberStatusModal = styled.div`
   position: absolute;
   left: 0;

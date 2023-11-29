@@ -21,7 +21,7 @@ import {
   tempFormState,
 } from '@/recoil/GroupRegistState';
 import { useNavigate } from 'react-router-dom';
-import { fetchGroupDetail } from '@/apis/groupDetail';
+import { fetchGroupDetail } from '@/apis/group';
 
 export const useGetSuggestionData = (params: SuggestionsModel) => {
   const [suggestionData, setSuggestionData] = useState<any>([]);

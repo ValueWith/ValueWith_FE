@@ -11,7 +11,7 @@ import { useRecoilState } from 'recoil';
 import { getMarkerBackground } from '@/utils/getMarkerBackground';
 import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
 import { useLocation } from 'react-router-dom';
-import Loader from '@/components/Loader';
+import Loader from '@/components/common/Loader';
 
 function KakaoMap({
   isDetail,

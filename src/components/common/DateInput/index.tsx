@@ -4,7 +4,7 @@ import { getMonth, getYear } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import * as S from '@components/Input/Input.styles'; // Wrapper 스타일
+import * as S from '@/components/common/Input/Input.styles'; // Wrapper 스타일
 import * as InputStyle from './DateInput.styles'; // 컴포넌트 스타일
 import styles from '@/lib/DatePicker.module.css'; // 클래스 스타일
 

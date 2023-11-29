@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import GroupUserInfo from '../GroupUserInfo';
-import GroupMemberManagement from '../GroupMemberManagement';
+import GroupUserInfo from '../../../GroupUserInfo';
+import GroupMemberManagement from '../../../GroupMemberManagement';
 import TripCardUserInfo from '../TripCardUserInfo';
 
 import { TripGroup } from '@/apis/group';

@@ -7,9 +7,9 @@ import { TripGroup } from '@/apis/group';
 
 import { useMyLoungeData } from '@/hooks/useLounge';
 
-import TripCard from '@/components/TripCard';
-import Loader from '@/components/Loader';
-import Pagenation from '@/components/Pagination';
+import TripCard from '@/components/group/card/TripCard';
+import Loader from '@/components/common/Loader';
+import Pagenation from '@/components/common/Pagination';
 
 import * as S from './GroupManagement.styles';
 
