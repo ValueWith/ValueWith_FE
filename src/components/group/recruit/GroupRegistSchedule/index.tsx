@@ -7,15 +7,15 @@ import { selectedPlaceState } from '@/recoil/GroupRegistState';
 
 import { useRecommendRoute } from '@/hooks/useRegist';
 
-import SearchBar from '@/components/SearchBar';
-import Button from '@/components/Button';
+import SearchBar from '@/components/common/SearchBar';
+import Button from '@/components/common/Button';
 import NestedSidebar from '../NestedSidebar';
 import GroupItemCard from '../GroupItemCard';
 import NoResult from '../NoResult';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
 import * as CS from '@components/group/recruit/GroupRegist.styles';
-import Loader from '@/components/Loader';
+import Loader from '@/components/common/Loader';
 
 function GroupRegistSchedule({
   onSelectedStep,

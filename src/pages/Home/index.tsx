@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { paramsState } from '@/recoil/paramsState';
 
-import HomeTripList from '@/components/HomeTripList';
+import HomeTripList from '@/components/home/HomeTripList';
 
 import * as S from './Home.styles';
 import theme from '@/assets/styles/theme';

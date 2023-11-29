@@ -1,4 +1,4 @@
-import { Place } from '@/apis/groupDetail';
+import { Place } from '@/apis/group';
 
 import { useRecoilState } from 'recoil';
 import { mapOptionState } from '@/recoil/GroupRegistState';
@@ -59,7 +59,7 @@ function TripPlaceCard({
       </S.TripPlaceCardContainer>
       {!isLast && (
         <S.TripPlaceDistanceContainer>
-          <div className="flex items-center w-[56px] justify-end">
+          <div className='flex items-center w-[56px] justify-end'>
             {distance != null && (
               <>
                 <S.TripPlaceDistance>{kilometers}&nbsp;km</S.TripPlaceDistance>

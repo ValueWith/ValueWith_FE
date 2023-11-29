@@ -4,7 +4,7 @@ export const checkApplicationStatus = (data: any, currentUserEmail: any) => {
 
   // 현재 유저가 leader인 경우
   if (currentUserIsLeader) {
-    return '';
+    return 'leader';
   }
 
   const currentUser = data.groupMembers.find(
@@ -19,13 +19,13 @@ export const checkApplicationStatus = (data: any, currentUserEmail: any) => {
   if (currentUser) {
     switch (currentUser.groupMemberStatus) {
       case 'approved':
-        return '그룹탈퇴';
+        return 'approved';
       case 'pending':
-        return '지원취소';
+        return 'pending';
       default:
-        return '그룹탈퇴';
+        return 'notMember';
     }
   }
 
-  return '지원하기';
+  return 'notMember';
 };

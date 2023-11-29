@@ -4,7 +4,7 @@ import { getMonth, getYear } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import * as S from '@components/Input/Input.styles'; // Wrapper 스타일
+import * as S from '@/components/common/Input/Input.styles'; // Wrapper 스타일
 import * as InputStyle from './DateInput.styles'; // 컴포넌트 스타일
 import styles from '@/lib/DatePicker.module.css'; // 클래스 스타일
 
@@ -57,6 +57,9 @@ function DateInput({
     'December',
   ];
 
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
   return (
     <S.InputContainer>
       {label && <S.InputLabel htmlFor={name}>{label}</S.InputLabel>}
@@ -74,7 +77,7 @@ function DateInput({
               dateFormat="yyyy.MM.dd"
               popperPlacement="bottom-end"
               autoComplete="off"
-              minDate={new Date()}
+              minDate={tomorrow}
               selected={field.value}
               onChange={field.onChange}
               formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}

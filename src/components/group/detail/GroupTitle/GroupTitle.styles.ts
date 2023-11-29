@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 
 export const GroupTitleContainer = styled.div`
-  width: 100%;
+  width: fit-content;
   display: flex;
   gap: 12px;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const PreviousButton = styled.button`

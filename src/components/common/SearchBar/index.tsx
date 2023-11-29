@@ -19,10 +19,17 @@ function SearchBar({
   const location = useLocation();
 
   const [searchValue, setSearchValue] = useState<string>('');
+  const [isSearch, setIsSearch] = useState<boolean>(false);
 
   useEffect(() => {
     setSearchValue(defaultValue || '');
   }, [defaultValue]);
+
+  useEffect(() => {
+    if (location.pathname === '/group/recruit') {
+      setSearchValue('');
+    }
+  }, [location, isSearch]);
 
   const handleSearchValue = (
     event:
@@ -38,23 +45,26 @@ function SearchBar({
       | React.KeyboardEvent<HTMLInputElement>
       | React.MouseEvent<HTMLSpanElement>
   ) => {
-    if (location.pathname === '/group/recruit') {
-      if (!searchValue) return;
-    }
-    if ('key' in event && event.key === 'Enter') {
+    if (location.pathname === '/group/recruit' && !searchValue) return;
+
+    if (
+      ('key' in event && event.key === 'Enter') ||
+      ('type' in event && event.type === 'click')
+    ) {
       onSearchTermChange(searchValue);
-    } else if ('type' in event && event.type === 'click') {
-      onSearchTermChange(searchValue);
+      setIsSearch(true);
+    } else {
+      setIsSearch(false);
     }
   };
 
   return (
     <S.SearchBarContainer>
       <Input
-        inputType='input'
-        name='registSearch'
-        className='registSearch'
-        placeholder='검색어를 입력해주세요'
+        inputType="input"
+        name="registSearch"
+        className="registSearch"
+        placeholder="검색어를 입력해주세요"
         style={{
           height: '53px',
           paddingRight: '60px',
@@ -65,8 +75,16 @@ function SearchBar({
         onChange={handleSearchValue}
         onKeyDown={handleSearch}
       >
-        <button type='button' className='searchIcon' onClick={handleSearch}>
-          <RiSearchLine style={{ width: '40px', height: '40px' }} />
+        <button type="button" className="searchIcon" onClick={handleSearch}>
+          <RiSearchLine
+            style={{
+              width: '36px',
+              height: '36px',
+              color: `${
+                location.pathname === `/group/recruit` ? `#222` : `#777`
+              }`,
+            }}
+          />
         </button>
       </Input>
     </S.SearchBarContainer>

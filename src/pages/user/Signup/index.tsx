@@ -7,13 +7,13 @@ import useAuth from '@/hooks/useAuth';
 import { useEmailVerification } from '@/hooks/useEmailValidation';
 
 import * as S from '../User.styles';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import theme from '@/assets/styles/theme';
-import Input from '@/components/Input';
+import Input from '@/components/common/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
-import Dropdown from '@/components/Dropdown';
-import ProfileUploader from '@/components/uploader/ProfileUploader';
-import Loader from '@/components/Loader';
+import Dropdown from '@/components/common/Dropdown';
+import ProfileUploader from '@/components/common/uploader/ProfileUploader';
+import Loader from '@/components/common/Loader';
 import { SignUpProps } from '@/apis/user.model';
 
 interface SignupFormProps {

@@ -11,15 +11,15 @@ import {
 import { useRegistGroup } from '@/hooks/useRegist';
 import { formatDueDate, formatTripDate } from '@/utils/dateUtil';
 
-import Input from '@/components/Input';
-import DateInput from '@/components/DateInput';
-import FileUploader from '@/components/uploader/FileUploader';
+import Input from '@/components/common/Input';
+import DateInput from '@/components/common/DateInput';
+import FileUploader from '@/components/common/uploader/FileUploader';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import useRegistFormValidation from '@/hooks/useRegistFormValidation';
-import Loader from '@/components/Loader';
-import ErrorMessage from '@/components/Message/ErrorMessage';
+import Loader from '@/components/common/Loader';
+import ErrorMessage from '@/components/common/Message/ErrorMessage';
 
 export interface GroupRegistFromModel {
   groupTitle: string;
@@ -69,7 +69,7 @@ function GroupRegistInfo({
     setError,
     clearErrors,
     reset,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -100,8 +100,8 @@ function GroupRegistInfo({
   const onSubmit = async (data: GroupRegistFromModel, event?: any) => {
     if (selectedPlace.selectedPlace.length === 0) return;
 
-    console.log('폼 제출', data);
-    console.log('선택한 장소', selectedPlace.selectedPlace);
+    // console.log('폼 제출', data);
+    // console.log('선택한 장소', selectedPlace.selectedPlace);
 
     try {
       // 각 카드에 orders 속성 추가
@@ -276,7 +276,9 @@ function GroupRegistInfo({
 
           <Button
             styleType={
-              isValid && selectedPlace.selectedPlace.length !== 0
+              isValid &&
+              selectedPlace.selectedPlace.length !== 0 &&
+              !isSubmitting
                 ? 'solid'
                 : 'disabled'
             }
