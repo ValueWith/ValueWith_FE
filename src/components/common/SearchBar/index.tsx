@@ -19,10 +19,17 @@ function SearchBar({
   const location = useLocation();
 
   const [searchValue, setSearchValue] = useState<string>('');
+  const [isSearch, setIsSearch] = useState<boolean>(false);
 
   useEffect(() => {
     setSearchValue(defaultValue || '');
   }, [defaultValue]);
+
+  useEffect(() => {
+    if (location.pathname === '/group/recruit') {
+      setSearchValue('');
+    }
+  }, [location, isSearch]);
 
   const handleSearchValue = (
     event:
@@ -38,13 +45,16 @@ function SearchBar({
       | React.KeyboardEvent<HTMLInputElement>
       | React.MouseEvent<HTMLSpanElement>
   ) => {
-    if (location.pathname === '/group/recruit') {
-      if (!searchValue) return;
-    }
-    if ('key' in event && event.key === 'Enter') {
+    if (location.pathname === '/group/recruit' && !searchValue) return;
+
+    if (
+      ('key' in event && event.key === 'Enter') ||
+      ('type' in event && event.type === 'click')
+    ) {
       onSearchTermChange(searchValue);
-    } else if ('type' in event && event.type === 'click') {
-      onSearchTermChange(searchValue);
+      setIsSearch(true);
+    } else {
+      setIsSearch(false);
     }
   };
 

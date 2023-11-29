@@ -33,18 +33,22 @@ function GroupDetail() {
   const { userInfo, isLogin } = useUser();
 
   useEffect(() => {
-    if (isLogin) {
-      const memberEmail = userInfo.memberEmail;
-
+    const handleData = () => {
       if (data) {
-        const status = checkApplicationStatus(data, memberEmail);
-        setUserStatus(status);
         setSelectedPlace({ selectedPlace: data.places });
         setIsDetail(true);
+
+        if (isLogin) {
+          const memberEmail = userInfo.memberEmail;
+          const status = checkApplicationStatus(data, memberEmail);
+          setUserStatus(status);
+        }
       } else {
-        setIsDetailError(false);
+        setIsDetailError(true);
       }
-    }
+    };
+
+    handleData();
   }, [userInfo, data, setSelectedPlace]);
 
   return (

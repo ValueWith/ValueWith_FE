@@ -128,7 +128,7 @@ export const useRegistGroup = () => {
       if (isEdit) {
         data.tripGroupId = editGroupID;
 
-        const isDeletedFile = originThumbnail ? true : false;
+        const isDeletedFile = originThumbnail ? false : true;
 
         const thumbnailBlob = new Blob([JSON.stringify(isDeletedFile)], {
           type: 'application/json',
@@ -171,11 +171,14 @@ export const useRegistGroup = () => {
       return setModalDataState({
         ...modalDataState,
         isModalOpen: true,
+        confirmType: 'confirm',
+        confirmText: '확인',
         title: `여행 그룹 ${isEdit ? '수정' : '등록'} 완료`,
         message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 완료되었습니다.`,
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
+            type: 'alert',
             isModalOpen: false,
           });
 
@@ -189,11 +192,13 @@ export const useRegistGroup = () => {
         ...modalDataState,
         isModalOpen: true,
         confirmType: 'warning',
+        confirmText: '확인',
         title: `여행 그룹 ${isEdit ? '수정' : '등록'} 실패`,
         message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 실패했습니다`,
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
+            confirmType: 'confirm',
             isModalOpen: false,
           });
         },

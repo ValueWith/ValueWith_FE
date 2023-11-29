@@ -1,5 +1,5 @@
 import theme from '@/assets/styles/theme';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CustomOverlayMap,
   Map,
@@ -25,6 +25,7 @@ function KakaoMap({
   const [selectedPlaceData, setSelectedPlaceData] =
     useRecoilState(selectedPlaceState);
   const [mapOptions, setMapOptions] = useRecoilState(mapOptionState);
+  const [isDefaultLocation, setIsDefaultLocation] = useState<boolean>(false);
 
   // 맵 마커는 selectedPlaceData.selectedPlace에 없을 때만 렌더링
   const shouldRenderMapMarker = selectedPlaceData.selectedPlace.every(
@@ -58,8 +59,10 @@ function KakaoMap({
             });
           },
           (error) => {
+            setIsDefaultLocation(true);
             setMapOptions({
               ...mapOptions,
+              center: { lat: 37.577613288258206, lng: 126.97689786832184 },
             });
           },
           {
@@ -69,7 +72,9 @@ function KakaoMap({
           }
         );
       }
-    } else if (!isRecruit) {
+    }
+
+    if (isDetail) {
       if (selectedPlaceData.selectedPlace.length > 0) {
         setMapOptions({
           ...mapOptions,
@@ -80,7 +85,7 @@ function KakaoMap({
         });
       }
     }
-  }, [isDetail]);
+  }, [location, isDetail, isError]);
 
   return (
     <Map
@@ -130,20 +135,24 @@ function KakaoMap({
 
       {shouldRenderMapMarker &&
         (mapOptions.center.lat !== 0 && mapOptions.center.lng !== 0 ? (
-          <MapMarker position={mapOptions.center} />
+          <MapMarker position={mapOptions.center}>
+            {isDefaultLocation &&
+              selectedPlaceData.selectedPlace.length === 0 && (
+                <div
+                  style={{
+                    padding: '10px',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  현재 위치를 찾을 수 없습니다.
+                </div>
+              )}
+          </MapMarker>
         ) : (
           <>
             <Loader width={50} height={50} className="z-[1]" />
           </>
         ))}
-
-      {isError && (
-        <MapMarker position={mapOptions.center}>
-          <div style={{ padding: '5px', color: '#000' }}>
-            {'위치를 불러오지 못했습니다.'}
-          </div>
-        </MapMarker>
-      )}
     </Map>
   );
 }
