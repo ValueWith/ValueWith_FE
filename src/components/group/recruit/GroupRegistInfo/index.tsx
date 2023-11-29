@@ -69,7 +69,7 @@ function GroupRegistInfo({
     setError,
     clearErrors,
     reset,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -276,7 +276,9 @@ function GroupRegistInfo({
 
           <Button
             styleType={
-              isValid && selectedPlace.selectedPlace.length !== 0
+              isValid &&
+              selectedPlace.selectedPlace.length !== 0 &&
+              !isSubmitting
                 ? 'solid'
                 : 'disabled'
             }
