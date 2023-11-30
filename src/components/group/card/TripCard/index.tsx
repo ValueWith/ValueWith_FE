@@ -13,6 +13,7 @@ import { MdCalendarMonth } from 'react-icons/md';
 
 import * as S from './TripCard.styles';
 import theme from '@/assets/styles/theme';
+import { SkeletonImage } from '@/components/common/SkeletonImage';
 
 interface TripCardProps {
   group: TripGroup;
@@ -38,6 +39,8 @@ function TripCard({ group, cardType }: TripCardProps) {
   } = group;
 
   const navigate = useNavigate();
+
+  const [isImgLoading, setIsImgLoading] = useState(true);
   const [applyList, setApplyList] = useState([]);
   const [isOpenApplyList, setIsOpenApplyList] = useState({
     isOpen: false,
@@ -60,12 +63,16 @@ function TripCard({ group, cardType }: TripCardProps) {
     <>
       <S.TripCardContainer className={cardType && 'mylounge'}>
         {isClosed && <S.Closed />}
+        {isImgLoading && <SkeletonImage />}
         <S.CardTumbnail
           src={thumbnailUrl}
           alt="지도 썸네일"
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           onClick={cardType ? redirectToTripDetail : () => {}}
+          onLoad={() => setIsImgLoading(false)}
+          style={{ display: isImgLoading ? 'none' : 'block' }}
         />
+
         <S.IconContainer>
           <S.Icon>
             <FaMapMarkerAlt />
