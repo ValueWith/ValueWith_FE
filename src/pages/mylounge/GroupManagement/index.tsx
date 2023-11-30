@@ -7,9 +7,9 @@ import { TripGroup } from '@/apis/group';
 
 import { useMyLoungeData } from '@/hooks/useLounge';
 
-import TripCard from '@/components/TripCard';
-import Loader from '@/components/Loader';
-import Pagenation from '@/components/Pagination';
+import TripCard from '@/components/group/card/TripCard';
+import Loader from '@/components/common/Loader';
+import Pagenation from '@/components/common/Pagination';
 
 import * as S from './GroupManagement.styles';
 
@@ -29,8 +29,6 @@ const GROUP_MANAGEMENT_TABS = [
 ];
 
 function GroupManagement() {
-  const [params, setParams] = useRecoilState(paramsState);
-
   const [page, setPage] = useState<number>(1);
   const [loungeTab, setLoungeTab] = useState(GROUP_MANAGEMENT_TABS[0].type);
 
@@ -50,17 +48,6 @@ function GroupManagement() {
   const handleLoungeTab = ({ type }: { type: string }) => {
     setLoungeTab(type);
   };
-
-  useEffect(() => {
-    setParams((prevParams) => ({
-      ...prevParams,
-      status: loungeTab,
-    }));
-  }, [loungeTab]);
-
-  useEffect(() => {
-    console.log(loungeData?.data, 'loungeData');
-  }, [loungeData]);
 
   return (
     <S.GroupManagementContainer>

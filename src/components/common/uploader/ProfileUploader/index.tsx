@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import * as S from '../Uploader.styles';
-import ErrorMessage from '@/components/Message/ErrorMessage';
-import { SkeletonImage } from '@/components/SkeletonImage';
+import ErrorMessage from '@/components/common/Message/ErrorMessage';
+import { SkeletonImage } from '@/components/common/SkeletonImage';
 import { RiAddFill } from 'react-icons/ri';
 import useFileUpload from '@/hooks/useFileUploader';
 
@@ -12,11 +12,13 @@ export interface ProfileUploaderCSSProps {
 
 interface ProfileUploaderProps extends ProfileUploaderCSSProps {
   onFileSelected: (file: File) => void;
+  onFileDeleted: () => void;
   storedImgUrl?: string;
 }
 
 function ProfileUploader({
   onFileSelected,
+  onFileDeleted,
   storedImgUrl,
   className,
 }: ProfileUploaderProps) {
@@ -31,7 +33,7 @@ function ProfileUploader({
     handleDragOver,
     handleDragLeave,
     handleDrop,
-  } = useFileUpload(onFileSelected);
+  } = useFileUpload(onFileSelected, onFileDeleted);
 
   return (
     <S.FileUploaderContainer className={`profile ${className}`}>

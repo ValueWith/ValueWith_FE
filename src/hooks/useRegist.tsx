@@ -21,7 +21,7 @@ import {
   tempFormState,
 } from '@/recoil/GroupRegistState';
 import { useNavigate } from 'react-router-dom';
-import { fetchGroupDetail } from '@/apis/groupDetail';
+import { fetchGroupDetail } from '@/apis/group';
 
 export const useGetSuggestionData = (params: SuggestionsModel) => {
   const [suggestionData, setSuggestionData] = useState<any>([]);
@@ -128,9 +128,17 @@ export const useRegistGroup = () => {
       if (isEdit) {
         data.tripGroupId = editGroupID;
 
-        originThumbnail
-          ? formData.append('isDeletedFile', String(false))
-          : formData.append('isDeletedFile', String(true));
+        const isDeletedFile = originThumbnail ? false : true;
+
+        const thumbnailBlob = new Blob([JSON.stringify(isDeletedFile)], {
+          type: 'application/json',
+        });
+
+        if (originThumbnail) {
+          formData.append('isDeletedFile', thumbnailBlob);
+        } else {
+          formData.append('isDeletedFile', thumbnailBlob);
+        }
       }
 
       const requestBlob = new Blob([JSON.stringify(data)], {
@@ -151,18 +159,26 @@ export const useRegistGroup = () => {
         formData.append('file', '');
       }
 
-      isEdit
-        ? await groupEditRegisterRequest(formData)
-        : await groupRegisterRequest(formData);
+      if (isEdit) {
+        await groupEditRegisterRequest(formData);
+      } else {
+        await groupRegisterRequest(formData);
+      }
 
-      setModalDataState({
+      setTempFormData({});
+      localStorage.removeItem('groupThumbnail');
+
+      return setModalDataState({
         ...modalDataState,
         isModalOpen: true,
+        confirmType: 'confirm',
+        confirmText: '확인',
         title: `여행 그룹 ${isEdit ? '수정' : '등록'} 완료`,
         message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 완료되었습니다.`,
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
+            type: 'alert',
             isModalOpen: false,
           });
 
@@ -170,20 +186,19 @@ export const useRegistGroup = () => {
         },
       });
 
-      setTempFormData({});
-      localStorage.removeItem('groupThumbnail');
-
       // 알럿 띄우기
     } catch (error) {
       setModalDataState({
         ...modalDataState,
         isModalOpen: true,
         confirmType: 'warning',
+        confirmText: '확인',
         title: `여행 그룹 ${isEdit ? '수정' : '등록'} 실패`,
         message: `여행 그룹 ${isEdit ? '수정' : '등록'}이 실패했습니다`,
         onConfirm: () => {
           setModalDataState({
             ...modalDataState,
+            confirmType: 'confirm',
             isModalOpen: false,
           });
         },

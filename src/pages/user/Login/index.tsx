@@ -8,13 +8,14 @@ import KakaoLogo from '@assets/kakaoLogo.svg?react';
 
 import { IoMailSharp } from 'react-icons/io5';
 
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import theme from '@/assets/styles/theme';
-import Input from '@/components/Input';
+import Input from '@/components/common/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
-import ErrorMessage from '@/components/Message/ErrorMessage';
-import Loader from '@/components/Loader';
+
 import instance from '@/apis';
+import ErrorMessage from '@/components/common/Message/ErrorMessage';
+import Loader from '@/components/common/Loader';
 
 interface SignupFormProps {
   nickname: string;

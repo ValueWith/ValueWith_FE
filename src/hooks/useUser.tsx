@@ -12,10 +12,10 @@ export const useUser = () => {
     memberProfileUrl: '',
   });
 
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    const userStorageInfo = localStorage.getItem('userInfo');
+  const token = localStorage.getItem('accessToken');
+  const userStorageInfo = localStorage.getItem('userInfo');
 
+  useEffect(() => {
     if (token) {
       const userInfo = userStorageInfo ? JSON.parse(userStorageInfo) : {};
 
@@ -24,7 +24,7 @@ export const useUser = () => {
     } else {
       setIsLogin(false);
     }
-  }, [isLogin]);
+  }, [isLogin, userStorageInfo]);
 
   return { isLogin, setIsLogin, userInfo };
 };

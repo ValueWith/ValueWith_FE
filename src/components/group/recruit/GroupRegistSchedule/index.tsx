@@ -7,15 +7,15 @@ import { selectedPlaceState } from '@/recoil/GroupRegistState';
 
 import { useRecommendRoute } from '@/hooks/useRegist';
 
-import SearchBar from '@/components/SearchBar';
-import Button from '@/components/Button';
+import SearchBar from '@/components/common/SearchBar';
+import Button from '@/components/common/Button';
 import NestedSidebar from '../NestedSidebar';
 import GroupItemCard from '../GroupItemCard';
 import NoResult from '../NoResult';
 
 import * as S from '@components/group/recruit/GroupRegist.styles';
 import * as CS from '@components/group/recruit/GroupRegist.styles';
-import Loader from '@/components/Loader';
+import Loader from '@/components/common/Loader';
 
 function GroupRegistSchedule({
   onSelectedStep,
@@ -48,6 +48,13 @@ function GroupRegistSchedule({
     });
 
     setSearchTerm(term);
+  };
+
+  const handleNestedSidebar = () => {
+    setIsNestedSidebar({
+      status: false,
+      type: 'search',
+    });
   };
 
   return (
@@ -157,7 +164,11 @@ function GroupRegistSchedule({
 
       {/* 추천 / 검색 사이드바 2depth */}
       {isNestedSidebar.status === true && (
-        <NestedSidebar option={isNestedSidebar} searchTerm={searchTerm} />
+        <NestedSidebar
+          option={isNestedSidebar}
+          setOption={handleNestedSidebar}
+          searchTerm={searchTerm}
+        />
       )}
     </div>
   );

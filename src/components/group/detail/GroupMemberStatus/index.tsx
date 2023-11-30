@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import { calculateDday, formatDotDate } from '@/utils/dateUtil';
-import { GroupMember } from '@/apis/groupDetail';
-import TripCardUserInfo from '@components/TripCardUserInfo';
+import { GroupMember } from '@/apis/group';
+import TripCardUserInfo from '@/components/group/card/TripCardUserInfo';
 
 import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai';
 import * as S from './GroupMemberStatus.styles';
@@ -32,37 +32,36 @@ function GroupMemberStatus({
   const d_day = calculateDday(dueDate);
   const dot_day = formatDotDate(dueDate);
 
-  const handleClickDropdown = () => {
-    setIsOpenStatusModal(!isOpenStatusModal);
-  };
-
   return (
     <S.GroupMemberStatusContainer>
       <S.ContentDiv>
         <S.Title>모집현황</S.Title>
-        <div className="flex items-center gap-[8px]">
+        <div className='flex items-center gap-[8px]'>
           <S.Content>
             {currentUserNumber}명 / {maxUserNumber}명
           </S.Content>
-          <button onClick={handleClickDropdown}>
+          <button onClick={() => setIsOpenStatusModal(true)}>
             {!isOpenStatusModal && <AiFillCaretDown />}
             {isOpenStatusModal && <AiFillCaretUp />}
           </button>
         </div>
         {isOpenStatusModal && (
           <S.GroupMemberStatusModal>
+            <S.Dimmed onClick={() => setIsOpenStatusModal(false)}></S.Dimmed>
             <S.ModalTitle>함께하는 멤버</S.ModalTitle>
-            {groupMembers ? (
-              groupMembers.map((member) => (
-                <TripCardUserInfo
-                  key={member.groupMemberNickname}
-                  profileUrl={member.groupMemberProfileUrl}
-                  nickName={member.groupMemberNickname}
-                  age={member.groupMemberAge}
-                  gender={member.groupMemberGender}
-                  style={{ marginBottom: '5px', fontSize: '15px' }}
-                />
-              ))
+            {groupMembers.length > 0 ? (
+              groupMembers
+                .filter((member) => member.groupMemberStatus !== 'pending')
+                .map((member) => (
+                  <TripCardUserInfo
+                    key={member.groupMemberNickname}
+                    profileUrl={member.groupMemberProfileUrl}
+                    nickName={member.groupMemberNickname}
+                    age={member.groupMemberAge}
+                    gender={member.groupMemberGender}
+                    style={{ marginBottom: '5px', fontSize: '15px' }}
+                  />
+                ))
             ) : (
               <S.ModalNoContent>
                 현재 함께하는 멤버가 없습니다.
@@ -77,7 +76,7 @@ function GroupMemberStatus({
           {dot_day} ({d_day})
         </S.Content>
       </S.ContentDiv>
-      <div className="mt-[20px]">
+      <div className='mt-[20px]'>
         <TripCardUserInfo
           profileUrl={profileUrl}
           nickName={nickName}

@@ -7,7 +7,7 @@ import { findLabelByCode } from '@/utils/findCodeByLabel';
 import { CATEGORY_OPTION } from '@/constants/area';
 
 import { RiFlag2Line, RiFlag2Fill, RiDraggable } from 'react-icons/ri';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import * as S from './GroupItemCard.styles';
 import theme from '@/assets/styles/theme';
 import { modalState } from '@/recoil/modalState';
@@ -141,6 +141,7 @@ function GroupItemCard({ item, index, type = 'search' }: GroupItemCardProps) {
             type="button"
             styleType="text"
             style={{ minWidth: 'auto', padding: '14px 0' }}
+            isHover={true}
             onClickHandler={() => handleRegistrationCard(event, item)}
           >
             추가

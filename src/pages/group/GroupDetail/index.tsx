@@ -5,7 +5,7 @@ import { useGroupDetailDataFetching } from '@/hooks/useGroup';
 
 import GroupTitle from '@/components/group/detail/GroupTitle';
 import GroupMemberStatus from '@/components/group/detail/GroupMemberStatus';
-import Loader from '@/components/Loader';
+import Loader from '@/components/common/Loader';
 import TripTitle from '@/components/group/detail/TripTitle';
 import TripPlaceList from '@/components/group/detail/TripPlaceList';
 
@@ -21,7 +21,6 @@ import { useUser } from '@/hooks/useUser';
 function GroupDetail() {
   const { groupId } = useParams();
 
-  const userInfoString = localStorage.getItem('userInfo');
   const [userStatus, setUserStatus] = useState<string>('');
   const [selectedPlace, setSelectedPlace] = useRecoilState(selectedPlaceState);
   const [isDetail, setIsDetail] = useState<boolean>(false);
@@ -31,44 +30,43 @@ function GroupDetail() {
     Number(groupId)
   );
 
-  const { userInfo } = useUser();
+  const { userInfo, isLogin } = useUser();
 
   useEffect(() => {
-    if (userInfoString) {
-      const memberEmail = userInfo.memberEmail;
-
-      // 데이터가 없을 때 에러 처리
+    const handleData = () => {
       if (data) {
-        setUserStatus(checkApplicationStatus(data, memberEmail));
         setSelectedPlace({ selectedPlace: data.places });
         setIsDetail(true);
-      } else {
-        setIsDetailError(false);
-      }
 
-      // 데이터는 있지만 places가 없을 때 에러 처리
-      if (!data?.places) {
+        if (isLogin) {
+          const memberEmail = userInfo.memberEmail;
+          const status = checkApplicationStatus(data, memberEmail);
+          setUserStatus(status);
+        }
+      } else {
         setIsDetailError(true);
       }
-    }
-  }, [userInfoString, data, setSelectedPlace]);
+    };
+
+    handleData();
+  }, [userInfo, data, setSelectedPlace]);
 
   return (
     <>
       {isLoading && <Loader />}
       {isError && <div>Error...</div>}
-      {data && (
+      {data && userInfo && (
         <S.GroupDetailContainer>
           <GroupTitle title={data.tripGroupDetail.name} />
 
           {/* 카카오 지도  */}
-          <div className="w-full h-[500px] mt-6">
+          <div className='w-full h-[500px] mt-6'>
             <KakaoMap isDetail={isDetail} isError={isDetailError} />
           </div>
 
           {/* 그룹 멤버 정보 & 지원 정보  */}
           <S.GroupContentContainer>
-            <div className="flex flex-col gap-3">
+            <div className='flex flex-col gap-3'>
               <GroupMemberStatus
                 currentUserNumber={data.tripGroupDetail.currentUserNumber}
                 maxUserNumber={data.tripGroupDetail.maxUserNumber}
@@ -79,7 +77,10 @@ function GroupDetail() {
                 gender={data.tripGroupDetail.gender}
                 groupMembers={data.groupMembers}
               />
-              <ApplyButton groupId={Number(groupId)} userStatus={userStatus} />
+              <ApplyButton
+                tripGroupId={Number(groupId)}
+                userStatus={userStatus}
+              />
             </div>
 
             {/* 그룹 내용  */}
