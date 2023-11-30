@@ -43,14 +43,6 @@ function Login() {
     await handleLogin(data);
   };
 
-  const handleKakaoLogin = async () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${
-      import.meta.env.VITE_KAKAO_API_KEY
-    }&redirect_uri=${
-      import.meta.env.VITE_KAKAO_REDIRECT_URI
-    }&response_type=code`;
-  };
-
   return (
     <S.UserWrapper>
       <S.UserHeader>
@@ -115,7 +107,7 @@ function Login() {
         </S.EmailButton>
 
         {/* 카카오 로그인 */}
-        <S.KakaoButton onClick={handleKakaoLogin}>
+        <S.KakaoButton onClick={() => navigate('/oauth2/callback/kakao')}>
           <KakaoLogo style={{ marginRight: '10px' }} />
           카카오로 시작하기
         </S.KakaoButton>
