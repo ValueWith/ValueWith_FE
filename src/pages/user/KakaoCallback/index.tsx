@@ -16,7 +16,7 @@ function KakaoCallback() {
     try {
       // 백엔드로 요청을 보내면, 백엔드에서 카카오로부터 받은 인가 코드를 이용해 유저 정보와 jwt 토큰을 받아온다.
       const response = await instance.post(
-        import.meta.env.VITE_SERVER_URL + '/oauth2/callback/kakao'
+        import.meta.env.VITE_SERVER_URL + '/oauth2/authorization/kakao'
       );
 
       console.log(response, 'response');
