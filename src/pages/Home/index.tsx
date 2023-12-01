@@ -7,10 +7,13 @@ import HomeTripList from '@/components/home/HomeTripList';
 
 import * as S from './Home.styles';
 import theme from '@/assets/styles/theme';
+import { SkeletonImage } from '@/components/common/SkeletonImage';
+import { useState } from 'react';
 
 function Home() {
   const navigate = useNavigate();
   const setParams = useSetRecoilState(paramsState);
+  const [isImgLoading, setIsImgLoading] = useState(true);
 
   const handleGroup = () => {
     setParams({
@@ -25,9 +28,12 @@ function Home() {
   return (
     <S.HomeMainContainer>
       <S.Banner>
+        {isImgLoading && <SkeletonImage />}
         <img
           src="https://d1udi89ozp4mef.cloudfront.net/location%2F89617668-8754-4c3b-b8ac-814a414f624e-123.png"
           alt="배너 이미지"
+          onLoad={() => setIsImgLoading(false)}
+          style={{ display: isImgLoading ? 'none' : 'block' }}
         />
       </S.Banner>
 

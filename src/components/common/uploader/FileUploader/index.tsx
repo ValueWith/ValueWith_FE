@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import * as S from '../Uploader.styles';
-import ErrorMessage from '../../Message/ErrorMessage';
-import { SkeletonImage } from '../../SkeletonImage';
+import ErrorMessage from '@components/common/Message/ErrorMessage';
+
 import { RiDragDropLine } from 'react-icons/ri';
+import { SkeletonImage } from '@components/common/SkeletonImage';
 
 interface FileUploaderProps {
   onFileSelected: (file: File) => void;
