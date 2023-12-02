@@ -43,6 +43,11 @@ function Login() {
     await handleLogin(data);
   };
 
+  const handleKakao = async () => {
+    window.location.href =
+      import.meta.env.VITE_SERVER_URL + '/oauth2/authorization/kakao';
+  };
+
   return (
     <S.UserWrapper>
       <S.UserHeader>
@@ -107,10 +112,14 @@ function Login() {
         </S.EmailButton>
 
         {/* 카카오 로그인 */}
-        <S.KakaoButton onClick={() => navigate('/oauth2/callback/kakao')}>
+        {/* <S.KakaoButton onClick={() => navigate()}>
           <KakaoLogo style={{ marginRight: '10px' }} />
           카카오로 시작하기
-        </S.KakaoButton>
+        </S.KakaoButton> */}
+
+        <button type="button" onClick={handleKakao}>
+          카카오 로그인
+        </button>
       </S.SocialLoginContainer>
     </S.UserWrapper>
   );
