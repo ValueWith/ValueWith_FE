@@ -17,9 +17,37 @@ export interface AlarmData {
   groupId: number;
   groupName: string;
   redirectUrl: string;
+  isClicked: boolean;
 }
 
-export const getAlarmList = async (): Promise<AlarmData> => {
+export interface AlarmPageData {
+  pageable: {
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  size: number;
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+  content: AlarmData[];
+}
+
+export const getAlarmList = async (): Promise<AlarmPageData> => {
   try {
     const response = await instance.get('/api/alert/');
     return response.data;

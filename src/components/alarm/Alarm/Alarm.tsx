@@ -14,7 +14,10 @@ function Alarm() {
 
   const { data } = useGetAlarmData();
 
-  const alarmCount = Array.isArray(data) ? data.length : 0;
+  console.log(data);
+
+  // const alarmCount = Array.isArray(data) ? data.length : 0;
+  const alarmCount = data ? data.content.length : 0;
 
   // TODO: SSE 연결
   // const EventSource = EventSourcePolyfill;
@@ -60,7 +63,10 @@ function Alarm() {
       <AiOutlineBell size={24} onClick={() => setIsAlarmModal(true)} />
       <S.AlarmCount>{alarmCount}</S.AlarmCount>
       {isAlarmModal && (
-        <AlarmModal onClose={() => setIsAlarmModal(false)} data={data} />
+        <AlarmModal
+          onClose={() => setIsAlarmModal(false)}
+          data={data ? data.content : undefined}
+        />
       )}
     </>
   );

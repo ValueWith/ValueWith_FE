@@ -5,7 +5,7 @@ import { useQueryClient } from 'react-query';
 
 interface AlarmModalProps {
   onClose: () => void;
-  data: AlarmData | undefined;
+  data: AlarmData[] | undefined;
 }
 
 function AlarmModal({ onClose, data }: AlarmModalProps) {
