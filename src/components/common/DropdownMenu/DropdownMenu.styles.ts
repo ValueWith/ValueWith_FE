@@ -5,6 +5,16 @@ export const DropdownMenuContainer = styled.div`
   position: relative;
 `;
 
+export const Dimmed = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: default;
+  z-index: 1;
+`;
+
 export const DropdownMenuList = styled.ul`
   position: absolute;
   top: 100%;
