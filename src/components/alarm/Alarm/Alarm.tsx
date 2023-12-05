@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { useQueryClient } from 'react-query';
 
 import { useGetAlarmData } from '@/hooks/useAlarm';
 
@@ -12,9 +11,7 @@ import * as S from './Alarm.styles';
 function Alarm() {
   const [isAlarmModal, setIsAlarmModal] = useState<boolean>(false);
 
-  const { data } = useGetAlarmData();
-
-  console.log(data);
+  const { data } = useGetAlarmData(0);
 
   // const alarmCount = Array.isArray(data) ? data.length : 0;
   const alarmCount = data ? data.content.length : 0;
@@ -62,12 +59,7 @@ function Alarm() {
     <>
       <AiOutlineBell size={24} onClick={() => setIsAlarmModal(true)} />
       <S.AlarmCount>{alarmCount}</S.AlarmCount>
-      {isAlarmModal && (
-        <AlarmModal
-          onClose={() => setIsAlarmModal(false)}
-          data={data ? data.content : undefined}
-        />
-      )}
+      {isAlarmModal && <AlarmModal onClose={() => setIsAlarmModal(false)} />}
     </>
   );
 }

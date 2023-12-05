@@ -1,26 +1,28 @@
-import { AlarmData, deleteAlarm, readAlarm } from '@/apis/alarm';
+import { useQueryClient } from 'react-query';
+
+import { AlarmContent, deleteAlarm, readAlarm } from '@/apis/alarm';
 import { formatAlarmDate } from '@/utils/dateUtil';
 
 import { AiOutlineClose } from 'react-icons/ai';
 import * as S from './AlarmCard.styles';
-import { useQueryClient } from 'react-query';
 
 interface AlarmCardProps {
-  data: AlarmData;
+  data: AlarmContent;
+  page: number;
 }
 
-function AlarmCard({ data }: AlarmCardProps) {
+function AlarmCard({ data, page }: AlarmCardProps) {
   const queryClient = useQueryClient();
   const createdDate = formatAlarmDate(data.createdDateTime);
 
   const handleDelete = async () => {
     await deleteAlarm(data.alertId);
-    queryClient.invalidateQueries(['alarmData']);
+    queryClient.invalidateQueries(['alarmData', page]);
   };
 
   const handleRead = async () => {
     await readAlarm(data.alertId);
-    queryClient.invalidateQueries(['alarmData']);
+    queryClient.invalidateQueries(['alarmData', page]);
   };
 
   return (
