@@ -1,6 +1,6 @@
 import instance from '.';
 
-export interface AlarmData {
+export interface AlarmContent {
   alertId: number;
   content: {
     content: string;
@@ -20,7 +20,7 @@ export interface AlarmData {
   isClicked: boolean;
 }
 
-export interface AlarmPageData {
+export interface AlarmData {
   pageable: {
     sort: {
       empty: boolean;
@@ -44,12 +44,12 @@ export interface AlarmPageData {
   first: boolean;
   last: boolean;
   empty: boolean;
-  content: AlarmData[];
+  content: AlarmContent[];
 }
 
-export const getAlarmList = async (): Promise<AlarmPageData> => {
+export const getAlarmList = async (page: number): Promise<AlarmData> => {
   try {
-    const response = await instance.get('/api/alert/');
+    const response = await instance.get(`/api/alert?page=${page}`);
     return response.data;
   } catch (error) {
     console.error('Error Fetching alarm data: ', error);
