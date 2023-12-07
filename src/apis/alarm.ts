@@ -17,7 +17,7 @@ export interface AlarmContent {
   groupId: number;
   groupName: string;
   redirectUrl: string;
-  isClicked: boolean;
+  isChecked: boolean;
 }
 
 export interface AlarmData {
@@ -67,7 +67,7 @@ export const deleteAlarm = async (alertId: number): Promise<boolean> => {
   }
 };
 
-export const readAlarm = async (alertId: number): Promise<boolean> => {
+export const readAlarm = async (alertId: number) => {
   try {
     const response = await instance.patch(`/api/alert/${alertId}`);
     return response.data;
