@@ -13,8 +13,18 @@ function Alarm() {
 
   const { data } = useGetAlarmData(0);
 
-  // const alarmCount = Array.isArray(data) ? data.length : 0;
-  const alarmCount = data ? data.content.length : 0;
+  const [alarmCount, setAlarmCount] = useState<number>(0);
+
+  useEffect(() => {
+    if (data) {
+      setAlarmCount(0);
+      data.content.forEach((alarm) => {
+        if (!alarm.isChecked) {
+          setAlarmCount((prevCount) => prevCount + 1);
+        }
+      });
+    }
+  }, [data]);
 
   // TODO: SSE 연결
   // const EventSource = EventSourcePolyfill;
@@ -58,7 +68,9 @@ function Alarm() {
   return (
     <>
       <AiOutlineBell size={24} onClick={() => setIsAlarmModal(true)} />
-      <S.AlarmCount>{alarmCount}</S.AlarmCount>
+      <S.AlarmCount>
+        {alarmCount > 19 ? alarmCount + '+' : alarmCount}
+      </S.AlarmCount>
       {isAlarmModal && <AlarmModal onClose={() => setIsAlarmModal(false)} />}
     </>
   );
