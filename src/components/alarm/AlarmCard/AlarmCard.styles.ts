@@ -25,15 +25,27 @@ export const AlarmCardGroupName = styled.span`
   font-size: 14px;
   color: #222222;
   font-weight: 600;
+
+  &.checked {
+    color: #cccccc;
+  }
 `;
 
 export const AlarmCardContent = styled.div`
   font-size: 14px;
   color: #222222;
   align-items: center;
+
+  &.checked {
+    color: #cccccc;
+  }
 `;
 
 export const AlarmCardDate = styled.p`
   font-size: 11px;
   color: #9a9a9a;
+
+  &.checked {
+    color: #cccccc;
+  }
 `;
