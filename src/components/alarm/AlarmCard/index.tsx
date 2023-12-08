@@ -39,28 +39,19 @@ function AlarmCard({ data, page, clickReadAll }: AlarmCardProps) {
     navigate(data.redirectUrl);
   };
 
+  const getCardStyleClassName = () =>
+    clickRead || clickReadAll || data.isChecked ? 'checked' : '';
+
   return (
     <S.AlarmCardContainer style={{ display: clickDelete ? 'none' : '' }}>
       <S.AlarmCardContentContainer onClick={handleRead}>
-        <S.AlarmCardContent
-          className={
-            clickRead || clickReadAll || data.isChecked ? 'checked' : ''
-          }
-        >
-          <S.AlarmCardGroupName
-            className={
-              clickRead || clickReadAll || data.isChecked ? 'checked' : ''
-            }
-          >
+        <S.AlarmCardContent className={getCardStyleClassName()}>
+          <S.AlarmCardGroupName className={getCardStyleClassName()}>
             {data.groupName}
           </S.AlarmCardGroupName>
           {data.content.content}
         </S.AlarmCardContent>
-        <S.AlarmCardDate
-          className={
-            clickRead || clickReadAll || data.isChecked ? 'checked' : ''
-          }
-        >
+        <S.AlarmCardDate className={getCardStyleClassName()}>
           {createdDate}
         </S.AlarmCardDate>
       </S.AlarmCardContentContainer>
