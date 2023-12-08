@@ -11,9 +11,10 @@ import { useNavigate } from 'react-router-dom';
 interface AlarmCardProps {
   data: AlarmContent;
   page: number;
+  clickReadAll: boolean;
 }
 
-function AlarmCard({ data, page }: AlarmCardProps) {
+function AlarmCard({ data, page, clickReadAll }: AlarmCardProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const createdDate = formatAlarmDate(data.createdDateTime);
@@ -42,17 +43,23 @@ function AlarmCard({ data, page }: AlarmCardProps) {
     <S.AlarmCardContainer style={{ display: clickDelete ? 'none' : '' }}>
       <S.AlarmCardContentContainer onClick={handleRead}>
         <S.AlarmCardContent
-          className={clickRead || data.isChecked ? 'checked' : ''}
+          className={
+            clickRead || clickReadAll || data.isChecked ? 'checked' : ''
+          }
         >
           <S.AlarmCardGroupName
-            className={clickRead || data.isChecked ? 'checked' : ''}
+            className={
+              clickRead || clickReadAll || data.isChecked ? 'checked' : ''
+            }
           >
             {data.groupName}
           </S.AlarmCardGroupName>
           {data.content.content}
         </S.AlarmCardContent>
         <S.AlarmCardDate
-          className={clickRead || data.isChecked ? 'checked' : ''}
+          className={
+            clickRead || clickReadAll || data.isChecked ? 'checked' : ''
+          }
         >
           {createdDate}
         </S.AlarmCardDate>

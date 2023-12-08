@@ -32,6 +32,7 @@ function AlarmModal({ onClose }: AlarmModalProps) {
       content: data ? data.content : [],
     },
   ]);
+  const [clickReadAll, setClickReadAll] = useState<boolean>(false);
 
   useEffect(() => {
     if (data) {
@@ -80,7 +81,8 @@ function AlarmModal({ onClose }: AlarmModalProps) {
 
   const handleReadAll = async () => {
     await readAllAlarm();
-    queryClient.invalidateQueries(['alarmData', page]);
+    setClickReadAll(true);
+    queryClient.invalidateQueries(['alarmData', 0]);
   };
 
   return (
@@ -95,7 +97,12 @@ function AlarmModal({ onClose }: AlarmModalProps) {
         {alarmContents &&
           alarmContents.map((alarmData: AlarmPageContent) =>
             alarmData.content.map((item) => (
-              <AlarmCard key={item.alertId} data={item} page={alarmData.page} />
+              <AlarmCard
+                key={item.alertId}
+                data={item}
+                page={alarmData.page}
+                clickReadAll={clickReadAll}
+              />
             ))
           )}
         <div ref={ref} />
