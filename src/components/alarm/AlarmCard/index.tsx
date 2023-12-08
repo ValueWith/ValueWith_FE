@@ -6,6 +6,7 @@ import { formatAlarmDate } from '@/utils/dateUtil';
 
 import { AiOutlineClose } from 'react-icons/ai';
 import * as S from './AlarmCard.styles';
+import { useNavigate } from 'react-router-dom';
 
 interface AlarmCardProps {
   data: AlarmContent;
@@ -14,7 +15,9 @@ interface AlarmCardProps {
 
 function AlarmCard({ data, page }: AlarmCardProps) {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const createdDate = formatAlarmDate(data.createdDateTime);
+
   const [clickDelete, setClickDelete] = useState<boolean>(false);
   const [clickRead, setClickRead] = useState<boolean>(false);
 
@@ -32,6 +35,7 @@ function AlarmCard({ data, page }: AlarmCardProps) {
       queryClient.invalidateQueries(['alarmData', page]);
     }
     setClickRead(true);
+    navigate(data.redirectUrl);
   };
 
   return (
