@@ -7,6 +7,7 @@ import AlarmModal from '../AlarmModal';
 
 import { AiOutlineBell } from 'react-icons/ai';
 import * as S from './Alarm.styles';
+import { useQueryClient } from 'react-query';
 
 function Alarm() {
   const [isAlarmModal, setIsAlarmModal] = useState<boolean>(false);
@@ -14,6 +15,8 @@ function Alarm() {
   const { data } = useGetAlarmData(0);
 
   const [alarmCount, setAlarmCount] = useState<number>(0);
+
+  const [isListening, setListening] = useState<boolean>(false);
 
   useEffect(() => {
     if (data) {
@@ -27,41 +30,55 @@ function Alarm() {
   }, [data]);
 
   // TODO: SSE 연결
-  // const EventSource = EventSourcePolyfill;
   // const queryClient = useQueryClient();
-
   // const accessToken = localStorage.getItem('accessToken');
 
   // useEffect(() => {
-  //   if (accessToken) {
-  //     let eventSource: EventSource | null = null;
-  //     const fetchSSE = async () => {
-  //       try {
-  //         eventSource = new EventSource(
-  //           `${import.meta.env.VITE_SERVER_URL}/alert/subscribe`,
-  //           {
-  //             headers: {
-  //               Authorization: accessToken,
-  //             },
-  //           }
-  //         );
-  //         eventSource.onmessage = async (event) => {
-  //           const response = await event.data;
-  //           console.log(response);
-  //           queryClient.invalidateQueries(['alarmData']);
-  //         };
+  //   console.log(accessToken, 'accessToken');
+  //   console.log(isListening, 'isListening');
 
-  //         eventSource.onerror = async (event) => {
-  //           if (eventSource) {
-  //             eventSource.close();
-  //           }
-  //         };
-  //       } catch (error) {
-  //         console.error(error);
+  //   if (!isListening && accessToken) {
+  //     let eventSource: any = undefined;
+
+  //     eventSource = new EventSourcePolyfill(
+  //       `${import.meta.env.VITE_BASE_URL}${
+  //         import.meta.env.VITE_SERVER_URL
+  //       }/alert/subscribe`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           'Content-Type': 'text/event-stream',
+  //         },
+  //         heartbeatTimeout: 86400000,
+  //         withCredentials: true,
+  //       }
+  //     );
+
+  //     eventSource.onopen = (event: any) => {
+  //       if (event.status === 200) {
+  //         console.log('open!!!!');
+  //         setListening(true);
   //       }
   //     };
-  //     fetchSSE();
-  //     return () => eventSource?.close();
+
+  //     eventSource.addEventListener('sse', (event: any) => {
+  //       console.log(event);
+  //       console.log(event.data);
+  //       queryClient.invalidateQueries(['alarmData', 0]);
+  //       setListening(true);
+  //     });
+
+  //     eventSource.onerror = (event: any) => {
+  //       eventSource.close();
+  //       setListening(false);
+  //     };
+
+  //     return () => {
+  //       if (!isListening && eventSource !== undefined) {
+  //         eventSource.close();
+  //         setListening(false);
+  //       }
+  //     };
   //   }
   // }, []);
 
@@ -69,7 +86,7 @@ function Alarm() {
     <>
       <AiOutlineBell size={24} onClick={() => setIsAlarmModal(true)} />
       <S.AlarmCount>
-        {alarmCount > 19 ? alarmCount + '+' : alarmCount}
+        {alarmCount > 100 ? alarmCount + '+' : alarmCount}
       </S.AlarmCount>
       {isAlarmModal && <AlarmModal onClose={() => setIsAlarmModal(false)} />}
     </>
