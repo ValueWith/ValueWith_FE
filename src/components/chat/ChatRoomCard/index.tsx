@@ -1,4 +1,5 @@
 import {
+  LastMessage,
   Message,
   RoomInfo,
   addOnMessageListener,
@@ -15,32 +16,39 @@ interface ChatRoomCardProps {
   room: RoomInfo;
 }
 
+function convertToMessage(lastMessage: LastMessage | null) {
+  return {
+    content: lastMessage?.content,
+    createdAt: lastMessage?.createdAt,
+    memberEmail: lastMessage?.memberIdDto.memberEmail,
+    memberId: lastMessage?.memberIdDto.memberId,
+    memberNickname: lastMessage?.memberIdDto.memberNickname,
+    memberProfileUrl: lastMessage?.memberIdDto.memberProfileUrl,
+  };
+}
+
 function ChatRoomCard({ room }: ChatRoomCardProps) {
   const [roomId, setRoomId] = useRecoilState(chatRoomIdState);
 
-  const [lastMessage, setLastMessage] = useState<Message>(room.lastMessage);
-  const [currentMemberCount, setCurrentMemberCount] = useState<number>(
-    room.currentMemberCount
+  const [lastMessage, setLastMessage] = useState(
+    convertToMessage(room.lastMessage)
   );
 
   useEffect(() => {
     function messageHandler(message: Message) {
       setLastMessage(message);
-      if (message.isWelcome) {
-        setCurrentMemberCount((prev) => ++prev);
-      }
     }
 
-    addOnMessageListener(room.roomId, messageHandler);
-    return () => removeOnMessageListener(room.roomId, messageHandler);
-  }, [room.roomId]);
+    addOnMessageListener(room.chatRoomId, messageHandler);
+    return () => removeOnMessageListener(room.chatRoomId, messageHandler);
+  }, [room.chatRoomId]);
 
   const handleClickRoom = () => {
-    setRoomId(room.roomId);
+    setRoomId(room.chatRoomId);
   };
 
   const cardStyleType = () => {
-    if (room.roomId === roomId) {
+    if (room.chatRoomId === roomId) {
       return '#fafafa';
     } else return '';
   };
@@ -51,14 +59,8 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
       style={{ backgroundColor: cardStyleType() }}
     >
       <div>
-        <S.ChatRoomTitle>
-          ({currentMemberCount}/{room.maxMemberCount}) {room.title}
-        </S.ChatRoomTitle>
-        <S.ChatRoomLastMessage>
-          {lastMessage.isWelcome
-            ? `'${lastMessage.nickName}' 님이 '${room.title}' 그룹에 참여하셨습니다.`
-            : lastMessage.messageContent}
-        </S.ChatRoomLastMessage>
+        <S.ChatRoomTitle>{room.title}</S.ChatRoomTitle>
+        <S.ChatRoomLastMessage>{lastMessage.content}</S.ChatRoomLastMessage>
       </div>
     </S.ChatRoomCardContainer>
   );
