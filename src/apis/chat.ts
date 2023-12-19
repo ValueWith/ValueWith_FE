@@ -4,32 +4,17 @@ import instance from '.';
 
 export interface Message {
   content: string;
-  createdAt: [
-    number, // year
-    number, // month
-    number, // day
-    number, // hour
-    number, // minute
-    number, // second
-    number // millisecond
-  ];
-  memberEmail: string;
+  createdAt: number[];
+  email: string;
   memberId: number;
-  memberNickname: string;
-  memberProfileUrl: string;
+  messageId?: number;
+  nickName: string;
+  profileUrl: string;
 }
 
 export interface LastMessage {
   content: string;
-  createdAt: [
-    number, // year
-    number, // month
-    number, // day
-    number, // hour
-    number, // minute
-    number, // second
-    number // millisecond
-  ];
+  createdAt: number[];
   memberIdDto: {
     memberEmail: string;
     memberId: number;
@@ -46,7 +31,7 @@ export interface RoomInfo {
 }
 
 export interface MessageListItem {
-  content: Message[];
+  content: Message[] | null;
   empty: boolean;
   first: boolean;
   last: boolean;
@@ -146,13 +131,21 @@ export function removeOnMessageListener(
   }
 }
 
-export function postMessage(roomId: number, newMessage: Message) {
-  stompClient?.send(`/pub/message/${roomId}`, {}, JSON.stringify(newMessage));
+export async function getMessages(roomId: number, page: number) {
+  try {
+    const response = await instance.get(
+      `/api/chat/room/${roomId}?page=${page}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error Fetching room messages', error);
+    throw error;
+  }
 }
 
-// export function postWelcomeMessage(roomId: number, memberId: number) {
-//   stompClient?.send(`/pub/message/join/${roomId}/${memberId}`);
-// }
+export function postMessage(roomId: number, newMessage: object) {
+  stompClient?.send(`/pub/message/${roomId}`, {}, JSON.stringify(newMessage));
+}
 
 export async function enterRoom(roomId: number) {
   try {
