@@ -1,12 +1,15 @@
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { chatRoomIdState } from '@/recoil/chatRoomIdState';
 
 import {
   Message,
   addOnMessageListener,
+  postMessage,
   removeOnMessageListener,
 } from '@/apis/chat';
+import { useUser } from '@/hooks/useUser';
+import { getCurrentTimeArray } from '@/utils/dateUtil';
 
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -33,17 +36,24 @@ function combineMessages(messages: Message[]): Message[] {
   });
 
   // 시간순으로 데이터 정렬
-  resultArray.sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  );
+  resultArray.sort((a, b) => {
+    const [yearA, monthA, dayA, hoursA, minutesA, secondsA] = a.createdAt;
+    const [yearB, monthB, dayB, hoursB, minutesB, secondsB] = b.createdAt;
+    const dateA = new Date(yearA, monthA - 1, dayA, hoursA, minutesA, secondsA);
+    const dateB = new Date(yearB, monthB - 1, dayB, hoursB, minutesB, secondsB);
+    return dateA.getTime() - dateB.getTime();
+  });
 
   return resultArray;
 }
 
 function RoomMessageList() {
   const roomId = useRecoilValue(chatRoomIdState);
+  const { userInfo } = useUser();
+
   const [liveMessageList, setLiveMessageList] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
+  const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
     setLiveMessageList([]);
@@ -54,9 +64,7 @@ function RoomMessageList() {
     return () => removeOnMessageListener(roomId, messageHandler);
   }, [roomId]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const untilDatetime = useMemo(() => new Date().toISOString(), [roomId]);
-  const { data, isLoading, isError } = useGetMessages(roomId, untilDatetime, 1);
+  const { data, isLoading, isError } = useGetMessages(roomId, page);
 
   const chatListContainerRef = useRef<HTMLDivElement>(null);
 
@@ -74,18 +82,18 @@ function RoomMessageList() {
     e.preventDefault();
 
     if (inputValue.trim() !== '') {
-      // TODO: message POST
-      console.log('input message', inputValue);
-      // window.__LIVE_TEST__.publishEvent(roomId, {
-      //   userId: `userId${roomId}`, // currentUserId
-      //   nickName: 'name',
-      //   profileUrl: 'https://picsum.photos/200',
-      //   messageId: `messageId${Math.random()}`,
-      //   messageContent: inputValue,
-      //   createdAt: new Date().toISOString(),
-      //   isWelcome: false,
-      // });
-
+      // TODO: newMessage 속성 수정
+      const newMessage: Message = {
+        content: inputValue,
+        createdAt: getCurrentTimeArray(),
+        messageId: 0,
+        email: userInfo.memberEmail,
+        memberId: userInfo.memberId,
+        nickName: userInfo.memberNickname,
+        profileUrl: userInfo.memberProfileUrl,
+      };
+      postMessage(roomId, newMessage);
+      setLiveMessageList((prev) => [...prev, newMessage]);
       setInputValue('');
     }
   };
@@ -99,7 +107,7 @@ function RoomMessageList() {
       {isLoading && <Loader />}
       {isError && <div>Error...</div>}
       <S.ChatListContainer ref={chatListContainerRef}>
-        {combineMessages([...(data?.messages || []), ...liveMessageList]).map(
+        {combineMessages([...(data?.content || []), ...liveMessageList]).map(
           (userSentMessage) => (
             <RoomMessageCard
               message={userSentMessage}
@@ -108,25 +116,28 @@ function RoomMessageList() {
           )
         )}
       </S.ChatListContainer>
-      <div className="relative">
-        <form onSubmit={handleSubmitMessage}>
+      <div className='relative'>
+        <form
+          onSubmit={handleSubmitMessage}
+          className='flex items-center border-solid border-t border-[#e0e0e0] bg-white chatInputForm'
+        >
           <Input
-            inputType="input"
-            name="inputMessage"
+            inputType='input'
+            name='inputMessage'
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             style={{
               borderRadius: 0,
-              border: 0,
-              borderTop: '1px solid #e0e0e0',
+              border: 'none',
+              borderTop: 0,
               height: '130px',
               fontSize: '15px',
             }}
           />
           <Button
-            type="submit"
-            styleType="solid"
-            style={{ position: 'absolute', right: '19px', bottom: 0 }}
+            type='submit'
+            styleType='solid'
+            style={{ marginRight: '12px', borderTop: 0 }}
           >
             전송
           </Button>

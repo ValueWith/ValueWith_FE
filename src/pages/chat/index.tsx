@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
+import { RoomInfoMap, roomInfoMapState } from '@/recoil/chatRoomIdState';
 import { RoomInfo, requestSocketSession } from '@/apis/chat';
 
 import ChatRoomList from '@/components/chat/ChatRoomList';
 import RoomMessageList from '@/components/chat/RoomMessageList';
+import Loader from '@/components/common/Loader';
 
 import * as S from './Chat.styles';
-import { RoomInfoMap, roomInfoMapState } from '@/recoil/chatRoomIdState';
-import { useRecoilState } from 'recoil';
-import Loader from '@/components/common/Loader';
 
 function convertToMap(roomInfos: RoomInfo[]): RoomInfoMap {
   const roomInfoMap: RoomInfoMap = {};
@@ -39,7 +39,7 @@ function Chat() {
       ) : (
         <>
           <ChatRoomList rooms={rooms} />
-          {/* <RoomMessageList /> */}
+          <RoomMessageList />
         </>
       )}
     </S.ChatContainer>
