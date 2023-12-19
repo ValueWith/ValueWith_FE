@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { useQueryClient } from 'react-query';
 
 import { useGetAlarmData } from '@/hooks/useAlarm';
 
@@ -7,7 +8,6 @@ import AlarmModal from '../AlarmModal';
 
 import { AiOutlineBell } from 'react-icons/ai';
 import * as S from './Alarm.styles';
-import { useQueryClient } from 'react-query';
 
 function Alarm() {
   const [isAlarmModal, setIsAlarmModal] = useState<boolean>(false);
@@ -61,14 +61,14 @@ function Alarm() {
   //       }
   //     };
 
-  //     eventSource.addEventListener('sse', (event: any) => {
-  //       console.log(event);
+  //     eventSource.onmessage = (event: any) => {
   //       console.log(event.data);
   //       queryClient.invalidateQueries(['alarmData', 0]);
   //       setListening(true);
-  //     });
+  //     };
 
   //     eventSource.onerror = (event: any) => {
+  //       console.log('error!!!!');
   //       eventSource.close();
   //       setListening(false);
   //     };
