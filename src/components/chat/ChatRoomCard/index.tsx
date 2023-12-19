@@ -20,10 +20,10 @@ function convertToMessage(lastMessage: LastMessage | null) {
   return {
     content: lastMessage?.content,
     createdAt: lastMessage?.createdAt,
-    memberEmail: lastMessage?.memberIdDto.memberEmail,
+    email: lastMessage?.memberIdDto.memberEmail,
     memberId: lastMessage?.memberIdDto.memberId,
-    memberNickname: lastMessage?.memberIdDto.memberNickname,
-    memberProfileUrl: lastMessage?.memberIdDto.memberProfileUrl,
+    nickName: lastMessage?.memberIdDto.memberNickname,
+    profileUrl: lastMessage?.memberIdDto.memberProfileUrl,
   };
 }
 
