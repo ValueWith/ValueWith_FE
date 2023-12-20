@@ -1,14 +1,13 @@
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+
+import { chatRoomIdState } from '@/recoil/chatRoomIdState';
 import {
-  LastMessage,
   Message,
   RoomInfo,
   addOnMessageListener,
   removeOnMessageListener,
 } from '@/apis/chat';
-
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { chatRoomIdState } from '@/recoil/chatRoomIdState';
 
 import * as S from './ChatRoomCard.styles';
 
@@ -16,27 +15,16 @@ interface ChatRoomCardProps {
   room: RoomInfo;
 }
 
-function convertToMessage(lastMessage: LastMessage | null) {
-  return {
-    content: lastMessage?.content,
-    createdAt: lastMessage?.createdAt,
-    email: lastMessage?.memberIdDto.memberEmail,
-    memberId: lastMessage?.memberIdDto.memberId,
-    nickName: lastMessage?.memberIdDto.memberNickname,
-    profileUrl: lastMessage?.memberIdDto.memberProfileUrl,
-  };
-}
-
 function ChatRoomCard({ room }: ChatRoomCardProps) {
   const [roomId, setRoomId] = useRecoilState(chatRoomIdState);
 
   const [lastMessage, setLastMessage] = useState(
-    convertToMessage(room.lastMessage)
+    room?.lastMessage?.content || ''
   );
 
   useEffect(() => {
     function messageHandler(message: Message) {
-      setLastMessage(message);
+      setLastMessage(message.content);
     }
 
     addOnMessageListener(room.chatRoomId, messageHandler);
@@ -60,7 +48,7 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
     >
       <div>
         <S.ChatRoomTitle>{room.title}</S.ChatRoomTitle>
-        <S.ChatRoomLastMessage>{lastMessage.content}</S.ChatRoomLastMessage>
+        <S.ChatRoomLastMessage>{lastMessage}</S.ChatRoomLastMessage>
       </div>
     </S.ChatRoomCardContainer>
   );
