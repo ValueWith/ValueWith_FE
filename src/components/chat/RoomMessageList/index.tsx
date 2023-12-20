@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { chatRoomIdState } from '@/recoil/chatRoomIdState';
 
 import {
+  LastMessage,
   Message,
   addOnMessageListener,
   postMessage,
@@ -19,7 +20,24 @@ import RoomMessageCard from '../RoomMessageCard';
 
 import * as S from './RoomMessageList.styles';
 
+function generateMessageId() {
+  return Number(Date.now().toString());
+}
+
+function convertToMessage(newMessage: LastMessage) {
+  return {
+    content: newMessage?.content,
+    createdAt: getCurrentTimeArray(),
+    email: newMessage?.memberIdDto.memberEmail,
+    memberId: newMessage?.memberIdDto.memberId,
+    nickName: newMessage?.memberIdDto.memberNickname,
+    profileUrl: newMessage?.memberIdDto.memberProfileUrl,
+    messageId: generateMessageId(),
+  };
+}
+
 function combineMessages(messages: Message[]): Message[] {
+  console.log('combine messages', messages);
   const seenIds = new Set();
 
   const resultArray = messages.filter((message) => {
@@ -35,13 +53,12 @@ function combineMessages(messages: Message[]): Message[] {
     return !isDuplicate;
   });
 
-  // 시간순으로 데이터 정렬
+  // messageId 순으로 정렬
   resultArray.sort((a, b) => {
-    const [yearA, monthA, dayA, hoursA, minutesA, secondsA] = a.createdAt;
-    const [yearB, monthB, dayB, hoursB, minutesB, secondsB] = b.createdAt;
-    const dateA = new Date(yearA, monthA - 1, dayA, hoursA, minutesA, secondsA);
-    const dateB = new Date(yearB, monthB - 1, dayB, hoursB, minutesB, secondsB);
-    return dateA.getTime() - dateB.getTime();
+    if (a.messageId && b.messageId) {
+      return a.messageId - b.messageId;
+    }
+    return 0;
   });
 
   return resultArray;
@@ -57,8 +74,9 @@ function RoomMessageList() {
 
   useEffect(() => {
     setLiveMessageList([]);
-    function messageHandler(message: Message) {
-      setLiveMessageList((prev) => [...prev, message]);
+    function messageHandler(message: any) {
+      // 실시간 채팅 수신 시 liveMessageList에 추가
+      setLiveMessageList((prev) => [...prev, convertToMessage(message)]);
     }
     addOnMessageListener(roomId, messageHandler);
     return () => removeOnMessageListener(roomId, messageHandler);
@@ -82,18 +100,15 @@ function RoomMessageList() {
     e.preventDefault();
 
     if (inputValue.trim() !== '') {
-      // TODO: newMessage 속성 수정
       const newMessage: Message = {
         content: inputValue,
         createdAt: getCurrentTimeArray(),
-        messageId: 0,
         email: userInfo.memberEmail,
         memberId: userInfo.memberId,
         nickName: userInfo.memberNickname,
         profileUrl: userInfo.memberProfileUrl,
       };
       postMessage(roomId, newMessage);
-      setLiveMessageList((prev) => [...prev, newMessage]);
       setInputValue('');
     }
   };
