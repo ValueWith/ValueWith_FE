@@ -30,63 +30,63 @@ function Alarm() {
   }, [data]);
 
   // TODO: SSE 연결
-  // const queryClient = useQueryClient();
-  // const accessToken = localStorage.getItem('accessToken');
+  const queryClient = useQueryClient();
+  const accessToken = localStorage.getItem('accessToken');
 
-  // useEffect(() => {
-  //   console.log(accessToken, 'accessToken');
-  //   console.log(isListening, 'isListening');
+  useEffect(() => {
+    console.log(accessToken, 'accessToken');
+    console.log(isListening, 'isListening');
 
-  //   if (!isListening && accessToken) {
-  //     let eventSource: any = undefined;
+    if (!isListening && accessToken) {
+      let eventSource: any = undefined;
 
-  //     eventSource = new EventSourcePolyfill(
-  //       `${import.meta.env.VITE_BASE_URL}${
-  //         import.meta.env.VITE_SERVER_URL
-  //       }/alert/subscribe`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //           'Content-Type': 'text/event-stream',
-  //         },
-  //         heartbeatTimeout: 86400000,
-  //         withCredentials: true,
-  //       }
-  //     );
+      eventSource = new EventSourcePolyfill(
+        `${import.meta.env.VITE_BASE_URL}${
+          import.meta.env.VITE_SERVER_URL
+        }/alert/subscribe`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'text/event-stream',
+          },
+          heartbeatTimeout: 86400000,
+          withCredentials: true,
+        }
+      );
 
-  //     eventSource.onopen = (event: any) => {
-  //       if (event.status === 200) {
-  //         console.log('open!!!!');
-  //         setListening(true);
-  //       }
-  //     };
+      eventSource.onopen = (event: any) => {
+        if (event.status === 200) {
+          console.log('sse connect!!!!');
+          setListening(true);
+        }
+      };
 
-  //     eventSource.onmessage = (event: any) => {
-  //       console.log(event.data);
-  //       queryClient.invalidateQueries(['alarmData', 0]);
-  //       setListening(true);
-  //     };
+      eventSource.onmessage = (event: any) => {
+        console.log(event.data);
+        queryClient.invalidateQueries(['alarmData', 0]);
+        setListening(true);
+      };
 
-  //     eventSource.onerror = (event: any) => {
-  //       console.log('error!!!!');
-  //       eventSource.close();
-  //       setListening(false);
-  //     };
+      eventSource.onerror = (event: any) => {
+        console.log('sse error!!!!');
+        eventSource.close();
+        setListening(false);
+      };
 
-  //     return () => {
-  //       if (!isListening && eventSource !== undefined) {
-  //         eventSource.close();
-  //         setListening(false);
-  //       }
-  //     };
-  //   }
-  // }, []);
+      return () => {
+        if (!isListening && eventSource !== undefined) {
+          eventSource.close();
+          setListening(false);
+        }
+      };
+    }
+  }, []);
 
   return (
     <>
       <AiOutlineBell size={24} onClick={() => setIsAlarmModal(true)} />
       <S.AlarmCount>
-        {alarmCount > 100 ? alarmCount + '+' : alarmCount}
+        {alarmCount > 19 ? alarmCount + '+' : alarmCount}
       </S.AlarmCount>
       {isAlarmModal && <AlarmModal onClose={() => setIsAlarmModal(false)} />}
     </>
