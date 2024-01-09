@@ -12,11 +12,12 @@ function RoomMessageCard({ message }: RoomMessageCardProps) {
   const { userInfo } = useUser();
 
   const isWelcome = message.content.includes('그룹에 참여하셨습니다.');
+  const isExit = message.content.includes('그룹에서 나가셨습니다.');
   const createdAt = formatTimeArray(message.createdAt);
 
   return (
     <>
-      {isWelcome ? (
+      {isWelcome || isExit ? (
         <S.UserWelcome>{message.content}</S.UserWelcome>
       ) : (
         <>
