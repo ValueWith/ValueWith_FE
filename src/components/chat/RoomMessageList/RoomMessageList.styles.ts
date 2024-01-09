@@ -10,4 +10,5 @@ export const ChatListContainer = styled.div`
   height: 697px;
   padding: 36px;
   overflow-y: scroll;
+  position: relative;
 `;

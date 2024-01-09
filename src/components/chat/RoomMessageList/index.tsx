@@ -160,9 +160,9 @@ function RoomMessageList() {
 
   return (
     <S.RoomMessageListContainer>
-      {isLoading && <Loader />}
       {isError && <div>Error...</div>}
       <S.ChatListContainer ref={chatListContainerRef}>
+        {isLoading && <Loader />}
         <div ref={ref} />
         {combineMessages([...(messages || []), ...liveMessageList]).map(
           (userSentMessage) => (
