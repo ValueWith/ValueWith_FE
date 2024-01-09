@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { chatRoomIdState } from '@/recoil/chatRoomIdState';
+import { useInView } from 'react-intersection-observer';
 
 import {
   LastMessage,
@@ -11,6 +11,7 @@ import {
 } from '@/apis/chat';
 import { useUser } from '@/hooks/useUser';
 import { getCurrentTimeArray } from '@/utils/dateUtil';
+import { chatRoomIdState } from '@/recoil/chatRoomIdState';
 
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -74,6 +75,7 @@ function RoomMessageList() {
 
   useEffect(() => {
     setLiveMessageList([]);
+    setPage(0);
     function messageHandler(message: any) {
       // 실시간 채팅 수신 시 liveMessageList에 추가
       setLiveMessageList((prev) => [...prev, convertToMessage(message)]);
@@ -95,6 +97,16 @@ function RoomMessageList() {
     }
     // 현재는 새로운 채팅이 발생하면 아래로 강제 스크롤 됨
   }, [data, liveMessageList]);
+
+  const { ref } = useInView({
+    rootMargin: '0px',
+    threshold: 1.0,
+    onChange: (inView) => {
+      if (inView) {
+        setPage((prev) => prev + 1);
+      }
+    },
+  });
 
   const handleSubmitMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -122,6 +134,7 @@ function RoomMessageList() {
       {isLoading && <Loader />}
       {isError && <div>Error...</div>}
       <S.ChatListContainer ref={chatListContainerRef}>
+        <div ref={ref} />
         {combineMessages([...(data?.content || []), ...liveMessageList]).map(
           (userSentMessage) => (
             <RoomMessageCard
