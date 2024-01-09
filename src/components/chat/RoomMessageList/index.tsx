@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useInView } from 'react-intersection-observer';
 
@@ -38,7 +38,6 @@ function convertToMessage(newMessage: LastMessage) {
 }
 
 function combineMessages(messages: Message[]): Message[] {
-  console.log('combine messages', messages);
   const seenIds = new Set();
 
   const resultArray = messages.filter((message) => {
@@ -72,10 +71,20 @@ function RoomMessageList() {
   const [liveMessageList, setLiveMessageList] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [page, setPage] = useState<number>(0);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [scrollOffset, setScrollOffset] = useState(0);
+
+  const chatListContainerRef = useRef<HTMLDivElement>(null);
+
+  const { data, isLoading, isError } = useGetMessages(roomId, page);
 
   useEffect(() => {
+    // roomId 변경 시 state 초기화
     setLiveMessageList([]);
     setPage(0);
+    setMessages([]);
+    setScrollOffset(0);
+
     function messageHandler(message: any) {
       // 실시간 채팅 수신 시 liveMessageList에 추가
       setLiveMessageList((prev) => [...prev, convertToMessage(message)]);
@@ -84,26 +93,46 @@ function RoomMessageList() {
     return () => removeOnMessageListener(roomId, messageHandler);
   }, [roomId]);
 
-  const { data, isLoading, isError } = useGetMessages(roomId, page);
+  useEffect(() => {
+    if (data) {
+      setMessages((prev) => [...data.content, ...prev]);
+    }
+  }, [data]);
 
-  const chatListContainerRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const chatListContainer = chatListContainerRef.current;
+
+    if (!chatListContainer) return;
+
+    if (chatListContainer) {
+      // 이전 스크롤 위치를 저장해서 새로운 데이터 불러와도 동일한 화면을 보도록 설정
+      if (scrollOffset < chatListContainer.scrollHeight) {
+        chatListContainer.scrollTop =
+          chatListContainer.scrollHeight - scrollOffset;
+        setScrollOffset(chatListContainer.scrollHeight);
+      }
+    }
+  }, [messages]);
 
   useEffect(() => {
     const chatListContainer = chatListContainerRef.current;
 
     if (chatListContainer) {
-      // 스크롤을 항상 아래에 유지
       chatListContainer.scrollTop = chatListContainer.scrollHeight;
     }
+
     // 현재는 새로운 채팅이 발생하면 아래로 강제 스크롤 됨
-  }, [data, liveMessageList]);
+  }, [liveMessageList]);
 
   const { ref } = useInView({
     rootMargin: '0px',
-    threshold: 1.0,
+    threshold: 1,
     onChange: (inView) => {
       if (inView) {
-        setPage((prev) => prev + 1);
+        if (data && !data.last) {
+          // 마지막 페이지 데이터가 아닌 경우에만 setPage
+          setPage((prev) => prev + 1);
+        }
       }
     },
   });
@@ -135,7 +164,7 @@ function RoomMessageList() {
       {isError && <div>Error...</div>}
       <S.ChatListContainer ref={chatListContainerRef}>
         <div ref={ref} />
-        {combineMessages([...(data?.content || []), ...liveMessageList]).map(
+        {combineMessages([...(messages || []), ...liveMessageList]).map(
           (userSentMessage) => (
             <RoomMessageCard
               message={userSentMessage}
