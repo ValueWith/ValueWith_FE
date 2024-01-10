@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 
 export const AlarmCount = styled.div`
   position: absolute;
-  top: -5px;
-  right: -5px;
-  width: 18px;
-  height: 18px;
+  top: -2px;
+  right: 0;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background-color: #f87973;
   display: flex;
