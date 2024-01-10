@@ -1,5 +1,5 @@
 import TripPlaceCard from '../TripPlaceCard';
-import { Place } from '@/apis/groupDetail';
+import { Place } from '@/apis/group';
 
 import * as S from './TripPlaceList.styles';
 
