@@ -13,7 +13,7 @@ import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 // components
 import { RiMessage2Line } from 'react-icons/ri';
 
-import Alarm from '../alarm/Alarm/Alarm';
+import Alarm from '../alarm/Alarm';
 import Button from '../Button';
 import DropdownMenu from '../DropdownMenu';
 
