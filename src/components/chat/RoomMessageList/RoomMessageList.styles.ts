@@ -12,3 +12,12 @@ export const ChatListContainer = styled.div`
   overflow-y: scroll;
   position: relative;
 `;
+
+export const RoomBlank = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #222222;
+`;

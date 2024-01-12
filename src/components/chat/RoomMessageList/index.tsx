@@ -155,7 +155,13 @@ function RoomMessageList() {
   };
 
   if (roomId === 0) {
-    return <S.RoomMessageListContainer />;
+    return (
+      <S.RoomMessageListContainer>
+        <S.RoomBlank>
+          좌측 채팅방을 클릭하여 그룹원과 채팅을 진행하세요!
+        </S.RoomBlank>
+      </S.RoomMessageListContainer>
+    );
   }
 
   return (
