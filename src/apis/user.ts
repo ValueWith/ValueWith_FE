@@ -1,5 +1,6 @@
 import instance from '.';
 import { LoginProps, SignUpProps } from './user.model';
+import { setAccessToken } from '@/utils/localStorage';
 
 // 이메일 인증 코드 요청
 export const verifyEmail = async (email: string): Promise<void> => {
@@ -62,7 +63,7 @@ export const tokenRefreshRequest = async () => {
     const response = await instance.post(
       import.meta.env.VITE_SERVER_URL + '/auth/refresh'
     );
-    localStorage.setItem('accessToken', response.data.accessToken);
+    setAccessToken(response.data.accessToken);
 
     return response.data.accessToken;
   } catch (e) {

@@ -5,6 +5,7 @@ import theme from '@/assets/styles/theme';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { tempFormState } from '@/recoil/GroupRegistState';
+import { removeGroupThumbnail } from '@/utils/localStorage';
 
 const RECRUIT_STEP = [
   {
@@ -32,14 +33,14 @@ function GroupNavSidebar({
 
   useEffect(() => {
     setTempFormData(null);
-    localStorage.removeItem('groupThumbnail');
+    removeGroupThumbnail();
   }, []);
 
   return (
     <S.RecruitSidebarContainer>
       <Logo
         color={theme.color.primary}
-        className="px-4 mb-[45px] cursor-pointer"
+        className='px-4 mb-[45px] cursor-pointer'
         onClick={() => navigate('/')}
       ></Logo>
 

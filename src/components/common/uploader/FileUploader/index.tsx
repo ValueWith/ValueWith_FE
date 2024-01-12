@@ -5,6 +5,7 @@ import ErrorMessage from '@components/common/Message/ErrorMessage';
 
 import { RiDragDropLine } from 'react-icons/ri';
 import { SkeletonImage } from '@components/common/SkeletonImage';
+import { setGroupThumbnail } from '@/utils/localStorage';
 
 interface FileUploaderProps {
   onFileSelected: (file: File) => void;
@@ -62,7 +63,7 @@ function FileUploader({
     reader.onload = () => {
       if (typeof reader.result === 'string') {
         setThumbnailUrl(reader.result);
-        localStorage.setItem('groupThumbnail', reader.result);
+        setGroupThumbnail(reader.result);
       }
     };
     reader.readAsDataURL(file);
@@ -100,7 +101,7 @@ function FileUploader({
       >
         {!thumbnailUrl && !storedImgUrl ? (
           <>
-            <RiDragDropLine className="dragIcon" />
+            <RiDragDropLine className='dragIcon' />
             <p>
               그룹 커버 이미지를 올려주세요 <br />
               권장 이미지 사이즈: 500 x 300
@@ -121,19 +122,19 @@ function FileUploader({
 
       <S.FileFunctionContainer>
         <S.FileUploadInput
-          id="fileUploader"
-          type="file"
-          accept="image/*"
+          id='fileUploader'
+          type='file'
+          accept='image/*'
           onChange={(event) => handleFileUpload(event, setThumbnailUrl)}
         />
 
-        <S.FileUploaderLabel htmlFor="fileUploader">
+        <S.FileUploaderLabel htmlFor='fileUploader'>
           이미지 업로드
         </S.FileUploaderLabel>
 
         {(thumbnailUrl || storedImgUrl) && (
           <S.FileDeleteButton
-            className="deleteButton"
+            className='deleteButton'
             onClick={handleDeleteImage}
           >
             이미지 삭제

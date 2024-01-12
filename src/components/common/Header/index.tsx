@@ -6,6 +6,7 @@ import { modalState } from '@/recoil/modalState';
 import { paramsState } from '@/recoil/paramsState';
 
 import { useUser } from '@/hooks/useUser';
+import { removeAccessToken, removeUserInfo } from '@/utils/localStorage';
 
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
@@ -74,8 +75,8 @@ function Header() {
           ...modalDataState,
           isModalOpen: false,
         });
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('userInfo');
+        removeAccessToken();
+        removeUserInfo();
         setIsLogin(false);
         navigate('/');
       },
