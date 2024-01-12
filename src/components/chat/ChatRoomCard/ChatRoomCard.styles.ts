@@ -29,16 +29,16 @@ export const ChatRoomLastMessage = styled.div`
   margin-top: 9px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
-export const NewMessageCount = styled.p`
-  width: 18px;
-  height: 18px;
+export const NewMessage = styled.p`
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: #f87973;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 13px;
 `;

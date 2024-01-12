@@ -17,6 +17,7 @@ interface ChatRoomCardProps {
 
 function ChatRoomCard({ room }: ChatRoomCardProps) {
   const [roomId, setRoomId] = useRecoilState(chatRoomIdState);
+  const [newMessage, setNewMessage] = useState<boolean>(false);
 
   const [lastMessage, setLastMessage] = useState(
     room?.lastMessage?.content || ''
@@ -25,6 +26,9 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
   useEffect(() => {
     function messageHandler(message: Message) {
       setLastMessage(message.content);
+      if (room.chatRoomId !== roomId) {
+        setNewMessage(true);
+      }
     }
 
     addOnMessageListener(room.chatRoomId, messageHandler);
@@ -33,6 +37,7 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
 
   const handleClickRoom = () => {
     setRoomId(room.chatRoomId);
+    setNewMessage(false);
   };
 
   const cardStyleType = () => {
@@ -46,9 +51,12 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
       onClick={handleClickRoom}
       style={{ backgroundColor: cardStyleType() }}
     >
-      <div>
+      <div className='w-[100%]'>
         <S.ChatRoomTitle>{room.title}</S.ChatRoomTitle>
-        <S.ChatRoomLastMessage>{lastMessage}</S.ChatRoomLastMessage>
+        <S.ChatRoomLastMessage>
+          {lastMessage}
+          {newMessage && <S.NewMessage />}
+        </S.ChatRoomLastMessage>
       </div>
     </S.ChatRoomCardContainer>
   );
