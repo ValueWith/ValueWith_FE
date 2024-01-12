@@ -1,6 +1,10 @@
+import { SetStateAction, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { SetStateAction, useEffect, useState } from 'react';
+import { useLounge, useProfile } from '@/hooks/useLounge';
+import { extractNumber } from '@/utils/extractNumber';
+import { UserInfo, getUserInfo, setUserInfo } from '@/utils/localStorage';
+
 import ProfileUploader from '@/components/common/uploader/ProfileUploader';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -8,10 +12,6 @@ import Dropdown from '@/components/common/Dropdown';
 
 import * as S from './EditProfile.styles';
 import * as US from '@pages/user/User.styles';
-import { useLounge, useProfile } from '@/hooks/useLounge';
-import { extractNumber } from '@/utils/extractNumber';
-import { useUser } from '@/hooks/useUser';
-import { UserInfo, setUserInfo } from '@/utils/localStorage';
 
 const GENDER_LISTDATA = ['여성', '남성'];
 const AGEGROUP_LISTDATA = ['10대', '20대', '30대', '40대', '50대', '60대 이상'];
@@ -30,7 +30,7 @@ function EditProfile() {
 
   const password = watch('password');
   const { data: userData, isLoading, isError } = useProfile();
-  const { userInfo } = useUser();
+  const userInfo = getUserInfo();
 
   const [provider, setProvider] = useState<string>('');
 

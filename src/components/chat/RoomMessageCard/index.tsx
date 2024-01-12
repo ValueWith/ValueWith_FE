@@ -1,6 +1,6 @@
 import { Message } from '@/apis/chat';
-import { useUser } from '@/hooks/useUser';
 import { formatTimeArray } from '@/utils/dateUtil';
+import { getUserInfo } from '@/utils/localStorage';
 
 import * as S from './RoomMessageCard.styles';
 
@@ -9,7 +9,7 @@ interface RoomMessageCardProps {
 }
 
 function RoomMessageCard({ message }: RoomMessageCardProps) {
-  const { userInfo } = useUser();
+  const userInfo = getUserInfo();
 
   const isWelcome = message.content.includes('그룹에 참여하셨습니다.');
   const isExit = message.content.includes('그룹에서 나가셨습니다.');

@@ -9,8 +9,8 @@ import {
   postMessage,
   removeOnMessageListener,
 } from '@/apis/chat';
-import { useUser } from '@/hooks/useUser';
 import { getCurrentTimeArray } from '@/utils/dateUtil';
+import { getUserInfo } from '@/utils/localStorage';
 import { chatRoomIdState } from '@/recoil/chatRoomIdState';
 
 import Input from '@/components/common/Input';
@@ -66,7 +66,7 @@ function combineMessages(messages: Message[]): Message[] {
 
 function RoomMessageList() {
   const roomId = useRecoilValue(chatRoomIdState);
-  const { userInfo } = useUser();
+  const userInfo = getUserInfo();
 
   const [liveMessageList, setLiveMessageList] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState<string>('');

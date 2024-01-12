@@ -4,9 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
 import { paramsState } from '@/recoil/paramsState';
+import { loginState } from '@/recoil/userState';
 
-import { useUser } from '@/hooks/useUser';
-import { removeAccessToken, removeUserInfo } from '@/utils/localStorage';
+import {
+  getUserInfo,
+  removeAccessToken,
+  removeUserInfo,
+} from '@/utils/localStorage';
 
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
@@ -23,13 +27,6 @@ import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
 
-interface UserInfo {
-  memberId: number;
-  memberNickname: string;
-  memberEmail: string;
-  memberProfileUrl: string;
-}
-
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -39,8 +36,9 @@ function Header() {
 
   const setParams = useSetRecoilState(paramsState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
 
-  const { userInfo, isLogin, setIsLogin } = useUser();
+  const userInfo = getUserInfo();
 
   useEffect(() => {
     if (location.pathname.startsWith('/mylounge')) {
