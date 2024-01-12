@@ -12,9 +12,11 @@ function ChatRoomList({ rooms }: ChatRoomListProps) {
   console.log('rooms', rooms);
   return (
     <S.ChatRoomListContainer>
-      {Object.values(rooms).map((room: RoomInfo) => (
-        <ChatRoomCard key={room.chatRoomId} room={room} />
-      ))}
+      {Object.values(rooms)
+        .reverse()
+        .map((room: RoomInfo) => (
+          <ChatRoomCard key={room.chatRoomId} room={room} />
+        ))}
     </S.ChatRoomListContainer>
   );
 }
