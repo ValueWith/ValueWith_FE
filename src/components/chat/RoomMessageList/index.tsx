@@ -112,7 +112,7 @@ function RoomMessageList() {
         setScrollOffset(chatListContainer.scrollHeight);
       }
     }
-  }, [messages]);
+  }, [messages, liveMessageList]);
 
   useEffect(() => {
     const chatListContainer = chatListContainerRef.current;
