@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { tokenRefreshRequest } from './user';
+import { getAccessToken, setAccessToken } from '@/utils/localStorage';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -11,7 +12,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   if (!config.headers) return config;
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = getAccessToken();
 
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -41,7 +42,7 @@ instance.interceptors.response.use(
           config.headers.Authorization = `Bearer ${accessToken}`;
 
           // 액세스 토큰과 유저 정보를 로컬 스토리지에 저장
-          localStorage.setItem('accessToken', response.data.accessToken);
+          setAccessToken(response.data.accessToken);
         }
 
         // 중단된 요청을 토큰 갱신 후 재요청

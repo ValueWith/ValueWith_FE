@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { paramsState } from '@/recoil/paramsState';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { GroupListParams } from '@/apis/group';
-import { useUser } from '@/hooks/useUser';
+import { paramsState } from '@/recoil/paramsState';
+import { modalState } from '@/recoil/modalState';
+import { loginState } from '@/recoil/userState';
 
-import * as S from './GroupMain.styles';
-import { RiFilterLine, RiFilter3Fill, RiEditFill } from 'react-icons/ri';
+import { GroupListParams } from '@/apis/group';
+
 import Button from '@/components/common/Button';
 import GroupFilter from '@/components/group/list/GroupFilter';
 import GroupTripList from '@/components/group/list/GroupTripList';
 import SearchBar from '@/components/common/SearchBar';
-import { modalState } from '@/recoil/modalState';
+
+import * as S from './GroupMain.styles';
+import { RiFilterLine, RiFilter3Fill, RiEditFill } from 'react-icons/ri';
 
 function GroupMain() {
   const navigate = useNavigate();
@@ -20,8 +22,7 @@ function GroupMain() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
-
-  const { isLogin } = useUser();
+  const isLogin = useRecoilValue(loginState);
 
   const hasDiffParams = (
     params: GroupListParams,
@@ -92,12 +93,12 @@ function GroupMain() {
       />
 
       {/* Filter */}
-      <S.SearchOptionContainer className="mt-[20px]">
-        <div className="flex items-center gap-8">
+      <S.SearchOptionContainer className='mt-[20px]'>
+        <div className='flex items-center gap-8'>
           <S.FilterButton>
             <div
               onClick={() => setIsClickFilter(true)}
-              className="flex items-center gap-1"
+              className='flex items-center gap-1'
             >
               필터 <RiFilterLine />
             </div>
@@ -111,7 +112,7 @@ function GroupMain() {
           <S.FilterButton>
             <div
               onClick={() => setIsClickSort(true)}
-              className="flex items-center gap-1"
+              className='flex items-center gap-1'
             >
               정렬 <RiFilter3Fill />
             </div>
@@ -125,11 +126,11 @@ function GroupMain() {
         </div>
         {/* New Post */}
         <Button
-          size="sm"
-          type="button"
-          styleType="solid"
+          size='sm'
+          type='button'
+          styleType='solid'
           style={{ fontWeight: '500' }}
-          className="gap-2"
+          className='gap-2'
           onClickHandler={() => {
             if (!isLogin) {
               return setModalDataState({

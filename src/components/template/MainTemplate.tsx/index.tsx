@@ -16,6 +16,8 @@ function MainTemplate({ children }: MainTemplateProps) {
       case '/login':
       case '/signup':
         return 'user';
+      case '/chat':
+        return 'chat';
       default:
         return '';
     }
@@ -26,7 +28,7 @@ function MainTemplate({ children }: MainTemplateProps) {
   }, [pathname]);
 
   return (
-    <S.TemplateContainer>
+    <S.TemplateContainer className={pageStyle}>
       <S.TemplateInner className={pageStyle}>{children}</S.TemplateInner>
     </S.TemplateContainer>
   );

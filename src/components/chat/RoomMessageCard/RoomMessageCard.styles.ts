@@ -21,6 +21,7 @@ export const UserWelcome = styled.div`
   color: #222222;
   text-align: center;
   padding: 10px 0;
+  margin-bottom: 22px;
 `;
 
 export const UserProfileImg = styled.img`
@@ -48,6 +49,11 @@ export const UserMessage = styled.div`
   background-color: #f1f9ff;
   box-shadow: 0px 1px 2px ${theme.color.gray100};
   border-radius: 4px;
+`;
+
+export const UserMessageDate = styled.div`
+  font-size: 13px;
+  color: #222222;
 `;
 
 export const MyMessage = styled.div`

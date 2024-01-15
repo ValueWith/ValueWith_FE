@@ -55,6 +55,39 @@ export function formatDueDate(dateString: Date) {
     : '';
 }
 
+export function getCurrentTimeArray(): number[] {
+  const currentDate = new Date();
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
+  const day = currentDate.getDate();
+  const hour = currentDate.getHours();
+  const minute = currentDate.getMinutes();
+  const second = currentDate.getSeconds();
+  const millisecond = currentDate.getMilliseconds();
+
+  return [year, month, day, hour, minute, second, millisecond];
+}
+
+export function formatTimeArray(timeArray: number[]): string {
+  const [year, month, day, hours, minutes, seconds] = timeArray;
+  const dateObject = new Date(year, month - 1, day, hours, minutes, seconds);
+
+  const options: Intl.DateTimeFormatOptions = {
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  };
+
+  const formattedTime = new Intl.DateTimeFormat('en-US', options).format(
+    dateObject
+  );
+
+  return formattedTime;
+}
+
 export function formatAlarmDate(dateArray: number[]): string {
   const [year, month, day, hours, minutes, seconds] = dateArray;
 

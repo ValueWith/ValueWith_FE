@@ -1,6 +1,10 @@
+import { SetStateAction, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { SetStateAction, useEffect, useState } from 'react';
+import { useLounge, useProfile } from '@/hooks/useLounge';
+import { extractNumber } from '@/utils/extractNumber';
+import { UserInfo, getUserInfo, setUserInfo } from '@/utils/localStorage';
+
 import ProfileUploader from '@/components/common/uploader/ProfileUploader';
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -8,9 +12,6 @@ import Dropdown from '@/components/common/Dropdown';
 
 import * as S from './EditProfile.styles';
 import * as US from '@pages/user/User.styles';
-import { useLounge, useProfile } from '@/hooks/useLounge';
-import { extractNumber } from '@/utils/extractNumber';
-import { useUser } from '@/hooks/useUser';
 
 const GENDER_LISTDATA = ['여성', '남성'];
 const AGEGROUP_LISTDATA = ['10대', '20대', '30대', '40대', '50대', '60대 이상'];
@@ -29,7 +30,7 @@ function EditProfile() {
 
   const password = watch('password');
   const { data: userData, isLoading, isError } = useProfile();
-  const { userInfo } = useUser();
+  const userInfo = getUserInfo();
 
   const [provider, setProvider] = useState<string>('');
 
@@ -66,14 +67,14 @@ function EditProfile() {
         }
       });
 
-      const userInfo = {
+      const userInfo: UserInfo = {
         memberId: userData.data.memberId,
         memberNickname: userData.data.nickName,
         memberEmail: userData.data.email,
         memberProfileUrl: userData.data.profileUrl,
       };
 
-      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      setUserInfo(userInfo);
     }
   }, [userData]);
 
@@ -137,7 +138,7 @@ function EditProfile() {
   return (
     <S.EditProfileContainer>
       <form
-        className="mt-[42px]"
+        className='mt-[42px]'
         onSubmit={handleSubmit(onSubmit)}
         onKeyDown={handleFormKeyPress}
       >
@@ -151,9 +152,9 @@ function EditProfile() {
 
         {/* 닉네임 */}
         <Input
-          label="닉네임 *"
-          inputType="input"
-          placeholder="닉네임 입력"
+          label='닉네임 *'
+          inputType='input'
+          placeholder='닉네임 입력'
           {...register('nickname', {
             required: '닉네임을 입력해주세요.',
             minLength: {
@@ -170,12 +171,12 @@ function EditProfile() {
 
         {/* 이메일 */}
         <div>
-          <US.InputHeading htmlFor="email">이메일 *</US.InputHeading>
+          <US.InputHeading htmlFor='email'>이메일 *</US.InputHeading>
           <US.InputContainer>
             <Input
-              type="text"
-              inputType="input"
-              className="disabled"
+              type='text'
+              inputType='input'
+              className='disabled'
               {...register('email', {
                 required: '이메일 주소를 입력해주세요.',
                 pattern: {
@@ -194,10 +195,10 @@ function EditProfile() {
           <>
             {/* 비밀번호 */}
             <Input
-              type="password"
-              inputType="input"
-              label="비밀번호 *"
-              placeholder="영문, 숫자 포함 6자 이상"
+              type='password'
+              inputType='input'
+              label='비밀번호 *'
+              placeholder='영문, 숫자 포함 6자 이상'
               {...register('password', {
                 pattern: {
                   value: /^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$/,
@@ -210,10 +211,10 @@ function EditProfile() {
 
             {/* 비밀번호 확인 */}
             <Input
-              type="password"
-              inputType="input"
-              label="비밀번호 확인 *"
-              placeholder="비밀번호 확인"
+              type='password'
+              inputType='input'
+              label='비밀번호 확인 *'
+              placeholder='비밀번호 확인'
               {...register('passwordConfirm')}
               errors={errors}
             />
@@ -221,11 +222,11 @@ function EditProfile() {
         )}
 
         {/* 성별 */}
-        <div className="mb-[24px]">
+        <div className='mb-[24px]'>
           <US.InputHeading>성별 *</US.InputHeading>
           <Dropdown
-            height="42px"
-            className="disabled"
+            height='42px'
+            className='disabled'
             listData={GENDER_LISTDATA}
             selectedItem={gender}
             onSelectItem={(item) => setGender(item)}
@@ -234,27 +235,27 @@ function EditProfile() {
         </div>
 
         {/* 연령대 */}
-        <div className="mb-[24px]">
+        <div className='mb-[24px]'>
           <US.InputHeading>연령대 *</US.InputHeading>
           <Dropdown
-            height="42px"
+            height='42px'
             listData={AGEGROUP_LISTDATA}
             selectedItem={ageGroup}
             onSelectItem={(item) => setAgeGroup(item)}
-            placeholder="연령대를 선택해주세요"
+            placeholder='연령대를 선택해주세요'
             error={isAgeGroupError}
           />
         </div>
 
         {/* 회원가입 버튼  */}
         <Button
-          type="submit"
+          type='submit'
           styleType={
             watch('nickname') !== '' && watch('email') != '' && ageGroup !== ''
               ? 'solid'
               : 'disabled'
           }
-          size="md"
+          size='md'
           fullWidth
         >
           정보 수정

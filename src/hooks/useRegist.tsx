@@ -22,6 +22,7 @@ import {
 } from '@/recoil/GroupRegistState';
 import { useNavigate } from 'react-router-dom';
 import { fetchGroupDetail } from '@/apis/group';
+import { removeGroupThumbnail } from '@/utils/localStorage';
 
 export const useGetSuggestionData = (params: SuggestionsModel) => {
   const [suggestionData, setSuggestionData] = useState<any>([]);
@@ -166,7 +167,7 @@ export const useRegistGroup = () => {
       }
 
       setTempFormData({});
-      localStorage.removeItem('groupThumbnail');
+      removeGroupThumbnail();
 
       return setModalDataState({
         ...modalDataState,

@@ -1,14 +1,10 @@
 import { useQuery } from 'react-query';
 import { getMessages } from '@/apis/chat';
 
-export const useGetMessages = (
-  roomId: number,
-  untilDateTime: string,
-  page: number
-) => {
+export const useGetMessages = (roomId: number, page: number) => {
   return useQuery(
-    ['chatMessage', roomId],
-    () => getMessages(roomId, untilDateTime, page),
+    ['chatMessage', roomId, page],
+    () => getMessages(roomId, page),
     {
       cacheTime: 0,
     }

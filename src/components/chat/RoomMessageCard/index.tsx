@@ -1,4 +1,7 @@
 import { Message } from '@/apis/chat';
+import { formatTimeArray } from '@/utils/dateUtil';
+import { getUserInfo } from '@/utils/localStorage';
+
 import * as S from './RoomMessageCard.styles';
 
 interface RoomMessageCardProps {
@@ -6,22 +9,26 @@ interface RoomMessageCardProps {
 }
 
 function RoomMessageCard({ message }: RoomMessageCardProps) {
-  // userId 가 현재 user와 동일한지 식별하기 위한 임시 변수
-  const currentUserId = 'userId1';
+  const userInfo = getUserInfo();
+
+  const isWelcome = message.content.includes('그룹에 참여하셨습니다.');
+  const isExit = message.content.includes('그룹에서 나가셨습니다.');
+  const createdAt = formatTimeArray(message.createdAt);
 
   return (
     <>
-      {message.isWelcome ? (
-        <S.UserWelcome>
-          '{message.nickName}' 님이 그룹에 참여하셨습니다.
-        </S.UserWelcome>
+      {isWelcome || isExit ? (
+        <S.UserWelcome>{message.content}</S.UserWelcome>
       ) : (
         <>
-          {currentUserId === message.userId ? (
+          {userInfo.memberId === message.memberId ? (
             <S.MyMessageCardContainer>
               <S.UserChatContainer>
                 <S.UserName>나</S.UserName>
-                <S.MyMessage>{message.messageContent}</S.MyMessage>
+                <div className='flex items-end gap-3'>
+                  <S.UserMessageDate>{createdAt}</S.UserMessageDate>
+                  <S.MyMessage>{message.content}</S.MyMessage>
+                </div>
               </S.UserChatContainer>
             </S.MyMessageCardContainer>
           ) : (
@@ -29,7 +36,10 @@ function RoomMessageCard({ message }: RoomMessageCardProps) {
               <S.UserProfileImg src={message.profileUrl} />
               <S.UserChatContainer>
                 <S.UserName>{message.nickName}</S.UserName>
-                <S.UserMessage>{message.messageContent}</S.UserMessage>
+                <div className='flex items-end gap-3'>
+                  <S.UserMessage>{message.content}</S.UserMessage>
+                  <S.UserMessageDate>{createdAt}</S.UserMessageDate>
+                </div>
               </S.UserChatContainer>
             </S.OtherMessageCardContainer>
           )}

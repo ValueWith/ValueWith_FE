@@ -5,6 +5,7 @@ export const HeaderContainer = styled.header`
   position: relative;
   width: 100%;
   height: ${theme.layoutComponent.header_height}px;
+  background-color: ${theme.color.white};
   border-bottom: 1px solid ${theme.color.gray200};
   z-index: 3;
 `;

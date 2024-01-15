@@ -1,127 +1,107 @@
-import axios from 'axios';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+import instance from '.';
 
 export interface Message {
-  userId: string;
+  content: string;
+  createdAt: number[];
+  email: string;
+  memberId: number;
+  messageId?: number;
   nickName: string;
   profileUrl: string;
-  messageId: string;
-  messageContent: string;
-  createdAt: string; // ISO 8601 2013-06-13T13:12:13.123+09:00
-  isWelcome: boolean;
+}
+
+export interface LastMessage {
+  content: string;
+  createdAt: number[];
+  memberIdDto: {
+    memberEmail: string;
+    memberId: number;
+    memberNickname: string;
+    memberProfileUrl: string;
+  };
 }
 
 export interface RoomInfo {
-  roomId: number;
-  currentMemberCount: number;
-  maxMemberCount: number;
+  chatRoomId: number;
+  lastMessage: LastMessage | null;
   title: string;
-  lastMessage: Message;
+  tripGroupId: number;
 }
 
 export interface MessageListItem {
-  currentPage: number;
-  totalPages: number;
-  totalElements: number;
+  content: Message[] | null;
+  empty: boolean;
+  first: boolean;
   last: boolean;
-  messages: Message[];
+  number: number;
+  numberOfElements: number;
+  pabeable: {
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
+    paged: boolean;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    unpaged: boolean;
+  };
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
 }
 
 export type MessageListener = (newMessage: Message) => void;
 
 const messageListenerMap = new Map<number, MessageListener[]>();
 
+let stompClient: Stomp.Client | null;
+
 // 페이지 진입 시 소켓 연결하는 함수
 export function requestSocketSession(onSuccess: (rooms: RoomInfo[]) => void) {
-  // TODO: 실제로 해야하는 일
-  // const socket = new SockJS(`${API_BASE_URL}${LIVE_ENDPOINT}`);
-  // const stompClient = Stomp.over(socket);
-  // stompClient.connect({}, async () => {
-  //   const rooms = await getRooms();
-  //   rooms.forEach((roomInfo) => {
-  //     stompClient?.subscribe(`rooms/${roomInfo.roomId}/chats`, ({ body }) => {
-  //       const newMessage = JSON.parse(body) as Message;
-  //       messageListenerMap
-  //         .get(roomInfo.roomId)
-  //         ?.forEach((messageListener) => messageListener(newMessage));
-  //     });
-  //   });
-  //   onSuccess(rooms);
-  // });
+  const socket = new SockJS('https://tweaver.site/chat');
+  stompClient = Stomp.over(socket);
 
-  // TODO: Mock
-  onSuccess([
-    {
-      roomId: 1,
-      currentMemberCount: 1,
-      maxMemberCount: 5,
-      title: '한옥에서 한복입고 사진찍는거 어때?',
-      lastMessage: {
-        userId: 'test',
-        nickName: '유진',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId1',
-        messageContent: '',
-        createdAt: '2023-11-12T15:03:17.402Z',
-        isWelcome: true,
-      },
-    },
-    {
-      roomId: 2,
-      currentMemberCount: 2,
-      maxMemberCount: 5,
-      title: '보드게임카페 가쥬아',
-      lastMessage: {
-        userId: 'test',
-        nickName: '지유진',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId1',
-        messageContent: '제 MBTI는 ISTJ 입니다.',
-        createdAt: '2023-11-12T15:03:17.402Z',
-        isWelcome: false,
-      },
-    },
-    {
-      roomId: 3,
-      currentMemberCount: 3,
-      maxMemberCount: 5,
-      title: '물놀이 어때요?',
-      lastMessage: {
-        userId: 'test',
-        nickName: '수균',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId1',
-        messageContent: '안녕하세요 이수근입니다.',
-        createdAt: '2023-11-12T15:03:17.402Z',
-        isWelcome: false,
-      },
-    },
-    {
-      roomId: 4,
-      currentMemberCount: 4,
-      maxMemberCount: 5,
-      title: '부산 회먹으러 갈사람?',
-      lastMessage: {
-        userId: 'test',
-        nickName: '수균',
-        profileUrl: 'https://picsum.photos/200',
-        messageId: 'messageId1',
-        messageContent: '저는 부산 처음가봐요.',
-        createdAt: '2023-11-12T15:03:17.402Z',
-        isWelcome: false,
-      },
-    },
-  ]);
+  stompClient.connect({}, async () => {
+    const rooms = await getRooms();
+    rooms.forEach((roomInfo) => {
+      stompClient?.subscribe(
+        `/sub/chat/room/${roomInfo.chatRoomId}`,
+        ({ body }) => {
+          const newMessage = JSON.parse(body) as Message;
+          messageListenerMap
+            .get(roomInfo.chatRoomId)
+            ?.forEach((messageListener) => messageListener(newMessage));
+        }
+      );
+    });
+    onSuccess(rooms);
+  });
 
   return () => {
-    // TODO: 실제로 해야하는 일
-    // stompClient.connected && stompClient.disconnect();
+    if (stompClient && stompClient.connected) {
+      stompClient.disconnect(() => {
+        console.log('Disconnected!');
+      });
+    }
   };
 }
 
-function getRooms(): Promise<RoomInfo[]> {
-  return new Promise((resolve) => {
-    // resolve(true);
-  });
+export async function getRooms(): Promise<RoomInfo[]> {
+  try {
+    const response = await instance.get(`/api/chat/room`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error Fetching rooms', error);
+    throw error;
+  }
 }
 
 export function addOnMessageListener(
@@ -151,38 +131,29 @@ export function removeOnMessageListener(
   }
 }
 
-export async function getMessages(
-  roomId: number,
-  untilDatetime: string,
-  page: number
-): Promise<MessageListItem> {
+export async function getMessages(roomId: number, page: number) {
   try {
-    const response = await axios.get<MessageListItem>(
-      `http://localhost:5000/messages?roomId=${roomId}&untilDatetime=${untilDatetime}&page=${page}`
+    const response = await instance.get(
+      `/api/chat/room/${roomId}?page=${page}`
     );
     return response.data;
   } catch (error) {
-    console.error('Error Fetching data: ', error);
+    console.error('Error Fetching room messages', error);
     throw error;
   }
 }
 
-export function postMessage(
-  roomId: number,
-  newMessage: Omit<Message, 'messageId'>
-): Promise<boolean> {
-  return new Promise((resolve) => {
-    resolve(true);
-  });
+export function postMessage(roomId: number, newMessage: object) {
+  stompClient?.send(`/pub/message/${roomId}`, {}, JSON.stringify(newMessage));
 }
 
-// TODO: underline is mock
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-window.__LIVE_TEST__ = {
-  publishEvent(roomId: number, newMessage: Message) {
-    messageListenerMap
-      .get(roomId)
-      ?.forEach((messageListener) => messageListener(newMessage));
-  },
-};
+export async function enterRoom(roomId: number) {
+  try {
+    const response = await instance.post(`/api/chat/room/${roomId}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error Fetching rooms', error);
+    throw error;
+  }
+}
