@@ -39,6 +39,11 @@ export const Closed = styled.div`
     padding: 12px 14px;
     border-radius: 4px;
   }
+
+  .mylounge & {
+    height: calc(100% - 31px - 14px);
+    /* content height: 30px, border: 1px, padding: 14px */
+  }
 `;
 
 export const CardTumbnail = styled.img`
