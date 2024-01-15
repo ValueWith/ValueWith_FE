@@ -12,8 +12,7 @@ import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 
 // components
 import { RiMessage2Line } from 'react-icons/ri';
-import { AiOutlineBell } from 'react-icons/ai';
-
+import Alarm from '@/components/alarm/Alarm';
 import Button from '../Button';
 import DropdownMenu from '../DropdownMenu';
 
@@ -127,7 +126,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className="list">
+          <ul className='list'>
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -156,11 +155,11 @@ function Header() {
               </S.UserActionItem>
 
               {/* 알림 */}
-              <S.UserActionItem>
-                <AiOutlineBell size={24} />
+              <S.UserActionItem className='relative'>
+                <Alarm />
               </S.UserActionItem>
 
-              <S.UserActionItem className="userProfile">
+              <S.UserActionItem className='userProfile'>
                 <DropdownMenu
                   options={[
                     {
@@ -181,7 +180,7 @@ function Header() {
                     {userInfo?.memberProfileUrl && (
                       <S.ProfileImage
                         src={userInfo.memberProfileUrl}
-                        alt="프로필 사진"
+                        alt='프로필 사진'
                       />
                     )}
                     {userInfo?.memberNickname && (
@@ -198,8 +197,8 @@ function Header() {
             </S.UserActions>
           ) : (
             <Button
-              type="button"
-              styleType="basic"
+              type='button'
+              styleType='basic'
               onClickHandler={handleLogin}
             >
               로그인

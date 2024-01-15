@@ -54,3 +54,15 @@ export function formatDueDate(dateString: Date) {
         .replace(/\.$/, '')
     : '';
 }
+
+export function formatAlarmDate(dateArray: number[]): string {
+  const [year, month, day, hours, minutes, seconds] = dateArray;
+
+  const formattedDate = `${year}.${String(month).padStart(2, '0')}.${String(
+    day
+  ).padStart(2, '0')} ${String(hours).padStart(2, '0')}:${String(
+    minutes
+  ).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+  return formattedDate;
+}
