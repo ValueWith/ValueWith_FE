@@ -6,7 +6,7 @@ import { AlarmContent, readAllAlarm } from '@/apis/alarm';
 import { useGetAlarmData } from '@/hooks/useAlarm';
 
 import AlarmCard from '../AlarmCard';
-import Loader from '@/components/Loader';
+import Loader from '@/components/common/Loader';
 
 import * as S from './AlarmModal.styles';
 
