@@ -17,8 +17,7 @@ import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 
 // components
 import { RiMessage2Line } from 'react-icons/ri';
-import { AiOutlineBell } from 'react-icons/ai';
-
+import Alarm from '@/components/alarm/Alarm';
 import Button from '../Button';
 import DropdownMenu from '../DropdownMenu';
 
@@ -155,8 +154,8 @@ function Header() {
               </S.UserActionItem>
 
               {/* 알림 */}
-              <S.UserActionItem>
-                <AiOutlineBell size={24} />
+              <S.UserActionItem className='relative'>
+                <Alarm />
               </S.UserActionItem>
 
               <S.UserActionItem className='userProfile'>
