@@ -33,7 +33,7 @@ function ChatRoomCard({ room }: ChatRoomCardProps) {
 
     addOnMessageListener(room.chatRoomId, messageHandler);
     return () => removeOnMessageListener(room.chatRoomId, messageHandler);
-  }, [room.chatRoomId]);
+  }, [room.chatRoomId, roomId]);
 
   const handleClickRoom = () => {
     setRoomId(room.chatRoomId);
