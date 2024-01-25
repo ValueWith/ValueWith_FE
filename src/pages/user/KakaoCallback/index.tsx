@@ -1,8 +1,8 @@
 import instance from '@/apis';
+import { tokenRefreshRequest } from '@/apis/user';
 import Loader from '@/components/common/Loader';
 
 import { modalState } from '@/recoil/modalState';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -16,10 +16,8 @@ function KakaoCallback() {
   const handleKakaoLogin = async (code: string) => {
     try {
       // 백엔드로 요청을 보내면, 백엔드에서 카카오로부터 받은 인가 코드를 이용해 유저 정보와 jwt 토큰을 받아온다.
-      const response = await axios.get(
-        import.meta.env.VITE_SERVER_URL +
-          `/oauth2/authorization/kakao?code=${code}`
-      );
+      const response = await tokenRefreshRequest();
+      // document.cookie = "쿠키이름=쿠키값"
 
       const data = response.data; // 응답 데이터
       alert('로그인 성공: ' + data);
