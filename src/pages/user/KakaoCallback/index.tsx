@@ -13,13 +13,13 @@ function KakaoCallback() {
 
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
-  const handleKakaoLogin = async (code: string) => {
+  const handleKakaoLogin = async () => {
     try {
       // 백엔드로 요청을 보내면, 백엔드에서 카카오로부터 받은 인가 코드를 이용해 유저 정보와 jwt 토큰을 받아온다.
       const response = await tokenRefreshRequest();
-      // document.cookie = "쿠키이름=쿠키값"
-
       const data = response.data; // 응답 데이터
+      document.cookie = `RefreshToken=${data.refreshToken}; path=/;`;
+
       alert('로그인 성공: ' + data);
     } catch (error) {
       setModalDataState({
@@ -38,12 +38,7 @@ function KakaoCallback() {
   };
 
   useEffect(() => {
-    // params에서 code만 가져오기
-    const code = new URLSearchParams(location.search).get('code');
-
-    if (code) {
-      handleKakaoLogin(code);
-    }
+    handleKakaoLogin();
   }, []);
 
   return (
