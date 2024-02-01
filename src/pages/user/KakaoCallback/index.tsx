@@ -9,13 +9,13 @@ import { useRecoilState } from 'recoil';
 
 function KakaoCallback() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
 
   const handleKakaoLogin = async () => {
     try {
-      // 백엔드로 요청을 보내면, 백엔드에서 카카오로부터 받은 인가 코드를 이용해 유저 정보와 jwt 토큰을 받아온다.
+      // 백엔드로 요청을 보내면, 백엔드에서 유저 정보와 jwt 토큰을 받아온다.
       const response = await tokenRefreshRequest();
       const data = response.data; // 응답 데이터
       document.cookie = `RefreshToken=${data.refreshToken}; path=/;`;
@@ -38,6 +38,10 @@ function KakaoCallback() {
   };
 
   useEffect(() => {
+    // 서버로부터 받은 인가 코드를 쿠키로 저장하고, 해당 쿠키로 유저 정보를 handleKakaoLogin으로 받아온다.
+    const refreshToken = pathname.split('=')[1];
+    document.cookie = `RefreshToken=${refreshToken}; path=/;`;
+
     handleKakaoLogin();
   }, []);
 
