@@ -112,14 +112,14 @@ function Login() {
         </S.EmailButton>
 
         {/* 카카오 로그인 */}
-        {/* <S.KakaoButton onClick={() => navigate()}>
+        <S.KakaoButton onClick={handleKakao}>
           <KakaoLogo style={{ marginRight: '10px' }} />
           카카오로 시작하기
-        </S.KakaoButton> */}
-
+        </S.KakaoButton>
+        {/* 
         <button type="button" onClick={handleKakao}>
           카카오 로그인
-        </button>
+        </button> */}
       </S.SocialLoginContainer>
     </S.UserWrapper>
   );
