@@ -1,4 +1,3 @@
-import instance from '@/apis';
 import { tokenRefreshRequest } from '@/apis/user';
 import Loader from '@/components/common/Loader';
 
