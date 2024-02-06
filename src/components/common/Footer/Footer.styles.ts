@@ -4,6 +4,7 @@ import theme from '@assets/styles/theme';
 export const FooterContainer = styled.footer`
   width: 100%;
   height: ${(props) => props.theme.layoutComponent.footer_height}px;
+  background-color: ${theme.color.white};
   border-top: 1px solid ${theme.color.gray200};
 `;
 

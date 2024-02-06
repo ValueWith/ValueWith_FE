@@ -1,12 +1,17 @@
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { chatRoomIdState } from '@/recoil/chatRoomIdState';
+import { useInView } from 'react-intersection-observer';
 
 import {
+  LastMessage,
   Message,
   addOnMessageListener,
+  postMessage,
   removeOnMessageListener,
 } from '@/apis/chat';
+import { getCurrentTimeArray } from '@/utils/dateUtil';
+import { getUserInfo } from '@/utils/localStorage';
+import { chatRoomIdState } from '@/recoil/chatRoomIdState';
 
 import Input from '@/components/common/Input';
 import Button from '@/components/common/Button';
@@ -15,6 +20,22 @@ import Loader from '@/components/common/Loader';
 import RoomMessageCard from '../RoomMessageCard';
 
 import * as S from './RoomMessageList.styles';
+
+function generateMessageId() {
+  return Number(Date.now().toString());
+}
+
+function convertToMessage(newMessage: LastMessage) {
+  return {
+    content: newMessage?.content,
+    createdAt: getCurrentTimeArray(),
+    email: newMessage?.memberIdDto.memberEmail,
+    memberId: newMessage?.memberIdDto.memberId,
+    nickName: newMessage?.memberIdDto.memberNickname,
+    profileUrl: newMessage?.memberIdDto.memberProfileUrl,
+    messageId: generateMessageId(),
+  };
+}
 
 function combineMessages(messages: Message[]): Message[] {
   const seenIds = new Set();
@@ -32,74 +53,124 @@ function combineMessages(messages: Message[]): Message[] {
     return !isDuplicate;
   });
 
-  // 시간순으로 데이터 정렬
-  resultArray.sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  );
+  // messageId 순으로 정렬
+  resultArray.sort((a, b) => {
+    if (a.messageId && b.messageId) {
+      return a.messageId - b.messageId;
+    }
+    return 0;
+  });
 
   return resultArray;
 }
 
 function RoomMessageList() {
   const roomId = useRecoilValue(chatRoomIdState);
+  const userInfo = getUserInfo();
+
   const [liveMessageList, setLiveMessageList] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
+  const [page, setPage] = useState<number>(0);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [scrollOffset, setScrollOffset] = useState(0);
+
+  const chatListContainerRef = useRef<HTMLDivElement>(null);
+
+  const { data, isLoading, isError } = useGetMessages(roomId, page);
 
   useEffect(() => {
+    // roomId 변경 시 state 초기화
     setLiveMessageList([]);
-    function messageHandler(message: Message) {
-      setLiveMessageList((prev) => [...prev, message]);
+    setPage(0);
+    setMessages([]);
+    setScrollOffset(0);
+
+    function messageHandler(message: any) {
+      // 실시간 채팅 수신 시 liveMessageList에 추가
+      setLiveMessageList((prev) => [...prev, convertToMessage(message)]);
     }
     addOnMessageListener(roomId, messageHandler);
     return () => removeOnMessageListener(roomId, messageHandler);
   }, [roomId]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const untilDatetime = useMemo(() => new Date().toISOString(), [roomId]);
-  const { data, isLoading, isError } = useGetMessages(roomId, untilDatetime, 1);
+  useEffect(() => {
+    if (data) {
+      setMessages((prev) => [...data.content, ...prev]);
+    }
+  }, [data]);
 
-  const chatListContainerRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const chatListContainer = chatListContainerRef.current;
+
+    if (!chatListContainer) return;
+
+    if (chatListContainer) {
+      // 이전 스크롤 위치를 저장해서 새로운 데이터 불러와도 동일한 화면을 보도록 설정
+      if (scrollOffset < chatListContainer.scrollHeight) {
+        chatListContainer.scrollTop =
+          chatListContainer.scrollHeight - scrollOffset;
+        setScrollOffset(chatListContainer.scrollHeight);
+      }
+    }
+  }, [messages, liveMessageList]);
 
   useEffect(() => {
     const chatListContainer = chatListContainerRef.current;
 
     if (chatListContainer) {
-      // 스크롤을 항상 아래에 유지
       chatListContainer.scrollTop = chatListContainer.scrollHeight;
     }
+
     // 현재는 새로운 채팅이 발생하면 아래로 강제 스크롤 됨
-  }, [data, liveMessageList]);
+  }, [liveMessageList]);
+
+  const { ref } = useInView({
+    rootMargin: '0px',
+    threshold: 1,
+    onChange: (inView) => {
+      if (inView) {
+        if (data && !data.last) {
+          // 마지막 페이지 데이터가 아닌 경우에만 setPage
+          setPage((prev) => prev + 1);
+        }
+      }
+    },
+  });
 
   const handleSubmitMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (inputValue.trim() !== '') {
-      // TODO: message POST
-      console.log('input message', inputValue);
-      // window.__LIVE_TEST__.publishEvent(roomId, {
-      //   userId: `userId${roomId}`, // currentUserId
-      //   nickName: 'name',
-      //   profileUrl: 'https://picsum.photos/200',
-      //   messageId: `messageId${Math.random()}`,
-      //   messageContent: inputValue,
-      //   createdAt: new Date().toISOString(),
-      //   isWelcome: false,
-      // });
-
+      const newMessage: Message = {
+        content: inputValue,
+        createdAt: getCurrentTimeArray(),
+        email: userInfo.memberEmail,
+        memberId: userInfo.memberId,
+        nickName: userInfo.memberNickname,
+        profileUrl: userInfo.memberProfileUrl,
+      };
+      postMessage(roomId, newMessage);
       setInputValue('');
     }
   };
 
   if (roomId === 0) {
-    return <S.RoomMessageListContainer />;
+    return (
+      <S.RoomMessageListContainer>
+        <S.RoomBlank>
+          좌측 채팅방을 클릭하여 그룹원과 채팅을 진행하세요!
+        </S.RoomBlank>
+      </S.RoomMessageListContainer>
+    );
   }
 
   return (
     <S.RoomMessageListContainer>
-      {isLoading && <Loader />}
       {isError && <div>Error...</div>}
       <S.ChatListContainer ref={chatListContainerRef}>
-        {combineMessages([...(data?.messages || []), ...liveMessageList]).map(
+        {isLoading && <Loader />}
+        <div ref={ref} />
+        {combineMessages([...(messages || []), ...liveMessageList]).map(
           (userSentMessage) => (
             <RoomMessageCard
               message={userSentMessage}
@@ -108,25 +179,28 @@ function RoomMessageList() {
           )
         )}
       </S.ChatListContainer>
-      <div className="relative">
-        <form onSubmit={handleSubmitMessage}>
+      <div className='relative'>
+        <form
+          onSubmit={handleSubmitMessage}
+          className='flex items-center border-solid border-t border-[#e0e0e0] bg-white chatInputForm'
+        >
           <Input
-            inputType="input"
-            name="inputMessage"
+            inputType='input'
+            name='inputMessage'
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             style={{
               borderRadius: 0,
-              border: 0,
-              borderTop: '1px solid #e0e0e0',
+              border: 'none',
+              borderTop: 0,
               height: '130px',
               fontSize: '15px',
             }}
           />
           <Button
-            type="submit"
-            styleType="solid"
-            style={{ position: 'absolute', right: '19px', bottom: 0 }}
+            type='submit'
+            styleType='solid'
+            style={{ marginRight: '12px', borderTop: 0 }}
           >
             전송
           </Button>

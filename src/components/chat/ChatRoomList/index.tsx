@@ -1,19 +1,22 @@
 import { RoomInfo } from '@/apis/chat';
+import { RoomInfoMap } from '@/recoil/chatRoomIdState';
+
 import ChatRoomCard from '../ChatRoomCard';
 
 import * as S from './ChatRoomList.styles';
 
 interface ChatRoomListProps {
-  rooms: RoomInfo[];
+  rooms: RoomInfoMap;
 }
 
 function ChatRoomList({ rooms }: ChatRoomListProps) {
-  console.log('rooms', rooms);
   return (
     <S.ChatRoomListContainer>
-      {rooms.map((room) => (
-        <ChatRoomCard key={room.roomId} room={room} />
-      ))}
+      {Object.values(rooms)
+        .reverse()
+        .map((room: RoomInfo) => (
+          <ChatRoomCard key={room.chatRoomId} room={room} />
+        ))}
     </S.ChatRoomListContainer>
   );
 }

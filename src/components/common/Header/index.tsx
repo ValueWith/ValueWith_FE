@@ -4,16 +4,20 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
 import { paramsState } from '@/recoil/paramsState';
+import { loginState } from '@/recoil/userState';
 
-import { useUser } from '@/hooks/useUser';
+import {
+  getUserInfo,
+  removeAccessToken,
+  removeUserInfo,
+} from '@/utils/localStorage';
 
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 
 // components
 import { RiMessage2Line } from 'react-icons/ri';
-import { AiOutlineBell } from 'react-icons/ai';
-
+import Alarm from '@/components/alarm/Alarm';
 import Button from '../Button';
 import DropdownMenu from '../DropdownMenu';
 
@@ -21,13 +25,6 @@ import DropdownMenu from '../DropdownMenu';
 import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
-
-interface UserInfo {
-  memberId: number;
-  memberNickname: string;
-  memberEmail: string;
-  memberProfileUrl: string;
-}
 
 function Header() {
   const location = useLocation();
@@ -38,8 +35,9 @@ function Header() {
 
   const setParams = useSetRecoilState(paramsState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
 
-  const { userInfo, isLogin, setIsLogin } = useUser();
+  const userInfo = getUserInfo();
 
   useEffect(() => {
     if (location.pathname.startsWith('/mylounge')) {
@@ -74,8 +72,8 @@ function Header() {
           ...modalDataState,
           isModalOpen: false,
         });
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('userInfo');
+        removeAccessToken();
+        removeUserInfo();
         setIsLogin(false);
         navigate('/');
       },
@@ -127,7 +125,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className="list">
+          <ul className='list'>
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -151,16 +149,16 @@ function Header() {
           {isLogin ? (
             <S.UserActions>
               {/* 채팅 */}
-              <S.UserActionItem>
+              <S.UserActionItem onClick={() => navigate('/chat')}>
                 <RiMessage2Line size={24} />
               </S.UserActionItem>
 
               {/* 알림 */}
-              <S.UserActionItem>
-                <AiOutlineBell size={24} />
+              <S.UserActionItem className='relative'>
+                <Alarm />
               </S.UserActionItem>
 
-              <S.UserActionItem className="userProfile">
+              <S.UserActionItem className='userProfile'>
                 <DropdownMenu
                   options={[
                     {
@@ -181,7 +179,7 @@ function Header() {
                     {userInfo?.memberProfileUrl && (
                       <S.ProfileImage
                         src={userInfo.memberProfileUrl}
-                        alt="프로필 사진"
+                        alt='프로필 사진'
                       />
                     )}
                     {userInfo?.memberNickname && (
@@ -198,8 +196,8 @@ function Header() {
             </S.UserActions>
           ) : (
             <Button
-              type="button"
-              styleType="basic"
+              type='button'
+              styleType='basic'
               onClickHandler={handleLogin}
             >
               로그인

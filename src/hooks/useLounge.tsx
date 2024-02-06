@@ -13,6 +13,8 @@ import { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
 
+import { setUserInfo } from '@/utils/localStorage';
+
 export const useGroupMemberList = (
   status: string,
   tripGroupId: number,
@@ -164,7 +166,7 @@ export const useLounge = () => {
         memberProfileUrl: data.memberProfileUrl,
       };
 
-      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      setUserInfo(userInfo);
 
       setModalDataState({
         isModalOpen: true,

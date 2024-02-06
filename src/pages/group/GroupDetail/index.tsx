@@ -1,22 +1,23 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
+import { loginState } from '@/recoil/userState';
 
 import { useGroupDetailDataFetching } from '@/hooks/useGroup';
+import { getUserInfo } from '@/utils/localStorage';
+import { checkApplicationStatus } from '@/utils/checkApplicationStatus';
 
 import GroupTitle from '@/components/group/detail/GroupTitle';
 import GroupMemberStatus from '@/components/group/detail/GroupMemberStatus';
 import Loader from '@/components/common/Loader';
 import TripTitle from '@/components/group/detail/TripTitle';
 import TripPlaceList from '@/components/group/detail/TripPlaceList';
-
-import * as S from './GroupDetail.styles';
 import ApplyButton from '@/components/group/detail/ApplyButton';
 import KakaoMap from '@/components/group/recruit/KakaoMap';
 
-import { checkApplicationStatus } from '@/utils/checkApplicationStatus';
-import { useRecoilState } from 'recoil';
-import { mapOptionState, selectedPlaceState } from '@/recoil/GroupRegistState';
-import { useUser } from '@/hooks/useUser';
+import * as S from './GroupDetail.styles';
 
 function GroupDetail() {
   const { groupId } = useParams();
@@ -26,11 +27,12 @@ function GroupDetail() {
   const [isDetail, setIsDetail] = useState<boolean>(false);
   const [isDetailError, setIsDetailError] = useState<boolean>(false);
 
+  const isLogin = useRecoilValue(loginState);
+  const userInfo = getUserInfo();
+
   const { data, isLoading, isError } = useGroupDetailDataFetching(
     Number(groupId)
   );
-
-  const { userInfo, isLogin } = useUser();
 
   useEffect(() => {
     const handleData = () => {
@@ -49,7 +51,7 @@ function GroupDetail() {
     };
 
     handleData();
-  }, [userInfo, data, setSelectedPlace]);
+  }, [data, setSelectedPlace]);
 
   return (
     <>
@@ -60,13 +62,13 @@ function GroupDetail() {
           <GroupTitle title={data.tripGroupDetail.name} />
 
           {/* 카카오 지도  */}
-          <div className='w-full h-[500px] mt-6'>
+          <div className="w-full h-[500px] mt-6">
             <KakaoMap isDetail={isDetail} isError={isDetailError} />
           </div>
 
           {/* 그룹 멤버 정보 & 지원 정보  */}
           <S.GroupContentContainer>
-            <div className='flex flex-col gap-3'>
+            <div className="flex flex-col gap-3">
               <GroupMemberStatus
                 currentUserNumber={data.tripGroupDetail.currentUserNumber}
                 maxUserNumber={data.tripGroupDetail.maxUserNumber}

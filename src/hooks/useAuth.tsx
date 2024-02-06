@@ -9,6 +9,8 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginState } from '@/recoil/userState';
 import { modalState } from '@/recoil/modalState';
 
+import { setAccessToken, setUserInfo } from '@/utils/localStorage';
+
 export interface ModalProps {
   title: string;
   message: string;
@@ -96,11 +98,8 @@ function useAuth() {
 
     try {
       const response = await loginRequest(data);
-      localStorage.setItem('accessToken', response.data.accessToken);
-      localStorage.setItem(
-        'userInfo',
-        JSON.stringify(response.data.loginMemberIdDto)
-      );
+      setAccessToken(response.data.accessToken);
+      setUserInfo(response.data.loginMemberIdDto);
       setIsLogin(true);
       navigate('/');
     } catch (error) {

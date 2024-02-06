@@ -6,6 +6,17 @@ export const TemplateContainer = styled.main`
   min-height: ${`calc(100% - ${theme.layoutComponent.header_height}px - ${theme.layoutComponent.footer_height}px)`};
   padding: 50px 0;
   position: relative;
+
+  &.chat::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f1f9ff;
+    z-index: -9;
+  }
 `;
 
 export const TemplateInner = styled.div`
