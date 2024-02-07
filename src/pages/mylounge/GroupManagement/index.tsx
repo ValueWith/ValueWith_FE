@@ -26,6 +26,10 @@ const GROUP_MANAGEMENT_TABS = [
     label: '대기중인 그룹',
     type: 'pending',
   },
+  {
+    label: '내 관심 그룹',
+    type: 'bookmark',
+  },
 ];
 
 function GroupManagement() {
