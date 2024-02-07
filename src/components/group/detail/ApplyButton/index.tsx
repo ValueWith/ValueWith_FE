@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useGroup } from '@/hooks/useGroup';
 
 import Button from '@/components/common/Button';
 import Loader from '@/components/common/Loader';
-import { useGroup } from '@/hooks/useGroup';
+import DropdownMenu from '@/components/common/DropdownMenu';
+
+import { IoIosArrowDown } from 'react-icons/io';
 
 export interface ApplyButtonProps {
   tripGroupId: number;
@@ -10,35 +12,33 @@ export interface ApplyButtonProps {
 }
 
 function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
-  const { handleModalAction, isLoading } = useGroup();
-  const navigate = useNavigate();
+  const { handleModalAction, getDropdownOptions, isLoading } = useGroup();
 
   return (
-    <div className='relative'>
+    <div>
       {isLoading && (
         <Loader className='z-[1]' width={30} height={30} bgColor='white' />
       )}
 
       {userStatus === 'leader' && (
-        <div className='flex gap-3'>
-          <Button
-            type='button'
-            styleType='solid'
-            style={isLoading ? { pointerEvents: 'none' } : {}}
-            fullWidth
-            onClickHandler={() => navigate(`/group/edit/${tripGroupId}`)}
-          >
-            수정
-          </Button>
-          <Button
-            type='button'
-            styleType='warning'
-            style={isLoading ? { pointerEvents: 'none' } : {}}
-            fullWidth
-            onClickHandler={() => handleModalAction(tripGroupId, 'leader')}
-          >
-            삭제
-          </Button>
+        <div className='absolute top-0'>
+          {/* 그룹 관리 */}
+          <DropdownMenu options={getDropdownOptions(tripGroupId, userStatus)}>
+            <Button
+              type='button'
+              styleType='basic'
+              size='sm'
+              style={{
+                border: '1px solid #707070',
+                color: '#222222',
+                gap: '4px',
+                height: '31px',
+                padding: '0 8px 0 12px',
+              }}
+            >
+              그룹 관리 <IoIosArrowDown />
+            </Button>
+          </DropdownMenu>
         </div>
       )}
 
@@ -78,7 +78,7 @@ function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
 
       {userStatus === '마감' && (
         <Button type='button' styleType='disabled' fullWidth>
-          마감
+          모집 마감
         </Button>
       )}
     </div>
