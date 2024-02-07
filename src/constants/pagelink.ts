@@ -15,6 +15,10 @@ export const MYLOUNGE_SUBMENU_LINK = [
     name: '그룹 관리',
   },
   {
+    path: '/mylounge/calendar',
+    name: '내 여행달력',
+  },
+  {
     path: '/mylounge/profile',
     name: '내 프로필 수정',
   },

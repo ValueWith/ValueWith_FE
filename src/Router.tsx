@@ -3,24 +3,33 @@ import App from './App';
 import Error from './pages/user/Error';
 import loadable from '@loadable/component';
 
+// 유저 페이지
 const Signup = loadable(() => import('./pages/user/Signup/index.tsx'));
 const Login = loadable(() => import('./pages/user/Login/index.tsx'));
 const Home = loadable(() => import('./pages/Home/index.tsx'));
+
+// 그룹 페이지
 const GroupMain = loadable(() => import('./pages/group/GroupMain/index.tsx'));
 const GroupRecruit = loadable(
   () => import('./pages/group/GroupRecruit/index.tsx')
 );
 const GroupEdit = loadable(() => import('./pages/group/GroupEdit'));
+
+// 마이 라운지
 const GroupManagement = loadable(
   () => import('./pages/mylounge/GroupManagement/index.tsx')
 );
-
 const EditProfile = loadable(
   () => import('./pages/mylounge/EditProfile/index.tsx')
 );
 const GroupDetail = loadable(
   () => import('./pages/group/GroupDetail/index.tsx')
 );
+const MyCalendar = loadable(
+  () => import('./pages/mylounge/MyCalendar/index.tsx')
+);
+
+// 채팅
 const Chat = loadable(() => import('./pages/chat/index.tsx'));
 
 export {
@@ -32,6 +41,7 @@ export {
   GroupManagement,
   EditProfile,
   GroupDetail,
+  MyCalendar,
   Chat,
 };
 
@@ -74,6 +84,10 @@ const router = createBrowserRouter([
           {
             path: 'management',
             element: <GroupManagement />,
+          },
+          {
+            path: 'calendar',
+            element: <MyCalendar />,
           },
           {
             path: 'profile',
