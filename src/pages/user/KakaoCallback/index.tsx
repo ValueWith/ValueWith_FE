@@ -3,6 +3,7 @@ import { tokenRefreshRequest } from '@/apis/user';
 import Loader from '@/components/common/Loader';
 
 import { modalState } from '@/recoil/modalState';
+import { setAccessToken } from '@/utils/localStorage';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -15,13 +16,10 @@ function KakaoCallback() {
 
   const handleKakaoLogin = async () => {
     try {
-      const refreshToken = searchParams.get('refreshToken');
-      console.log('refreshToken2', refreshToken);
-
       // 백엔드로 요청을 보내면, 백엔드에서 유저 정보와 jwt 토큰을 받아온다.
+      const refreshToken = searchParams.get('refreshToken');
 
       // const response = await tokenRefreshRequest();
-
       const response = await instance.post(
         import.meta.env.VITE_SERVER_URL + '/auth/refresh',
         {
@@ -32,8 +30,8 @@ function KakaoCallback() {
         }
       );
 
-      console.log('data', response.data);
-      alert('로그인 성공: ' + response.data);
+      setAccessToken(response.data.accessToken);
+      navigate('/');
     } catch (error) {
       setModalDataState({
         isModalOpen: true,
