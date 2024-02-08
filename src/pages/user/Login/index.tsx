@@ -116,10 +116,6 @@ function Login() {
           <KakaoLogo style={{ marginRight: '10px' }} />
           카카오로 시작하기
         </S.KakaoButton>
-        {/* 
-        <button type="button" onClick={handleKakao}>
-          카카오 로그인
-        </button> */}
       </S.SocialLoginContainer>
     </S.UserWrapper>
   );
