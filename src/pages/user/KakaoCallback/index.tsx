@@ -50,13 +50,7 @@ function KakaoCallback() {
   };
 
   useEffect(() => {
-    // 서버로부터 받은 인가 코드를 쿠키로 저장하고, 해당 쿠키로 유저 정보를 handleKakaoLogin으로 받아온다.
-    const refreshToken = searchParams.get('refreshToken');
-    document.cookie = `RefreshToken=${refreshToken}; path=/;`;
-
-    if (refreshToken) {
-      handleKakaoLogin();
-    }
+    handleKakaoLogin();
   }, []);
 
   return (
