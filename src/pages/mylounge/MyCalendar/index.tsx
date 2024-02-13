@@ -1,5 +1,133 @@
-function MyCalendar() {
-  return <div></div>;
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+
+import FullCalendar from '@fullcalendar/react';
+import { DatesSetArg, EventContentArg } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+
+import * as S from './MyCalendar.styles';
+import { preventDefault } from '@fullcalendar/core/internal';
+
+interface IGetScheduleForm {
+  startDate: null | Date;
+  endDate: null | Date;
 }
+
+const MyCalendar = () => {
+  const [period, setPeriod] = useState<IGetScheduleForm>({
+    startDate: null,
+    endDate: null,
+  });
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isOpenScheduleDialog, setIsOpenScheduleDialog] = useState(false);
+
+  const scheduleList = [
+    {
+      title: '여행 그룹',
+      openDate: 'Wed Feb 14 2024 04:01:56 GMT+0900',
+    },
+    {
+      title: '여행 그룹',
+      openDate: 'Wed Feb 15 2024 04:01:56 GMT+0900',
+    },
+    {
+      title: '여행 그룹2',
+      openDate: 'Wed Feb 15 2024 04:01:56 GMT+0900',
+    },
+    {
+      title: '여행 그룹3',
+      openDate: 'Wed Feb 15 2024 04:01:56 GMT+0900',
+    },
+    {
+      title: '여행 그룹4',
+      openDate: 'Wed Feb 15 2024 04:01:56 GMT+0900',
+    },
+  ];
+
+  useEffect(function setCalendarEventHeightHack() {
+    const calendarElement = document.getElementsByClassName(
+      'fc-scrollgrid-sync-table'
+    )[0];
+
+    if (calendarElement.tagName == 'TABLE') {
+      const trElements = calendarElement.getElementsByTagName('tr');
+
+      for (let i = 0; i < trElements.length; i++) {
+        const tr = trElements[i];
+
+        tr.style.height = `${100 / trElements.length}%`;
+      }
+    }
+  });
+
+  const events = scheduleList?.map((schedule) => {
+    const openDate = new Date(schedule.openDate);
+
+    return {
+      title: schedule.title,
+      start: openDate,
+      eventColor: '#3182f6',
+    };
+  });
+
+  const onDateClick = ({ date }: DateClickArg) => {
+    onOpenScheduleDialog(date);
+  };
+
+  const onChangeDate = ({ startStr, endStr }: DatesSetArg) => {
+    setPeriod({ startDate: new Date(startStr), endDate: new Date(endStr) });
+  };
+
+  const onOpenScheduleDialog = (selected: Date) => {
+    setSelectedDate(selected);
+    setIsOpenScheduleDialog(true);
+  };
+
+  const eventContent = (eventInfo: EventContentArg) => {
+    console.log(eventInfo.event.title);
+    return (
+      <div
+        style={{
+          width: '100%',
+          backgroundColor: '#3182f6',
+          borderRadius: '3px',
+          color: '#fff',
+          fontWeight: 600,
+          padding: '3px 5px',
+        }}
+      >
+        {eventInfo.event.title}
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <div
+        style={{
+          marginTop: '50px',
+        }}
+      >
+        <S.CalendarContainer>
+          <FullCalendar
+            locale="kr"
+            plugins={[dayGridPlugin, interactionPlugin]}
+            events={events}
+            dayMaxEvents={3}
+            datesSet={onChangeDate}
+            dateClick={onDateClick}
+            eventContent={eventContent}
+            headerToolbar={{
+              left: 'prev',
+              center: 'title',
+              right: 'next',
+            }}
+          />
+        </S.CalendarContainer>
+      </div>
+    </>
+  );
+};
 
 export default MyCalendar;
