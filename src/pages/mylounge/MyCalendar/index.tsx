@@ -107,7 +107,7 @@ const MyCalendar = () => {
     <>
       <div
         style={{
-          marginTop: '50px',
+          marginTop: '52px',
         }}
       >
         <S.CalendarContainer>
