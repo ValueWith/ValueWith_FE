@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
 import FullCalendar from '@fullcalendar/react';
-import { DatesSetArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 import * as S from './Calendar.styles';
 import { useCalendar } from '@/hooks/useCalendar';
+import DetailInfo from '@/components/modal/calendar/DetailInfo';
 
 const Calendar = () => {
   const {
@@ -16,6 +16,7 @@ const Calendar = () => {
     period,
     selectedDate,
     isOpenScheduleDialog,
+    setIsOpenScheduleDialog,
   } = useCalendar();
 
   const scheduleList = [
@@ -81,6 +82,12 @@ const Calendar = () => {
 
   return (
     <>
+      <DetailInfo
+        open={isOpenScheduleDialog}
+        setOpen={setIsOpenScheduleDialog}
+        selectedDate={selectedDate}
+      />
+
       <S.CalendarContainer>
         <FullCalendar
           locale="ko"
@@ -88,6 +95,7 @@ const Calendar = () => {
           events={events}
           dayMaxEvents={3}
           datesSet={onChangeDate}
+          eventClick={(info) => onDateClick(info.event.start)}
           dateClick={onDateClick}
           eventContent={eventContent}
           headerToolbar={{

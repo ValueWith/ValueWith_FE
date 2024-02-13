@@ -1,6 +1,5 @@
 import EventContent from '@/components/common/calendar/EventContent';
 import { DatesSetArg, EventContentArg } from '@fullcalendar/core';
-import { DateClickArg } from '@fullcalendar/interaction';
 
 import { useState } from 'react';
 
@@ -18,7 +17,7 @@ export const useCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isOpenScheduleDialog, setIsOpenScheduleDialog] = useState(false);
 
-  const onDateClick = ({ date }: DateClickArg) => {
+  const onDateClick = ({ date }: any) => {
     onOpenScheduleDialog(date);
   };
 
@@ -42,5 +41,6 @@ export const useCalendar = () => {
     period,
     selectedDate,
     isOpenScheduleDialog,
+    setIsOpenScheduleDialog,
   };
 };
