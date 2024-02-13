@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import theme from '@/assets/styles/theme';
 
 export const CalendarContainer = styled.div`
+  margin-top: 52px;
+
   .fc {
     th[role='columnheader'] {
       background-color: #f8f8f8;

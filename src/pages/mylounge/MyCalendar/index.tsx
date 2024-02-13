@@ -105,31 +105,25 @@ const MyCalendar = () => {
 
   return (
     <>
-      <div
-        style={{
-          marginTop: '52px',
-        }}
-      >
-        <S.CalendarContainer>
-          <FullCalendar
-            locale="ko"
-            plugins={[dayGridPlugin, interactionPlugin]}
-            events={events}
-            dayMaxEvents={3}
-            datesSet={onChangeDate}
-            dateClick={onDateClick}
-            eventContent={eventContent}
-            headerToolbar={{
-              start: 'prev title next today',
-              center: '',
-              end: '',
-            }}
-            buttonText={{
-              today: '오늘',
-            }}
-          />
-        </S.CalendarContainer>
-      </div>
+      <S.CalendarContainer>
+        <FullCalendar
+          locale="ko"
+          plugins={[dayGridPlugin, interactionPlugin]}
+          events={events}
+          dayMaxEvents={3}
+          datesSet={onChangeDate}
+          dateClick={onDateClick}
+          eventContent={eventContent}
+          headerToolbar={{
+            start: 'prev title next today',
+            center: '',
+            end: '',
+          }}
+          buttonText={{
+            today: '오늘',
+          }}
+        />
+      </S.CalendarContainer>
     </>
   );
 };
