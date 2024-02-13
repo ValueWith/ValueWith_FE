@@ -3,23 +3,20 @@ import { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import { DatesSetArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import interactionPlugin from '@fullcalendar/interaction';
 
 import * as S from './Calendar.styles';
-import EventContent from '../EventContent';
-
-interface IGetScheduleForm {
-  startDate: null | Date;
-  endDate: null | Date;
-}
+import { useCalendar } from '@/hooks/useCalendar';
 
 const Calendar = () => {
-  const [period, setPeriod] = useState<IGetScheduleForm>({
-    startDate: null,
-    endDate: null,
-  });
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [isOpenScheduleDialog, setIsOpenScheduleDialog] = useState(false);
+  const {
+    onDateClick,
+    onChangeDate,
+    eventContent,
+    period,
+    selectedDate,
+    isOpenScheduleDialog,
+  } = useCalendar();
 
   const scheduleList = [
     {
@@ -81,23 +78,6 @@ const Calendar = () => {
       eventColor: '#3182f6',
     };
   });
-
-  const onDateClick = ({ date }: DateClickArg) => {
-    onOpenScheduleDialog(date);
-  };
-
-  const onChangeDate = ({ startStr, endStr }: DatesSetArg) => {
-    setPeriod({ startDate: new Date(startStr), endDate: new Date(endStr) });
-  };
-
-  const onOpenScheduleDialog = (selected: Date) => {
-    setSelectedDate(selected);
-    setIsOpenScheduleDialog(true);
-  };
-
-  const eventContent = (eventInfo: EventContentArg) => {
-    return <EventContent eventInfo={eventInfo} />;
-  };
 
   return (
     <>
