@@ -7,7 +7,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 
 import * as S from './MyCalendar.styles';
-import { preventDefault } from '@fullcalendar/core/internal';
 
 interface IGetScheduleForm {
   startDate: null | Date;
@@ -28,7 +27,7 @@ const MyCalendar = () => {
       openDate: 'Wed Feb 14 2024 04:01:56 GMT+0900',
     },
     {
-      title: '여행 그룹',
+      title: '여행 그룹1',
       openDate: 'Wed Feb 15 2024 04:01:56 GMT+0900',
     },
     {
@@ -36,11 +35,11 @@ const MyCalendar = () => {
       openDate: 'Wed Feb 15 2024 04:01:56 GMT+0900',
     },
     {
-      title: '여행 그룹3',
+      title: '여행 그룹3여행 그룹여행 그룹여행 그룹3',
       openDate: 'Wed Feb 15 2024 04:01:56 GMT+0900',
     },
     {
-      title: '여행 그룹4',
+      title: '여행 그룹4여행 그룹여행 그룹여행 그룹여행 그룹4',
       openDate: 'Wed Feb 15 2024 04:01:56 GMT+0900',
     },
   ];
@@ -94,7 +93,9 @@ const MyCalendar = () => {
           borderRadius: '3px',
           color: '#fff',
           fontWeight: 600,
-          padding: '3px 5px',
+          padding: '3px 8px',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
         }}
       >
         {eventInfo.event.title}
@@ -111,7 +112,7 @@ const MyCalendar = () => {
       >
         <S.CalendarContainer>
           <FullCalendar
-            locale="kr"
+            locale="ko"
             plugins={[dayGridPlugin, interactionPlugin]}
             events={events}
             dayMaxEvents={3}
@@ -119,9 +120,12 @@ const MyCalendar = () => {
             dateClick={onDateClick}
             eventContent={eventContent}
             headerToolbar={{
-              left: 'prev',
-              center: 'title',
-              right: 'next',
+              start: 'prev title next today',
+              center: '',
+              end: '',
+            }}
+            buttonText={{
+              today: '오늘',
             }}
           />
         </S.CalendarContainer>

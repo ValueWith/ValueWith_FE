@@ -37,4 +37,39 @@ export const CalendarContainer = styled.div`
   .fc .fc-daygrid-day-top {
     flex-direction: row;
   }
+
+  .fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+    h2 {
+      display: inline-flex;
+    }
+    .fc-button-primary:focus,
+    .fc .fc-button-primary:not(:disabled).fc-button-active:focus,
+    .fc .fc-button-primary:not(:disabled):active:focus {
+      box-shadow: none !important;
+    }
+
+    .fc-prev-button,
+    .fc-next-button,
+    .fc .fc-button-primary:not(:disabled).fc-button-active,
+    .fc .fc-button-primary:not(:disabled):active,
+    .fc .fc-button-primary:not(:disabled).fc-button-active,
+    .fc .fc-button-primary:not(:disabled):active {
+      background-color: transparent !important;
+      border: none !important;
+      color: #000 !important;
+    }
+
+    .fc-today-button {
+      background-color: transparent;
+      border: none;
+      color: #000;
+    }
+
+    .fc .fc-button-primary:not(:disabled).fc-button-active:focus,
+    .fc .fc-button-primary:not(:disabled):active:focus {
+      box-shadow: none;
+    }
+  }
 `;
