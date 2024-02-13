@@ -29,4 +29,12 @@ export const CalendarContainer = styled.div`
       background: none !important;
     }
   }
+
+  .fc-day-sun a {
+    color: red;
+  }
+
+  .fc .fc-daygrid-day-top {
+    flex-direction: row;
+  }
 `;
