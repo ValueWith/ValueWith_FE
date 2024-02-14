@@ -4,10 +4,16 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import useAuth from '@/hooks/useAuth';
 
 import * as S from '../User.styles';
+import KakaoLogo from '@assets/kakaoLogo.svg?react';
+
+import { IoMailSharp } from 'react-icons/io5';
+
 import Button from '@/components/common/Button';
 import theme from '@/assets/styles/theme';
 import Input from '@/components/common/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
+
+import instance from '@/apis';
 import ErrorMessage from '@/components/common/Message/ErrorMessage';
 import Loader from '@/components/common/Loader';
 
@@ -35,6 +41,11 @@ function Login() {
   //  폼 제출
   const onSubmit: SubmitHandler<SignupFormProps> = async (data) => {
     await handleLogin(data);
+  };
+
+  const handleKakao = async () => {
+    window.location.href =
+      import.meta.env.VITE_SERVER_URL + '/oauth2/authorization/kakao';
   };
 
   return (
@@ -87,21 +98,25 @@ function Login() {
         </ErrorMessage>
       )}
 
-      <div className="flex mt-3">
-        <Button
-          type="button"
-          size="sm"
-          styleType="text"
-          className="ml-auto"
-          style={{
-            padding: '0',
-            color: `${theme.color.fontgray}`,
-          }}
-          onClickHandler={() => navigate('/signup')}
-        >
-          Tweaver 회원가입
-        </Button>
-      </div>
+      <S.Divider></S.Divider>
+
+      {/* 소셜 로그인  */}
+      <S.SocialLoginContainer>
+        {/* 이메일 로그인 */}
+        <S.EmailButton onClick={() => navigate('/signup')}>
+          <IoMailSharp
+            className="w-[24px] h-[24px]"
+            style={{ marginRight: '9px' }}
+          />
+          이메일로 시작하기
+        </S.EmailButton>
+
+        {/* 카카오 로그인 */}
+        <S.KakaoButton onClick={handleKakao}>
+          <KakaoLogo style={{ marginRight: '10px' }} />
+          카카오로 시작하기
+        </S.KakaoButton>
+      </S.SocialLoginContainer>
     </S.UserWrapper>
   );
 }
