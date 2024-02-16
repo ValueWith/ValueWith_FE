@@ -4,6 +4,7 @@ import App from './App';
 import Error from './pages/user/Error';
 import KakaoCallback from './pages/user/KakaoCallback';
 import loadable from '@loadable/component';
+import KakaoCodeCallback from './pages/user/KakaoCodeCallback/index.tsx';
 
 const Signup = loadable(() => import('./pages/user/Signup/index.tsx'));
 const Login = loadable(() => import('./pages/user/Login/index.tsx'));
@@ -55,8 +56,12 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: 'oauth2/callback/kakao',
+        path: 'oauth2/kakao',
         element: <KakaoCallback />,
+      },
+      {
+        path: 'oauth2/callback/kakao',
+        element: <KakaoCodeCallback />,
       },
       {
         path: 'group',
