@@ -5,6 +5,7 @@ import Loader from '@/components/common/Loader';
 import DropdownMenu from '@/components/common/DropdownMenu';
 
 import { IoIosArrowDown } from 'react-icons/io';
+import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
 
 export interface ApplyButtonProps {
   tripGroupId: number;
@@ -21,7 +22,7 @@ function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
       )}
 
       {userStatus === 'leader' && (
-        <div className='absolute top-0'>
+        <div className='absolute top-0 height-[31px]'>
           {/* 그룹 관리 */}
           <DropdownMenu options={getDropdownOptions(tripGroupId, userStatus)}>
             <Button
@@ -39,6 +40,13 @@ function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
               그룹 관리 <IoIosArrowDown />
             </Button>
           </DropdownMenu>
+        </div>
+      )}
+
+      {userStatus !== 'leader' && (
+        <div className='absolute top-0 flex items-center height-[31px]'>
+          {/* 관심 */}
+          <RiHeartLine /> <p className='ml-2'>관심</p>
         </div>
       )}
 
