@@ -97,6 +97,8 @@ export const Title = styled.h3`
   letter-spacing: -0.9px;
   color: #3b3b3b;
   text-align: left;
+  display: flex;
+  align-items: center;
 `;
 
 export const Detail = styled.div`

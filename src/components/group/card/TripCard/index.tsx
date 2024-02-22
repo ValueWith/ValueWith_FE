@@ -14,6 +14,7 @@ import { MdCalendarMonth } from 'react-icons/md';
 import * as S from './TripCard.styles';
 import theme from '@/assets/styles/theme';
 import { SkeletonImage } from '@/components/common/SkeletonImage';
+import { RiHeartLine, RiHeadphoneFill } from 'react-icons/ri';
 
 interface TripCardProps {
   group: TripGroup;
@@ -66,7 +67,7 @@ function TripCard({ group, cardType }: TripCardProps) {
         {isImgLoading && <SkeletonImage />}
         <S.CardTumbnail
           src={thumbnailUrl}
-          alt="지도 썸네일"
+          alt='지도 썸네일'
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           onClick={cardType ? redirectToTripDetail : () => {}}
           onLoad={() => setIsImgLoading(false)}
@@ -84,7 +85,10 @@ function TripCard({ group, cardType }: TripCardProps) {
           </S.Icon>
         </S.IconContainer>
         <S.ContentContainer>
-          <S.Title>{name}</S.Title>
+          <S.Title>
+            <RiHeartLine />
+            <p className='ml-2'>{name}</p>
+          </S.Title>
           <S.Detail>
             <S.DetailTitle>모집현황</S.DetailTitle>
             <S.DetailContent>
@@ -118,7 +122,7 @@ function TripCard({ group, cardType }: TripCardProps) {
                     age={age}
                     gender={gender}
                   />
-                  <div className="w-full h-[1px] bg-gray-100 my-5"></div>
+                  <div className='w-full h-[1px] bg-gray-100 my-5'></div>
                   <GroupMemberManagement
                     cardType={cardType}
                     tripGroupId={group.tripGroupId}
@@ -148,7 +152,7 @@ function TripCard({ group, cardType }: TripCardProps) {
           <S.ApplyListTitle>
             {isOpenApplyList.type === 'approved' ? '멤버 관리' : '지원자 목록'}
           </S.ApplyListTitle>
-          <S.MemberListContainer className="relative">
+          <S.MemberListContainer className='relative'>
             {applyList && (
               <>
                 {applyList.length > 0 ? (
@@ -166,7 +170,7 @@ function TripCard({ group, cardType }: TripCardProps) {
                   ))
                 ) : (
                   <p
-                    className="mt-1 text-[14px]"
+                    className='mt-1 text-[14px]'
                     style={{
                       color: `${theme.color.gray400}`,
                     }}
