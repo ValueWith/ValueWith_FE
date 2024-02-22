@@ -4,14 +4,20 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '@/recoil/modalState';
 import { paramsState } from '@/recoil/paramsState';
+import { loginState } from '@/recoil/userState';
+
+import {
+  getUserInfo,
+  removeAccessToken,
+  removeUserInfo,
+} from '@/utils/localStorage';
 
 // constants
 import { PAGE_LINK, MYLOUNGE_SUBMENU_LINK } from '@/constants/pagelink';
 
 // components
 import { RiMessage2Line } from 'react-icons/ri';
-import { AiOutlineBell } from 'react-icons/ai';
-
+import Alarm from '@/components/alarm/Alarm';
 import Button from '../Button';
 import DropdownMenu from '../DropdownMenu';
 
@@ -19,14 +25,6 @@ import DropdownMenu from '../DropdownMenu';
 import * as S from './Header.styles';
 import theme from '@/assets/styles/theme';
 import Logo from '@assets/TweaverLogo.svg?react';
-import { useUser } from '@/hooks/useUser';
-
-interface UserInfo {
-  memberId: number;
-  memberNickname: string;
-  memberEmail: string;
-  memberProfileUrl: string;
-}
 
 function Header() {
   const location = useLocation();
@@ -37,8 +35,9 @@ function Header() {
 
   const setParams = useSetRecoilState(paramsState);
   const [modalDataState, setModalDataState] = useRecoilState(modalState);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
 
-  const { userInfo, isLogin, setIsLogin } = useUser();
+  const userInfo = getUserInfo();
 
   useEffect(() => {
     if (location.pathname.startsWith('/mylounge')) {
@@ -73,8 +72,8 @@ function Header() {
           ...modalDataState,
           isModalOpen: false,
         });
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('userInfo');
+        removeAccessToken();
+        removeUserInfo();
         setIsLogin(false);
         navigate('/');
       },
@@ -95,6 +94,22 @@ function Header() {
       sort: 'latest',
       title: '',
     });
+  };
+
+  const handleLinkAction = (page: { name: string; path: string }) => {
+    if (page.name === '로그인') {
+      handleLogin();
+    }
+
+    if (page.path === '/group') {
+      handleGroup();
+    }
+
+    if (page.path === '/mylounge') {
+      if (!isLogin) return navigate('/login');
+    }
+
+    navigate(page.path);
   };
 
   return (
@@ -119,15 +134,7 @@ function Header() {
                     location.pathname.startsWith(page.path) ? 'active' : ''
                   }
                   onClick={() => {
-                    navigate(page.path);
-
-                    if (page.name === '로그인') {
-                      handleLogin();
-                    }
-
-                    if (page.path === '/group') {
-                      handleGroup();
-                    }
+                    handleLinkAction(page);
                   }}
                 >
                   {page.name}
@@ -142,13 +149,13 @@ function Header() {
           {isLogin ? (
             <S.UserActions>
               {/* 채팅 */}
-              <S.UserActionItem>
+              <S.UserActionItem onClick={() => navigate('/chat')}>
                 <RiMessage2Line size={24} />
               </S.UserActionItem>
 
               {/* 알림 */}
-              <S.UserActionItem>
-                <AiOutlineBell size={24} />
+              <S.UserActionItem className="relative">
+                <Alarm />
               </S.UserActionItem>
 
               <S.UserActionItem className="userProfile">
