@@ -187,12 +187,12 @@ function GroupRegistInfo({
   }, []);
 
   return (
-    <S.GroupRegistContainer className='relative px-[28px] pt-[28px] flex flex-col'>
-      {isSubmitLoading && <Loader className='z-[1]' />}
+    <S.GroupRegistContainer className="relative px-[28px] pt-[28px] flex flex-col">
+      {isSubmitLoading && <Loader className="z-[1]" />}
 
       {/* 썸네일 업로더 */}
       <Controller
-        name='groupThumbnail'
+        name="groupThumbnail"
         control={control}
         render={({ field: { onChange } }) => (
           <FileUploader
@@ -206,7 +206,7 @@ function GroupRegistInfo({
       />
 
       <form
-        className='flex flex-col h-full'
+        className="flex flex-col h-full"
         onSubmit={handleSubmit(onSubmit)}
         onKeyDown={() => handleFormValidate(watch())}
       >
@@ -225,9 +225,9 @@ function GroupRegistInfo({
 
         {/* 모집 인원 */}
         <Input
-          inputType='input'
-          type='number'
-          label='모집 인원 *'
+          inputType="input"
+          type="number"
+          label="모집 인원 *"
           style={{ width: '65px' }}
           oninput="this.value = this.value.replace(/[^0-9]/g, '');"
           {...register('groupMemberCount', {
@@ -247,13 +247,13 @@ function GroupRegistInfo({
           })}
           errors={errors}
         >
-          <span className='ml-2 text-[13px]'>명</span>
+          <span className="ml-2 text-[13px]">명</span>
         </Input>
 
         {/* 그룹 이름 */}
         <Input
-          inputType='input'
-          label='그룹 이름 *'
+          inputType="input"
+          label="그룹 이름 *"
           {...register('groupTitle', {
             required: '그룹 이름을 입력해주세요.',
           })}
@@ -262,15 +262,15 @@ function GroupRegistInfo({
 
         {/* 그룹 설명 */}
         <Input
-          inputType='textarea'
-          label='그룹 설명'
+          inputType="textarea"
+          label="그룹 설명"
           {...register('groupDescription')}
           errors={errors}
         />
 
-        <div className='flex flex-col mt-auto pt-10 pb-12'>
+        <div className="flex flex-col mt-auto pt-10 pb-12">
           {selectedPlace.selectedPlace.length == 0 && (
-            <ErrorMessage className='mb-4'>
+            <ErrorMessage className="mb-4">
               여행 일정을 등록해주세요.
             </ErrorMessage>
           )}

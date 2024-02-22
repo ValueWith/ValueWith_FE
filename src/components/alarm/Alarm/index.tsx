@@ -40,9 +40,7 @@ function Alarm() {
       let eventSource: any = undefined;
 
       eventSource = new EventSourcePolyfill(
-        `${import.meta.env.VITE_BASE_URL}${
-          import.meta.env.VITE_SERVER_URL
-        }/alert/subscribe`,
+        `${import.meta.env.VITE_SERVER_URL}/alert/subscribe`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

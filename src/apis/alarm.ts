@@ -49,7 +49,9 @@ export interface AlarmData {
 
 export const getAlarmList = async (page: number): Promise<AlarmData> => {
   try {
-    const response = await instance.get(`/api/alert?page=${page}`);
+    const response = await instance.get(
+      `${import.meta.env.VITE_SERVER_URL}/alert?page=${page}`
+    );
     return response.data;
   } catch (error) {
     console.error('Error Fetching alarm data: ', error);
@@ -59,7 +61,9 @@ export const getAlarmList = async (page: number): Promise<AlarmData> => {
 
 export const deleteAlarm = async (alertId: number): Promise<boolean> => {
   try {
-    const response = await instance.delete(`/api/alert/${alertId}`);
+    const response = await instance.delete(
+      `${import.meta.env.VITE_SERVER_URL}/alert/${alertId}`
+    );
     return response.data;
   } catch (error) {
     console.error('Error deleting alarm: ', error);
@@ -69,7 +73,9 @@ export const deleteAlarm = async (alertId: number): Promise<boolean> => {
 
 export const readAlarm = async (alertId: number) => {
   try {
-    const response = await instance.patch(`/api/alert/${alertId}`);
+    const response = await instance.patch(
+      `${import.meta.env.VITE_SERVER_URL}/alert/${alertId}`
+    );
     return response.data;
   } catch (error) {
     console.error('Error patching read alarm: ', error);
@@ -79,7 +85,9 @@ export const readAlarm = async (alertId: number) => {
 
 export const readAllAlarm = async () => {
   try {
-    const response = await instance.patch(`/api/alert/all`);
+    const response = await instance.patch(
+      `${import.meta.env.VITE_SERVER_URL}/alert/all`
+    );
     return response.data;
   } catch (error) {
     console.error('Error patching read all alarm: ', error);
