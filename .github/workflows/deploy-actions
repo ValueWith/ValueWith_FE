@@ -39,7 +39,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to S3
-        run: aws s3 sync ./dist s3://ingterior-deployment-bucket --acl bucket-owner-full-control
+        run: aws s3 sync ./dist s3://tweaver-deploy-bucket --acl bucket-owner-full-control
 
 
       - name: Invalidate CloudFront Cache
