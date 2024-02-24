@@ -3,10 +3,10 @@ name: deploy-actions
 on:
   push:
     branches:
-      - main
+      - pre-deploy
   pull_request:
     branches:
-      - main
+      - pre-deploy
 
 jobs:
   depoly:
