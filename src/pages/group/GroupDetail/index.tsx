@@ -57,18 +57,18 @@ function GroupDetail() {
     <>
       {isLoading && <Loader />}
       {isError && <div>Error...</div>}
-      {data && userInfo && (
+      {data && (
         <S.GroupDetailContainer>
           <GroupTitle title={data.tripGroupDetail.name} />
 
           {/* 카카오 지도  */}
-          <div className="w-full h-[500px] mt-6">
+          <div className='w-full h-[500px] mt-6'>
             <KakaoMap isDetail={isDetail} isError={isDetailError} />
           </div>
 
           {/* 그룹 멤버 정보 & 지원 정보  */}
           <S.GroupContentContainer>
-            <div className="flex flex-col gap-3">
+            <div className='flex flex-col gap-3'>
               <GroupMemberStatus
                 currentUserNumber={data.tripGroupDetail.currentUserNumber}
                 maxUserNumber={data.tripGroupDetail.maxUserNumber}
