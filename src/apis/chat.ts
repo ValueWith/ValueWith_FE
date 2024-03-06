@@ -65,11 +65,17 @@ let stompClient: Stomp.Client | null;
 
 // 페이지 진입 시 소켓 연결하는 함수
 export function requestSocketSession(onSuccess: (rooms: RoomInfo[]) => void) {
-  const socket = new SockJS('https://tweaver.site/chat');
+  const socket = new SockJS('https://valuewith.site/chat');
   stompClient = Stomp.over(socket);
 
   stompClient.connect({}, async () => {
     const rooms = await getRooms();
+
+    if (!Array.isArray(rooms)) {
+      console.error('getRooms() did not return an array');
+      return;
+    }
+
     rooms.forEach((roomInfo) => {
       stompClient?.subscribe(
         `/sub/chat/room/${roomInfo.chatRoomId}`,
@@ -95,7 +101,9 @@ export function requestSocketSession(onSuccess: (rooms: RoomInfo[]) => void) {
 
 export async function getRooms(): Promise<RoomInfo[]> {
   try {
-    const response = await instance.get(`/api/chat/room`);
+    const response = await instance.get(
+      import.meta.env.VITE_SERVER_URL + `/chat/room`
+    );
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -134,7 +142,7 @@ export function removeOnMessageListener(
 export async function getMessages(roomId: number, page: number) {
   try {
     const response = await instance.get(
-      `/api/chat/room/${roomId}?page=${page}`
+      import.meta.env.VITE_SERVER_URL + `/chat/room/${roomId}?page=${page}`
     );
     return response.data;
   } catch (error) {
@@ -149,7 +157,9 @@ export function postMessage(roomId: number, newMessage: object) {
 
 export async function enterRoom(roomId: number) {
   try {
-    const response = await instance.post(`/api/chat/room/${roomId}`);
+    const response = await instance.post(
+      import.meta.env.VITE_SERVER_URL + `/chat/room/${roomId}`
+    );
     console.log(response.data);
     return response.data;
   } catch (error) {
