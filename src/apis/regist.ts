@@ -20,7 +20,9 @@ export const getSuggestionData = async ({
   areaCode,
   categoryCode,
 }: SuggestionsModel) => {
-  const baseUrl = `http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${key}&pageNo=${page}&numOfRows=10&MobileApp=AppTest&MobileOS=ETC&arrange=A&areaCode=${areaCode}&_type=json`;
+  const baseUrl = `http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${
+    import.meta.env.VITE_TOUR_KEY
+  }&pageNo=${page}&numOfRows=10&MobileApp=AppTest&MobileOS=ETC&arrange=A&areaCode=${areaCode}&_type=json`;
 
   if (categoryCode) {
     const response = await axios.get(

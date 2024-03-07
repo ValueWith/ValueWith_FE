@@ -89,6 +89,19 @@ function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
           모집 마감
         </Button>
       )}
+
+      {/* 비로그인 상태 */}
+      {!userStatus && (
+        <Button
+          type='button'
+          styleType='solid'
+          style={isLoading ? { pointerEvents: 'none' } : {}}
+          fullWidth
+          onClickHandler={() => navigate('/login')}
+        >
+          지원하기
+        </Button>
+      )}
     </div>
   );
 }

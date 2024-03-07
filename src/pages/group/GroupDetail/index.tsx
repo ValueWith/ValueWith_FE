@@ -57,7 +57,7 @@ function GroupDetail() {
     <>
       {isLoading && <Loader />}
       {isError && <div>Error...</div>}
-      {data && userInfo && (
+      {data && (
         <S.GroupDetailContainer>
           <GroupTitle title={data.tripGroupDetail.name} />
 

@@ -1,6 +1,8 @@
+import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import Error from './pages/user/Error';
+import KakaoCallback from './pages/user/KakaoCallback';
 import loadable from '@loadable/component';
 
 const Signup = loadable(() => import('./pages/user/Signup/index.tsx'));
@@ -44,13 +46,17 @@ const router = createBrowserRouter([
       { index: true, path: '/', element: <Home /> },
       {
         // 로그인 페이지
-        path: '/login',
-        element: <Login />,
+        path: 'login',
+        children: [{ index: true, element: <Login /> }],
       },
       {
         // 회원가입 페이지
         path: '/signup',
         element: <Signup />,
+      },
+      {
+        path: 'oauth2/callback/kakao',
+        element: <KakaoCallback />,
       },
       {
         path: 'group',

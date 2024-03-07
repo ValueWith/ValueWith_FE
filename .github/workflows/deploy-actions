@@ -1,0 +1,46 @@
+name: deploy-actions
+
+on:
+  push:
+    branches:
+      - pre-deploy
+  pull_request:
+    branches:
+      - pre-deploy
+
+jobs:
+  depoly:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to S3
+        run: aws s3 sync ./dist s3://tweaver-deploy-bucket --acl bucket-owner-full-control
+
+
+      - name: Invalidate CloudFront Cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/*"

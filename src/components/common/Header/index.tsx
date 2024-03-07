@@ -125,7 +125,7 @@ function Header() {
 
         {/* 헤더 메뉴 */}
         <S.HeaderMenu>
-          <ul className='list'>
+          <ul className="list">
             {PAGE_LINK.map((page, index) => {
               return (
                 <S.HeaderMenuItem
@@ -154,11 +154,11 @@ function Header() {
               </S.UserActionItem>
 
               {/* 알림 */}
-              <S.UserActionItem className='relative'>
+              <S.UserActionItem className="relative">
                 <Alarm />
               </S.UserActionItem>
 
-              <S.UserActionItem className='userProfile'>
+              <S.UserActionItem className="userProfile">
                 <DropdownMenu
                   options={[
                     {
@@ -179,7 +179,7 @@ function Header() {
                     {userInfo?.memberProfileUrl && (
                       <S.ProfileImage
                         src={userInfo.memberProfileUrl}
-                        alt='프로필 사진'
+                        alt="프로필 사진"
                       />
                     )}
                     {userInfo?.memberNickname && (
@@ -196,8 +196,8 @@ function Header() {
             </S.UserActions>
           ) : (
             <Button
-              type='button'
-              styleType='basic'
+              type="button"
+              styleType="basic"
               onClickHandler={handleLogin}
             >
               로그인
