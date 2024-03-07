@@ -6,17 +6,22 @@ import Button from '@/components/common/Button';
 import Loader from '@/components/common/Loader';
 import DropdownMenu from '@/components/common/DropdownMenu';
 
+import { isClosedTrip } from '@/utils/dateUtil';
+
 import { IoIosArrowDown } from 'react-icons/io';
 import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
 
 export interface ApplyButtonProps {
   tripGroupId: number;
   userStatus: string;
+  tripDate: string;
 }
 
-function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
+function ApplyButton({ tripGroupId, userStatus, tripDate }: ApplyButtonProps) {
   const { handleModalAction, getDropdownOptions, isLoading } = useGroup();
   const navigate = useNavigate();
+
+  const isClosed = isClosedTrip(tripDate);
 
   return (
     <div>
@@ -87,7 +92,8 @@ function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
         </Button>
       )}
 
-      {userStatus === '마감' && (
+      {/* 인원이 마감된 경우 ex) 3/3 */}
+      {userStatus === '마감' && isClosed && (
         <Button type='button' styleType='disabled' fullWidth>
           모집 마감
         </Button>
@@ -105,6 +111,28 @@ function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
           지원하기
         </Button>
       )}
+
+      {/* 여행 일자가 지난 경우 & 사용자가 그룹원인 경우 (인원이 다 차면 '마감'으로 return 하게 되어있음) */}
+      {/* TODO: 클릭 핸들러 등록 */}
+      {(userStatus === 'leader' ||
+        userStatus === 'approved' ||
+        userStatus === '마감') &&
+        !isClosed && (
+          <div className='flex flex-col gap-3'>
+            <Button type='button' styleType='disabled' fullWidth>
+              모집 마감
+            </Button>
+            <Button
+              type='button'
+              styleType='solid'
+              style={isLoading ? { pointerEvents: 'none' } : {}}
+              fullWidth
+              onClickHandler={() => navigate('/')}
+            >
+              후기 작성하러 가기
+            </Button>
+          </div>
+        )}
     </div>
   );
 }

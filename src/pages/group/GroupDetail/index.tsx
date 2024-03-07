@@ -82,6 +82,7 @@ function GroupDetail() {
               <ApplyButton
                 tripGroupId={Number(groupId)}
                 userStatus={userStatus}
+                tripDate={data.tripGroupDetail.tripDate}
               />
             </div>
 
