@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import { useGroup } from '@/hooks/useGroup';
 
 import Button from '@/components/common/Button';
@@ -14,6 +16,7 @@ export interface ApplyButtonProps {
 
 function ApplyButton({ tripGroupId, userStatus }: ApplyButtonProps) {
   const { handleModalAction, getDropdownOptions, isLoading } = useGroup();
+  const navigate = useNavigate();
 
   return (
     <div>
