@@ -13,6 +13,19 @@ export function calculateDday(dueDate: string) {
   }
 }
 
+export function isClosedTrip(tripDate: string) {
+  const currentDate = new Date();
+  const tripDateObj = new Date(tripDate + 'T00:00:00'); // 시간을 00:00:00 으로 설정하여 날짜만 비교
+  const timeDifference = tripDateObj.getTime() - currentDate.getTime();
+  const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+  if (daysDifference < 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export function formatKoreanDate(dateString: string) {
   const date = new Date(dateString);
   const year = date.getFullYear();
