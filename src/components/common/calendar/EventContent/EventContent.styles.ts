@@ -9,4 +9,5 @@ export const EventContentContainer = styled.div`
   padding: 3px 8px;
   overflow: hidden;
   text-overflow: ellipsis;
+  pointer-events: none;
 `;

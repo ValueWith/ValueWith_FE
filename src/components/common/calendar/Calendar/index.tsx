@@ -95,7 +95,6 @@ const Calendar = () => {
           events={events}
           dayMaxEvents={3}
           datesSet={onChangeDate}
-          eventClick={(info) => onDateClick(info.event.start)}
           dateClick={onDateClick}
           eventContent={eventContent}
           headerToolbar={{

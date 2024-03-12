@@ -34,6 +34,10 @@ export const CalendarContainer = styled.div`
       font-size: 22px;
     }
 
+    .fc-daygrid-event-harness {
+      pointer-events: none;
+    }
+
     .fc-button-primary {
       &:not(:disabled) {
         &.fc-button-active,

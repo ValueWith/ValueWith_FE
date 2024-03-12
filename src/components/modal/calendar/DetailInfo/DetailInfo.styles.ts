@@ -1,16 +1,13 @@
 import styled from '@emotion/styled';
 
 export const DetailInfoContainer = styled.div`
-  position: fixed;
-  z-index: 10000;
-  width: 100%;
-  max-width: 500px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 30px 24px;
-  box-sizing: border-box;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 28px;
+  font-weight: 500;
 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  span {
+    font-size: 23px;
+    color: #787878;
+  }
 `;
