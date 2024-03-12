@@ -31,6 +31,14 @@ export function formatDotDate(dateString: string) {
   return `${year}.${month}.${day}`;
 }
 
+export function formatDateObject(date: Date) {
+  const options = { month: 'long', day: 'numeric' } as const;
+  const day = date.toLocaleDateString('ko-KR', { weekday: 'long' });
+  const formattedDate = date.toLocaleDateString('ko-KR', options);
+
+  return { formattedDate, day };
+}
+
 export function formatTripDate(dateString: Date) {
   return dateString
     .toLocaleDateString(undefined, {
