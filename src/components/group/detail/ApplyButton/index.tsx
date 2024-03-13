@@ -93,7 +93,7 @@ function ApplyButton({ tripGroupId, userStatus, tripDate }: ApplyButtonProps) {
       )}
 
       {/* 인원이 마감된 경우 ex) 3/3 */}
-      {userStatus === '마감' && isClosed && (
+      {userStatus === '마감' && !isClosed && (
         <Button type='button' styleType='disabled' fullWidth>
           모집 마감
         </Button>
@@ -117,7 +117,7 @@ function ApplyButton({ tripGroupId, userStatus, tripDate }: ApplyButtonProps) {
       {(userStatus === 'leader' ||
         userStatus === 'approved' ||
         userStatus === '마감') &&
-        !isClosed && (
+        isClosed && (
           <div className='flex flex-col gap-3'>
             <Button type='button' styleType='disabled' fullWidth>
               모집 마감
