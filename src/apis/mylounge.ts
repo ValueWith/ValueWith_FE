@@ -11,6 +11,16 @@ import { useEffect } from 'react';
  * pending : 승인 대기중인 여행그룹
  */
 export const getGroupList = (params: GroupListParams) => {
+  if (params.status === 'bookmark') {
+    return instance.get(
+      import.meta.env.VITE_SERVER_URL + '/groups/list/my-bookmark',
+      {
+        params: {
+          page: params.page,
+        },
+      }
+    );
+  }
   return instance.get(
     import.meta.env.VITE_SERVER_URL + '/groups/list/my-list',
     {
