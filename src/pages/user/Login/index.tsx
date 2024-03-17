@@ -4,10 +4,16 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import useAuth from '@/hooks/useAuth';
 
 import * as S from '../User.styles';
+import KakaoLogo from '@assets/kakaoLogo.svg?react';
+
+import { IoMailSharp } from 'react-icons/io5';
+
 import Button from '@/components/common/Button';
 import theme from '@/assets/styles/theme';
 import Input from '@/components/common/Input';
 import Logo from '@assets/TweaverLogo.svg?react';
+
+import instance from '@/apis';
 import ErrorMessage from '@/components/common/Message/ErrorMessage';
 import Loader from '@/components/common/Loader';
 
