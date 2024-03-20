@@ -120,3 +120,19 @@ export const leaveGroupRequest = async (tripGroupId: number) => {
     import.meta.env.VITE_SERVER_URL + `/groups/${tripGroupId}/member/left`
   );
 };
+
+// 관심 그룹 생성
+export const addBookmarkGroup = async (tripGroupId: number) => {
+  return instance.post(
+    import.meta.env.VITE_SERVER_URL + `/bookmark/${tripGroupId}`
+  );
+};
+
+// 관심 그룹 삭제
+export const deleteBookmarkGroup = async (bookmarkId: number) => {
+  return instance.delete(
+    import.meta.env.VITE_SERVER_URL + `/bookmark/${bookmarkId}`
+  );
+};
+
+// TODO: 관심 그룹 조회
