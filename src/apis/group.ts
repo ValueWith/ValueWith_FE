@@ -2,9 +2,9 @@ import instance from '.';
 
 export interface GroupListParams {
   page: string;
-  status?: string; // 'all' | 'open';
+  status: string; // 'all' | 'open';
   area: string;
-  sort?: string; // 'latest' | 'deadline';
+  sort: string; // 'latest' | 'deadline';
   title: string;
 }
 

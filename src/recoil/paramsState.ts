@@ -11,3 +11,12 @@ export const paramsState = atom<GroupListParams>({
     title: '',
   },
 });
+
+export const communityParamsState = atom<GroupListParams>({
+  key: 'communityParamsState',
+  default: {
+    page: '1',
+    area: 'all',
+    title: '',
+  },
+});

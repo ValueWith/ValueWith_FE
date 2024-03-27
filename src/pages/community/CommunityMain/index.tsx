@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useRecoilState } from 'recoil';
-import { paramsState } from '@/recoil/paramsState';
+import { communityParamsState } from '@/recoil/paramsState';
 
 import { AREA_OPTIONS } from '@/constants/filterOption';
 
@@ -12,10 +12,21 @@ import RadioGroup from '@/components/common/RadioGroup';
 import SearchBar from '@/components/common/SearchBar';
 
 import * as S from './CommunityMain.styles';
+import { CommunityListParams } from '@/apis/community';
 
 function CommunityMain() {
-  const [params, setParams] = useRecoilState(paramsState);
+  const [params, setParams] = useRecoilState(communityParamsState);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const hasDiffParams = (
+    params: CommunityListParams,
+    searchParams: URLSearchParams
+  ) => {
+    return Object.keys(params).some((key) => {
+      const searchParamValue = searchParams.get(key);
+      return searchParamValue !== params[key as keyof CommunityListParams];
+    });
+  };
 
   const handleSearchTerm = (searchTerm: string) => {
     setParams({ ...params, title: searchTerm, page: '1' });
@@ -26,9 +37,16 @@ function CommunityMain() {
   };
 
   useEffect(() => {
-    console.log('params', params);
-    console.log('searchParams', searchParams);
-  }, [params, searchParams]);
+    if (hasDiffParams(params, searchParams)) {
+      setParams({
+        ...params,
+        page: searchParams.get('page') || params.page,
+        area: searchParams.get('area') || params.area,
+        title: searchParams.get('title') || params.title,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setSearchParams({ ...params });
