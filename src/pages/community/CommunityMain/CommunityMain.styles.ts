@@ -24,4 +24,6 @@ export const CommunityMainHeaderTitle = styled.h2`
   margin-bottom: 12px;
 `;
 
-export const communityCotentContainer = styled.div``;
+export const communityCotentContainer = styled.div`
+  width: 100%;
+`;

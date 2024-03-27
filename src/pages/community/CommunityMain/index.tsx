@@ -13,6 +13,7 @@ import SearchBar from '@/components/common/SearchBar';
 
 import * as S from './CommunityMain.styles';
 import { CommunityListParams } from '@/apis/community';
+import CommunityCard from '@/components/community/CommunityCard';
 
 function CommunityMain() {
   const [params, setParams] = useRecoilState(communityParamsState);
@@ -90,7 +91,9 @@ function CommunityMain() {
       </S.CommunityMainHeader>
 
       {/* 커뮤니티 컨텐츠 */}
-      <S.communityCotentContainer></S.communityCotentContainer>
+      <S.communityCotentContainer>
+        <CommunityCard />
+      </S.communityCotentContainer>
     </S.CommunityMainContainer>
   );
 }
