@@ -1,4 +1,3 @@
-import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import Error from './pages/user/Error';
@@ -8,6 +7,7 @@ import loadable from '@loadable/component';
 const Signup = loadable(() => import('./pages/user/Signup/index.tsx'));
 const Login = loadable(() => import('./pages/user/Login/index.tsx'));
 const Home = loadable(() => import('./pages/Home/index.tsx'));
+const CommunityMain = loadable(() => import('./pages/community/CommunityMain'));
 const GroupMain = loadable(() => import('./pages/group/GroupMain/index.tsx'));
 const GroupRecruit = loadable(
   () => import('./pages/group/GroupRecruit/index.tsx')
@@ -72,6 +72,10 @@ const router = createBrowserRouter([
           },
           { index: true, element: <GroupMain /> },
         ],
+      },
+      {
+        path: 'community',
+        children: [{ index: true, element: <CommunityMain /> }],
       },
       {
         path: 'mylounge',

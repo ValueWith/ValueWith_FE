@@ -4,6 +4,10 @@ export const PAGE_LINK = [
     name: '그룹찾기',
   },
   {
+    path: '/community',
+    name: '커뮤니티',
+  },
+  {
     path: '/mylounge',
     name: '마이라운지',
   },
