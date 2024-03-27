@@ -21,6 +21,20 @@ function SearchBar({
   const [searchValue, setSearchValue] = useState<string>('');
   const [isSearch, setIsSearch] = useState<boolean>(false);
 
+  const searchStyle = {
+    height: '53px',
+    paddingRight: '60px',
+    fontSize: '17px',
+    ...style,
+  };
+
+  const commnunityStyle = {
+    height: '40px',
+    paddingRight: '18px',
+    fontSize: '14px',
+    ...style,
+  };
+
   useEffect(() => {
     setSearchValue(defaultValue || '');
   }, [defaultValue]);
@@ -65,12 +79,11 @@ function SearchBar({
         name="registSearch"
         className="registSearch"
         placeholder="검색어를 입력해주세요"
-        style={{
-          height: '53px',
-          paddingRight: '60px',
-          fontSize: '17px',
-          ...style,
-        }}
+        style={
+          location.pathname.includes('community')
+            ? commnunityStyle
+            : searchStyle
+        }
         value={searchValue}
         onChange={handleSearchValue}
         onKeyDown={handleSearch}
@@ -78,8 +91,8 @@ function SearchBar({
         <button type="button" className="searchIcon" onClick={handleSearch}>
           <RiSearchLine
             style={{
-              width: '36px',
-              height: '36px',
+              width: location.pathname.includes('community') ? '28px' : '36px',
+              height: location.pathname.includes('community') ? '28px' : '36px',
               color: `${
                 location.pathname === `/group/recruit` ? `#222` : `#777`
               }`,

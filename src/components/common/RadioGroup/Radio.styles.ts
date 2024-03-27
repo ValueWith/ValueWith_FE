@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 interface RadioProps {
-  styleType: 'radio' | 'card';
+  styleType: 'radio' | 'card' | 'round';
 }
 
 const handleRadioType = (props: RadioProps) => {
@@ -51,6 +51,21 @@ const handleRadioType = (props: RadioProps) => {
           }
         }
       `;
+    case 'round':
+      return css`
+        width: 57px;
+        height: 25px;
+        border: 1px solid #e6ebf1;
+        border-radius: 15px;
+
+        &:checked {
+          border: 1px solid ${theme.color.primary};
+          background-color: ${theme.color.secondary};
+          + span {
+            color: ${theme.color.primary};
+          }
+        }
+      `;
     default:
       return '';
   }
@@ -74,6 +89,18 @@ const handleRadioTextType = (props: RadioProps) => {
         font-size: 16px;
         font-weight: 500;
         color: #5c5c5c;
+      `;
+    case 'round':
+      return css`
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        margin: 0 auto;
+        font-size: 14px;
+        font-weight: 500;
+        color: #939393;
       `;
     default:
       return '';

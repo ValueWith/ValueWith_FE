@@ -46,7 +46,7 @@ function GroupFilter({ option, onClose }: GroupFilterProps) {
             <S.FilterTitle>모집현황</S.FilterTitle>
             <RadioGroup
               options={STATUS_OPTIONS}
-              selectedValue={params.status}
+              selectedValue={params.status || 'all'}
               styleType="radio"
               onChange={handleStatusChange}
             />
@@ -64,7 +64,7 @@ function GroupFilter({ option, onClose }: GroupFilterProps) {
             <S.FilterTitle>정렬</S.FilterTitle>
             <RadioGroup
               options={SORT_OPTIONS}
-              selectedValue={params.sort}
+              selectedValue={params.sort || 'latest'}
               styleType="radio"
               onChange={handleSortingChange}
             />

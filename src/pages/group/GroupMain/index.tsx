@@ -93,12 +93,12 @@ function GroupMain() {
       />
 
       {/* Filter */}
-      <S.SearchOptionContainer className='mt-[20px]'>
-        <div className='flex items-center gap-8'>
+      <S.SearchOptionContainer className="mt-[20px]">
+        <div className="flex items-center gap-8">
           <S.FilterButton>
             <div
               onClick={() => setIsClickFilter(true)}
-              className='flex items-center gap-1'
+              className="flex items-center gap-1"
             >
               필터 <RiFilterLine />
             </div>
@@ -112,7 +112,7 @@ function GroupMain() {
           <S.FilterButton>
             <div
               onClick={() => setIsClickSort(true)}
-              className='flex items-center gap-1'
+              className="flex items-center gap-1"
             >
               정렬 <RiFilter3Fill />
             </div>
@@ -126,11 +126,11 @@ function GroupMain() {
         </div>
         {/* New Post */}
         <Button
-          size='sm'
-          type='button'
-          styleType='solid'
+          size="sm"
+          type="button"
+          styleType="solid"
           style={{ fontWeight: '500' }}
-          className='gap-2'
+          className="gap-2"
           onClickHandler={() => {
             if (!isLogin) {
               return setModalDataState({
