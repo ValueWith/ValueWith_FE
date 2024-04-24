@@ -30,7 +30,7 @@ jobs:
           echo "VITE_BASE_URL=$VITE_BASE_URL" >> .env.production
           echo "VITE_TOURAPI_URL=$VITE_TOURAPI_URL" >> .env.production
           echo "VITE_KAKAO_API_KEY=$VITE_KAKAO_API_KEY" >> .env.production
-          echo "VITE_KAKAO_REDIRECT_URI=$VITE_KAKAO_REDIRECT_URI" >> .enc.production
+          echo "VITE_KAKAO_REDIRECT_URI=$VITE_KAKAO_REDIRECT_URI" >> .env.production
         env:
           VITE_SERVER_URL: ${{ secrets.VITE_SERVER_URL }}
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
