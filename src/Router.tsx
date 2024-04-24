@@ -2,11 +2,13 @@ import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import Error from './pages/user/Error';
-import KakaoCallback from './pages/user/KakaoCallback';
 import loadable from '@loadable/component';
 
 const Signup = loadable(() => import('./pages/user/Signup/index.tsx'));
 const Login = loadable(() => import('./pages/user/Login/index.tsx'));
+const KakaoCallback = loadable(
+  () => import('./pages/user/KakaoCallback/index.tsx')
+);
 const Home = loadable(() => import('./pages/Home/index.tsx'));
 const GroupMain = loadable(() => import('./pages/group/GroupMain/index.tsx'));
 const GroupRecruit = loadable(
